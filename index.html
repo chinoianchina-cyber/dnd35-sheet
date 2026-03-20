@@ -1,0 +1,2684 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>D&D 3.5 Engine - Chino Edition v5 (Full SRD)</title>
+<style>
+    :root { --bg: #0f172a; --panel: #1e293b; --text: #f1f5f9; --accent: #38bdf8; --border: #334155; --card-bg: #1e293b; }
+
+    [data-theme="dark"]    { --bg: #0f172a; --panel: #1e293b; --text: #f1f5f9; --accent: #38bdf8; --border: #334155; --card-bg: #1e293b; }
+    [data-theme="blood"]   { --bg: #1a0000; --panel: #2d0a0a; --text: #f5e6e6; --accent: #ef4444; --border: #5c1a1a; --card-bg: #2d0a0a; }
+    [data-theme="forest"]  { --bg: #0a1a0f; --panel: #0f2d18; --text: #e6f5eb; --accent: #4ade80; --border: #1a5c2d; --card-bg: #0f2d18; }
+    [data-theme="arcane"]  { --bg: #0f0a1a; --panel: #1a0f2d; --text: #ede6f5; --accent: #a78bfa; --border: #3d1a5c; --card-bg: #1a0f2d; }
+    [data-theme="parchment"]{ --bg: #f5f0e8; --panel: #ede4d0; --text: #2c1810; --accent: #8b4513; --border: #c4a882; --card-bg: #ede4d0; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+    
+    .tabs { display: flex; background: #000; border-bottom: 2px solid var(--accent); flex-shrink: 0; }
+    .tab { padding: 12px 25px; cursor: pointer; font-weight: bold; border-right: 1px solid #333; transition: 0.2s; color: #64748b; }
+    .tab:hover { background: #111; color: var(--accent); }
+    .tab.active { background: var(--accent); color: #000; }
+    
+    .panel { display: none; padding: 20px; overflow-y: auto; flex-grow: 1; }
+    .panel.active { display: block; }
+    
+    /* LAYOUT 3 COLUMNAS */
+    .grid-main { display: grid; grid-template-columns: 1fr 1.1fr 1.3fr; gap: 20px; align-items: start; }
+    
+    .card { background: var(--card-bg); border: 1px solid var(--border); padding: 15px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3); }
+    h2, h3 { margin-top: 0; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 8px; font-size: 1.1em; text-transform: uppercase; letter-spacing: 1.5px; }
+    
+    .stat-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 10px; }
+    input, select { background: #0f172a; color: white; border: 1px solid var(--border); padding: 6px 10px; border-radius: 4px; font-size: 0.9em; transition: 0.2s; }
+    input:focus, select:focus { border-color: var(--accent); outline: none; }
+    input[type="number"] { width: 60px; text-align: center; }
+    
+    /* Skills */
+    .skill-grid { display: grid; grid-template-columns: 20px 1fr 42px 38px; gap: 8px; font-size: 0.85em; align-items: center; }
+    .skill-grid input[type="number"] { width: 100%; text-align: center; background: transparent; border: none; border-bottom: 1px solid var(--border); border-radius: 0; padding: 2px 0; color: white; }
+    .skill-grid input[type="number"]:focus { border-bottom-color: var(--accent); outline: none; }
+    .skill-grid b { text-align: center; display: block; color: var(--accent); }
+    .skill-header { font-weight: bold; border-bottom: 1px solid var(--border); color: var(--accent); margin-bottom: 5px; padding-bottom: 3px; }
+    .class-skill-mark { color: var(--accent); font-weight: bold; text-align: center; font-size: 1.2em; }
+    
+    /* Dotes & Spells Summary */
+    .feat-item { margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #334155; }
+    .feat-label { font-size: 0.7em; color: var(--accent); font-weight: bold; text-transform: uppercase; }
+    .feat-text { font-size: 0.75em; color: #94a3b8; margin-top: 4px; line-height: 1.2; }
+    .feat-prereq { font-size: 0.7em; color: #f59e0b; font-style: italic; }
+    
+    .spell-summary-tag { display: inline-block; background: #334155; color: #fff; padding: 4px 10px; border-radius: 4px; font-size: 0.8em; margin: 3px; border-left: 3px solid var(--accent); }
+
+    /* Manual */
+    .manual-item { background: var(--panel); border: 1px solid var(--border); padding: 12px; margin-bottom: 10px; border-radius: 6px; }
+    .manual-tag { font-size: 0.7em; padding: 2px 6px; border-radius: 3px; margin-right: 8px; background: var(--accent); color: #000; font-weight: bold; }
+
+    /* Estética Spells Tab */
+    .spell-level-section { border-left: 3px solid var(--accent); padding-left: 15px; margin-bottom: 25px; }
+    .spell-slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+
+    b.val { color: var(--accent); font-size: 1.1em; }
+    #custom-grid { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    /* ── MOBILE RESPONSIVE ────────────────────────────────────── */
+    @media (max-width: 768px) {
+
+        body { overflow: auto; }
+
+        /* Tabs scrolleables horizontalmente */
+        .tabs { overflow-x: auto; overflow-y: hidden; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
+        .tab  { padding: 10px 16px; font-size: 0.8em; white-space: nowrap; flex-shrink: 0; }
+
+        /* Panels sin altura fija */
+        .panel { padding: 12px; overflow-y: visible; flex-grow: 0; }
+
+        /* Grids a una sola columna */
+        .grid-main                              { grid-template-columns: 1fr !important; }
+        .stats-grid                             { grid-template-columns: 1fr 1fr 1fr !important; }
+        .skill-grid                             { grid-template-columns: 16px 1fr 42px 38px !important; }
+
+        /* Cards más compactas */
+        .card { padding: 12px; margin-bottom: 12px; }
+        h2    { font-size: 0.95em; }
+
+        /* Identidad: 2 columnas en mobile */
+        #p0 .grid-main > div:first-child .card:first-child > div[style*="grid-template-columns"] {
+            grid-template-columns: 1fr 1fr !important;
+        }
+
+        /* Atributos: mantener 3 columnas pero más chicas */
+        .stat-box { padding: 4px; gap: 2px; }
+        .stat-box label { font-size: 0.65em; }
+        .stat-box input { width: 38px; font-size: 0.8em; }
+        .stat-box .mod-bubble { width: 24px; height: 24px; font-size: 0.75em; }
+
+        /* Skills y talentos: columna única en mobile */
+        div[style*="grid-template-columns: 3fr 1.3fr"] { 
+            display: flex !important; 
+            flex-direction: column !important; 
+        }
+
+        /* Equipo: una columna */
+        #p2 .grid-main { grid-template-columns: 1fr !important; }
+
+        /* Selects de armas full width */
+        #p2 select { width: 100% !important; }
+        #p2 .stat-row > div { flex-wrap: wrap; }
+
+        /* Notas: una columna */
+        #p4 > div { grid-template-columns: 1fr !important; }
+
+        /* Custom: una columna en mobile */
+        #custom-grid { grid-template-columns: 1fr !important; }
+
+        /* Botones exportar/importar más chicos */
+        .tabs button, .tabs label { 
+            padding: 5px 8px !important; 
+            font-size: 0.72em !important; 
+        }
+
+        /* Theme selector */
+        #theme-selector { font-size: 0.72em !important; padding: 3px 5px !important; }
+
+        /* Save indicator oculto en mobile para ahorrar espacio */
+        #save-indicator { display: none; }
+
+        /* Spell slots: 2 columnas */
+        #spells-per-level-container > div > div { 
+            grid-template-columns: 1fr 1fr !important; 
+        }
+
+        /* Attack summary más compacto */
+        #attack-summary > div > div { 
+            grid-template-columns: 55px 1fr 40px 1fr !important; 
+            font-size: 0.75em !important;
+        }
+
+        /* Kill count: mantener 3 columnas pero más chico */
+        #kc-humanoids, #kc-animals, #kc-magical { width: 40px !important; font-size: 0.95em !important; }
+
+        /* Input bonus arma inline */
+        #eq-weapon1-bonus, #eq-weapon2-bonus, #eq-weapon3-bonus { width: 32px !important; }
+
+        /* Hechizos lanzables por día más compacto */
+        #spell-slots-summary > div { font-size: 0.8em; }
+
+        /* Manual SRD: una columna */
+        #p3 > div > div { flex-direction: column !important; }
+        #featsManualContent, #spellsManualContent, #equipManualContent { max-height: 300px; }
+    }
+
+    @media (max-width: 480px) {
+        /* Teléfonos muy chicos */
+        .tab  { padding: 8px 12px; font-size: 0.72em; }
+        .card { padding: 10px; }
+        .stats-grid { grid-template-columns: 1fr 1fr !important; }
+        #custom-grid { grid-template-columns: 1fr !important; }
+    }
+    /* ──────────────────────────────────────────────────────────── */
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+    .stat-box { display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 6px; padding: 6px 10px; background: rgba(0,0,0,0.2); border-radius: 6px; border: 1px solid var(--border); }
+    .stat-box label { font-size: 0.8em; color: var(--accent); font-weight: bold; letter-spacing: 1px; min-width: 30px; }
+    .stat-box input { width: 44px; text-align: center; }
+    .stat-box .mod-bubble { background: var(--accent); color: #000; font-weight: bold; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85em; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab(0)">PERSONAJE</div>
+  <div class="tab" onclick="showTab(1)">HECHIZOS</div>
+  <div class="tab" onclick="showTab(2)">EQUIPO</div>
+  <div class="tab" onclick="showTab(3)">MANUAL (SRD)</div>
+  <div class="tab" onclick="showTab(4)">CUSTOM</div>
+  <div class="tab" onclick="showTab(5)">NOTAS</div>
+  <div style="margin-left:auto; display:flex; align-items:center; gap:8px; padding-right:12px;">
+    <span id="save-indicator" style="font-size:0.7em; color:#64748b;"></span>
+    <select id="theme-selector" onchange="applyTheme(this.value)" title="Tema de color"
+            style="padding:4px 8px; font-size:0.8em; background:#1e293b; color:white; border:1px solid #334155; border-radius:4px; cursor:pointer;">
+        <option value="dark">🌑 Dark</option>
+        <option value="blood">🩸 Blood</option>
+        <option value="forest">🌿 Forest</option>
+        <option value="arcane">🔮 Arcane</option>
+        <option value="parchment">📜 Parchment</option>
+    </select>
+    <button onclick="exportCharacter()" style="padding:6px 14px; background:#1e40af; color:white; border:none; border-radius:4px; cursor:pointer; font-size:0.8em; font-weight:bold;">⬇ Exportar</button>
+    <label style="padding:6px 14px; background:#065f46; color:white; border-radius:4px; cursor:pointer; font-size:0.8em; font-weight:bold;">⬆ Importar<input type="file" accept=".json" onchange="importCharacter(event)" style="display:none;"></label>
+  </div>
+</div>
+
+<div class="panel active" id="p0">
+    <div class="grid-main">
+        
+        <div>
+            <div class="card">
+                <h2>Identidad</h2>
+                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;">
+                    <div style="display:flex; flex-direction:column; gap:3px;">
+                        <label style="font-size:0.72em; color:#94a3b8;">Nombre</label>
+                        <input id="charName" value="Chino" style="width:100%; box-sizing:border-box;">
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:3px;">
+                        <label style="font-size:0.72em; color:#94a3b8;">Nivel</label>
+                        <input type="number" id="level" value="1" min="1" max="20" onchange="updateAll()" style="width:100%; box-sizing:border-box;">
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:3px;">
+                        <label style="font-size:0.72em; color:#94a3b8;">Raza</label>
+                        <select id="race" onchange="updateAll()" style="width:100%; box-sizing:border-box;"></select>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:3px;">
+                        <label style="font-size:0.72em; color:#94a3b8;">Clase</label>
+                        <select id="class" onchange="updateAll()" style="width:100%; box-sizing:border-box;"></select>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:3px;">
+                        <label style="font-size:0.72em; color:#94a3b8;">Alineamiento</label>
+                        <select id="alignment" onchange="updateDeityList()" style="width:100%; box-sizing:border-box;"></select>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:3px;">
+                        <label style="font-size:0.72em; color:#94a3b8;">Deidad</label>
+                        <select id="deity" onchange="autoSave()" style="width:100%; box-sizing:border-box;"></select>
+                    </div>
+                </div>
+                <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--border);">
+                    <div style="font-size:0.7em; color:#ef4444; font-weight:bold; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px;">⚔ Kill Count</div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px;">
+                        <div style="display:flex; flex-direction:column; align-items:center; gap:3px; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.25); border-radius:6px; padding:6px 4px;">
+                            <label style="font-size:0.65em; color:#ef4444; font-weight:bold; text-transform:uppercase;">Humanoides</label>
+                            <input type="number" id="kc-humanoids" value="0" min="0" onchange="autoSave()" style="width:52px; text-align:center; background:transparent; border:none; border-bottom:1px solid rgba(239,68,68,0.4); border-radius:0; color:#ef4444; font-weight:bold; font-size:1.1em;">
+                        </div>
+                        <div style="display:flex; flex-direction:column; align-items:center; gap:3px; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.25); border-radius:6px; padding:6px 4px;">
+                            <label style="font-size:0.65em; color:#ef4444; font-weight:bold; text-transform:uppercase;">Animales</label>
+                            <input type="number" id="kc-animals" value="0" min="0" onchange="autoSave()" style="width:52px; text-align:center; background:transparent; border:none; border-bottom:1px solid rgba(239,68,68,0.4); border-radius:0; color:#ef4444; font-weight:bold; font-size:1.1em;">
+                        </div>
+                        <div style="display:flex; flex-direction:column; align-items:center; gap:3px; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.25); border-radius:6px; padding:6px 4px;">
+                            <label style="font-size:0.65em; color:#ef4444; font-weight:bold; text-transform:uppercase;">Bestias Mágicas</label>
+                            <input type="number" id="kc-magical" value="0" min="0" onchange="autoSave()" style="width:52px; text-align:center; background:transparent; border:none; border-bottom:1px solid rgba(239,68,68,0.4); border-radius:0; color:#ef4444; font-weight:bold; font-size:1.1em;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Combate</h2>
+                <div class="stat-row">BAB / Ataque Completo <b id="bab-val" class="val">+0</b></div>
+                <div class="stat-row" style="align-items:flex-start;">
+                    <div>
+                        <div>Clase de Armadura (CA)</div>
+                        <div style="display:flex; gap:14px; margin-top:6px;">
+                            <label style="display:flex; flex-direction:column; align-items:center; gap:3px; font-size:0.72em; color:#94a3b8; cursor:pointer;">
+                                <input type="checkbox" id="ac-use-armor" onchange="updateAll()" style="width:16px; height:16px; cursor:pointer;">
+                                Armadura
+                            </label>
+                            <label style="display:flex; flex-direction:column; align-items:center; gap:3px; font-size:0.72em; color:#94a3b8; cursor:pointer;">
+                                <input type="checkbox" id="ac-use-shield" onchange="updateAll()" style="width:16px; height:16px; cursor:pointer;">
+                                Escudo
+                            </label>
+                        </div>
+                    </div>
+                    <b id="ac-total" class="val">10</b>
+                </div>
+                <div class="stat-row">
+                    <span>Puntos de Golpe (HP)</span>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <span style="color:#64748b; font-size:0.8em;">daño</span>
+                        <input type="number" id="hp-damage" value="0" min="0" onchange="updateHP()" style="width:55px;" title="Daño recibido">
+                        <b id="hp-val" class="val">0</b>
+                    </div>
+                </div>
+                <hr style="border:0; border-top:1px solid var(--border); margin: 15px 0;">
+                <div id="smite-toggle-container" style="display:none; margin-bottom:8px;">
+                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                        <input type="checkbox" id="smite-toggle" onchange="updateAll()" style="width:16px; height:16px;">
+                        <span style="font-size:0.85em; font-weight:bold; color:#f59e0b;">✦ Smite Evil</span>
+                        <span id="smite-info" style="font-size:0.75em; color:#94a3b8;"></span>
+                    </label>
+                </div>
+                <div id="sneak-toggle-container" style="display:none; margin-bottom:8px;">
+                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                        <input type="checkbox" id="sneak-toggle" onchange="updateAll()" style="width:16px; height:16px;">
+                        <span style="font-size:0.85em; font-weight:bold; color:#8b5cf6;">🗡 Sneak Attack</span>
+                        <span id="sneak-info" style="font-size:0.75em; color:#94a3b8;"></span>
+                    </label>
+                </div>
+                <div id="attack-summary" style="margin-bottom:10px;"></div>
+                <hr style="border:0; border-top:1px solid var(--border); margin: 15px 0;">
+                <div class="stat-row">Fortaleza (Fort) <b id="save-fort" class="val"></b></div>
+                <div class="stat-row">Reflejos (Ref) <b id="save-ref" class="val"></b></div>
+                <div class="stat-row">Voluntad (Will) <b id="save-will" class="val"></b></div>
+            </div>
+            <div class="card">
+                <h2>Equipo</h2>
+                <div id="equip-summary-box">
+                    <p style="font-size:0.8em; color:#64748b;">Sin equipo seleccionado.</p>
+                </div>
+                <div id="items-summary-box" style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border);">
+                    <p style="font-size:0.8em; color:#64748b;">Sin ítems.</p>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="card">
+                <h2>Atributos</h2>
+                <div id="stats-container"></div>
+                <div id="rage-toggle-container" style="display:none; margin-top:10px; padding-top:10px; border-top:1px solid var(--border);">
+                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                        <input type="checkbox" id="rage-toggle" onchange="updateAll()" style="width:16px; height:16px;">
+                        <span style="font-size:0.85em; font-weight:bold; color:#ef4444;">⚡ Rage</span>
+                        <span id="rage-rounds-info" style="font-size:0.75em; color:#94a3b8;"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 3fr 1.3fr; gap:12px; align-items:start; margin-bottom:20px;">
+
+                <div class="card" style="margin-bottom:0;">
+                    <h2>Habilidades</h2>
+                    <div style="font-size: 0.75em; margin-bottom: 10px; color: #94a3b8; background: rgba(0,0,0,0.2); padding: 5px; border-radius: 4px;">
+                        Puntos Disp: <b id="skill-points-total" style="color:var(--accent)">0</b> | Rango Máx: <b id="max-rank-display" style="color:var(--accent)">0</b>
+                    </div>
+                    <div class="skill-grid">
+                        <div class="skill-header"></div>
+                        <div class="skill-header">Habilidad</div>
+                        <div class="skill-header">Rango</div>
+                        <div class="skill-header">Total</div>
+                        <div id="skills-container" style="grid-column: span 4; margin-top:5px;"></div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-bottom:0;">
+                    <h2>Talentos de Clase</h2>
+                    <div id="class-features"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div>
+            <div class="card">
+                <h2>Dotes Seleccionadas</h2>
+                <div id="feats-selection"></div>
+            </div>
+
+            <div class="card">
+                <h2>Hechizos Conocidos (Resumen)</h2>
+                <div id="spells-summary-list" style="display: flex; flex-wrap: wrap;">
+                    <p style="font-size:0.8em; color:#64748b;">No hay hechizos seleccionados.</p>
+                </div>
+            </div>
+
+            <div class="card" id="spell-slots-card" style="display:none;">
+                <h2>Hechizos Lanzables por Día</h2>
+                <div id="spell-slots-summary"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel" id="p1">
+    <div class="card">
+        <h2>Gestión de Conjuros</h2>
+        <p id="caster-notes" style="font-size:0.9em; color:#94a3b8;"></p>
+    </div>
+    <div id="spells-per-level-container"></div>
+</div>
+
+<div class="panel" id="p2">
+    <div class="grid-main" style="grid-template-columns: 1fr 1fr 1fr;">
+
+        <div>
+            <div class="card">
+                <h2>Armas</h2>
+                <div class="stat-row">Arma Principal
+                    <div style="display:flex; gap:6px; align-items:center;">
+                        <select id="eq-weapon1" onchange="updateEquip()" style="width:170px;"></select>
+                        <input type="text" id="eq-weapon1-bonus" value="" placeholder="+0" onchange="updateEquip()" style="width:36px; text-align:center;" title="Bonus mágico">
+                    </div>
+                </div>
+                <div id="eq-weapon1-info" style="font-size:0.78em; color:#94a3b8; margin: 2px 0 10px 0; padding-left:5px;"></div>
+                <div class="stat-row">Arma Secundaria
+                    <div style="display:flex; gap:6px; align-items:center;">
+                        <select id="eq-weapon2" onchange="updateEquip()" style="width:170px;"></select>
+                        <input type="text" id="eq-weapon2-bonus" value="" placeholder="+0" onchange="updateEquip()" style="width:36px; text-align:center;" title="Bonus mágico">
+                    </div>
+                </div>
+                <div id="eq-weapon2-info" style="font-size:0.78em; color:#94a3b8; margin: 2px 0 10px 0; padding-left:5px;"></div>
+                <div class="stat-row">Arma Accesoria
+                    <div style="display:flex; gap:6px; align-items:center;">
+                        <select id="eq-weapon3" onchange="updateEquip()" style="width:170px;"></select>
+                        <input type="text" id="eq-weapon3-bonus" value="" placeholder="+0" onchange="updateEquip()" style="width:36px; text-align:center;" title="Bonus mágico">
+                    </div>
+                </div>
+                <div id="eq-weapon3-info" style="font-size:0.78em; color:#94a3b8; margin: 2px 0 10px 0; padding-left:5px;"></div>
+            </div>
+
+            <div class="card">
+                <h2>Protección</h2>
+                <div class="stat-row">Armadura
+                    <select id="eq-armor" onchange="updateEquip()" style="width:200px;"></select>
+                </div>
+                <div id="eq-armor-info" style="font-size:0.78em; color:#94a3b8; margin: 2px 0 10px 0; padding-left:5px;"></div>
+                <div class="stat-row">Escudo
+                    <select id="eq-shield" onchange="updateEquip()" style="width:200px;"></select>
+                </div>
+                <div id="eq-shield-info" style="font-size:0.78em; color:#94a3b8; margin: 2px 0 10px 0; padding-left:5px;"></div>
+            </div>
+        </div>
+
+        <div>
+            <div class="card">
+                <h2>Equipamiento General</h2>
+                <div id="eq-general-slots"></div>
+            </div>
+        </div>
+        
+        <div class="card">
+                <h2>Ítems</h2>
+                <div id="items-slots"></div>
+         </div>
+
+    </div>
+</div>
+
+<div class="panel" id="p3b">
+    <div id="custom-grid" style="display:grid; gap:20px; align-items:start;">
+
+        <!-- ARMAS CUSTOM -->
+        <div>
+            <div class="card">
+                <h2>Armas Custom</h2>
+                <div style="display:flex; flex-direction:column; gap:6px;">
+                    <div style="display:flex; flex-direction:column; gap:3px;">
+                        <label style="font-size:0.72em; color:#94a3b8;">Nombre</label>
+                        <input type="text" id="cw-name" placeholder="Ej: Espada del Caos">
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:3px;">
+                        <label style="font-size:0.72em; color:#94a3b8;">Tipo</label>
+                        <select id="cw-type">
+                            <option value="Simple">Simple</option>
+                            <option value="Marcial">Marcial</option>
+                            <option value="Exótica">Exótica</option>
+                        </select>
+                    </div>
+                    <div style="display:flex; gap:8px;">
+                        <div style="flex:1; display:flex; flex-direction:column; gap:3px;">
+                            <label style="font-size:0.72em; color:#94a3b8;">Daño</label>
+                            <input type="text" id="cw-dmg" placeholder="1d8">
+                        </div>
+                        <div style="flex:1; display:flex; flex-direction:column; gap:3px;">
+                            <label style="font-size:0.72em; color:#94a3b8;">Crítico</label>
+                            <input type="text" id="cw-crit" placeholder="19-20">
+                        </div>
+                        <div style="flex:1; display:flex; flex-direction:column; gap:3px;">
+                            <label style="font-size:0.72em; color:#94a3b8;">Mult</label>
+                            <input type="text" id="cw-mult" placeholder="x2">
+                        </div>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:3px;">
+                        <label style="font-size:0.72em; color:#94a3b8;">Notas</label>
+                        <input type="text" id="cw-notes" placeholder="Dos manos, alcance...">
+                    </div>
+                    <button onclick="addCustomWeapon()" style="margin-top:4px; padding:8px; background:var(--accent); color:#000; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">+ Agregar Arma</button>
+                </div>
+                <div id="cw-list" style="margin-top:12px;"></div>
+            </div>
+        </div>
+
+        <!-- ARMADURAS CUSTOM -->
+        <div>
+            <div class="card">
+                <h2>Armaduras Custom</h2>
+                <div style="display:flex; flex-direction:column; gap:6px;">
+                    <div style="display:flex; flex-direction:column; gap:3px;">
+                        <label style="font-size:0.72em; color:#94a3b8;">Nombre</label>
+                        <input type="text" id="ca-name" placeholder="Ej: Cota del Dragón">
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:3px;">
+                        <label style="font-size:0.72em; color:#94a3b8;">Tipo</label>
+                        <select id="ca-type">
+                            <option value="Ligera">Ligera</option>
+                            <option value="Media">Media</option>
+                            <option value="Pesada">Pesada</option>
+                        </select>
+                    </div>
+                    <div style="display:flex; gap:8px;">
+                        <div style="flex:1; display:flex; flex-direction:column; gap:3px;">
+                            <label style="font-size:0.72em; color:#94a3b8;">Bonus CA</label>
+                            <input type="number" id="ca-ca" placeholder="5" style="width:100%;">
+                        </div>
+                        <div style="flex:1; display:flex; flex-direction:column; gap:3px;">
+                            <label style="font-size:0.72em; color:#94a3b8;">Penalizador</label>
+                            <input type="number" id="ca-pen" placeholder="-3" style="width:100%;">
+                        </div>
+                    </div>
+                    <button onclick="addCustomArmor()" style="margin-top:4px; padding:8px; background:var(--accent); color:#000; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">+ Agregar Armadura</button>
+                </div>
+                <div id="ca-list" style="margin-top:12px;"></div>
+            </div>
+        </div>
+
+        <!-- EQUIPO GENERAL CUSTOM -->
+        <div>
+            <div class="card">
+                <h2>Equipo General Custom</h2>
+                <div style="display:flex; flex-direction:column; gap:6px;">
+                    <div style="display:flex; flex-direction:column; gap:3px;">
+                        <label style="font-size:0.72em; color:#94a3b8;">Nombre</label>
+                        <input type="text" id="cg-name" placeholder="Ej: Cristal de comunicación">
+                    </div>
+                    <button onclick="addCustomGeneral()" style="margin-top:4px; padding:8px; background:var(--accent); color:#000; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">+ Agregar Equipo</button>
+                </div>
+                <div id="cg-list" style="margin-top:12px;"></div>
+            </div>
+        </div>
+
+        <!-- DOTES CUSTOM -->
+        <div>
+            <div class="card">
+                <h2>Dotes Custom</h2>
+                <div style="display:flex; flex-direction:column; gap:6px;">
+                    <div style="display:flex; flex-direction:column; gap:3px;">
+                        <label style="font-size:0.72em; color:#94a3b8;">Nombre</label>
+                        <input type="text" id="cf-name" placeholder="Ej: Furia ancestral">
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:3px;">
+                        <label style="font-size:0.72em; color:#94a3b8;">Prerequisito</label>
+                        <input type="text" id="cf-prereq" placeholder="Ej: STR 15">
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:3px;">
+                        <label style="font-size:0.72em; color:#94a3b8;">Descripción</label>
+                        <input type="text" id="cf-desc" placeholder="Efecto de la dote...">
+                    </div>
+                    <div style="display:flex; gap:8px; align-items:center; margin-top:2px;">
+                        <label style="display:flex; align-items:center; gap:5px; font-size:0.8em; cursor:pointer;">
+                            <input type="checkbox" id="cf-fighter"> Fighter Bonus
+                        </label>
+                        <label style="display:flex; align-items:center; gap:5px; font-size:0.8em; cursor:pointer;">
+                            <input type="checkbox" id="cf-sorcerer"> Sorcerer/Wizard
+                        </label>
+                    </div>
+                    <button onclick="addCustomFeat()" style="margin-top:4px; padding:8px; background:var(--accent); color:#000; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">+ Agregar Dote</button>
+                </div>
+                <div id="cf-list" style="margin-top:12px;"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="panel" id="p4">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; height:100%;">
+
+        <div class="card" style="display:flex; flex-direction:column;">
+            <h2>📋 Notas de Sesión</h2>
+            <textarea id="notes-session" placeholder="Anotá lo que pasó en la sesión, NPCs importantes, lugares visitados, misiones activas..." 
+                style="flex:1; min-height:400px; background:#0f172a; color:var(--text); border:1px solid var(--border); 
+                       border-radius:4px; padding:10px; font-family:inherit; font-size:0.88em; 
+                       resize:none; line-height:1.6; outline:none;"
+                onchange="autoSave()" oninput="autoSave()"></textarea>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:20px;">
+            <div class="card" style="display:flex; flex-direction:column;">
+                <h2>⚔ Log de Combate</h2>
+                <textarea id="notes-combat" placeholder="Registro de combates, enemigos derrotados, daño recibido, pociones usadas..."
+                    style="min-height:180px; background:#0f172a; color:var(--text); border:1px solid var(--border); 
+                           border-radius:4px; padding:10px; font-family:inherit; font-size:0.88em; 
+                           resize:none; line-height:1.6; outline:none;"
+                    onchange="autoSave()" oninput="autoSave()"></textarea>
+            </div>
+
+            <div class="card" style="display:flex; flex-direction:column;">
+                <h2>🧙 Backstory / Trasfondo</h2>
+                <textarea id="notes-backstory" placeholder="Historia del personaje, motivaciones, secretos, vínculos con otros personajes..."
+                    style="min-height:180px; background:#0f172a; color:var(--text); border:1px solid var(--border); 
+                           border-radius:4px; padding:10px; font-family:inherit; font-size:0.88em; 
+                           resize:none; line-height:1.6; outline:none;"
+                    onchange="autoSave()" oninput="autoSave()"></textarea>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="panel" id="p3">
+    <h3>Referencia SRD</h3>
+    <div style="display: flex; gap: 20px; align-items: flex-start;">
+        <div style="flex: 1; min-width: 0;">
+            <h4 style="border-bottom: 1px solid var(--border); padding-bottom: 5px;">Dotes</h4>
+            <input type="text" id="searchFeats" placeholder="Buscar dote..." onkeyup="renderManualFeats()" style="width: 100%; box-sizing: border-box;">
+            <div id="featsManualContent" style="margin-top:15px; max-height: 65vh; overflow-y: auto; padding-right: 5px;"></div>
+        </div>
+        
+        <div style="flex: 1; min-width: 0;">
+            <h4 style="border-bottom: 1px solid var(--border); padding-bottom: 5px;">Hechizos</h4>
+            <input type="text" id="searchSpells" placeholder="Buscar hechizo..." onkeyup="renderManualSpells()" style="width: 100%; box-sizing: border-box;">
+            <div id="spellsManualContent" style="margin-top:15px; max-height: 65vh; overflow-y: auto; padding-right: 5px;"></div>
+        </div>
+
+        <div style="flex: 1; min-width: 0;">
+            <h4 style="border-bottom: 1px solid var(--border); padding-bottom: 5px;">Equipo</h4>
+            <input type="text" id="searchEquip" placeholder="Buscar equipo..." onkeyup="renderManualEquip()" style="width: 100%; box-sizing: border-box;">
+            <div id="equipManualContent" style="margin-top:15px; max-height: 65vh; overflow-y: auto; padding-right: 5px;"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+const SRD = {
+    classes: [
+        {"name":"Barbarian","hitDie":12,"skillPoints":4,"classSkills":["Climb","Craft","Handle Animal","Intimidate","Jump","Listen","Ride","Survival","Swim"],"bab":"f","fort":"g","ref":"p","will":"p","caster":false},
+        {"name":"Bard","hitDie":6,"skillPoints":6,"classSkills":["Appraise","Balance","Bluff","Climb","Concentration","Craft","Decipher Script","Diplomacy","Disguise","Escape Artist","Gather Information","Hide","Jump","Knowledge","Listen","Move Silently","Perform","Profession","Sense Motive","Sleight of Hand","Speak Language","Spellcraft","Swim","Tumble","Use Magic Device"],"bab":"m","fort":"p","ref":"g","will":"g","caster":true,"stat":"CHA"},
+        {"name":"Cleric","hitDie":8,"skillPoints":2,"classSkills":["Concentration","Craft","Diplomacy","Heal","Knowledge","Profession","Spellcraft"],"bab":"m","fort":"g","ref":"p","will":"g","caster":true,"stat":"WIS"},
+        {"name":"Druid","hitDie":8,"skillPoints":4,"classSkills":["Concentration","Craft","Diplomacy","Handle Animal","Heal","Knowledge","Listen","Profession","Ride","Spellcraft","Spot","Survival","Swim"],"bab":"m","fort":"g","ref":"p","will":"g","caster":true,"stat":"WIS"},
+        {"name":"Fighter","hitDie":10,"skillPoints":2,"classSkills":["Climb","Craft","Handle Animal","Intimidate","Jump","Ride","Swim"],"bab":"f","fort":"g","ref":"p","will":"p","caster":false},
+        {"name":"Monk","hitDie":8,"skillPoints":4,"classSkills":["Balance","Climb","Concentration","Craft","Diplomacy","Escape Artist","Hide","Jump","Knowledge","Listen","Move Silently","Perform","Profession","Sense Motive","Spot","Swim","Tumble"],"bab":"m","fort":"g","ref":"g","will":"g","caster":false},
+        {"name":"Paladin","hitDie":10,"skillPoints":2,"classSkills":["Concentration","Craft","Diplomacy","Handle Animal","Heal","Knowledge","Profession","Ride","Sense Motive"],"bab":"f","fort":"g","ref":"p","will":"p","caster":true,"stat":"WIS","spellLevelStart":4},
+        {"name":"Ranger","hitDie":8,"skillPoints":6,"classSkills":["Climb","Concentration","Craft","Handle Animal","Heal","Hide","Jump","Knowledge","Listen","Move Silently","Profession","Ride","Search","Spot","Survival","Swim","Use Rope"],"bab":"f","fort":"g","ref":"g","will":"p","caster":true,"stat":"WIS","spellLevelStart":4},
+        {"name":"Rogue","hitDie":6,"skillPoints":8,"classSkills":["Appraise","Balance","Bluff","Climb","Craft","Decipher Script","Diplomacy","Disable Device","Disguise","Escape Artist","Forgery","Gather Information","Hide","Intimidate","Jump","Knowledge","Listen","Move Silently","Open Lock","Perform","Profession","Search","Sense Motive","Sleight of Hand","Spot","Swim","Tumble","Use Magic Device","Use Rope"],"bab":"m","fort":"p","ref":"g","will":"p","caster":false},
+        {"name":"Sorcerer","hitDie":4,"skillPoints":2,"classSkills":["Bluff","Concentration","Craft","Knowledge","Profession","Spellcraft"],"bab":"p","fort":"p","ref":"p","will":"g","caster":true,"stat":"CHA"},
+        {"name":"Wizard","hitDie":4,"skillPoints":2,"classSkills":["Concentration","Craft","Decipher Script","Knowledge","Profession","Spellcraft"],"bab":"p","fort":"p","ref":"p","will":"g","caster":true,"stat":"INT"}
+    ],
+    races: [
+        {"name":"Human","modifiers":{},"notes":"+1 feat L1, +4 skill L1"},{"name":"Dwarf","modifiers":{"con":2,"cha":-2}},{"name":"Elf","modifiers":{"dex":2,"con":-2}},{"name":"Gnome","modifiers":{"con":2,"str":-2}},{"name":"Halfling","modifiers":{"dex":2,"str":-2}},{"name":"Half-Elf","modifiers":{}},{"name":"Half-Orc","modifiers":{"str":2,"int":-2,"cha":-2}}
+    ],
+    feats: [
+        {name:"Acrobatic", prereq:"—", desc:"Otorgás un bono de +2 a las pruebas de Jump y Tumble."},
+        {name:"Agile", prereq:"—", desc:"Otorgás un bono de +2 a las pruebas de Balance y Escape Artist."},
+        {name:"Alertness", prereq:"—", desc:"Otorgás un bono de +2 a las pruebas de Listen y Spot."},
+        {name:"Animal Affinity", prereq:"—", desc:"Otorgás un bono de +2 a las pruebas de Handle Animal y Ride."},
+        {name:"Armor Proficiency (Light)", prereq:"—", desc:"Podés usar armaduras ligeras sin penalizadores a las tiradas de ataque."},
+        {name:"Armor Proficiency (Medium)", prereq:"Armor Proficiency (Light)", desc:"Podés usar armaduras medias sin penalizadores a las tiradas de ataque."},
+        {name:"Armor Proficiency (Heavy)", prereq:"Armor Proficiency (Medium)", desc:"Podés usar armaduras pesadas sin penalizadores a las tiradas de ataque."},
+        {name:"Athletic", prereq:"—", desc:"Otorgás un bono de +2 a las pruebas de Climb y Swim."},
+        {name:"Blind-Fight", prereq:"—", desc:"Repetís la tirada de fallo por ocultación y conservás tu bono de CA contra atacantes invisibles.", fighter:true},
+        {name:"Brew Potion", prereq:"Caster lvl 3", desc:"Podés crear pociones mágicas de hechizos de hasta nivel 3.", sorcerer:true},
+        {name:"Cleave", prereq:"Str 13, Power Attack", desc:"Ganás un ataque cuerpo a cuerpo extra inmediato al derribar a un enemigo.", fighter:true},
+        {name:"Combat Casting", prereq:"—", desc:"Ganás un bono de +4 a Concentration al lanzar hechizos o usar habilidades en combate."},
+        {name:"Combat Expertise", prereq:"Int 13", desc:"Restás hasta 5 de tu ataque para sumarlo como bono de esquiva a tu CA.", fighter:true},
+        {name:"Combat Reflexes", prereq:"—", desc:"Podés realizar ataques de oportunidad adicionales por asalto según tu modificador de Destreza.", fighter:true},
+        {name:"Craft Magic Arms and Armor", prereq:"Caster lvl 5", desc:"Podés crear armas, armaduras y escudos mágicos.", sorcerer:true},
+        {name:"Craft Rod", prereq:"Caster lvl 9", desc:"Podés crear varas mágicas con poderes diversos.", sorcerer:true},
+        {name:"Craft Staff", prereq:"Caster lvl 12", desc:"Podés crear bastones mágicos de alto poder.", sorcerer:true},
+        {name:"Craft Wand", prereq:"Caster lvl 5", desc:"Podés crear varitas mágicas de hasta nivel 4.", sorcerer:true},
+        {name:"Craft Wondrous Item", prereq:"Caster lvl 3", desc:"Podés crear diversos objetos mágicos (anillos, capas, etc.).", sorcerer:true},
+        {name:"Deceitful", prereq:"—", desc:"Otorgás un bono de +2 a las pruebas de Bluff y Disguise."},
+        {name:"Deflect Arrows", prereq:"Dex 13, Improved Unarmed Strike", desc:"Desviás automáticamente un proyectil por asalto si tenés una mano libre."},
+        {name:"Diehard", prereq:"Endurance", desc:"Te mantenés consciente y podés actuar entre -1 y -9 puntos de golpe."},
+        {name:"Diligent", prereq:"—", desc:"Otorgás un bono de +2 a las pruebas de Appraise y Decipher Script."},
+        {name:"Dodge", prereq:"Dex 13", desc:"Designás a un oponente para ganar un bono de esquiva de +1 a la CA contra él.", fighter:true},
+        {name:"Empower Spell", prereq:"—", desc:"Aumentás todos los efectos numéricos variables del hechizo en un 50%. Ocupa slot +2 niveles.", sorcerer:true},
+        {name:"Endurance", prereq:"—", desc:"Ganás un bono de +4 en pruebas físicas prolongadas y podés dormir con armadura ligera/media."},
+        {name:"Enlarge Spell", prereq:"—", desc:"Duplicás el rango del hechizo. Ocupa slot +1 nivel.", sorcerer:true},
+        {name:"Eschew Materials", prereq:"—", desc:"Lanzás hechizos sin componentes materiales que cuesten menos de 1 po."},
+        {name:"Exotic Weapon Proficiency", prereq:"BAB +1", desc:"Podés usar un arma exótica específica sin el penalizador de -4.", fighter:true},
+        {name:"Extend Spell", prereq:"—", desc:"Duplicás la duración total del hechizo lanzado. Ocupa slot +1 nivel.", sorcerer:true},
+        {name:"Extra Turning", prereq:"Turn or rebuke undead", desc:"Ganás 4 intentos adicionales de expulsar o reprender muertos vivientes por día."},
+        {name:"Far Shot", prereq:"Point Blank Shot", desc:"Aumentás el rango de incremento de armas a distancia en un 50%.", fighter:true},
+        {name:"Forge Ring", prereq:"Caster lvl 12", desc:"Podés crear anillos mágicos con poderes permanentes.", sorcerer:true},
+        {name:"Great Cleave", prereq:"Str 13, Power Attack, Cleave, BAB +4", desc:"Podés realizar ataques extras ilimitados mientras sigas derribando enemigos.", fighter:true},
+        {name:"Great Fortitude", prereq:"—", desc:"Otorgás un bono de +2 permanente a todas las salvaciones de Fortaleza."},
+        {name:"Greater Spell Focus", prereq:"Spell Focus", desc:"Aumentás en +1 adicional la CD de los hechizos de la escuela seleccionada (total +2)."},
+        {name:"Greater Spell Penetration", prereq:"Spell Penetration", desc:"Ganás un bono adicional de +2 en las pruebas de nivel de lanzador para superar RS (total +4)."},
+        {name:"Greater Two-Weapon Fighting", prereq:"Dex 19, Improved Two-Weapon Fighting, Two-Weapon Fighting, BAB +11", desc:"Ganás un tercer ataque adicional con el arma secundaria con un penalizador de -10.", fighter:true},
+        {name:"Greater Weapon Focus", prereq:"Weapon Focus, Fighter 8", desc:"Ganás un bono adicional de +1 en tiradas de ataque con el arma seleccionada (total +2).", fighter:true},
+        {name:"Greater Weapon Specialization", prereq:"Fighter 12, Weapon Focus, Weapon Specialization, Greater Weapon Focus", desc:"Ganás un bono adicional de +2 en tiradas de daño con el arma seleccionada (total +4).", fighter:true},
+        {name:"Heighten Spell", prereq:"—", desc:"Lanzás un hechizo como si fuera de un nivel superior al normal, aumentando su CD.", sorcerer:true},
+        {name:"Improved Bull Rush", prereq:"Str 13, Power Attack", desc:"No provocás ataques de oportunidad al empujar y ganás +4 en la prueba.", fighter:true},
+        {name:"Improved Counterspell", prereq:"—", desc:"Podés contrahechizar usando cualquier hechizo de la misma escuela de un nivel superior."},
+        {name:"Improved Critical", prereq:"BAB +8", desc:"Duplicás el rango de amenaza crítica del arma seleccionada.", fighter:true},
+        {name:"Improved Disarm", prereq:"Int 13, Combat Expertise", desc:"No provocás ataques de oportunidad al desarmar y ganás +4 en la prueba.", fighter:true},
+        {name:"Improved Feint", prereq:"Int 13, Combat Expertise", desc:"Podés realizar fintas en combate como una acción de movimiento.", fighter:true},
+        {name:"Improved Grapple", prereq:"Dex 13, Improved Unarmed Strike", desc:"No provocás ataques de oportunidad al iniciar un agarre y ganás +4 en la prueba.", fighter:true},
+        {name:"Improved Initiative", prereq:"—", desc:"Otorgás un bono de +4 permanente a todas tus tiradas de iniciativa.", fighter:true},
+        {name:"Improved Overrun", prereq:"Str 13, Power Attack", desc:"No provocás ataques de oportunidad al arrollar y el defensor no puede evitarte.", fighter:true},
+        {name:"Improved Precise Shot", prereq:"Dex 19, Precise Shot, BAB +11", desc:"Tus ataques a distancia ignoran cobertura y ocultación menores a total.", fighter:true},
+        {name:"Improved Shield Bash", prereq:"Shield Proficiency", desc:"Mantenés tu bono de escudo a la CA incluso cuando realizás un golpe de escudo.", fighter:true},
+        {name:"Improved Sunder", prereq:"Str 13, Power Attack", desc:"No provocás ataques de oportunidad al romper objetos y ganás +4 en la prueba.", fighter:true},
+        {name:"Improved Trip", prereq:"Int 13, Combat Expertise", desc:"No provocás ataques de oportunidad al derribar y ganás un ataque extra contra el oponente caído.", fighter:true},
+        {name:"Improved Turning", prereq:"Turn undead", desc:"Expulsás muertos vivientes como si tu nivel de clase fuera un nivel superior."},
+        {name:"Improved Two-Weapon Fighting", prereq:"Dex 17, Two-Weapon Fighting, BAB +6", desc:"Ganás un segundo ataque adicional con el arma secundaria con un penalizador de -5.", fighter:true},
+        {name:"Improved Unarmed Strike", prereq:"—", desc:"Tus ataques desarmados no provocan ataques de oportunidad y se consideran armas armadas.", fighter:true},
+        {name:"Investigator", prereq:"—", desc:"Otorgás un bono de +2 a las pruebas de Search y Gather Information."},
+        {name:"Iron Will", prereq:"—", desc:"Otorgás un bono de +2 permanente a todas las salvaciones de Voluntad."},
+        {name:"Leadership", prereq:"Nivel 6", desc:"Atraés a un lugarteniente poderoso y a un grupo de seguidores leales según tu puntuación de Liderazgo."},
+        {name:"Lightning Reflexes", prereq:"—", desc:"Otorgás un bono de +2 permanente a todas las salvaciones de Reflejos."},
+        {name:"Magical Aptitude", prereq:"—", desc:"Otorgás un bono de +2 a las pruebas de Spellcraft y Use Magic Device."},
+        {name:"Manyshot", prereq:"Dex 17, Rapid Shot, BAB +6", desc:"Disparás dos flechas simultáneamente contra un mismo objetivo como una acción estándar.", fighter:true},
+        {name:"Martial Weapon Proficiency", prereq:"—", desc:"Podés usar un arma marcial específica sin penalizadores."},
+        {name:"Maximize Spell", prereq:"—", desc:"Todos los efectos numéricos variables del hechizo se maximizan automáticamente. Ocupa slot +3 niveles.", sorcerer:true},
+        {name:"Mobility", prereq:"Dex 13, Dodge", desc:"Ganás un bono de esquiva de +4 a la CA contra ataques de oportunidad provocados por movimiento.", fighter:true},
+        {name:"Mounted Archery", prereq:"Mounted Combat", desc:"Reducís a la mitad los penalizadores por disparar proyectiles mientras vas montado.", fighter:true},
+        {name:"Mounted Combat", prereq:"Ride 1 rango", desc:"Una vez por asalto podés negar un golpe a tu montura mediante una prueba de Ride (CD = tirada de ataque).", fighter:true},
+        {name:"Natural Spell", prereq:"Wild Shape, WIS 13", desc:"Podés lanzar hechizos normalmente mientras utilizás tu forma salvaje."},
+        {name:"Negotiator", prereq:"—", desc:"Otorgás un bono de +2 a las pruebas de Diplomacy y Sense Motive."},
+        {name:"Persuasive", prereq:"—", desc:"Otorgás un bono de +2 a las pruebas de Bluff e Intimidate."},
+        {name:"Point Blank Shot", prereq:"—", desc:"Ganás +1 al ataque y daño con armas de proyectiles contra objetivos a menos de 30 pies.", fighter:true},
+        {name:"Power Attack", prereq:"Str 13", desc:"Restás hasta tu BAB de tu tirada de ataque para sumarlo al daño (doble con armas a dos manos).", fighter:true},
+        {name:"Precise Shot", prereq:"Point Blank Shot", desc:"Eliminás el penalizador de -4 por disparar a enemigos trabados en combate cuerpo a cuerpo.", fighter:true},
+        {name:"Quicken Spell", prereq:"—", desc:"Lanzás un hechizo como acción rápida una vez por asalto. Ocupa slot +4 niveles.", sorcerer:true},
+        {name:"Rapid Reload", prereq:"—", desc:"Recargás ballestas ligeras como acción libre y ballestas pesadas como acción de movimiento.", fighter:true},
+        {name:"Rapid Shot", prereq:"Dex 13, Point Blank Shot", desc:"Ganás un ataque extra por asalto con armas a distancia con un penalizador de -2 a todos los ataques.", fighter:true},
+        {name:"Ride-By Attack", prereq:"Mounted Combat", desc:"Podés moverte, atacar y seguir moviéndote en línea recta mientras vas montado.", fighter:true},
+        {name:"Run", prereq:"—", desc:"Corrés a 5 veces tu velocidad normal (4× con armadura pesada) y conservás tu bono de DEX a la CA al correr."},
+        {name:"Scribe Scroll", prereq:"Caster lvl 1", desc:"Podés crear pergaminos mágicos de cualquier hechizo que conozcas.", sorcerer:true},
+        {name:"Self-Sufficient", prereq:"—", desc:"Otorgás un bono de +2 a las pruebas de Heal y Survival."},
+        {name:"Shield Proficiency", prereq:"—", desc:"Podés usar escudos sin aplicar su penalizador de armadura a las tiradas de ataque."},
+        {name:"Shot on the Run", prereq:"Dex 13, Dodge, Mobility, Point Blank Shot, BAB +4", desc:"Podés moverte antes y después de realizar un único ataque a distancia.", fighter:true},
+        {name:"Silent Spell", prereq:"—", desc:"Lanzás un hechizo sin componente verbal. Ocupa slot +1 nivel.", sorcerer:true},
+        {name:"Simple Weapon Proficiency", prereq:"—", desc:"Podés usar todas las armas simples sin penalizadores."},
+        {name:"Skill Focus", prereq:"—", desc:"Otorgás un bono de +3 permanente a una habilidad específica seleccionada."},
+        {name:"Spell Focus", prereq:"—", desc:"Aumentás en +1 la Clase de Dificultad de todos los hechizos de una escuela específica."},
+        {name:"Spell Mastery", prereq:"Wizard lvl 1", desc:"Preparás un número de hechizos igual a tu mod de INT sin necesitar el libro de conjuros."},
+        {name:"Spell Penetration", prereq:"—", desc:"Ganás un bono de +2 en las pruebas de nivel de lanzador para superar la Resistencia a Conjuros."},
+        {name:"Spirited Charge", prereq:"Mounted Combat, Ride-By Attack", desc:"Duplicás el daño al cargar montado (triplicás si usás una lanza de caballería).", fighter:true},
+        {name:"Spring Attack", prereq:"Dex 13, Dodge, Mobility, BAB +4", desc:"Atacás cuerpo a cuerpo y seguís moviéndote sin provocar ataque de oportunidad del objetivo.", fighter:true},
+        {name:"Stealthy", prereq:"—", desc:"Otorgás un bono de +2 a las pruebas de Hide y Move Silently."},
+        {name:"Still Spell", prereq:"—", desc:"Lanzás un hechizo sin componente somático. Ocupa slot +1 nivel.", sorcerer:true},
+        {name:"Toughness", prereq:"—", desc:"Ganás +3 puntos de golpe adicionales de forma permanente."},
+        {name:"Track", prereq:"—", desc:"Podés usar la habilidad Survival para seguir rastros con una prueba enfrentada."},
+        {name:"Trample", prereq:"Mounted Combat", desc:"Tus oponentes no pueden evitar ser arrollados por tu montura y reciben daño de pezuñas.", fighter:true},
+        {name:"Two-Weapon Defense", prereq:"Dex 15, Two-Weapon Fighting", desc:"Cuando combatís con dos armas ganás un bono de escudo de +1 a la CA (+2 en postura defensiva).", fighter:true},
+        {name:"Two-Weapon Fighting", prereq:"Dex 15", desc:"Reducís los penalizadores por combatir con dos armas (de -6/-10 a -4/-4, o -2/-2 si el arma secundaria es ligera).", fighter:true},
+        {name:"Weapon Finesse", prereq:"BAB +1", desc:"Usás tu modificador de Destreza en lugar de Fuerza para las tiradas de ataque con armas ligeras.", fighter:true},
+        {name:"Weapon Focus", prereq:"BAB +1", desc:"Ganás un bono de +1 en todas las tiradas de ataque con el arma seleccionada.", fighter:true},
+        {name:"Weapon Specialization", prereq:"Fighter 4, Weapon Focus", desc:"Ganás un bono de +2 en todas las tiradas de daño con el arma seleccionada.", fighter:true},
+        {name:"Whirlwind Attack", prereq:"Dex 13, Int 13, Combat Expertise, Dodge, Mobility, Spring Attack, BAB +4", desc:"Realizás un ataque cuerpo a cuerpo contra cada enemigo situado en tus casillas adyacentes.", fighter:true},
+        {name:"Widen Spell", prereq:"—", desc:"Duplicás el área de efecto del hechizo. Ocupa slot +3 niveles.", sorcerer:true},
+    ],
+    spells: [
+        {name:"Resistencia", level:0, class:["Wizard","Sorcerer"], desc:"El sujeto gana +1 en tiradas de salvación."},
+        {name:"Leer magia", level:0, class:["Wizard","Sorcerer"], desc:"Permite leer libros de conjuros y pergaminos."},
+        {name:"Detectar magia", level:0, class:["Wizard","Sorcerer"], desc:"Detecta hechizos y objetos mágicos en 60 pies."},
+        {name:"Detectar veneno", level:0, class:["Wizard","Sorcerer"], desc:"Detecta veneno en una criatura u objeto."},
+        {name:"Salpicadura de ácido", level:0, class:["Wizard","Sorcerer"], desc:"Proyectil que inflige 1d3 de daño de ácido."},
+        {name:"Rayos de hielo", level:0, class:["Wizard","Sorcerer"], desc:"Rayo que inflige 1d3 de daño de frío."},
+        {name:"Toque de fatiga", level:0, class:["Wizard","Sorcerer"], desc:"Toque que fatiga al objetivo."},
+        {name:"Mano de mago", level:0, class:["Wizard","Sorcerer"], desc:"Mueve un objeto de hasta 5 lb a distancia."},
+        {name:"Sonido fantasma", level:0, class:["Wizard","Sorcerer"], desc:"Crea sonidos imaginarios."},
+        {name:"Luz", level:0, class:["Wizard","Sorcerer"], desc:"El objeto brilla como una antorcha."},
+        {name:"Crear agua", level:0, class:["Cleric"], desc:"Crea 2 galones de agua pura por nivel."},
+        {name:"Curar heridas menores", level:0, class:["Cleric"], desc:"Cura 1 punto de daño."},
+        {name:"Infligir heridas menores", level:0, class:["Cleric"], desc:"Toque que inflige 1 punto de daño."},
+        {name:"Virtud", level:0, class:["Cleric"], desc:"El sujeto gana 1 punto de golpe temporal."},
+        {name:"Orientación", level:0, class:["Druid"], desc:"El sujeto gana +1 en una tirada de ataque o salvación."},
+        {name:"Remendar", level:0, class:["Druid"], desc:"Repara objetos pequeños dañados."},
+        {name:"Nana", level:0, class:["Bard"], desc:"Causa somnolencia a una criatura (-2 a escuchar y avistar)."},
+        {name:"Luces danzantes", level:0, class:["Bard"], desc:"Crea antorchas u otras luces falsas."},
+        {name:"Proyectil mágico", level:1, class:["Wizard","Sorcerer"], desc:"1d4+1 de daño de fuerza por proyectil (máximo 5 proyectiles)."},
+        {name:"Armadura de mago", level:1, class:["Wizard","Sorcerer"], desc:"Otorga al sujeto un bono de armadura de +4."},
+        {name:"Manos ardientes", level:1, class:["Wizard","Sorcerer"], desc:"Cono de fuego que inflige 1d4 de daño por nivel (máx 5d4)."},
+        {name:"Dormir", level:1, class:["Wizard","Sorcerer"], desc:"Pone en un sueño mágico a 4 Dados de Golpe de criaturas."},
+        {name:"Escudo", level:1, class:["Wizard","Sorcerer"], desc:"Crea un escudo invisible que otorga +4 a la CA y anula proyectiles mágicos."},
+        {name:"Retirada expeditiva", level:1, class:["Wizard","Sorcerer"], desc:"Tu velocidad de tierra aumenta en 30 pies."},
+        {name:"Rayo de debilitamiento", level:1, class:["Wizard","Sorcerer"], desc:"Rayo que resta 1d6+1 de Fuerza (+1 cada 2 niveles)."},
+        {name:"Curar heridas leves", level:1, class:["Cleric","Bard","Ranger"], desc:"Cura 1d8 de daño +1 por nivel (máx +5)."},
+        {name:"Infligir heridas leves", level:1, class:["Cleric"], desc:"Toque que inflige 1d8 de daño +1 por nivel (máx +5)."},
+        {name:"Bendecir", level:1, class:["Cleric"], desc:"Aliados ganan +1 en ataques y salvaciones contra miedo."},
+        {name:"Escudo de fe", level:1, class:["Cleric"], desc:"Aura que otorga bono de desviación de +2 a la CA."},
+        {name:"Favor divino", level:1, class:["Cleric"], desc:"Ganas +1 en ataque y daño por cada 3 niveles."},
+        {name:"Colmillo mágico", level:1, class:["Druid"], desc:"Un arma natural del aliado gana +1 en ataque y daño."},
+        {name:"Enredar", level:1, class:["Druid"], desc:"Las plantas atrapan a todos en un área de 40 pies."},
+        {name:"Hablar con los animales", level:1, class:["Druid"], desc:"Puedes comunicarte con bestias naturales."},
+        {name:"Calamidad menor", level:1, class:["Paladin"], desc:"Inflige daño menor a enemigos específicos."},
+        {name:"Castigo sagrado", level:1, class:["Paladin"], desc:"Bono de daño contra criaturas malvadas."},
+        {name:"Zancada prodigiosa", level:1, class:["Ranger"], desc:"Aumenta tu velocidad en 10 pies."},
+        {name:"Resistir energía", level:1, class:["Ranger","Wizard","Sorcerer"], desc:"Protege contra un tipo de energía (10 de resistencia)."},
+        {name:"Risa incontenible de Tasha", level:1, class:["Bard"], desc:"El sujeto colapsa de risa y no puede actuar."},
+        {name:"Fuerza de toro", level:2, class:["Wizard","Sorcerer","Paladin"], desc:"El sujeto gana +4 a la Fuerza por 1 min./nivel."},
+        {name:"Astucia de zorro", level:2, class:["Wizard","Sorcerer"], desc:"El sujeto gana +4 a la Inteligencia por 1 min./nivel."},
+        {name:"Esplendor del águila", level:2, class:["Wizard","Sorcerer","Paladin"], desc:"El sujeto gana +4 al Carisma por 1 min./nivel."},
+        {name:"Flecha ácida de Melf", level:2, class:["Wizard","Sorcerer"], desc:"Proyectil que inflige 2d4 de daño de ácido por 1 asalto + 1 por cada 3 niveles."},
+        {name:"Imagen múltiple", level:2, class:["Wizard","Sorcerer"], desc:"Crea 1d4 duplicados + 1 por cada 3 niveles (máx 8)."},
+        {name:"Invisibilidad", level:2, class:["Wizard","Sorcerer"], desc:"El sujeto es invisible por 1 min./nivel o hasta que ataque."},
+        {name:"Llamarada cegadora", level:2, class:["Wizard","Sorcerer"], desc:"Estallido de luz que ciega a las criaturas en un radio de 10 pies."},
+        {name:"Nube de niebla", level:2, class:["Wizard","Sorcerer"], desc:"Crea una niebla densa que bloquea la visión."},
+        {name:"Oscuridad", level:2, class:["Wizard","Sorcerer"], desc:"Crea un radio de 20 pies de oscuridad sobrenatural."},
+        {name:"Pasar sin rastro", level:2, class:["Wizard","Sorcerer"], desc:"El sujeto no deja huellas ni rastro olfativo."},
+        {name:"Telaraña", level:2, class:["Wizard","Sorcerer"], desc:"Crea una red pegajosa que atrapa a las criaturas en un área."},
+        {name:"Ver lo invisible", level:2, class:["Wizard","Sorcerer"], desc:"Permite ver criaturas y objetos invisibles o etéreos."},
+        {name:"Auxilio", level:2, class:["Cleric"], desc:"Otorga +1 en ataques/salvaciones y 1d8 puntos de golpe temporales +1 por nivel (máx +10)."},
+        {name:"Curar heridas moderadas", level:2, class:["Cleric","Bard"], desc:"Cura 2d8 de daño +1 por nivel (máx +10)."},
+        {name:"Infligir heridas moderadas", level:2, class:["Cleric"], desc:"Toque que inflige 2d8 de daño +1 por nivel (máx +10)."},
+        {name:"Inmovilizar persona", level:2, class:["Cleric"], desc:"Paraliza a un humanoide por 1 asalto/nivel."},
+        {name:"Restablecimiento menor", level:2, class:["Cleric"], desc:"Elimina penalizadores mágicos o cura 1d4 de daño de característica."},
+        {name:"Silencio", level:2, class:["Cleric"], desc:"Impide todo sonido en un radio de 20 pies."},
+        {name:"Sonido estallante", level:2, class:["Cleric"], desc:"Explota por 1d8 de daño sónico y puede aturdir."},
+        {name:"Corteza", level:2, class:["Druid","Ranger"], desc:"Otorga bono de armadura natural +2 (máx +5)."},
+        {name:"Esfera flamígera", level:2, class:["Druid"], desc:"Esfera rodante que inflige 2d6 de daño de fuego."},
+        {name:"Forma arbórea", level:2, class:["Druid"], desc:"Te transformas en un árbol o arbusto."},
+        {name:"Llamar al rayo", level:2, class:["Druid"], desc:"Invoca rayos que infligen 3d6 de daño eléctrico."},
+        {name:"Piel de piedra menor", level:2, class:["Druid"], desc:"Otorga RD 5/magia."},
+        {name:"Quitar parálisis", level:2, class:["Paladin"], desc:"Libera a las criaturas de efectos de parálisis o aturdimiento."},
+        {name:"Trampa de lazos", level:2, class:["Ranger"], desc:"Crea una trampa mágica que apresa a un intruso."},
+        {name:"Sugestión", level:2, class:["Bard","Wizard","Sorcerer"], desc:"Fuerza a un sujeto a seguir un curso de acción sugerido."},
+        {name:"Heroísmo", level:2, class:["Bard"], desc:"Otorga +2 en ataques, salvaciones y pruebas de característica."},
+        {name:"Bola de fuego", level:3, class:["Wizard","Sorcerer"], desc:"Estallido de fuego que inflige 1d6 por nivel (máx 10d6)."},
+        {name:"Relámpago", level:3, class:["Wizard","Sorcerer"], desc:"Línea de electricidad que inflige 1d6 por nivel (máx 10d6)."},
+        {name:"Disipar magia", level:3, class:["Wizard","Sorcerer","Paladin"], desc:"Cancela efectos mágicos o hechizos activos."},
+        {name:"Volar", level:3, class:["Wizard","Sorcerer"], desc:"El sujeto vuela a una velocidad de 60 pies."},
+        {name:"Velocidad", level:3, class:["Wizard","Sorcerer"], desc:"Aliados ganan un ataque extra, +1 al ataque, CA y reflejos."},
+        {name:"Lentitud", level:3, class:["Wizard","Sorcerer"], desc:"El sujeto solo puede realizar una acción de movimiento o estándar."},
+        {name:"Respiración acuática", level:3, class:["Wizard","Sorcerer"], desc:"El sujeto puede respirar bajo el agua."},
+        {name:"Toque vampírico", level:3, class:["Wizard","Sorcerer"], desc:"Roba 1d6 de vida por cada 2 niveles (máx 10d6)."},
+        {name:"Desplazamiento", level:3, class:["Wizard","Sorcerer"], desc:"Los ataques contra el sujeto tienen un 50% de fallo."},
+        {name:"Curar heridas graves", level:3, class:["Cleric","Bard"], desc:"Cura 3d8 de daño +1 por nivel (máx +15)."},
+        {name:"Infligir heridas graves", level:3, class:["Cleric"], desc:"Toque que inflige 3d8 de daño +1 por nivel (máx +15)."},
+        {name:"Luz del día", level:3, class:["Cleric"], desc:"Crea un radio de 60 pies de luz brillante."},
+        {name:"Quitar enfermedad", level:3, class:["Cleric"], desc:"Cura todas las enfermedades que afligen al sujeto."},
+        {name:"Rezos", level:3, class:["Cleric"], desc:"Aliados ganan +1 en tiradas y enemigos sufren -1."},
+        {name:"Vestidura mágica", level:3, class:["Cleric"], desc:"Armadura o escudo gana bono de mejora +1 cada 4 niveles."},
+        {name:"Caminar sobre las aguas", level:3, class:["Druid"], desc:"Permite caminar sobre líquidos."},
+        {name:"Dominar animal", level:3, class:["Druid"], desc:"Controla mentalmente a un animal."},
+        {name:"Protección contra la energía", level:3, class:["Druid"], desc:"Absorbe 12 puntos de daño de energía por nivel."},
+        {name:"Arma mágica mayor", level:3, class:["Paladin","Wizard","Sorcerer"], desc:"El arma gana +1 de mejora cada 4 niveles (máx +5)."},
+        {name:"Plantar crecimiento", level:3, class:["Ranger"], desc:"Vegetación exuberante y difícil de atravesar."},
+        {name:"Confusión", level:3, class:["Bard","Wizard","Sorcerer"], desc:"Hace que los sujetos actúen de forma errática."},
+        {name:"Tormenta de hielo", level:4, class:["Wizard","Sorcerer","Druid"], desc:"3d6 daño golpe y 2d6 daño frío en área."},
+        {name:"Muro de fuego", level:4, class:["Wizard","Sorcerer"], desc:"Cortina de fuego de 2d6 daño."},
+        {name:"Piel de piedra", level:4, class:["Wizard","Sorcerer","Druid"], desc:"RD 10/adamantina."},
+        {name:"Invisibilidad mayor", level:4, class:["Wizard","Sorcerer","Bard"], desc:"Como invisibilidad pero no se rompe al atacar."},
+        {name:"Puerta dimensional", level:4, class:["Wizard","Sorcerer"], desc:"Teletransporte a distancia corta."},
+        {name:"Miedo", level:4, class:["Wizard","Sorcerer"], desc:"Sujetos huyen por 1 asalto/nivel."},
+        {name:"Tentáculos negros de Evard", level:4, class:["Wizard","Sorcerer"], desc:"Apresan e infligen 1d6+4 de daño."},
+        {name:"Curar heridas críticas", level:4, class:["Cleric","Bard","Druid"], desc:"Cura 4d8 de daño +1 por nivel (máx +20)."},
+        {name:"Infligir heridas críticas", level:4, class:["Cleric"], desc:"Toque que inflige 4d8 de daño."},
+        {name:"Inmunidad a los conjuros", level:4, class:["Cleric"], desc:"Inmune a hechizos nivel 4 o menor."},
+        {name:"Martillo sagrado", level:4, class:["Cleric","Paladin"], desc:"1d8 daño cada 2 niveles a malvados."},
+        {name:"Poder divino", level:4, class:["Cleric"], desc:"Bonos de ataque de Guerrero y +6 a Fuerza."},
+        {name:"Veneno", level:4, class:["Cleric"], desc:"Toque que inflige 1d10 daño Constitución."},
+        {name:"Caminar por el aire", level:4, class:["Druid"], desc:"Camina por el aire como sólido."},
+        {name:"Colmillo mágico mayor", level:4, class:["Druid"], desc:"Arma natural gana +1 cada 4 niveles."},
+        {name:"Llamar tormenta de rayos", level:4, class:["Druid"], desc:"Rayos de 5d6 de daño."},
+        {name:"Reencarnar", level:4, class:["Druid"], desc:"Trae a un muerto en cuerpo aleatorio."},
+        {name:"Restablecimiento", level:4, class:["Paladin","Cleric"], desc:"Restaura niveles y características."},
+        {name:"Comunión con la naturaleza", level:4, class:["Ranger","Druid"], desc:"Aprendes sobre terreno 1 milla/nivel."},
+        {name:"Libertad de movimiento", level:4, class:["Ranger","Cleric","Bard","Druid"], desc:"Movimiento normal pese a impedimentos."},
+        {name:"Modificar memoria", level:4, class:["Bard"], desc:"Cambia 5 minutos de recuerdos."},
+        {name:"Cono de frío", level:5, class:["Wizard","Sorcerer"], desc:"1d6 de daño de frío por nivel (máx 15d6)."},
+        {name:"Muro de fuerza", level:5, class:["Wizard","Sorcerer"], desc:"Crea una barrera invisible e indestructible."},
+        {name:"Teletransporte", level:5, class:["Wizard","Sorcerer"], desc:"Transporte hasta 100 millas por nivel."},
+        {name:"Dominar persona", level:5, class:["Wizard","Sorcerer"], desc:"Controlas a un humanoide."},
+        {name:"Nube aniquiladora", level:5, class:["Wizard","Sorcerer"], desc:"Vapor que mata o daña según DG."},
+        {name:"Metamorfosis", level:5, class:["Wizard","Sorcerer"], desc:"Transformas a un sujeto en otra criatura."},
+        {name:"Enviar", level:5, class:["Wizard","Sorcerer","Cleric"], desc:"Mensaje corto a cualquier distancia."},
+        {name:"Aliento de vida", level:5, class:["Cleric"], desc:"Cura 5d8 tras la muerte."},
+        {name:"Columna de fuego", level:5, class:["Cleric"], desc:"1d6/nivel mitad fuego mitad divino."},
+        {name:"Curar heridas leves en masa", level:5, class:["Cleric","Bard"], desc:"Cura a varios aliados."},
+        {name:"Infligir heridas leves en masa", level:5, class:["Cleric"], desc:"Daña a varios enemigos."},
+        {name:"Revivir a los muertos", level:5, class:["Cleric"], desc:"Resucita criatura muerta hace poco."},
+        {name:"Resistencia a los conjuros", level:5, class:["Cleric"], desc:"Otorga RS 12 + nivel."},
+        {name:"Heroísmo mayor", level:5, class:["Bard"], desc:"Bonos +4 e inmunidad miedo."},
+        {name:"Sugestión en masa", level:5, class:["Bard","Wizard","Sorcerer"], desc:"Afecta a una criatura por nivel."},
+        {name:"Desintegrar", level:6, class:["Wizard","Sorcerer"], desc:"Rayo que reduce a polvo al objetivo."},
+        {name:"Cadena de relámpagos", level:6, class:["Wizard","Sorcerer"], desc:"Daña a varios objetivos."},
+        {name:"Esfera congelante de Otiluke", level:6, class:["Wizard","Sorcerer"], desc:"1d6/nivel daño frío."},
+        {name:"Disipar magia mayor", level:6, class:["Wizard","Sorcerer","Bard","Cleric"], desc:"Disipar con bono hasta +20."},
+        {name:"Transformación de Tenser", level:6, class:["Wizard","Sorcerer"], desc:"Bonos de Guerrero."},
+        {name:"Curar heridas moderadas en masa", level:6, class:["Cleric","Bard"], desc:"Cura a varios aliados."},
+        {name:"Infligir heridas moderadas en masa", level:6, class:["Cleric"], desc:"Daña a varios enemigos."},
+        {name:"Sanar", level:6, class:["Cleric","Druid"], desc:"Cura 10 pg/nivel (máx 150)."},
+        {name:"Dañar", level:6, class:["Cleric","Druid"], desc:"Toque inflige 10 pg/nivel."},
+        {name:"Banquete de los héroes", level:6, class:["Cleric"], desc:"Comida mágica con bonos."},
+        {name:"Palabra de regreso", level:6, class:["Cleric"], desc:"Teletransporte a santuario."},
+        {name:"Caparazón antivida", level:6, class:["Druid"], desc:"Impide paso de criaturas vivas."},
+        {name:"Bastón de madera férrea", level:6, class:["Druid"], desc:"Bastón duro como el acero."},
+        {name:"Semillas de fuego", level:6, class:["Druid"], desc:"Bayas bomba 1d6/nivel."},
+        {name:"Canto de libertad", level:6, class:["Bard"], desc:"Disipar mayor mediante música."},
+        {name:"Bola de fuego de explosión retardada", level:7, class:["Wizard","Sorcerer"], desc:"1d6/nivel con detonación programable."},
+        {name:"Dedo de la muerte", level:7, class:["Wizard","Sorcerer","Druid"], desc:"Mata o inflige 3d6+nivel."},
+        {name:"Teletransporte mayor", level:7, class:["Wizard","Sorcerer","Cleric"], desc:"Sin límite de distancia y sin error."},
+        {name:"Invisibilidad en masa", level:7, class:["Wizard","Sorcerer"], desc:"Radio de 180 pies."},
+        {name:"Espada de Mordenkainen", level:7, class:["Wizard","Sorcerer"], desc:"Espada flotante 4d6+3."},
+        {name:"Palabra de poder: Ciego", level:7, class:["Wizard","Sorcerer"], desc:"Ciega criatura 200 pg o menos."},
+        {name:"Curar heridas graves en masa", level:7, class:["Cleric"], desc:"Cura a varios aliados."},
+        {name:"Infligir heridas graves en masa", level:7, class:["Cleric"], desc:"Daña a varios enemigos."},
+        {name:"Resurrección", level:7, class:["Cleric"], desc:"Sin pérdida de niveles."},
+        {name:"Blasfemia", level:7, class:["Cleric"], desc:"Efectos según DG en no malignos."},
+        {name:"Destrucción", level:7, class:["Cleric"], desc:"Mata y destruye cuerpo."},
+        {name:"Tormenta de fuego", level:7, class:["Druid","Cleric"], desc:"1d6/nivel fuego."},
+        {name:"Transmutar metal en madera", level:7, class:["Druid"], desc:"Convierte metal permanentemente."},
+        {name:"Caminar por el viento", level:7, class:["Druid"], desc:"Se convierten en vapor."},
+        {name:"Rayos polares", level:8, class:["Wizard","Sorcerer"], desc:"1d6/nivel frío."},
+        {name:"Palabra de poder: Aturdir", level:8, class:["Wizard","Sorcerer"], desc:"Aturde criatura 150 pg o menos."},
+        {name:"Muro de hierro", level:8, class:["Wizard","Sorcerer"], desc:"Pared de hierro 1 pulgada/4 niveles."},
+        {name:"Laberinto", level:8, class:["Wizard","Sorcerer"], desc:"Plano extradimensional."},
+        {name:"Clon", level:8, class:["Wizard","Sorcerer"], desc:"Duplicado inerte."},
+        {name:"Cuerpo férreo", level:8, class:["Wizard","Sorcerer"], desc:"RD 15/adamantina y +6 Fuerza."},
+        {name:"Grito mayor", level:8, class:["Wizard","Sorcerer","Bard"], desc:"10d6 sónico y aturde."},
+        {name:"Mente en blanco", level:8, class:["Wizard","Sorcerer"], desc:"Inmune a efectos mentales."},
+        {name:"Curar heridas críticas en masa", level:8, class:["Cleric"], desc:"Cura a varios aliados."},
+        {name:"Infligir heridas críticas en masa", level:8, class:["Cleric"], desc:"Daña a varios enemigos."},
+        {name:"Aura sagrada", level:8, class:["Cleric"], desc:"+4 CA/Salv e RS 25."},
+        {name:"Campo antimagia", level:8, class:["Cleric","Wizard","Sorcerer"], desc:"Anula magia 10 pies."},
+        {name:"Símbolo de muerte", level:8, class:["Cleric","Wizard","Sorcerer"], desc:"Runa que mata al activarse."},
+        {name:"Terremoto", level:8, class:["Druid","Cleric"], desc:"Sacude tierra y derriba edificios."},
+        {name:"Forma animal superior", level:8, class:["Druid"], desc:"Tamaño Enorme."},
+        {name:"Deseo", level:9, class:["Wizard","Sorcerer"], desc:"Altera realidad (PX)."},
+        {name:"Detener el tiempo", level:9, class:["Wizard","Sorcerer"], desc:"1d4+1 asaltos libres."},
+        {name:"Lluvia de meteoros", level:9, class:["Wizard","Sorcerer"], desc:"Cuatro esferas de 6d6 fuego."},
+        {name:"Palabra de poder: Matar", level:9, class:["Wizard","Sorcerer"], desc:"Mata criatura 100 pg o menos."},
+        {name:"Prisión energética", level:9, class:["Wizard","Sorcerer"], desc:"Jaula de fuerza indestructible."},
+        {name:"Proyección astral", level:9, class:["Wizard","Sorcerer","Cleric"], desc:"Viaje por planos."},
+        {name:"Dominar monstruo", level:9, class:["Wizard","Sorcerer"], desc:"Afecta cualquier criatura."},
+        {name:"Lamento de la banshee", level:9, class:["Wizard","Sorcerer"], desc:"Mata criatura por nivel."},
+        {name:"Milagro", level:9, class:["Cleric"], desc:"Intervención de deidad."},
+        {name:"Sanar en masa", level:9, class:["Cleric"], desc:"Cura todos los daños a varios."},
+        {name:"Dañar en masa", level:9, class:["Cleric"], desc:"10 pg/nivel a varios (máx 250)."},
+        {name:"Resurrección verdadera", level:9, class:["Cleric"], desc:"Sin pérdida nivel hasta 10 años."},
+        {name:"Implosión", level:9, class:["Cleric"], desc:"Destruye cuerpo instantáneamente."},
+        {name:"Portal", level:9, class:["Cleric","Wizard","Sorcerer"], desc:"Túnel entre planos."},
+        {name:"Tormenta de venganza", level:9, class:["Druid"], desc:"Rayos, ácido y granizo."},
+        {name:"Encarnación elemental", level:9, class:["Druid"], desc:"Elemental Mayor."},
+        {name:"Antipatía", level:9, class:["Druid","Wizard","Sorcerer"], desc:"Repulsión irresistible por lugar."}
+    ],
+    skills: {"Appraise":"INT","Balance":"DEX","Bluff":"CHA","Climb":"STR","Concentration":"CON","Decipher Script":"INT","Diplomacy":"CHA","Disable Device":"INT","Disguise":"CHA","Escape Artist":"DEX","Gather Information":"CHA","Handle Animal":"CHA","Heal":"WIS","Hide":"DEX","Intimidate":"CHA","Jump":"STR","Listen":"WIS","Move Silently":"DEX","Open Lock":"DEX","Ride":"DEX","Search":"INT","Sense Motive":"WIS","Spellcraft":"INT","Spot":"WIS","Survival":"WIS","Swim":"STR","Tumble":"DEX","Use Magic Device":"CHA"}
+};
+
+const EQUIPMENT = {
+    weapons: [
+        // SIMPLES
+        {name:"Garrote",          type:"Simple",  dmg:"1d6",    crit:"20",    mult:"x2", notes:""},
+        {name:"Daga",             type:"Simple",  dmg:"1d4",    crit:"19-20", mult:"x2", notes:"", light:true},
+        {name:"Dagas arrojadizas (x2)", type:"Simple", dmg:"1d4", crit:"19-20", mult:"x2", notes:"", light:true},
+        {name:"Dagas arrojadizas (x4)", type:"Simple", dmg:"1d4", crit:"19-20", mult:"x2", notes:"", light:true},
+        {name:"Dagas arrojadizas (x8)", type:"Simple", dmg:"1d4", crit:"19-20", mult:"x2", notes:"", light:true},
+        {name:"Hoz",              type:"Simple",  dmg:"1d4",    crit:"20",    mult:"x4", notes:""},
+        {name:"Bastón",           type:"Simple",  dmg:"1d6/1d6",crit:"20",    mult:"x2", notes:"Dos manos"},
+        {name:"Maza ligera",      type:"Simple",  dmg:"1d6",    crit:"20",    mult:"x2", notes:"", light:true},
+        {name:"Maza pesada",      type:"Simple",  dmg:"1d8",    crit:"20",    mult:"x2", notes:""},
+        {name:"Lanza corta",      type:"Simple",  dmg:"1d6",    crit:"20",    mult:"x3", notes:"", light:true},
+        {name:"Lanza",            type:"Simple",  dmg:"1d8",    crit:"20",    mult:"x3", notes:""},
+        {name:"Hoz de guerra",    type:"Simple",  dmg:"2d4",    crit:"20",    mult:"x4", notes:""},
+        {name:"Ballesta ligera",  type:"Simple",  dmg:"1d8",    crit:"19-20", mult:"x2", notes:""},
+        {name:"Ballesta pesada",  type:"Simple",  dmg:"1d10",   crit:"19-20", mult:"x2", notes:""},
+        {name:"Dardo",            type:"Simple",  dmg:"1d4",    crit:"20",    mult:"x2", notes:"", light:true},
+        {name:"Honda",            type:"Simple",  dmg:"1d4",    crit:"20",    mult:"x2", notes:""},
+        {name:"Jabalina",         type:"Simple",  dmg:"1d6",    crit:"20",    mult:"x2", notes:""},
+        // MARCIALES
+        {name:"Espada larga",         type:"Marcial", dmg:"1d8",    crit:"19-20", mult:"x2", notes:""},
+        {name:"Espada corta",         type:"Marcial", dmg:"1d6",    crit:"19-20", mult:"x2", notes:"", light:true},
+        {name:"Cimitarra",            type:"Marcial", dmg:"1d6",    crit:"18-20", mult:"x2", notes:""},
+        {name:"Hacha de mano",        type:"Marcial", dmg:"1d6",    crit:"20",    mult:"x3", notes:"", light:true},
+        {name:"Hacha de batalla",     type:"Marcial", dmg:"1d8",    crit:"20",    mult:"x3", notes:""},
+        {name:"Hacha grande",         type:"Marcial", dmg:"1d12",   crit:"20",    mult:"x3", notes:"Dos manos"},
+        {name:"Mandoble",             type:"Marcial", dmg:"2d6",    crit:"19-20", mult:"x2", notes:"Dos manos"},
+        {name:"Martillo de guerra",   type:"Marcial", dmg:"1d8",    crit:"20",    mult:"x3", notes:""},
+        {name:"Martillo grande",      type:"Marcial", dmg:"2d6",    crit:"20",    mult:"x3", notes:"Dos manos"},
+        {name:"Mayal de guerra",      type:"Marcial", dmg:"1d8",    crit:"20",    mult:"x2", notes:""},
+        {name:"Alabarda",             type:"Marcial", dmg:"1d10",   crit:"20",    mult:"x3", notes:"Dos manos"},
+        {name:"Guisarma",             type:"Marcial", dmg:"2d4",    crit:"20",    mult:"x3", notes:"Dos manos"},
+        {name:"Lanza de caballería",  type:"Marcial", dmg:"1d8",    crit:"20",    mult:"x3", notes:"Dos manos, carga"},
+        {name:"Tridente",             type:"Marcial", dmg:"1d8",    crit:"20",    mult:"x2", notes:""},
+        {name:"Pico ligero",          type:"Marcial", dmg:"1d4",    crit:"20",    mult:"x4", notes:"", light:true},
+        {name:"Pico pesado",          type:"Marcial", dmg:"1d6",    crit:"20",    mult:"x4", notes:""},
+        {name:"Mangual ligero",       type:"Marcial", dmg:"1d6",    crit:"20",    mult:"x2", notes:"", light:true},
+        {name:"Mangual pesado",       type:"Marcial", dmg:"1d8",    crit:"20",    mult:"x2", notes:""},
+        {name:"Sable",                type:"Marcial", dmg:"1d6",    crit:"18-20", mult:"x2", notes:""},
+        {name:"Arco corto",           type:"Marcial", dmg:"1d6",    crit:"20",    mult:"x3", notes:""},
+        {name:"Arco corto compuesto", type:"Marcial", dmg:"1d6",    crit:"20",    mult:"x3", notes:""},
+        {name:"Arco largo",           type:"Marcial", dmg:"1d8",    crit:"20",    mult:"x3", notes:""},
+        {name:"Arco largo compuesto", type:"Marcial", dmg:"1d8",    crit:"20",    mult:"x3", notes:""},
+        // EXÓTICAS
+        {name:"Espada bastarda",          type:"Exótica", dmg:"1d10",   crit:"19-20", mult:"x2", notes:""},
+        {name:"Katana",                   type:"Exótica", dmg:"1d10",   crit:"19-20", mult:"x2", notes:""},
+        {name:"Kama",                     type:"Exótica", dmg:"1d6",    crit:"20",    mult:"x2", notes:"", light:true},
+        {name:"Nunchaku",                 type:"Exótica", dmg:"1d6",    crit:"20",    mult:"x2", notes:"", light:true},
+        {name:"Sai",                      type:"Exótica", dmg:"1d4",    crit:"20",    mult:"x2", notes:"", light:true},
+        {name:"Siangham",                 type:"Exótica", dmg:"1d6",    crit:"20",    mult:"x2", notes:"", light:true},
+        {name:"Zangual",                  type:"Exótica", dmg:"2d4",    crit:"20",    mult:"x2", notes:""},
+        {name:"Hacha de guerra enana",    type:"Exótica", dmg:"1d10",   crit:"20",    mult:"x3", notes:""},
+        {name:"Urgrosh enano",            type:"Exótica", dmg:"1d8/1d6",crit:"20",    mult:"x3", notes:"Dos manos"},
+        {name:"Martillo gnomo de hoces",  type:"Exótica", dmg:"1d6/1d4",crit:"20",    mult:"x3", notes:""},
+        {name:"Tridente de combate",      type:"Exótica", dmg:"1d8",    crit:"19-20", mult:"x2", notes:""},
+        {name:"Ballesta de repetición",   type:"Exótica", dmg:"1d8",    crit:"19-20", mult:"x2", notes:""},
+        {name:"Shuriken",                 type:"Exótica", dmg:"1d2",    crit:"20",    mult:"x2", notes:"", light:true},
+        {name:"Red",                      type:"Exótica", dmg:"—",      crit:"—",     mult:"—",  notes:"Enreda"},
+        {name:"Unarmed Strike",           type:"Simple",  dmg:"1d3",    crit:"20",    mult:"x2", notes:"", unarmed:true, light:true},
+    ],
+    armors: [
+        {name:"Cuero",                      type:"Ligera",  ca:2, pen:0},
+        {name:"Cuero tachonado",            type:"Ligera",  ca:3, pen:-1},
+        {name:"Camisote de mallas",         type:"Ligera",  ca:4, pen:-2},
+        {name:"Armadura de pieles",         type:"Ligera",  ca:2, pen:-1},
+        {name:"Cota de escamas",            type:"Media",   ca:4, pen:-4},
+        {name:"Cota de mallas",             type:"Media",   ca:5, pen:-5},
+        {name:"Peto",                       type:"Media",   ca:5, pen:-4},
+        {name:"Media placa",                type:"Media",   ca:6, pen:-6},
+        {name:"Cota de bandas",             type:"Pesada",  ca:6, pen:-7},
+        {name:"Coraza de placas",           type:"Pesada",  ca:7, pen:-6},
+        {name:"Armadura de placas completa",type:"Pesada",  ca:8, pen:-6},
+    ],
+    shields: [
+        {name:"Escudo de madera pequeño", ca:1, pen:-1},
+        {name:"Escudo de metal pequeño",  ca:1, pen:-1},
+        {name:"Escudo de madera grande",  ca:2, pen:-2},
+        {name:"Escudo de metal grande",   ca:2, pen:-2},
+        {name:"Torre de escudo",          ca:4, pen:-10},
+        {name:"Escudo de púas",           ca:1, pen:-1},
+    ],
+    general: [
+        "Kit de ladrón","Kit de curación","Cuerda de cáñamo (15m)","Cuerda de seda (15m)",
+        "Antorcha","Raciones (1 día)","Odre de agua","Mochila","Saco de dormir",
+        "Yesca y eslabón","Esposas","Garfio","Palanca","Martillo y clavos",
+        "Linterna con capucha","Aceite (frasco)","Espejo pequeño de acero",
+        "Instrumento musical","Lupa","Tienda de campaña","Escalera de mano",
+        "Polea","Zancos","Vial de tinta","Pergamino","Libro",
+        "1 po","5 po","10 po","100 po",
+        "1 pp","5 pp","10 pp","100 pp",
+        "1 pc","5 pc","10 pc","100 pc"
+    ]
+};
+
+const ALIGNMENTS = ["LG","LN","LE","NG","N","NE","CG","CN","CE"];
+
+// Grilla de adyacencia: cada alineamiento incluye a sí mismo y sus vecinos
+const ALIGN_ADJACENT = {
+    "LG": ["LG","LN","NG","N"],
+    "LN": ["LN","LG","LE","N"],
+    "LE": ["LE","LN","NE","N"],
+    "NG": ["NG","LG","CG","N"],
+    "N":  ["N","LG","LN","LE","NG","NE","CG","CN","CE"],
+    "NE": ["NE","LE","CE","N"],
+    "CG": ["CG","NG","CN","N"],
+    "CN": ["CN","CG","CE","N"],
+    "CE": ["CE","CN","NE","N"],
+};
+
+const DEITIES = [
+    {name:"Boccob",      align:["N"],       domain:"Conocimiento, Magia, Trickery"},
+    {name:"Corellon",    align:["CG"],      domain:"Caos, Bien, Magia, Guerra"},
+    {name:"Ehlonna",     align:["NG","CG"], domain:"Animales, Bien, Plantas, Sol"},
+    {name:"Erythnul",    align:["CE","CN"], domain:"Caos, Mal, Trickery"},
+    {name:"Fharlanghn",  align:["N","NG"],  domain:"Viaje, Suerte, Protección"},
+    {name:"Gruumsh",     align:["CE"],      domain:"Caos, Mal, Fuerza, Guerra"},
+    {name:"Heironeous",  align:["LG"],      domain:"Bien, Gloria, Guerra, Ley, Protección"},
+    {name:"Hextor",      align:["LE"],      domain:"Destrucción, Guerra, Ley, Mal"},
+    {name:"Kord",        align:["CG","CN"], domain:"Caos, Bien, Fuerza, Suerte"},
+    {name:"Moradin",     align:["LG"],      domain:"Artificio, Bien, Protección, Tierra"},
+    {name:"Nerull",      align:["NE"],      domain:"Mal, Muerte, Trickery"},
+    {name:"Obad-Hai",    align:["N"],       domain:"Animales, Aire, Tierra, Fuego, Agua"},
+    {name:"Olidammara",  align:["CN"],      domain:"Caos, Suerte, Trickery"},
+    {name:"Pelor",       align:["NG"],      domain:"Bien, Curación, Fuerza, Sol"},
+    {name:"Ralishaz",    align:["CN","CE"], domain:"Caos, Destrucción, Suerte"},
+    {name:"St. Cuthbert",align:["LN","LG","LE"], domain:"Destrucción, Fuerza, Protección"},
+    {name:"Vecna",       align:["NE","LE"], domain:"Mal, Conocimiento, Magia"},
+    {name:"Wee Jas",     align:["LN","LE"], domain:"Muerte, Ley, Magia"},
+];
+
+function updateDeityList() {
+    const alignment = document.getElementById('alignment').value;
+    const deitySel  = document.getElementById('deity');
+    const current   = deitySel.value;
+    deitySel.innerHTML = "";
+    deitySel.add(new Option("— Ninguna —", ""));
+
+    DEITIES
+        .filter(d => d.align.includes(alignment))
+        .forEach(d => deitySel.add(new Option(d.name, d.name)));
+
+    // Mantener selección si sigue siendo válida
+    if (current && Array.from(deitySel.options).some(o => o.value === current))
+        deitySel.value = current;
+
+    if (document.getElementById('sk-rnk-Appraise')) autoSave();
+}
+
+const CLASS_FEATURES = {
+    "Barbarian": [
+        {lvl:1,  features:["Rage (1/day)","Fast Movement","Illiteracy"]},
+        {lvl:2,  features:["Uncanny Dodge"]},
+        {lvl:3,  features:["Trap Sense +1"]},
+        {lvl:4,  features:["Rage (2/day)"]},
+        {lvl:5,  features:["Improved Uncanny Dodge"]},
+        {lvl:6,  features:["Trap Sense +2"]},
+        {lvl:7,  features:["Damage Reduction 1/-"]},
+        {lvl:8,  features:["Rage (3/day)"]},
+        {lvl:9,  features:["Trap Sense +3"]},
+        {lvl:10, features:["Damage Reduction 2/-"]},
+        {lvl:11, features:["Greater Rage"]},
+        {lvl:12, features:["Rage (4/day)","Trap Sense +4"]},
+        {lvl:13, features:["Damage Reduction 3/-"]},
+        {lvl:14, features:["Indomitable Will"]},
+        {lvl:15, features:["Trap Sense +5"]},
+        {lvl:16, features:["Rage (5/day)","Damage Reduction 4/-"]},
+        {lvl:17, features:["Tireless Rage"]},
+        {lvl:18, features:["Trap Sense +6"]},
+        {lvl:19, features:["Damage Reduction 5/-"]},
+        {lvl:20, features:["Mighty Rage","Rage (6/day)"]},
+    ],
+    "Bard": [
+        {lvl:1,  features:["Bardic Music","Bardic Knowledge","Countersong","Fascinate","Inspire Courage +1"]},
+        {lvl:2,  features:["Well-Versed"]},
+        {lvl:3,  features:["Inspire Competence"]},
+        {lvl:5,  features:["Inspire Courage +2"]},
+        {lvl:6,  features:["Suggestion","Inspire Greatness"]},
+        {lvl:8,  features:["Inspire Courage +3"]},
+        {lvl:9,  features:["Song of Freedom"]},
+        {lvl:11, features:["Inspire Courage +4"]},
+        {lvl:12, features:["Inspire Heroics"]},
+        {lvl:14, features:["Inspire Courage +5"]},
+        {lvl:15, features:["Mass Suggestion"]},
+        {lvl:17, features:["Inspire Courage +6"]},
+        {lvl:20, features:["Inspire Courage +7"]},
+    ],
+    "Cleric": [
+        {lvl:1,  features:["Turn/Rebuke Undead","2 Domains","Divine Spells"]},
+        {lvl:5,  features:["Extra Turning"]},
+        {lvl:10, features:["Extra Turning (improved)"]},
+    ],
+    "Druid": [
+        {lvl:1,  features:["Wild Empathy","Druidic Language","Nature Spells"]},
+        {lvl:2,  features:["Woodland Stride"]},
+        {lvl:3,  features:["Trackless Step"]},
+        {lvl:4,  features:["Resist Nature's Lure"]},
+        {lvl:5,  features:["Wild Shape (1/day, S-M-L)"]},
+        {lvl:6,  features:["Wild Shape (2/day)"]},
+        {lvl:7,  features:["Wild Shape (3/day, Tiny)"]},
+        {lvl:8,  features:["Wild Shape (4/day, Huge)"]},
+        {lvl:9,  features:["Venom Immunity"]},
+        {lvl:10, features:["Wild Shape: Small Elemental (1/day)"]},
+        {lvl:11, features:["Wild Shape (5/day)"]},
+        {lvl:12, features:["Wild Shape: Medium Elemental (2/day)"]},
+        {lvl:13, features:["Wild Shape: Large Elemental (3/day)"]},
+        {lvl:14, features:["Thousand Faces"]},
+        {lvl:15, features:["Timeless Body","Wild Shape (6/day)"]},
+        {lvl:16, features:["Wild Shape: Huge Elemental (4/day)"]},
+        {lvl:20, features:["Wild Shape (unlimited)"]},
+    ],
+    "Fighter": [
+        {lvl:1,  features:["Bonus Feat","Proficiency: All Armor & Weapons"]},
+        {lvl:2,  features:["Bonus Feat"]},
+        {lvl:4,  features:["Bonus Feat"]},
+        {lvl:6,  features:["Bonus Feat"]},
+        {lvl:8,  features:["Bonus Feat"]},
+        {lvl:10, features:["Bonus Feat"]},
+        {lvl:12, features:["Bonus Feat"]},
+        {lvl:14, features:["Bonus Feat"]},
+        {lvl:16, features:["Bonus Feat"]},
+        {lvl:18, features:["Bonus Feat"]},
+        {lvl:20, features:["Bonus Feat"]},
+    ],
+    "Monk": [
+        {lvl:1,  features:["Improved Unarmed Strike","Stunning Fist","AC Bonus","Flurry of Blows"]},
+        {lvl:2,  features:["Evasion","Bonus Feat"]},
+        {lvl:3,  features:["Still Mind","Fast Movement"]},
+        {lvl:4,  features:["Ki Strike (magic)","Slow Fall 20ft"]},
+        {lvl:5,  features:["Purity of Body"]},
+        {lvl:6,  features:["Bonus Feat","Slow Fall 60ft"]},
+        {lvl:7,  features:["Wholeness of Body"]},
+        {lvl:8,  features:["Slow Fall (any distance)"]},
+        {lvl:9,  features:["Improved Evasion","Ki Strike (lawful)"]},
+        {lvl:10, features:["Ki Strike (lawful)"]},
+        {lvl:11, features:["Diamond Body","Greater Flurry"]},
+        {lvl:12, features:["Abundant Step"]},
+        {lvl:13, features:["Diamond Soul"]},
+        {lvl:14, features:["Quivering Palm"]},
+        {lvl:15, features:["Ki Strike (adamantine)","Timeless Body"]},
+        {lvl:16, features:["Bonus Feat"]},
+        {lvl:17, features:["Tongue of the Sun and Moon"]},
+        {lvl:18, features:["Empty Body"]},
+        {lvl:19, features:["Perfect Self"]},
+        {lvl:20, features:["Bonus Feat"]},
+    ],
+    "Paladin": [
+        {lvl:1,  features:["Detect Evil","Smite Evil (1/day)"]},
+        {lvl:2,  features:["Divine Grace","Lay on Hands"]},
+        {lvl:3,  features:["Aura of Courage","Divine Health"]},
+        {lvl:4,  features:["Turn Undead","Spells"]},
+        {lvl:5,  features:["Special Mount","Smite Evil (2/day)"]},
+        {lvl:6,  features:["Remove Disease (1/week)"]},
+        {lvl:8,  features:["Remove Disease (2/week)"]},
+        {lvl:9,  features:["Smite Evil (3/day)"]},
+        {lvl:10, features:["Remove Disease (3/week)"]},
+        {lvl:11, features:["Smite Evil (4/day)"]},
+        {lvl:12, features:["Remove Disease (4/week)"]},
+        {lvl:13, features:["Smite Evil (5/day)"]},
+        {lvl:14, features:["Remove Disease (5/week)"]},
+        {lvl:15, features:["Smite Evil (6/day)"]},
+        {lvl:16, features:["Remove Disease (6/week)"]},
+        {lvl:17, features:["Smite Evil (7/day)"]},
+        {lvl:18, features:["Remove Disease (7/week)"]},
+        {lvl:19, features:["Smite Evil (8/day)"]},
+        {lvl:20, features:["Smite Evil (9/day)","Remove Disease (8/week)"]},
+    ],
+    "Ranger": [
+        {lvl:1,  features:["Favored Enemy (+2)","Track","Wild Empathy","Combat Style"]},
+        {lvl:2,  features:["Combat Style Feat"]},
+        {lvl:3,  features:["Endurance"]},
+        {lvl:4,  features:["Animal Companion","Spells"]},
+        {lvl:5,  features:["Favored Enemy 2 (+4/+2)"]},
+        {lvl:6,  features:["Improved Combat Style"]},
+        {lvl:7,  features:["Woodland Stride"]},
+        {lvl:8,  features:["Swift Tracker"]},
+        {lvl:9,  features:["Evasion"]},
+        {lvl:10, features:["Favored Enemy 3 (+6/+4/+2)","Combat Style Mastery"]},
+        {lvl:11, features:["Improved Animal Companion"]},
+        {lvl:12, features:["Camouflage"]},
+        {lvl:13, features:["Improved Evasion"]},
+        {lvl:14, features:["Hide in Plain Sight"]},
+        {lvl:15, features:["Favored Enemy 4 (+8/+6/+4/+2)"]},
+        {lvl:20, features:["Favored Enemy 5 (+10/+8/+6/+4/+2)"]},
+    ],
+    "Rogue": [
+        {lvl:1,  features:["Sneak Attack +1d6","Trapfinding"]},
+        {lvl:2,  features:["Evasion"]},
+        {lvl:3,  features:["Sneak Attack +2d6","Trap Sense +1"]},
+        {lvl:4,  features:["Uncanny Dodge","Rogue Talent"]},
+        {lvl:5,  features:["Sneak Attack +3d6"]},
+        {lvl:6,  features:["Trap Sense +2"]},
+        {lvl:7,  features:["Sneak Attack +4d6","Improved Uncanny Dodge"]},
+        {lvl:8,  features:["Trap Sense +3","Rogue Talent"]},
+        {lvl:9,  features:["Sneak Attack +5d6"]},
+        {lvl:10, features:["Trap Sense +4","Rogue Talent"]},
+        {lvl:11, features:["Sneak Attack +6d6"]},
+        {lvl:12, features:["Trap Sense +5","Rogue Talent"]},
+        {lvl:13, features:["Sneak Attack +7d6"]},
+        {lvl:14, features:["Trap Sense +6","Rogue Talent"]},
+        {lvl:15, features:["Sneak Attack +8d6"]},
+        {lvl:16, features:["Rogue Talent"]},
+        {lvl:17, features:["Sneak Attack +9d6"]},
+        {lvl:18, features:["Rogue Talent"]},
+        {lvl:19, features:["Sneak Attack +10d6"]},
+        {lvl:20, features:["Master Strike","Rogue Talent"]},
+    ],
+    "Sorcerer": [
+        {lvl:1,  features:["Spells","Familiar"]},
+        {lvl:3,  features:["Metamagic / Item Creation Feat"]},
+        {lvl:5,  features:["Metamagic / Item Creation Feat"]},
+        {lvl:10, features:["Metamagic / Item Creation Feat"]},
+        {lvl:15, features:["Metamagic / Item Creation Feat"]},
+        {lvl:20, features:["Metamagic / Item Creation Feat"]},
+    ],
+    "Wizard": [
+        {lvl:1,  features:["Scribe Scroll","Spellbook","Familiar (optional)","School Specialization (optional)"]},
+        {lvl:5,  features:["Bonus Feat"]},
+        {lvl:10, features:["Bonus Feat"]},
+        {lvl:15, features:["Bonus Feat"]},
+        {lvl:20, features:["Bonus Feat"]},
+    ],
+};
+
+// ── CUSTOM DATA ───────────────────────────────────────────────
+const CUSTOM = {
+    weapons: [],
+    armors:  [],
+    general: [],
+    feats:   []
+};
+
+function renderCustomLists() {
+    const styleItem = "display:flex; justify-content:space-between; align-items:center; padding:4px 8px; margin-bottom:3px; background:rgba(0,0,0,0.2); border-radius:4px; border-left:2px solid var(--accent); font-size:0.8em;";
+    const btnStyle  = "background:none; border:none; color:#ef4444; cursor:pointer; font-size:1em; padding:0 4px;";
+
+    const cwList = document.getElementById('cw-list');
+    if (cwList) cwList.innerHTML = CUSTOM.weapons.length === 0
+        ? `<p style="font-size:0.75em; color:#64748b;">Sin armas custom.</p>`
+        : CUSTOM.weapons.map((w,i) => `<div style="${styleItem}"><span>${w.name} <small style="color:#94a3b8;">(${w.type} · ${w.dmg})</small></span><button style="${btnStyle}" onclick="removeCustom('weapons',${i})">✕</button></div>`).join("");
+
+    const caList = document.getElementById('ca-list');
+    if (caList) caList.innerHTML = CUSTOM.armors.length === 0
+        ? `<p style="font-size:0.75em; color:#64748b;">Sin armaduras custom.</p>`
+        : CUSTOM.armors.map((a,i) => `<div style="${styleItem}"><span>${a.name} <small style="color:#94a3b8;">(${a.type} · CA+${a.ca})</small></span><button style="${btnStyle}" onclick="removeCustom('armors',${i})">✕</button></div>`).join("");
+
+    const cgList = document.getElementById('cg-list');
+    if (cgList) cgList.innerHTML = CUSTOM.general.length === 0
+        ? `<p style="font-size:0.75em; color:#64748b;">Sin equipo custom.</p>`
+        : CUSTOM.general.map((g,i) => `<div style="${styleItem}"><span>${g}</span><button style="${btnStyle}" onclick="removeCustom('general',${i})">✕</button></div>`).join("");
+
+    const cfList = document.getElementById('cf-list');
+    if (cfList) cfList.innerHTML = CUSTOM.feats.length === 0
+        ? `<p style="font-size:0.75em; color:#64748b;">Sin dotes custom.</p>`
+        : CUSTOM.feats.map((f,i) => `<div style="${styleItem}"><span>${f.name} <small style="color:#94a3b8;">${f.prereq !== '—' ? `· ${f.prereq}` : ''}</small></span><button style="${btnStyle}" onclick="removeCustom('feats',${i})">✕</button></div>`).join("");
+}
+
+function removeCustom(category, idx) {
+    CUSTOM[category].splice(idx, 1);
+    rebuildCustomLists();
+    renderCustomLists();
+    autoSave();
+}
+
+function rebuildCustomLists() {
+    // Repoblar selects de armas
+    ["eq-weapon1","eq-weapon2","eq-weapon3"].forEach(id => {
+        const sel = document.getElementById(id);
+        if (!sel) return;
+        const current = sel.value;
+        sel.innerHTML = "";
+        sel.add(new Option("-- Ninguna --", ""));
+        ["Simple","Marcial","Exótica"].forEach(tipo => {
+            const group = document.createElement('optgroup');
+            group.label = tipo;
+            const all = [...EQUIPMENT.weapons, ...CUSTOM.weapons].filter(w => w.type === tipo);
+            all.forEach(w => group.appendChild(new Option(w.name, w.name)));
+            sel.appendChild(group);
+        });
+        sel.value = current;
+    });
+
+    // Repoblar select de armaduras
+    const armorSel = document.getElementById('eq-armor');
+    if (armorSel) {
+        const current = armorSel.value;
+        armorSel.innerHTML = "";
+        armorSel.add(new Option("-- Ninguna --", ""));
+        ["Ligera","Media","Pesada"].forEach(tipo => {
+            const group = document.createElement('optgroup');
+            group.label = tipo;
+            const all = [...EQUIPMENT.armors, ...CUSTOM.armors].filter(a => a.type === tipo);
+            all.forEach(a => group.appendChild(new Option(a.name, a.name)));
+            armorSel.appendChild(group);
+        });
+        armorSel.value = current;
+    }
+
+    // Repoblar equipo general
+    const slots = document.querySelectorAll('#eq-general-slots select');
+    const allGeneral = [...EQUIPMENT.general, ...CUSTOM.general];
+    slots.forEach(sel => {
+        const current = sel.value;
+        sel.innerHTML = "";
+        sel.add(new Option("-- Vacío --", ""));
+        allGeneral.forEach(item => sel.add(new Option(item, item)));
+        sel.value = current;
+    });
+
+    // Repoblar dotes en todos los feat slots
+    document.querySelectorAll('[id^="feat-sel-"]').forEach(sel => {
+        const current = sel.value;
+        const label = sel.closest('.feat-item')?.querySelector('.feat-label')?.innerText || "";
+        const isFighter  = label.startsWith("Fighter");
+        const isSorcerer = label.startsWith("Sorcerer");
+        const baseList   = isFighter  ? SRD.feats.filter(f => f.fighter)  :
+                           isSorcerer ? SRD.feats.filter(f => f.sorcerer) :
+                           SRD.feats;
+        const customList = isFighter  ? CUSTOM.feats.filter(f => f.fighter)  :
+                           isSorcerer ? CUSTOM.feats.filter(f => f.sorcerer) :
+                           CUSTOM.feats;
+        const allFeats = [...baseList, ...customList];
+        sel.innerHTML = `<option value="">-- Elige Dote --</option>`;
+        allFeats.forEach(f => sel.add(new Option(f.name, f.name)));
+        sel.value = current;
+    });
+}
+
+function addCustomWeapon() {
+    const name  = document.getElementById('cw-name').value.trim();
+    const type  = document.getElementById('cw-type').value;
+    const dmg   = document.getElementById('cw-dmg').value.trim() || "1d6";
+    const crit  = document.getElementById('cw-crit').value.trim() || "20";
+    const mult  = document.getElementById('cw-mult').value.trim() || "x2";
+    const notes = document.getElementById('cw-notes').value.trim();
+    if (!name) { alert("El arma necesita un nombre."); return; }
+    CUSTOM.weapons.push({ name, type, dmg, crit, mult, notes });
+    document.getElementById('cw-name').value = "";
+    document.getElementById('cw-dmg').value = "";
+    document.getElementById('cw-crit').value = "";
+    document.getElementById('cw-mult').value = "";
+    document.getElementById('cw-notes').value = "";
+    rebuildCustomLists();
+    renderCustomLists();
+    autoSave();
+}
+
+function addCustomArmor() {
+    const name = document.getElementById('ca-name').value.trim();
+    const type = document.getElementById('ca-type').value;
+    const ca   = parseInt(document.getElementById('ca-ca').value) || 0;
+    const pen  = parseInt(document.getElementById('ca-pen').value) || 0;
+    if (!name) { alert("La armadura necesita un nombre."); return; }
+    CUSTOM.armors.push({ name, type, ca, pen });
+    document.getElementById('ca-name').value = "";
+    document.getElementById('ca-ca').value = "";
+    document.getElementById('ca-pen').value = "";
+    rebuildCustomLists();
+    renderCustomLists();
+    autoSave();
+}
+
+function addCustomGeneral() {
+    const name = document.getElementById('cg-name').value.trim();
+    if (!name) { alert("El ítem necesita un nombre."); return; }
+    CUSTOM.general.push(name);
+    document.getElementById('cg-name').value = "";
+    rebuildCustomLists();
+    renderCustomLists();
+    autoSave();
+}
+
+function addCustomFeat() {
+    const name     = document.getElementById('cf-name').value.trim();
+    const prereq   = document.getElementById('cf-prereq').value.trim() || "—";
+    const desc     = document.getElementById('cf-desc').value.trim() || "";
+    const fighter  = document.getElementById('cf-fighter').checked;
+    const sorcerer = document.getElementById('cf-sorcerer').checked;
+    if (!name) { alert("La dote necesita un nombre."); return; }
+    CUSTOM.feats.push({ name, prereq, desc, fighter, sorcerer });
+    document.getElementById('cf-name').value = "";
+    document.getElementById('cf-prereq').value = "";
+    document.getElementById('cf-desc').value = "";
+    document.getElementById('cf-fighter').checked = false;
+    document.getElementById('cf-sorcerer').checked = false;
+    rebuildCustomLists();
+    renderCustomLists();
+    autoSave();
+}
+// ─────────────────────────────────────────────────────────────
+
+// Dotes de skill: { nombre: { skill: bonus } }
+const FEAT_SKILL_BONUSES = {
+    "Acrobatic":       { "Jump": 2, "Tumble": 2 },
+    "Agile":           { "Balance": 2, "Escape Artist": 2 },
+    "Alertness":       { "Listen": 2, "Spot": 2 },
+    "Animal Affinity": { "Handle Animal": 2, "Ride": 2 },
+    "Athletic":        { "Climb": 2, "Swim": 2 },
+    "Deceitful":       { "Bluff": 2, "Disguise": 2 },
+    "Diligent":        { "Appraise": 2, "Decipher Script": 2 },
+    "Investigator":    { "Search": 2, "Gather Information": 2 },
+    "Magical Aptitude":{ "Spellcraft": 2, "Use Magic Device": 2 },
+    "Negotiator":      { "Diplomacy": 2, "Sense Motive": 2 },
+    "Persuasive":      { "Bluff": 2, "Intimidate": 2 },
+    "Self-Sufficient": { "Heal": 2, "Survival": 2 },
+    "Stealthy":        { "Hide": 2, "Move Silently": 2 },
+};
+
+function getSelectedFeats() {
+    return Array.from(document.querySelectorAll('[id^="feat-sel-"]'))
+                .map(s => s.value).filter(v => v);
+}
+
+const STATS = ["STR", "DEX", "CON", "INT", "WIS", "CHA"];
+
+function init() {
+    const rSel = document.getElementById('race');
+    SRD.races.forEach(r => rSel.add(new Option(r.name, r.name)));
+    const aSel = document.getElementById('alignment');
+    ALIGNMENTS.forEach(a => aSel.add(new Option(a, a)));
+    updateDeityList();
+    const cSel = document.getElementById('class');
+    SRD.classes.forEach(c => cSel.add(new Option(c.name, c.name)));
+
+    const sContainer = document.getElementById('stats-container');
+    sContainer.className = 'stats-grid';
+    STATS.forEach(s => {
+        let div = document.createElement('div');
+        div.className = 'stat-box';
+        div.innerHTML = `<label>${s}</label>
+                         <input type="number" id="base-${s}" value="10" onchange="updateAll()">
+                         <div class="mod-bubble" id="mod-${s}">0</div>
+                         <div id="race-mod-${s}" style="display:none;"></div>`;
+        sContainer.appendChild(div);
+    });
+
+    const skContainer = document.getElementById('skills-container');
+    Object.entries(SRD.skills).sort().forEach(([name, stat]) => {
+        let row = document.createElement('div');
+        row.className = 'skill-grid';
+        row.innerHTML = `<div id="sk-class-${name}" style="color:var(--accent); text-align:center;"></div>
+                         <span>${name} <small style="color:#94a3b8">(${stat})</small></span>
+                         <input type="number" id="sk-rnk-${name}" value="0" min="0" onchange="updateAll()">
+                         <b id="sk-tot-${name}" style="color:var(--accent); font-size:1em; text-align:center; display:block;">0</b>
+                         <span id="sk-mod-${name}" style="display:none;"></span>`;
+        skContainer.appendChild(row);
+    });
+
+    updateAll();
+    renderManual();
+    initEquipment();
+    renderItemSlots();
+    renderCustomLists();
+}
+
+function updateAll(save = true) {
+    const lvl = parseInt(document.getElementById('level').value) || 1;
+    const raceName = document.getElementById('race').value;
+    const clsName = document.getElementById('class').value;
+    const cData = SRD.classes.find(c => c.name === clsName);
+    const rData = SRD.races.find(r => r.name === raceName);
+
+    // Stats
+    let mods = {};
+    STATS.forEach(s => {
+        let base = parseInt(document.getElementById(`base-${s}`).value) || 10;
+        let rMod = rData.modifiers[s.toLowerCase()] || 0;
+        let total = base + rMod;
+        let m = Math.floor((total - 10) / 2);
+        mods[s] = m;
+        document.getElementById(`race-mod-${s}`).innerText = (rMod >= 0 ? "+" : "") + rMod;
+        document.getElementById(`mod-${s}`).innerText = (m >= 0 ? "+" : "") + m;
+    });
+
+    // BAB Iterativo (+6/+1, etc)
+    let baseBab = (cData.bab === "f") ? lvl : (cData.bab === "m" ? Math.floor(lvl * 0.75) : Math.floor(lvl * 0.5));
+    let babStr = "+" + baseBab;
+    let iter = baseBab;
+    while (iter > 5) {
+        iter -= 5;
+        babStr += "/+" + iter;
+    }
+    document.getElementById('bab-val').innerText = babStr;
+
+    // Saves & HP
+    const getSave = (type, mod) => {
+        let b = (type === "g") ? (2 + Math.floor(lvl/2)) : Math.floor(lvl/3);
+        let t = b + mod; return (t >= 0 ? "+" : "") + t;
+    };
+    // Rage — se calcula antes de usarse en salvaciones y CA
+    const raging = clsName === "Barbarian" && document.getElementById('rage-toggle')?.checked;
+    if (raging) {
+        mods.STR += 4;
+        mods.CON += 4;
+        document.getElementById('mod-STR').innerText = (mods.STR >= 0 ? "+" : "") + mods.STR;
+        document.getElementById('mod-CON').innerText = (mods.CON >= 0 ? "+" : "") + mods.CON;
+    }
+    const divineGrace = (clsName === "Paladin" && lvl >= 2) ? mods.CHA : 0;
+    const rageWill    = raging ? 2 : 0;
+    document.getElementById('save-fort').innerText = getSave(cData.fort, mods.CON + divineGrace);
+    const hasImprovedEvasion = (clsName === "Monk" && lvl >= 9) || (clsName === "Rogue" && lvl >= 10) || (clsName === "Ranger" && lvl >= 13);
+    const hasEvasion = !hasImprovedEvasion && ((clsName === "Monk" && lvl >= 2) || (clsName === "Rogue" && lvl >= 2) || (clsName === "Ranger" && lvl >= 9));
+    const evasionTag = hasImprovedEvasion
+        ? `<span style="font-size:0.7em; color:#4ade80; font-weight:normal;">Improved Evasion</span> `
+        : hasEvasion
+        ? `<span style="font-size:0.7em; color:#4ade80; font-weight:normal;">Evasion</span> `
+        : "";
+    document.getElementById('save-ref').innerHTML = evasionTag + getSave(cData.ref, mods.DEX + divineGrace);
+    document.getElementById('save-will').innerText = getSave(cData.will, mods.WIS + divineGrace + rageWill);
+    let acTotal = 10 + mods.DEX;
+    if (document.getElementById('ac-use-armor')?.checked) {
+        const armorData = EQUIPMENT.armors.find(a => a.name === document.getElementById('eq-armor')?.value);
+        if (armorData) acTotal += armorData.ca;
+    }
+    if (document.getElementById('ac-use-shield')?.checked) {
+        const shieldData = EQUIPMENT.shields.find(s => s.name === document.getElementById('eq-shield')?.value);
+        if (shieldData) acTotal += shieldData.ca;
+    }
+    // Rage toggle visibility y rounds
+    const rageContainer = document.getElementById('rage-toggle-container');
+    const rageInfo = document.getElementById('rage-rounds-info');
+    if (clsName === "Barbarian") {
+        rageContainer.style.display = "block";
+        const ragePerDay = lvl >= 20 ? 6 : lvl >= 16 ? 5 : lvl >= 12 ? 4 : lvl >= 8 ? 3 : lvl >= 4 ? 2 : 1;
+        const rageRounds = 3 + mods.CON + (document.getElementById('rage-toggle')?.checked ? 0 : 0);
+        rageInfo.innerText = `(${ragePerDay}/día · ${rageRounds} rondas)`;
+    } else {
+        rageContainer.style.display = "none";
+        if (document.getElementById('rage-toggle')) document.getElementById('rage-toggle').checked = false;
+    }
+
+        // Monk AC bonus
+    if (clsName === "Monk") {
+        acTotal += mods.WIS > 0 ? mods.WIS : 0;
+        acTotal += Math.floor(lvl / 5);
+    }
+    // Rage CA penalty
+    if (raging) acTotal -= 2;
+    document.getElementById('ac-total').innerText = acTotal;
+
+    const selectedFeats = getSelectedFeats();
+    const hasToughness  = selectedFeats.includes("Toughness");
+    const hpMax = cData.hitDie + mods.CON + (lvl-1)*(cData.hitDie/2 + 1 + mods.CON) + (hasToughness ? 3 : 0);
+    const hpDmg = parseInt(document.getElementById('hp-damage')?.value) || 0;
+    const hpCurrent = hpMax - hpDmg;
+    const hpEl = document.getElementById('hp-val');
+    hpEl.innerText = hpCurrent;
+    hpEl.style.color = hpCurrent <= 0 ? "#ef4444" : hpCurrent <= hpMax * 0.25 ? "#f59e0b" : "var(--accent)";
+
+    // Skills
+    document.getElementById('max-rank-display').innerText = lvl + 3;
+    let basePerLvl = Math.max(1, cData.skillPoints + mods.INT);
+    let totalSkillPoints = (basePerLvl * 4) + (basePerLvl * (lvl - 1));
+    if (raceName === "Human") totalSkillPoints += (4 + (lvl - 1));
+    document.getElementById('skill-points-total').innerText = totalSkillPoints;
+
+    // Calcular bonos de dotes a skills
+    const featSkillBonus = {};
+    selectedFeats.forEach(featName => {
+        // Dotes de par de skills
+        const bonuses = FEAT_SKILL_BONUSES[featName];
+        if (bonuses) {
+            Object.entries(bonuses).forEach(([skill, bonus]) => {
+                featSkillBonus[skill] = (featSkillBonus[skill] || 0) + bonus;
+            });
+        }
+        // Skill Focus: +3 a una skill — el nombre es "Skill Focus" pero
+        // necesitamos saber a qué skill aplica. Por ahora lo ignoramos
+        // hasta implementar el selector de skill para Skill Focus.
+    });
+
+    Object.entries(SRD.skills).forEach(([name, stat]) => {
+        document.getElementById(`sk-class-${name}`).innerText = cData.classSkills.includes(name) ? "●" : "";
+        document.getElementById(`sk-mod-${name}`).innerText = mods[stat];
+        let rnk  = parseInt(document.getElementById(`sk-rnk-${name}`).value) || 0;
+        let fBonus = featSkillBonus[name] || 0;
+        document.getElementById(`sk-tot-${name}`).innerText = mods[stat] + rnk + fBonus;
+    });
+
+    // Bonos de dotes a salvaciones y HP
+    const hasFortitude = selectedFeats.includes("Great Fortitude");
+    const hasReflex    = selectedFeats.includes("Lightning Reflexes");
+    const hasWill      = selectedFeats.includes("Iron Will");
+    const fortBonus    = hasFortitude ? 2 : 0;
+    const refBonus     = hasReflex    ? 2 : 0;
+    const willBonus    = hasWill      ? 2 : 0;
+    document.getElementById('save-fort').innerText = getSave(cData.fort, mods.CON + divineGrace + fortBonus);
+    document.getElementById('save-ref').innerHTML  = evasionTag + getSave(cData.ref, mods.DEX + divineGrace + refBonus);
+    document.getElementById('save-will').innerText = getSave(cData.will, mods.WIS + divineGrace + rageWill + willBonus);
+
+    renderClassFeatures(lvl, clsName);
+    renderFeatSlots(lvl, raceName, clsName);
+    renderSpellsTab(lvl, clsName);
+
+    // Restaurar selecciones pendientes (tras importar o cargar)
+    if (window._pendingFeats) {
+        document.querySelectorAll('[id^="feat-sel-"]').forEach((sel, i) => {
+            if (window._pendingFeats[i]) sel.value = window._pendingFeats[i];
+        });
+        window._pendingFeats = null;
+    }
+    if (window._pendingSpells) {
+        document.querySelectorAll('.spell-selector').forEach((sel, i) => {
+            if (window._pendingSpells[i]) sel.value = window._pendingSpells[i];
+        });
+        window._pendingSpells = null;
+    }
+
+    updateSpellSummary();
+    updateSpellSlotsSummary(lvl, clsName);
+    if (window._pendingEquip) {
+        const eq = window._pendingEquip;
+        if (document.getElementById('eq-weapon1')) {
+            document.getElementById('eq-weapon1').value = eq.weapon1 || "";
+            document.getElementById('eq-weapon2').value = eq.weapon2 || "";
+            document.getElementById('eq-weapon3').value = eq.weapon3 || "";
+            if (eq.weapon1bonus) document.getElementById('eq-weapon1-bonus').value = eq.weapon1bonus;
+            if (eq.weapon2bonus) document.getElementById('eq-weapon2-bonus').value = eq.weapon2bonus;
+            if (eq.weapon3bonus) document.getElementById('eq-weapon3-bonus').value = eq.weapon3bonus;
+            document.getElementById('eq-armor').value   = eq.armor   || "";
+            document.getElementById('eq-shield').value  = eq.shield  || "";
+            window._pendingEquip.general.forEach((val, idx) => {
+                const sels = document.querySelectorAll('#eq-general-slots select');
+                if (sels[idx]) { sels[idx].value = val; renderGeneralSlots(); }
+            });
+            window._pendingEquip = null;
+            updateEquip();
+        }
+    }
+    // Auto-selección Unarmed Strike para Monk
+    if (clsName === "Monk") {
+        const w1 = document.getElementById('eq-weapon1');
+        if (w1 && !w1.value) w1.value = "Unarmed Strike";
+    }
+    updateAttackSummary(baseBab, mods);
+    if (window._pendingItems) {
+        const container = document.getElementById('items-slots');
+        if (container) {
+            container.innerHTML = "";
+            window._pendingItems.forEach(val => {
+                const row = document.createElement('div');
+                row.style.cssText = "display:flex; align-items:center; gap:6px; margin-bottom:5px;";
+                const inp = document.createElement('input');
+                inp.type = "text";
+                inp.value = val;
+                inp.style.cssText = "flex:1; width:100%;";
+                inp.onblur = () => { renderItemSlots(); updateItemSummary(); autoSave(); };
+                row.appendChild(inp);
+                container.appendChild(row);
+            });
+            renderItemSlots();
+            updateItemSummary();
+            window._pendingItems = null;
+        }
+    }
+    if (save) autoSave();
+}
+
+function renderFeatSlots(lvl, race, cls) {
+    const container = document.getElementById('feats-selection');
+    let slots = [];
+    for(let i=1; i<=lvl; i++) if(i === 1 || i % 3 === 0) slots.push(`Lvl ${i}`);
+    if(race === "Human") slots.push("Humano");
+    if(cls === "Fighter") {
+        if(lvl >= 1) slots.push("Fighter 1");
+        if(lvl >= 2) slots.push("Fighter 2");
+        for(let j=4; j<=lvl; j+=2) slots.push(`Fighter ${j}`);
+    }
+    if(cls === "Wizard") {
+        [5,10,15,20].filter(n => n <= lvl).forEach(n => slots.push(`Wizard ${n}`));
+    }
+    if(cls === "Sorcerer") {
+        [3,5,10,15,20].filter(n => n <= lvl).forEach(n => slots.push(`Sorcerer ${n}`));
+    }
+    const currentSelections = Array.from(container.querySelectorAll('select')).map(s => s.value);
+    container.innerHTML = "";
+    slots.forEach((label, idx) => {
+        let div = document.createElement('div');
+        div.className = "feat-item";
+        let selId = `feat-sel-${idx}`;
+        div.innerHTML = `<div class="feat-label">${label}</div>
+                         <select id="${selId}" onchange="updateFeatDesc('${selId}', 'desc-${idx}')">
+                            <option value="">-- Elige Dote --</option>
+                         </select>
+                         <div id="desc-${idx}"></div>`;
+        container.appendChild(div);
+        let select = div.querySelector('select');
+        const isFighterSlot  = label.startsWith("Fighter");
+        const isSorcererSlot = label.startsWith("Sorcerer");
+        const featList = isFighterSlot  ? SRD.feats.filter(f => f.fighter)  :
+                         isSorcererSlot ? SRD.feats.filter(f => f.sorcerer) :
+                         SRD.feats;
+        featList.forEach(f => select.add(new Option(f.name, f.name)));
+        if(currentSelections[idx]) select.value = currentSelections[idx];
+        updateFeatDesc(selId, `desc-${idx}`);
+    });
+}
+
+
+function renderClassFeatures(lvl, clsName) {
+    const container = document.getElementById('class-features');
+    if (!container) return;
+    const features = CLASS_FEATURES[clsName];
+    if (!features) { container.innerHTML = `<p style="font-size:0.8em; color:#64748b;">Sin talentos especiales.</p>`; return; }
+
+    // Grupos que escalan: solo mostrar el último desbloqueado
+    const SCALING_GROUPS = [
+        /^Sneak Attack/,
+        /^Trap Sense/,
+        /^Damage Reduction/,
+        /^Rage \(/,
+        /^Smite Evil/,
+        /^Remove Disease/,
+        /^Inspire Courage/,
+        /^Wild Shape \(/,
+        /^Wild Shape:/,
+        /^Favored Enemy/,
+        /^Slow Fall/,
+    ];
+
+    const allUnlocked = features.filter(f => f.lvl <= lvl).flatMap(f =>
+        f.features.map(name => ({ name, lvl: f.lvl }))
+    );
+
+    // Para cada grupo escalable, filtrar dejando solo el de mayor nivel
+    const unlocked = allUnlocked.filter(f => {
+        const group = SCALING_GROUPS.find(r => r.test(f.name));
+        if (!group) return true; // no es escalable, siempre se muestra
+        // Solo mostrar si es el último de su grupo
+        const sameGroup = allUnlocked.filter(x => group.test(x.name));
+        return f.lvl === Math.max(...sameGroup.map(x => x.lvl));
+    });
+
+    if (unlocked.length === 0) { container.innerHTML = `<p style="font-size:0.8em; color:#64748b;">Sin talentos a este nivel.</p>`; return; }
+
+    container.innerHTML = unlocked.map(f =>
+        `<span style="display:inline-block; background:#1e3a5f; border:1px solid var(--accent); 
+                       color:var(--text); padding:3px 8px; border-radius:4px; font-size:0.75em; 
+                       margin:2px; cursor:default;" title="Nivel ${f.lvl}">${f.name}</span>`
+    ).join("");
+}
+
+function updateFeatDesc(selId, descId) {
+    let val = document.getElementById(selId).value;
+    let feat = SRD.feats.find(f => f.name === val);
+    let container = document.getElementById(descId);
+    if (feat) {
+        container.innerHTML = `<div class="feat-prereq">Prereq: ${feat.prereq}</div>
+                               <div class="feat-text">${feat.desc}</div>`;
+    } else { container.innerHTML = ""; }
+}
+
+// Tablas SRD 3.5e: spellsKnown[clase][nivel_personaje][nivel_hechizo] = cantidad de slots
+// null = no tiene hechizos ese nivel de personaje todavía
+const SPELL_SLOTS = {
+    // Wizard/Sorcerer: Slots per day (spells per day table PHB)
+    // Wizard prepara, Sorcerer conoce — usamos misma tabla de slots de cantidad
+    "Wizard": [
+    //  0  1  2  3  4  5  6  7  8  9   <- nivel de hechizo
+        [3, 1, 0, 0, 0, 0, 0, 0, 0, 0], // nivel personaje 1
+        [4, 2, 0, 0, 0, 0, 0, 0, 0, 0], // 2
+        [4, 2, 1, 0, 0, 0, 0, 0, 0, 0], // 3
+        [4, 3, 2, 0, 0, 0, 0, 0, 0, 0], // 4
+        [4, 3, 2, 1, 0, 0, 0, 0, 0, 0], // 5
+        [4, 3, 3, 2, 0, 0, 0, 0, 0, 0], // 6
+        [4, 4, 3, 2, 1, 0, 0, 0, 0, 0], // 7
+        [4, 4, 3, 3, 2, 0, 0, 0, 0, 0], // 8
+        [4, 4, 4, 3, 2, 1, 0, 0, 0, 0], // 9
+        [4, 4, 4, 3, 3, 2, 0, 0, 0, 0], // 10
+        [4, 4, 4, 4, 3, 2, 1, 0, 0, 0], // 11
+        [4, 4, 4, 4, 3, 3, 2, 0, 0, 0], // 12
+        [4, 4, 4, 4, 4, 3, 2, 1, 0, 0], // 13
+        [4, 4, 4, 4, 4, 3, 3, 2, 0, 0], // 14
+        [4, 4, 4, 4, 4, 4, 3, 2, 1, 0], // 15
+        [4, 4, 4, 4, 4, 4, 3, 3, 2, 0], // 16
+        [4, 4, 4, 4, 4, 4, 4, 3, 2, 1], // 17
+        [4, 4, 4, 4, 4, 4, 4, 3, 3, 2], // 18
+        [4, 4, 4, 4, 4, 4, 4, 4, 3, 3], // 19
+        [4, 4, 4, 4, 4, 4, 4, 4, 4, 4], // 20
+    ],
+    "Sorcerer": [
+        [5, 3, 0, 0, 0, 0, 0, 0, 0, 0],
+        [6, 4, 0, 0, 0, 0, 0, 0, 0, 0],
+        [6, 5, 0, 0, 0, 0, 0, 0, 0, 0],
+        [6, 6, 3, 0, 0, 0, 0, 0, 0, 0],
+        [6, 6, 4, 0, 0, 0, 0, 0, 0, 0],
+        [6, 6, 5, 3, 0, 0, 0, 0, 0, 0],
+        [6, 6, 6, 4, 0, 0, 0, 0, 0, 0],
+        [6, 6, 6, 5, 3, 0, 0, 0, 0, 0],
+        [6, 6, 6, 6, 4, 0, 0, 0, 0, 0],
+        [6, 6, 6, 6, 5, 3, 0, 0, 0, 0],
+        [6, 6, 6, 6, 6, 4, 0, 0, 0, 0],
+        [6, 6, 6, 6, 6, 5, 3, 0, 0, 0],
+        [6, 6, 6, 6, 6, 6, 4, 0, 0, 0],
+        [6, 6, 6, 6, 6, 6, 5, 3, 0, 0],
+        [6, 6, 6, 6, 6, 6, 6, 4, 0, 0],
+        [6, 6, 6, 6, 6, 6, 6, 5, 3, 0],
+        [6, 6, 6, 6, 6, 6, 6, 6, 4, 0],
+        [6, 6, 6, 6, 6, 6, 6, 6, 5, 3],
+        [6, 6, 6, 6, 6, 6, 6, 6, 6, 4],
+        [6, 6, 6, 6, 6, 6, 6, 6, 6, 6],
+    ],
+    "Cleric": [
+        [3, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+        [4, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+        [4, 2, 1, 0, 0, 0, 0, 0, 0, 0],
+        [5, 3, 2, 0, 0, 0, 0, 0, 0, 0],
+        [5, 3, 2, 1, 0, 0, 0, 0, 0, 0],
+        [5, 3, 3, 2, 0, 0, 0, 0, 0, 0],
+        [6, 4, 3, 2, 1, 0, 0, 0, 0, 0],
+        [6, 4, 3, 3, 2, 0, 0, 0, 0, 0],
+        [6, 4, 4, 3, 2, 1, 0, 0, 0, 0],
+        [6, 4, 4, 3, 3, 2, 0, 0, 0, 0],
+        [6, 5, 4, 4, 3, 2, 1, 0, 0, 0],
+        [6, 5, 4, 4, 3, 3, 2, 0, 0, 0],
+        [6, 5, 5, 4, 4, 3, 2, 1, 0, 0],
+        [6, 5, 5, 4, 4, 3, 3, 2, 0, 0],
+        [6, 5, 5, 5, 4, 4, 3, 2, 1, 0],
+        [6, 5, 5, 5, 4, 4, 3, 3, 2, 0],
+        [6, 5, 5, 5, 5, 4, 4, 3, 2, 1],
+        [6, 5, 5, 5, 5, 4, 4, 3, 3, 2],
+        [6, 5, 5, 5, 5, 5, 4, 4, 3, 3],
+        [6, 5, 5, 5, 5, 5, 4, 4, 4, 4],
+    ],
+    "Druid": [
+        [3, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+        [4, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+        [4, 2, 1, 0, 0, 0, 0, 0, 0, 0],
+        [5, 3, 2, 0, 0, 0, 0, 0, 0, 0],
+        [5, 3, 2, 1, 0, 0, 0, 0, 0, 0],
+        [5, 3, 3, 2, 0, 0, 0, 0, 0, 0],
+        [6, 4, 3, 2, 1, 0, 0, 0, 0, 0],
+        [6, 4, 3, 3, 2, 0, 0, 0, 0, 0],
+        [6, 4, 4, 3, 2, 1, 0, 0, 0, 0],
+        [6, 4, 4, 3, 3, 2, 0, 0, 0, 0],
+        [6, 5, 4, 4, 3, 2, 1, 0, 0, 0],
+        [6, 5, 4, 4, 3, 3, 2, 0, 0, 0],
+        [6, 5, 5, 4, 4, 3, 2, 1, 0, 0],
+        [6, 5, 5, 4, 4, 3, 3, 2, 0, 0],
+        [6, 5, 5, 5, 4, 4, 3, 2, 1, 0],
+        [6, 5, 5, 5, 4, 4, 3, 3, 2, 0],
+        [6, 5, 5, 5, 5, 4, 4, 3, 2, 1],
+        [6, 5, 5, 5, 5, 4, 4, 3, 3, 2],
+        [6, 5, 5, 5, 5, 5, 4, 4, 3, 3],
+        [6, 5, 5, 5, 5, 5, 4, 4, 4, 4],
+    ],
+    "Bard": [
+        [2, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [3, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+        [3, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+        [3, 3, 1, 0, 0, 0, 0, 0, 0, 0],
+        [3, 3, 2, 0, 0, 0, 0, 0, 0, 0],
+        [3, 3, 3, 0, 0, 0, 0, 0, 0, 0],
+        [3, 3, 3, 1, 0, 0, 0, 0, 0, 0],
+        [3, 3, 3, 2, 0, 0, 0, 0, 0, 0],
+        [3, 3, 3, 3, 1, 0, 0, 0, 0, 0],
+        [3, 3, 3, 3, 2, 0, 0, 0, 0, 0],
+        [3, 3, 3, 3, 3, 0, 0, 0, 0, 0],
+        [3, 3, 3, 3, 3, 1, 0, 0, 0, 0],
+        [3, 3, 3, 3, 3, 2, 0, 0, 0, 0],
+        [4, 3, 3, 3, 3, 3, 0, 0, 0, 0],
+        [4, 4, 3, 3, 3, 3, 0, 0, 0, 0],
+        [4, 4, 4, 3, 3, 3, 0, 0, 0, 0],
+        [4, 4, 4, 4, 3, 3, 0, 0, 0, 0],
+        [4, 4, 4, 4, 4, 3, 0, 0, 0, 0],
+        [4, 4, 4, 4, 4, 4, 0, 0, 0, 0],
+        [4, 4, 4, 4, 4, 4, 0, 0, 0, 0],
+    ],
+    // Paladin: empieza nivel 4 del personaje. Índice 0 = nivel personaje 4
+    "Paladin": [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // niveles 1-3: sin hechizos (manejado por spellLevelStart)
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0], // nivel 4 → 1 slot nivel 1
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+        [0, 2, 1, 1, 1, 0, 0, 0, 0, 0],
+        [0, 2, 2, 1, 1, 0, 0, 0, 0, 0],
+        [0, 2, 2, 1, 1, 0, 0, 0, 0, 0],
+        [0, 2, 2, 2, 1, 0, 0, 0, 0, 0],
+        [0, 2, 2, 2, 1, 0, 0, 0, 0, 0],
+        [0, 3, 2, 2, 2, 0, 0, 0, 0, 0],
+        [0, 3, 3, 2, 2, 0, 0, 0, 0, 0],
+        [0, 3, 3, 3, 2, 0, 0, 0, 0, 0],
+    ],
+    // Ranger: igual, empieza nivel 4
+    "Ranger": [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0], // nivel 4
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+        [0, 2, 1, 1, 1, 0, 0, 0, 0, 0],
+        [0, 2, 2, 1, 1, 0, 0, 0, 0, 0],
+        [0, 2, 2, 1, 1, 0, 0, 0, 0, 0],
+        [0, 2, 2, 2, 1, 0, 0, 0, 0, 0],
+        [0, 2, 2, 2, 1, 0, 0, 0, 0, 0],
+        [0, 3, 2, 2, 2, 0, 0, 0, 0, 0],
+        [0, 3, 3, 2, 2, 0, 0, 0, 0, 0],
+        [0, 3, 3, 3, 2, 0, 0, 0, 0, 0],
+    ],
+};
+
+function renderSpellsTab(lvl, clsName) {
+    const cData = SRD.classes.find(c => c.name === clsName);
+    const container = document.getElementById('spells-per-level-container');
+    const notes = document.getElementById('caster-notes');
+    container.innerHTML = "";
+
+    if (!cData.caster) { 
+        notes.innerText = "Esta clase no lanza hechizos."; return; 
+    }
+
+    const slotTable = SPELL_SLOTS[clsName];
+    if (!slotTable) {
+        notes.innerText = `Lanzador basado en ${cData.stat}. (Tabla de slots no encontrada)`;
+        return;
+    }
+
+    const lvlIdx = Math.min(lvl, 20) - 1; // índice 0-based
+    const slotsRow = slotTable[lvlIdx];
+
+    // Verificar si tiene algún slot
+    const totalSlots = slotsRow.reduce((a, b) => a + b, 0);
+    if (totalSlots === 0) {
+        notes.innerText = `No lanza hechizos a este nivel.`; return;
+    }
+
+    notes.innerText = `Lanzador basado en ${cData.stat}. Slots según SRD nivel ${lvl}.`;
+
+    for (let i = 0; i <= 9; i++) {
+        const numSlots = slotsRow[i];
+        if (numSlots === 0) continue;
+
+        let spellsOfLvl = SRD.spells.filter(sp => sp.level === i && sp.class.includes(clsName));
+        if (spellsOfLvl.length === 0) continue;
+
+        let section = document.createElement('div');
+        section.style.borderLeft = "3px solid var(--accent)";
+        section.style.paddingLeft = "10px";
+        section.style.marginBottom = "15px";
+        section.innerHTML = `<h3>Nivel ${i} <span style="font-size:0.7em; color:#94a3b8; font-weight:normal;">(${numSlots} slot${numSlots > 1 ? 's' : ''})</span></h3>
+                             <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:5px;"></div>`;
+        container.appendChild(section);
+        const grid = section.querySelector('div');
+
+        for (let s = 0; s < numSlots; s++) {
+            let sel = document.createElement('select');
+            sel.className = "spell-selector";
+            sel.onchange = updateSpellSummary;
+            sel.add(new Option("-- Vacío --", ""));
+            spellsOfLvl.forEach(sp => sel.add(new Option(sp.name, sp.name)));
+            grid.appendChild(sel);
+        }
+    }
+}
+
+function updateSpellSummary() {
+    const summary = document.getElementById('spells-summary-list');
+    const selectors = document.querySelectorAll('.spell-selector');
+    let selected = [];
+    selectors.forEach(s => { if(s.value) selected.push(s.value); });
+
+    if(selected.length === 0) {
+        summary.innerHTML = `<p style="font-size:0.8em; color:#64748b;">No hay hechizos seleccionados.</p>`;
+        return;
+    }
+
+    // Agrupar por nivel de hechizo
+    let byLevel = {};
+    selected.forEach(name => {
+        const sp = SRD.spells.find(s => s.name === name);
+        const lvl = sp ? sp.level : "?";
+        if (!byLevel[lvl]) byLevel[lvl] = [];
+        if (!byLevel[lvl].includes(name)) byLevel[lvl].push(name);
+    });
+
+    summary.innerHTML = Object.keys(byLevel).sort((a,b) => a - b).map(lvl =>
+        `<div style="width:100%; margin-bottom:6px;">
+            <div style="font-size:0.65em; color:var(--accent); font-weight:bold; text-transform:uppercase; margin-bottom:3px;">Nivel ${lvl}</div>
+            <div>${byLevel[lvl].map(name => `<span class="spell-summary-tag">${name}</span>`).join("")}</div>
+         </div>`
+    ).join("");
+}
+
+function updateSpellSlotsSummary(lvl, clsName) {
+    const card = document.getElementById('spell-slots-card');
+    const container = document.getElementById('spell-slots-summary');
+    const cData = SRD.classes.find(c => c.name === clsName);
+
+    if (!cData.caster || !SPELL_SLOTS[clsName]) { card.style.display = "none"; return; }
+
+    const lvlIdx = Math.min(lvl, 20) - 1;
+    const slotsRow = SPELL_SLOTS[clsName][lvlIdx];
+    const totalBase = slotsRow.reduce((a, b) => a + b, 0);
+    if (totalBase === 0) { card.style.display = "none"; return; }
+
+    card.style.display = "block";
+
+    // Calcular modificador del atributo caster
+    const statKey = cData.stat; // "WIS", "CHA", "INT"
+    const baseVal = parseInt(document.getElementById(`base-${statKey}`)?.value) || 10;
+    const raceName = document.getElementById('race').value;
+    const rData = SRD.races.find(r => r.name === raceName);
+    const raceMod = rData.modifiers[statKey.toLowerCase()] || 0;
+    const statMod = Math.floor((baseVal + raceMod - 10) / 2);
+
+    // Tabla de bonus slots por modificador (SRD)
+    // bonusSlots[mod] = array de slots extra por nivel de hechizo (índice = nivel)
+    function getBonusSlots(mod) {
+        let bonus = [0,0,0,0,0,0,0,0,0,0];
+        if (mod <= 0) return bonus;
+        for (let spLvl = 1; spLvl <= 9; spLvl++) {
+            // Fórmula SRD: bonus para nivel X = floor((mod - X) / 4) + 1 si mod >= X
+            let b = mod >= spLvl ? Math.floor((mod - spLvl) / 4) + 1 : 0;
+            bonus[spLvl] = b;
+        }
+        return bonus;
+    }
+
+    const bonus = getBonusSlots(statMod);
+
+    // Construir tabla
+    let rows = "";
+    for (let i = 0; i <= 9; i++) {
+        const base = slotsRow[i];
+        const bns = bonus[i];
+        const total = base + bns;
+        if (total === 0) continue;
+
+        const bonusStr = bns > 0
+            ? `<span style="color:#f59e0b; font-size:0.75em;"> +${bns} (${statKey})</span>`
+            : "";
+
+        rows += `<div style="display:flex; justify-content:space-between; align-items:center; 
+                              padding:4px 8px; margin-bottom:3px; background:rgba(0,0,0,0.2); 
+                              border-radius:4px; border-left:2px solid var(--accent);">
+                    <span style="font-size:0.85em;">Nivel ${i}</span>
+                    <span><b style="color:var(--accent); font-size:1em;">${total}</b>${bonusStr}</span>
+                 </div>`;
+    }
+
+    const minStat = 10 + (statMod > 0 ? statMod * 2 - 1 : 0);
+    container.innerHTML = `
+        <div style="font-size:0.7em; color:#94a3b8; margin-bottom:8px;">
+            ${statKey} ${baseVal + raceMod} (mod ${statMod >= 0 ? '+' : ''}${statMod}) · Nivel personaje ${lvl}
+        </div>
+        ${rows}`;
+}
+
+// ── SAVE / LOAD ──────────────────────────────────────────────
+function collectSaveData() {
+    let data = {
+        charName:  document.getElementById('charName').value,
+        notesSession:  document.getElementById('notes-session')?.value  || "",
+        notesCombat:   document.getElementById('notes-combat')?.value   || "",
+        notesBackstory:document.getElementById('notes-backstory')?.value || "",
+        kcHumanoids: document.getElementById('kc-humanoids')?.value || "0",
+        kcAnimals:   document.getElementById('kc-animals')?.value   || "0",
+        kcMagical:   document.getElementById('kc-magical')?.value   || "0",
+        alignment: document.getElementById('alignment').value,
+        deity:     document.getElementById('deity').value,
+        race:     document.getElementById('race').value,
+        cls:      document.getElementById('class').value,
+        level:    document.getElementById('level').value,
+        stats:    {},
+        skills:   {},
+        feats:    [],
+        spells:   [],
+        custom: {
+            weapons: CUSTOM.weapons,
+            armors:  CUSTOM.armors,
+            general: CUSTOM.general,
+            feats:   CUSTOM.feats
+        },
+        items: Array.from(document.querySelectorAll('#items-slots input'))
+                    .map(i => i.value.trim()).filter(v => v),
+        equip: {
+            weapon1: document.getElementById('eq-weapon1')?.value || "",
+            weapon2: document.getElementById('eq-weapon2')?.value || "",
+            weapon3: document.getElementById('eq-weapon3')?.value || "",
+            weapon1bonus: document.getElementById('eq-weapon1-bonus')?.value || "",
+            weapon2bonus: document.getElementById('eq-weapon2-bonus')?.value || "",
+            weapon3bonus: document.getElementById('eq-weapon3-bonus')?.value || "",
+            armor:   document.getElementById('eq-armor')?.value   || "",
+            shield:  document.getElementById('eq-shield')?.value  || "",
+            general: Array.from(document.querySelectorAll('#eq-general-slots select')).map(s => s.value).filter(v => v)
+        }
+    };
+    ["STR","DEX","CON","INT","WIS","CHA"].forEach(s => {
+        data.stats[s] = document.getElementById(`base-${s}`).value;
+    });
+    Object.keys(SRD.skills).forEach(sk => {
+        const el = document.getElementById(`sk-rnk-${sk}`);
+        data.skills[sk] = el ? el.value : "0";
+    });
+    document.querySelectorAll('[id^="feat-sel-"]').forEach(sel => {
+        if (sel) data.feats.push(sel.value);
+    });
+    document.querySelectorAll('.spell-selector').forEach(sel => {
+        if (sel) data.spells.push(sel.value);
+    });
+    return data;
+}
+
+function applySaveData(data) {
+    if (!data) return;
+    if (data.notesSession)   document.getElementById('notes-session').value   = data.notesSession;
+    if (data.notesCombat)    document.getElementById('notes-combat').value    = data.notesCombat;
+    if (data.notesBackstory) document.getElementById('notes-backstory').value = data.notesBackstory;
+    if (data.charName)    document.getElementById('charName').value    = data.charName;
+    if (data.kcHumanoids) document.getElementById('kc-humanoids').value = data.kcHumanoids;
+    if (data.kcAnimals)   document.getElementById('kc-animals').value   = data.kcAnimals;
+    if (data.kcMagical)   document.getElementById('kc-magical').value   = data.kcMagical;
+    if (data.alignment) { document.getElementById('alignment').value = data.alignment; updateDeityList(); }
+    if (data.deity)     document.getElementById('deity').value     = data.deity;
+    if (data.race)  document.getElementById('race').value  = data.race;
+    if (data.cls)   document.getElementById('class').value = data.cls;
+    if (data.level) document.getElementById('level').value = data.level;
+    if (data.stats) Object.entries(data.stats).forEach(([s, v]) => {
+        let el = document.getElementById(`base-${s}`);
+        if (el) el.value = v;
+    });
+    if (data.skills) Object.entries(data.skills).forEach(([sk, v]) => {
+        let el = document.getElementById(`sk-rnk-${sk}`);
+        if (el) el.value = v;
+    });
+    // Feats y spells se restauran después del render via updateAll()
+    // Los guardamos en una variable temporal para aplicarlos post-render
+    window._pendingEquip  = data.equip  || null;
+    if (data.custom) {
+        CUSTOM.weapons = data.custom.weapons || [];
+        CUSTOM.armors  = data.custom.armors  || [];
+        CUSTOM.general = data.custom.general || [];
+        CUSTOM.feats   = data.custom.feats   || [];
+        rebuildCustomLists();
+        renderCustomLists();
+    }
+    if (data.items) {
+        const container = document.getElementById('items-slots');
+        if (container) {
+            container.innerHTML = "";
+            window._pendingItems = data.items;
+        }
+    }
+    window._pendingFeats  = data.feats  || [];
+    window._pendingSpells = data.spells || [];
+    window._pendingEquip  = data.equip  || null;
+}
+
+function autoSave() {
+    try {
+        localStorage.setItem('dnd35_character', JSON.stringify(collectSaveData()));
+        const ind = document.getElementById('save-indicator');
+        ind.innerText = "✓ Guardado";
+        ind.style.color = "#4ade80";
+        setTimeout(() => { ind.innerText = ""; }, 2000);
+    } catch(e) { console.warn("AutoSave error:", e); }
+}
+
+function exportCharacter() {
+    const data = JSON.stringify(collectSaveData(), null, 2);
+    const blob = new Blob([data], {type: "application/json"});
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    const name = document.getElementById('charName').value || "personaje";
+    a.href = url; a.download = `${name}.json`; a.click();
+    URL.revokeObjectURL(url);
+}
+
+function importCharacter(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+        try {
+            const data = JSON.parse(e.target.result);
+            applySaveData(data);
+            updateAll();
+            autoSave();
+        } catch(err) { alert("Error al leer el archivo JSON."); }
+    };
+    reader.readAsText(file);
+    event.target.value = ""; // reset input para poder reimportar el mismo archivo
+}
+// ─────────────────────────────────────────────────────────────
+
+// ── EQUIPO ───────────────────────────────────────────────────
+function initEquipment() {
+    // Armas: con optgroups por tipo
+    ["eq-weapon1","eq-weapon2","eq-weapon3"].forEach(id => {
+        const sel = document.getElementById(id);
+        sel.innerHTML = "";
+        sel.add(new Option("-- Ninguna --", ""));
+        ["Simple","Marcial","Exótica"].forEach(tipo => {
+            const group = document.createElement('optgroup');
+            group.label = tipo;
+            EQUIPMENT.weapons.filter(w => w.type === tipo).forEach(w => {
+                group.appendChild(new Option(w.name, w.name));
+            });
+            sel.appendChild(group);
+        });
+    });
+
+    // Armaduras: con optgroups por tipo
+    const armorSel = document.getElementById('eq-armor');
+    armorSel.innerHTML = "";
+    armorSel.add(new Option("-- Ninguna --", ""));
+    ["Ligera","Media","Pesada"].forEach(tipo => {
+        const group = document.createElement('optgroup');
+        group.label = tipo;
+        EQUIPMENT.armors.filter(a => a.type === tipo).forEach(a => {
+            group.appendChild(new Option(a.name, a.name));
+        });
+        armorSel.appendChild(group);
+    });
+
+    // Escudos
+    const shieldSel = document.getElementById('eq-shield');
+    shieldSel.innerHTML = "";
+    shieldSel.add(new Option("-- Ninguno --", ""));
+    EQUIPMENT.shields.forEach(s => shieldSel.add(new Option(s.name, s.name)));
+
+    renderGeneralSlots();
+    updateEquip();
+}
+
+function renderGeneralSlots() {
+    const container = document.getElementById('eq-general-slots');
+    const existing = Array.from(container.querySelectorAll('select')).map(s => s.value);
+    container.innerHTML = "";
+
+    // Siempre mostramos los slots con valor + 1 vacío extra
+    const slots = [...existing.filter(v => v !== ""), ""];
+
+    slots.forEach((val, idx) => {
+        const row = document.createElement('div');
+        row.className = "stat-row";
+        row.style.marginBottom = "6px";
+        const sel = document.createElement('select');
+        sel.style.width = "220px";
+        sel.dataset.idx = idx;
+        sel.add(new Option("-- Vacío --", ""));
+        EQUIPMENT.general.forEach(item => sel.add(new Option(item, item)));
+        sel.value = val;
+        sel.onchange = () => { renderGeneralSlots(); updateEquipSummary(); autoSave(); };
+        row.appendChild(sel);
+        container.appendChild(row);
+    });
+}
+
+function updateEquip() {
+    // Armas
+    [1,2,3].forEach(n => {
+        const val = document.getElementById(`eq-weapon${n}`).value;
+        const info = document.getElementById(`eq-weapon${n}-info`);
+        if (!val) { info.innerHTML = ""; return; }
+        const w = EQUIPMENT.weapons.find(x => x.name === val);
+        if (!w) { info.innerHTML = ""; return; }
+        info.innerHTML = `<span style="color:var(--accent);">${w.type}</span> · 
+                          Daño: <b>${w.dmg}</b> · 
+                          Crit: <b>${w.crit} / ${w.mult}</b>
+                          ${w.notes ? `· <span style="color:#f59e0b;">${w.notes}</span>` : ""}`;
+    });
+
+    // Armadura
+    const armorVal = document.getElementById('eq-armor').value;
+    const armorInfo = document.getElementById('eq-armor-info');
+    if (armorVal) {
+        const a = EQUIPMENT.armors.find(x => x.name === armorVal);
+        if (a) armorInfo.innerHTML = `<span style="color:var(--accent);">${a.type}</span> · 
+                                       CA: <b>+${a.ca}</b> · 
+                                       Penalizador: <b>${a.pen}</b>`;
+    } else { armorInfo.innerHTML = ""; }
+
+    // Escudo
+    const shieldVal = document.getElementById('eq-shield').value;
+    const shieldInfo = document.getElementById('eq-shield-info');
+    if (shieldVal) {
+        const s = EQUIPMENT.shields.find(x => x.name === shieldVal);
+        if (s) shieldInfo.innerHTML = `CA: <b>+${s.ca}</b> · Penalizador: <b>${s.pen}</b>`;
+    } else { shieldInfo.innerHTML = ""; }
+
+    updateEquipSummary();
+    // Recalcular ataques con el equipo actualizado
+    const lvl2 = parseInt(document.getElementById('level').value) || 1;
+    const cls2 = document.getElementById('class').value;
+    const cData2 = SRD.classes.find(c => c.name === cls2);
+    const bab2 = (cData2.bab === "f") ? lvl2 : (cData2.bab === "m" ? Math.floor(lvl2 * 0.75) : Math.floor(lvl2 * 0.5));
+    const mods2 = {};
+    ["STR","DEX","CON","INT","WIS","CHA"].forEach(s => {
+        const base = parseInt(document.getElementById(`base-${s}`)?.value) || 10;
+        const raceName2 = document.getElementById('race').value;
+        const rData2 = SRD.races.find(r => r.name === raceName2);
+        const rMod = rData2?.modifiers[s.toLowerCase()] || 0;
+        mods2[s] = Math.floor((base + rMod - 10) / 2);
+    });
+    updateAttackSummary(bab2, mods2);
+    autoSave();
+}
+function getUnarmedDamage(lvl, clsName) {
+    if (clsName !== "Monk") return "1d3";
+    if (lvl >= 20) return "2d10";
+    if (lvl >= 16) return "2d8";
+    if (lvl >= 12) return "2d6";
+    if (lvl >= 9)  return "1d10";
+    if (lvl >= 7)  return "1d8";
+    if (lvl >= 5)  return "1d6";
+    if (lvl >= 3)  return "1d4";
+    return "1d6";
+}
+
+function updateAttackSummary(bab, mods) {
+    const container = document.getElementById('attack-summary');
+    if (!container) return;
+
+    const lvlAtk = parseInt(document.getElementById('level').value) || 1;
+    const lvl    = lvlAtk;
+    const clsAtk = document.getElementById('class').value;
+
+    // Smite Evil toggle
+    const smiteContainer = document.getElementById('smite-toggle-container');
+    const smiteInfo      = document.getElementById('smite-info');
+    const smiting        = clsAtk === "Paladin" && lvl >= 1 && document.getElementById('smite-toggle')?.checked;
+    if (smiteContainer) {
+        smiteContainer.style.display = clsAtk === "Paladin" ? "block" : "none";
+        if (clsAtk !== "Paladin" && document.getElementById('smite-toggle')) 
+            document.getElementById('smite-toggle').checked = false;
+        if (smiteInfo) {
+            const smiteAtk = mods.CHA >= 0 ? "+" + mods.CHA : "" + mods.CHA;
+            smiteInfo.innerText = `ataque ${smiteAtk} · daño +${lvlAtk}`;
+        }
+    }
+
+    // Sneak Attack toggle
+    const sneakContainer = document.getElementById('sneak-toggle-container');
+    const sneakInfo      = document.getElementById('sneak-info');
+    const sneakDice      = Math.ceil(lvlAtk / 2);
+    const sneaking       = clsAtk === "Rogue" && document.getElementById('sneak-toggle')?.checked;
+    if (sneakContainer) {
+        sneakContainer.style.display = clsAtk === "Rogue" ? "block" : "none";
+        if (clsAtk !== "Rogue" && document.getElementById('sneak-toggle'))
+            document.getElementById('sneak-toggle').checked = false;
+        if (sneakInfo) sneakInfo.innerText = `+${sneakDice}d6 daño`;
+    }
+
+    const weapons = [
+        { id: 'eq-weapon1', label: 'Principal' },
+        { id: 'eq-weapon2', label: 'Secundaria' },
+        { id: 'eq-weapon3', label: 'Accesoria' }
+    ];
+
+    let html = `<div style="font-size:0.7em; color:var(--accent); font-weight:bold; 
+                             text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">
+                    Ataques
+                </div>`;
+
+    let hasAny = false;
+    weapons.forEach(({ id, label }) => {
+        const name = document.getElementById(id)?.value;
+        if (!name) return;
+        const w = EQUIPMENT.weapons.find(x => x.name === name);
+        if (!w) return;
+
+        hasAny = true;
+        const dmgDice    = w.unarmed ? getUnarmedDamage(lvlAtk, clsAtk) : w.dmg;
+        const bonusRaw   = document.getElementById(`${id}-bonus`)?.value?.trim() || "";
+        const magicBonus = parseInt(bonusRaw.replace("+","")) || 0;
+        const hasFinesse = getSelectedFeats().includes("Weapon Finesse");
+        const usesDEX    = hasFinesse && w.light;
+        const atkStat    = usesDEX ? mods.DEX : mods.STR;
+        const dmgStat    = mods.STR; // daño siempre STR aunque uses DEX para atacar
+        const baseAtk    = bab + atkStat + magicBonus;
+        const smiteBonus = smiting ? mods.CHA : 0;
+        const atkTotal   = baseAtk + smiteBonus;
+        const atkStr     = (atkTotal >= 0 ? "+" : "") + atkTotal;
+        const dmgMod     = dmgStat !== 0 ? (dmgStat > 0 ? "+" + dmgStat : dmgStat) : "";
+        const magicDmgStr= magicBonus !== 0 ? (magicBonus > 0 ? `+${magicBonus}` : `${magicBonus}`) : "";
+        const smiteDmg   = smiting ? `+${lvlAtk}` : "";
+        const sneakDmg   = sneaking ? ` <span style="color:#8b5cf6;">+${sneakDice}d6</span>` : "";
+        const dmgStr     = dmgDice + dmgMod + magicDmgStr + smiteDmg;
+
+        html += `
+            <div style="display:grid; grid-template-columns: 70px 1fr 1fr 1fr; 
+                         align-items:center; gap:4px; padding:4px 6px; margin-bottom:3px;
+                         background:rgba(0,0,0,0.25); border-radius:4px; 
+                         border-left:2px solid var(--accent); font-size:0.8em;">
+                <span style="color:#64748b; font-size:0.9em;">${label}</span>
+                <span style="font-weight:bold; white-space:nowrap; overflow:hidden; 
+                              text-overflow:ellipsis;" title="${name}">${name}</span>
+                <span style="color:var(--accent); font-weight:bold; text-align:center;">${atkStr}</span>
+                <span style="text-align:right;">${dmgStr}${sneakDmg}
+                    <span style="color:#64748b; font-size:0.85em;">${w.crit}/${w.mult}</span>
+                </span>
+            </div>`;
+    });
+
+    container.innerHTML = hasAny ? html : "";
+}
+
+// ── ÍTEMS ────────────────────────────────────────────────────
+function renderItemSlots() {
+    const container = document.getElementById('items-slots');
+    if (!container) return;
+    const existing = Array.from(container.querySelectorAll('input')).map(i => i.value);
+    container.innerHTML = "";
+    const slots = [...existing.filter(v => v.trim() !== ""), ""];
+    slots.forEach((val, idx) => {
+        const row = document.createElement('div');
+        row.style.cssText = "display:flex; align-items:center; gap:6px; margin-bottom:5px;";
+        const inp = document.createElement('input');
+        inp.type = "text";
+        inp.placeholder = "Ítem, objeto mágico, tesoro...";
+        inp.value = val;
+        inp.style.cssText = "flex:1; width:100%;";
+        inp.onblur = () => { renderItemSlots(); updateItemSummary(); autoSave(); };
+        row.appendChild(inp);
+        container.appendChild(row);
+    });
+}
+
+function updateItemSummary() {
+    const container = document.getElementById('items-summary-box');
+    if (!container) return;
+    const items = Array.from(document.querySelectorAll('#items-slots input'))
+                       .map(i => i.value.trim()).filter(v => v);
+    if (items.length === 0) {
+        container.innerHTML = `<p style="font-size:0.8em; color:#64748b;">Sin ítems.</p>`;
+        return;
+    }
+    container.innerHTML = items.map(item =>
+        `<div style="padding:3px 8px; margin-bottom:2px; background:rgba(0,0,0,0.2); 
+                      border-radius:4px; border-left:2px solid #8b5cf6; font-size:0.82em;">
+            ${item}
+         </div>`
+    ).join("");
+}
+// ─────────────────────────────────────────────────────────────
+
+function updateHP() {
+    const lvl = parseInt(document.getElementById('level').value) || 1;
+    const clsName = document.getElementById('class').value;
+    const cData = SRD.classes.find(c => c.name === clsName);
+    const raceName = document.getElementById('race').value;
+    const rData = SRD.races.find(r => r.name === raceName);
+    let mods = {};
+    ["STR","DEX","CON","INT","WIS","CHA"].forEach(s => {
+        const base = parseInt(document.getElementById(`base-${s}`)?.value) || 10;
+        const rMod = rData?.modifiers[s.toLowerCase()] || 0;
+        mods[s] = Math.floor((base + rMod - 10) / 2);
+    });
+    const toughnessBonus = (hasToughness ? 3 : 0);
+    const hpMax = cData.hitDie + mods.CON + (lvl-1)*(cData.hitDie/2 + 1 + mods.CON) + toughnessBonus;
+    const hpDmg = parseInt(document.getElementById('hp-damage')?.value) || 0;
+    const hpCurrent = hpMax - hpDmg;
+    const hpEl = document.getElementById('hp-val');
+    hpEl.innerText = hpCurrent;
+    hpEl.style.color = hpCurrent <= 0 ? "#ef4444" : hpCurrent <= hpMax * 0.25 ? "#f59e0b" : "var(--accent)";
+    autoSave();
+}
+
+function updateEquipSummary() {
+    const container = document.getElementById('equip-summary-box');
+    if (!container) return;
+
+    const w1 = document.getElementById('eq-weapon1')?.value;
+    const w2 = document.getElementById('eq-weapon2')?.value;
+    const w3 = document.getElementById('eq-weapon3')?.value;
+    const armor = document.getElementById('eq-armor')?.value;
+    const shield = document.getElementById('eq-shield')?.value;
+    const general = Array.from(document.querySelectorAll('#eq-general-slots select'))
+                         .map(s => s.value).filter(v => v);
+
+    let html = "";
+    const row = (label, val) => val
+        ? `<div style="display:flex; justify-content:space-between; padding:3px 8px; 
+                        margin-bottom:2px; background:rgba(0,0,0,0.2); border-radius:4px;
+                        border-left:2px solid var(--accent); font-size:0.82em;">
+               <span style="color:#94a3b8;">${label}</span>
+               <span style="font-weight:bold;">${val}</span>
+           </div>` : "";
+
+    html += row("Arma principal", w1);
+    html += row("Arma secundaria", w2);
+    html += row("Arma accesoria", w3);
+    html += row("Armadura", armor);
+    html += row("Escudo", shield);
+    if (general.length > 0) {
+        html += `<div style="padding:3px 8px; margin-top:4px; font-size:0.82em; 
+                              border-left:2px solid var(--accent); background:rgba(0,0,0,0.2); border-radius:4px;">
+                    <span style="color:#94a3b8;">Equipamiento · </span>
+                    ${general.join(", ")}
+                 </div>`;
+    }
+    container.innerHTML = html || `<p style="font-size:0.8em; color:#64748b;">Sin equipo seleccionado.</p>`;
+}
+// ─────────────────────────────────────────────────────────────
+
+function renderManualFeats() {
+    const q = document.getElementById('searchFeats').value.toLowerCase();
+    const cont = document.getElementById('featsManualContent');
+    cont.innerHTML = "";
+    
+    SRD.feats.filter(f => f.name.toLowerCase().includes(q)).forEach(f => {
+        let d = document.createElement('div');
+        d.className = "manual-item";
+        d.innerHTML = `<span class="manual-tag">DOTE</span><b>${f.name}</b><br><small>${f.desc}</small>`;
+        cont.appendChild(d);
+    });
+}
+
+function renderManualSpells() {
+    const q = document.getElementById('searchSpells').value.toLowerCase();
+    const cont = document.getElementById('spellsManualContent');
+    cont.innerHTML = "";
+    
+    SRD.spells.filter(s => s.name.toLowerCase().includes(q)).forEach(s => {
+        // Creamos los tags de clase
+        const classTags = s.class.map(c => 
+            `<span class="spell-summary-tag" style="font-size:0.7em; background:#334155; margin-right:3px;">${c}</span>`
+        ).join("");
+
+        let d = document.createElement('div');
+        d.className = "manual-item";
+        d.innerHTML = `
+            <span class="manual-tag" style="background:#8b5cf6;">HECHIZO</span> 
+            <b>${s.name}</b> (Niv ${s.level})
+            <div style="margin: 4px 0;">${classTags}</div>
+            <small>${s.desc}</small>
+        `;
+        cont.appendChild(d);
+    });
+}
+
+// Esta función se mantiene para que el motor de pestañas siga funcionando al hacer click
+function renderManualEquip() {
+    const q = document.getElementById('searchEquip').value.toLowerCase();
+    const cont = document.getElementById('equipManualContent');
+    cont.innerHTML = "";
+
+    const tagColor = {
+        "Simple":   "#16a34a",
+        "Marcial":  "#1d4ed8",
+        "Exótica":  "#7c3aed",
+        "Ligera":   "#0369a1",
+        "Media":    "#0e7490",
+        "Pesada":   "#155e75",
+        "Escudo":   "#92400e",
+        "General":  "#334155"
+    };
+
+    // Armas
+    EQUIPMENT.weapons
+        .filter(w => w.name.toLowerCase().includes(q))
+        .forEach(w => {
+            const d = document.createElement('div');
+            d.className = "manual-item";
+            d.innerHTML = `
+                <span class="manual-tag" style="background:${tagColor[w.type]};">ARMA ${w.type.toUpperCase()}</span>
+                <b>${w.name}</b>
+                <br>
+                <small>
+                    Daño: <b>${w.dmg}</b> · 
+                    Crit: <b>${w.crit} / ${w.mult}</b>
+                    ${w.notes ? `· <span style="color:#f59e0b;">${w.notes}</span>` : ""}
+                </small>`;
+            cont.appendChild(d);
+        });
+
+    // Armaduras
+    EQUIPMENT.armors
+        .filter(a => a.name.toLowerCase().includes(q))
+        .forEach(a => {
+            const d = document.createElement('div');
+            d.className = "manual-item";
+            d.innerHTML = `
+                <span class="manual-tag" style="background:${tagColor[a.type]};">ARMADURA ${a.type.toUpperCase()}</span>
+                <b>${a.name}</b>
+                <br>
+                <small>
+                    CA: <b>+${a.ca}</b> · 
+                    Penalizador: <b>${a.pen}</b>
+                </small>`;
+            cont.appendChild(d);
+        });
+
+    // Escudos
+    EQUIPMENT.shields
+        .filter(s => s.name.toLowerCase().includes(q))
+        .forEach(s => {
+            const d = document.createElement('div');
+            d.className = "manual-item";
+            d.innerHTML = `
+                <span class="manual-tag" style="background:${tagColor["Escudo"]};">ESCUDO</span>
+                <b>${s.name}</b>
+                <br>
+                <small>
+                    CA: <b>+${s.ca}</b> · 
+                    Penalizador: <b>${s.pen}</b>
+                </small>`;
+            cont.appendChild(d);
+        });
+
+    // General
+    EQUIPMENT.general
+        .filter(g => g.toLowerCase().includes(q))
+        .forEach(g => {
+            const d = document.createElement('div');
+            d.className = "manual-item";
+            d.innerHTML = `
+                <span class="manual-tag" style="background:${tagColor["General"]};">GENERAL</span>
+                <b>${g}</b>`;
+            cont.appendChild(d);
+        });
+}
+
+function renderManual() {
+    renderManualFeats();
+    renderManualSpells();
+    renderManualEquip();
+}
+function applyTheme(theme) {
+    document.body.setAttribute('data-theme', theme);
+    localStorage.setItem('dnd35_theme', theme);
+}
+function showTab(i) {
+    document.querySelectorAll('.tab').forEach((t, idx) => t.classList.toggle('active', idx === i));
+    const panels = ['p0','p1','p2','p3','p3b','p4'];
+    panels.forEach((id, idx) => {
+        const el = document.getElementById(id);
+        if (el) el.classList.toggle('active', idx === i);
+    });
+}
+
+// Restaurar tema guardado
+const _savedTheme = localStorage.getItem('dnd35_theme');
+if (_savedTheme) {
+    document.body.setAttribute('data-theme', _savedTheme);
+    const sel = document.getElementById('theme-selector');
+    if (sel) sel.value = _savedTheme;
+}
+
+init();
+
+// Cargar personaje guardado al iniciar
+const _saved = localStorage.getItem('dnd35_character');
+if (_saved) {
+    try {
+        applySaveData(JSON.parse(_saved));
+        updateAll(false);
+    } catch(e) { console.warn("Error cargando save:", e); }
+}
+</script>
+</body>
+</html>
