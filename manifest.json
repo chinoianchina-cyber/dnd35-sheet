@@ -1,0 +1,18 @@
+{
+  "name": "D&D 3.5 - Chino Edition",
+  "short_name": "D&D 3.5",
+  "start_url": "/dnd35-sheet/",
+  "scope": "/dnd35-sheet/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#38bdf8",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
