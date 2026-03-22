@@ -243,6 +243,13 @@
                         <label style="font-size:0.72em; color:#94a3b8;">Clase</label>
                         <select id="class" onchange="updateAll()" style="width:100%; box-sizing:border-box;"></select>
                     </div>
+                    <div id="ranger-style-container" style="display:none; flex-direction:column; gap:3px;">
+                        <label style="font-size:0.72em; color:#94a3b8;">Combat Style</label>
+                        <select id="ranger-style" onchange="updateAll()" style="width:100%; box-sizing:border-box;">
+                            <option value="Archery">Archery</option>
+                            <option value="TWF">Two-Weapon Fighting</option>
+                        </select>
+                    </div>
                     <div style="display:flex; flex-direction:column; gap:3px;">
                         <label style="font-size:0.72em; color:#94a3b8;">Alineamiento</label>
                         <select id="alignment" onchange="updateDeityList()" style="width:100%; box-sizing:border-box;"></select>
@@ -679,7 +686,7 @@ const SRD = {
         {name:"Deflect Arrows", prereq:"Dex 13, Improved Unarmed Strike", desc:"Desviás automáticamente un proyectil por asalto si tenés una mano libre."},
         {name:"Diehard", prereq:"Endurance", desc:"Te mantenés consciente y podés actuar entre -1 y -9 puntos de golpe."},
         {name:"Diligent", prereq:"—", desc:"Otorgás un bono de +2 a las pruebas de Appraise y Decipher Script."},
-        {name:"Dodge", prereq:"Dex 13", desc:"Designás a un oponente para ganar un bono de esquiva de +1 a la CA contra él.", fighter:true},
+        {name:"Dodge", prereq:"Dex 13", desc:"Bono de esquiva de +1 a la CA (aplicado permanentemente).", fighter:true},
         {name:"Empower Spell", prereq:"—", desc:"Aumentás todos los efectos numéricos variables del hechizo en un 50%. Ocupa slot +2 niveles.", sorcerer:true},
         {name:"Endurance", prereq:"—", desc:"Ganás un bono de +4 en pruebas físicas prolongadas y podés dormir con armadura ligera/media."},
         {name:"Enlarge Spell", prereq:"—", desc:"Duplicás el rango del hechizo. Ocupa slot +1 nivel.", sorcerer:true},
@@ -694,8 +701,8 @@ const SRD = {
         {name:"Greater Spell Focus", prereq:"Spell Focus", desc:"Aumentás en +1 adicional la CD de los hechizos de la escuela seleccionada (total +2)."},
         {name:"Greater Spell Penetration", prereq:"Spell Penetration", desc:"Ganás un bono adicional de +2 en las pruebas de nivel de lanzador para superar RS (total +4)."},
         {name:"Greater Two-Weapon Fighting", prereq:"Dex 19, Improved Two-Weapon Fighting, Two-Weapon Fighting, BAB +11", desc:"Ganás un tercer ataque adicional con el arma secundaria con un penalizador de -10.", fighter:true},
-        {name:"Greater Weapon Focus", prereq:"Weapon Focus, Fighter 8", desc:"Ganás un bono adicional de +1 en tiradas de ataque con el arma seleccionada (total +2).", fighter:true},
-        {name:"Greater Weapon Specialization", prereq:"Fighter 12, Weapon Focus, Weapon Specialization, Greater Weapon Focus", desc:"Ganás un bono adicional de +2 en tiradas de daño con el arma seleccionada (total +4).", fighter:true},
+        {name:"Greater Weapon Focus", prereq:"Weapon Focus, Fighter 8", desc:"Ganás un bono adicional de +1 en tiradas de ataque con el arma seleccionada (total +3).", fighter:true},
+        {name:"Greater Weapon Specialization", prereq:"Fighter 12, Weapon Focus, Weapon Specialization, Greater Weapon Focus", desc:"Ganás un bono adicional de +2 en tiradas de daño con el arma seleccionada (total +6).", fighter:true},
         {name:"Heighten Spell", prereq:"—", desc:"Lanzás un hechizo como si fuera de un nivel superior al normal, aumentando su CD.", sorcerer:true},
         {name:"Improved Bull Rush", prereq:"Str 13, Power Attack", desc:"No provocás ataques de oportunidad al empujar y ganás +4 en la prueba.", fighter:true},
         {name:"Improved Counterspell", prereq:"—", desc:"Podés contrahechizar usando cualquier hechizo de la misma escuela de un nivel superior."},
@@ -712,6 +719,8 @@ const SRD = {
         {name:"Improved Turning", prereq:"Turn undead", desc:"Expulsás muertos vivientes como si tu nivel de clase fuera un nivel superior."},
         {name:"Improved Two-Weapon Fighting", prereq:"Dex 17, Two-Weapon Fighting, BAB +6", desc:"Ganás un segundo ataque adicional con el arma secundaria con un penalizador de -5.", fighter:true},
         {name:"Improved Unarmed Strike", prereq:"—", desc:"Tus ataques desarmados no provocan ataques de oportunidad y se consideran armas armadas.", fighter:true},
+        {name:"Improved Weapon Focus", prereq:"Weapon Focus, Fighter 4", desc:"Ganás un bono adicional de +1 en tiradas de ataque con el arma seleccionada (total +2).", fighter:true},
+        {name:"Improved Weapon Specialization", prereq:"Fighter 4, Weapon Focus, Weapon Specialization, Greater Weapon Focus", desc:"Ganás un bono adicional de +2 en tiradas de daño con el arma seleccionada (total +4).", fighter:true},
         {name:"Investigator", prereq:"—", desc:"Otorgás un bono de +2 a las pruebas de Search y Gather Information."},
         {name:"Iron Will", prereq:"—", desc:"Otorgás un bono de +2 permanente a todas las salvaciones de Voluntad."},
         {name:"Leadership", prereq:"Nivel 6", desc:"Atraés a un lugarteniente poderoso y a un grupo de seguidores leales según tu puntuación de Liderazgo."},
@@ -726,7 +735,7 @@ const SRD = {
         {name:"Natural Spell", prereq:"Wild Shape, WIS 13", desc:"Podés lanzar hechizos normalmente mientras utilizás tu forma salvaje."},
         {name:"Negotiator", prereq:"—", desc:"Otorgás un bono de +2 a las pruebas de Diplomacy y Sense Motive."},
         {name:"Persuasive", prereq:"—", desc:"Otorgás un bono de +2 a las pruebas de Bluff e Intimidate."},
-        {name:"Point Blank Shot", prereq:"—", desc:"Ganás +1 al ataque y daño con armas de proyectiles contra objetivos a menos de 30 pies.", fighter:true},
+        {name:"Point Blank Shot", prereq:"—", desc:"Ganás +1 al ataque y daño con armas de proyectiles (aplicado permanentemente).", fighter:true},
         {name:"Power Attack", prereq:"Str 13", desc:"Restás hasta tu BAB de tu tirada de ataque para sumarlo al daño (doble con armas a dos manos).", fighter:true},
         {name:"Precise Shot", prereq:"Point Blank Shot", desc:"Eliminás el penalizador de -4 por disparar a enemigos trabados en combate cuerpo a cuerpo.", fighter:true},
         {name:"Quicken Spell", prereq:"—", desc:"Lanzás un hechizo como acción rápida una vez por asalto. Ocupa slot +4 niveles.", sorcerer:true},
@@ -1734,7 +1743,10 @@ function updateAll(save = true) {
         if (document.getElementById('rage-toggle')) document.getElementById('rage-toggle').checked = false;
     }
 
-        // Monk AC bonus
+    // Dotes que afectan CA
+    const featSelections = getSelectedFeats();
+    if (featSelections.includes("Dodge")) acTotal += 1;    
+    // Monk AC bonus
     if (clsName === "Monk") {
         acTotal += mods.WIS > 0 ? mods.WIS : 0;
         acTotal += Math.floor(lvl / 5);
@@ -1792,6 +1804,10 @@ function updateAll(save = true) {
     document.getElementById('save-fort').innerText = getSave(cData.fort, mods.CON + divineGrace + fortBonus);
     document.getElementById('save-ref').innerHTML  = evasionTag + getSave(cData.ref, mods.DEX + divineGrace + refBonus);
     document.getElementById('save-will').innerText = getSave(cData.will, mods.WIS + divineGrace + rageWill + willBonus);
+
+    // Mostrar Combat Style solo para Ranger
+    const rsContainer = document.getElementById('ranger-style-container');
+    if (rsContainer) rsContainer.style.display = clsName === "Ranger" ? "flex" : "none";
 
     renderClassFeatures(lvl, clsName);
     renderFeatSlots(lvl, raceName, clsName);
@@ -1877,14 +1893,30 @@ function renderFeatSlots(lvl, race, cls) {
     if(cls === "Sorcerer") {
         [3,5,10,15,20].filter(n => n <= lvl).forEach(n => slots.push(`Sorcerer ${n}`));
     }
-    const currentSelections = Array.from(container.querySelectorAll('select')).map(s => s.value);
+    if(cls === "Monk") {
+        if(lvl >= 1) slots.push("Monk 1");
+        if(lvl >= 2) slots.push("Monk 2");
+        if(lvl >= 6) slots.push("Monk 6");
+    }
+    if(cls === "Ranger") {
+        if(lvl >= 2)  slots.push("Ranger Style 2");
+        if(lvl >= 6)  slots.push("Ranger Style 6");
+        if(lvl >= 11) slots.push("Ranger Style 11");
+    }
+    // Mapear por label para evitar bugs al insertar nuevos slots
+    const currentSelections = {};
+    container.querySelectorAll('.feat-item').forEach(item => {
+        const lbl = item.querySelector('.feat-label')?.innerText;
+        const val = item.querySelector('select')?.value;
+        if (lbl && val) currentSelections[lbl] = val;
+    });
     container.innerHTML = "";
     slots.forEach((label, idx) => {
         let div = document.createElement('div');
         div.className = "feat-item";
         let selId = `feat-sel-${idx}`;
         div.innerHTML = `<div class="feat-label">${label}</div>
-                         <select id="${selId}" onchange="updateFeatDesc('${selId}', 'desc-${idx}')">
+                         <select id="${selId}" onchange="updateFeatDesc('${selId}', 'desc-${idx}'); recalcFromFeats();">
                             <option value="">-- Elige Dote --</option>
                          </select>
                          <div id="desc-${idx}"></div>`;
@@ -1892,11 +1924,42 @@ function renderFeatSlots(lvl, race, cls) {
         let select = div.querySelector('select');
         const isFighterSlot  = label.startsWith("Fighter");
         const isSorcererSlot = label.startsWith("Sorcerer");
-        const featList = isFighterSlot  ? SRD.feats.filter(f => f.fighter)  :
-                         isSorcererSlot ? SRD.feats.filter(f => f.sorcerer) :
+        const isMonk1Slot    = label === "Monk 1";
+        const isMonk2Slot    = label === "Monk 2";
+        const isMonk6Slot    = label === "Monk 6";
+        const isRangerStyle2  = label === "Ranger Style 2";
+        const isRangerStyle6  = label === "Ranger Style 6";
+        const isRangerStyle11 = label === "Ranger Style 11";
+
+        const MONK1_FEATS = ["Combat Reflexes","Deflect Arrows"];
+        const MONK2_FEATS = ["Combat Reflexes","Deflect Arrows","Improved Grapple","Improved Trip"];
+        const MONK6_FEATS = ["Combat Reflexes","Deflect Arrows","Improved Disarm","Improved Grapple","Improved Trip","Stunning Fist"];
+
+        const rangerStyleVal = document.getElementById('ranger-style')?.value || "Archery";
+        const RANGER_FEATS = {
+            "Archery": { 2: "Rapid Shot", 6: "Manyshot", 11: "Improved Precise Shot" },
+            "TWF":     { 2: "Two-Weapon Fighting", 6: "Improved Two-Weapon Fighting", 11: "Greater Two-Weapon Fighting" }
+        };
+        const getRangerFeat = (lvlSlot) => {
+            const featName = RANGER_FEATS[rangerStyleVal]?.[lvlSlot];
+            return featName ? [{name: featName}] : [];
+        };
+
+        const featList = isFighterSlot   ? SRD.feats.filter(f => f.fighter) :
+                         isSorcererSlot  ? SRD.feats.filter(f => f.sorcerer) :
+                         isMonk1Slot     ? SRD.feats.filter(f => MONK1_FEATS.includes(f.name)) :
+                         isMonk2Slot     ? SRD.feats.filter(f => MONK2_FEATS.includes(f.name)) :
+                         isMonk6Slot     ? SRD.feats.filter(f => MONK6_FEATS.includes(f.name)) :
+                         isRangerStyle2  ? getRangerFeat(2) :
+                         isRangerStyle6  ? getRangerFeat(6) :
+                         isRangerStyle11 ? getRangerFeat(11) :
                          SRD.feats;
         featList.forEach(f => select.add(new Option(f.name, f.name)));
-        if(currentSelections[idx]) select.value = currentSelections[idx];
+        if (label.startsWith("Ranger Style") && featList.length === 1) {
+            select.value = featList[0].name;
+        } else if (currentSelections[label]) {
+            select.value = currentSelections[label];
+        }
         updateFeatDesc(selId, `desc-${idx}`);
     });
 }
@@ -1944,7 +2007,88 @@ function renderClassFeatures(lvl, clsName) {
                        margin:2px; cursor:default;" title="Nivel ${f.lvl}">${f.name}</span>`
     ).join("");
 }
+function recalcFromFeats() {
+    const lvl     = parseInt(document.getElementById('level').value) || 1;
+    const clsName = document.getElementById('class').value;
+    const raceName= document.getElementById('race').value;
+    const cData   = SRD.classes.find(c => c.name === clsName);
+    const rData   = SRD.races.find(r => r.name === raceName);
+    let mods = {};
+    STATS.forEach(s => {
+        const base = parseInt(document.getElementById(`base-${s}`)?.value) || 10;
+        const rMod = rData?.modifiers[s.toLowerCase()] || 0;
+        mods[s] = Math.floor((base + rMod - 10) / 2);
+    });
+    const raging = clsName === "Barbarian" && document.getElementById('rage-toggle')?.checked;
+    if (raging) { mods.STR += 4; mods.CON += 4; }
 
+    // Recalcular CA
+    let acTotal = 10 + mods.DEX;
+    if (document.getElementById('ac-use-armor')?.checked) {
+        const armorData = EQUIPMENT.armors.find(a => a.name === document.getElementById('eq-armor')?.value);
+        if (armorData) acTotal += armorData.ca;
+    }
+    if (document.getElementById('ac-use-shield')?.checked) {
+        const shieldData = EQUIPMENT.shields.find(s => s.name === document.getElementById('eq-shield')?.value);
+        if (shieldData) acTotal += shieldData.ca;
+    }
+    if (clsName === "Monk") {
+        acTotal += mods.WIS > 0 ? mods.WIS : 0;
+        acTotal += Math.floor(lvl / 5);
+    }
+    if (raging) acTotal -= 2;
+    const featSels2 = getSelectedFeats();
+    if (featSels2.includes("Dodge")) acTotal += 1;
+    document.getElementById('ac-total').innerText = acTotal;
+
+    // Recalcular salvaciones con bonos de dotes
+    const getSave = (type, mod) => {
+        const b = (type === "g") ? (2 + Math.floor(lvl/2)) : Math.floor(lvl/3);
+        const t = b + mod; return (t >= 0 ? "+" : "") + t;
+    };
+    const divineGrace = (clsName === "Paladin" && lvl >= 2) ? mods.CHA : 0;
+    const rageWill    = raging ? 2 : 0;
+    const fortBonus   = featSels2.includes("Great Fortitude")    ? 2 : 0;
+    const refBonus    = featSels2.includes("Lightning Reflexes")  ? 2 : 0;
+    const willBonus   = featSels2.includes("Iron Will")           ? 2 : 0;
+    document.getElementById('save-fort').innerText = getSave(cData.fort, mods.CON + divineGrace + fortBonus);
+    const hasImpEvasion = (clsName==="Monk"&&lvl>=9)||(clsName==="Rogue"&&lvl>=10)||(clsName==="Ranger"&&lvl>=13);
+    const hasEvasion    = !hasImpEvasion&&((clsName==="Monk"&&lvl>=2)||(clsName==="Rogue"&&lvl>=2)||(clsName==="Ranger"&&lvl>=9));
+    const evasionTag    = hasImpEvasion ? `<span style="font-size:0.7em; color:#4ade80; font-weight:normal;">Improved Evasion</span> `
+                        : hasEvasion    ? `<span style="font-size:0.7em; color:#4ade80; font-weight:normal;">Evasion</span> ` : "";
+    document.getElementById('save-ref').innerHTML  = evasionTag + getSave(cData.ref,  mods.DEX + divineGrace + refBonus);
+    document.getElementById('save-will').innerText = getSave(cData.will, mods.WIS + divineGrace + rageWill + willBonus);
+
+    // Recalcular HP con Toughness
+    const hasToughness   = featSels2.includes("Toughness");
+    const hpMax = cData.hitDie + mods.CON + (lvl-1)*(cData.hitDie/2+1+mods.CON) + (hasToughness?3:0);
+    const hpDmg = parseInt(document.getElementById('hp-damage')?.value) || 0;
+    const hpCurrent = hpMax - hpDmg;
+    const hpEl = document.getElementById('hp-val');
+    hpEl.innerText = hpCurrent;
+    hpEl.style.color = hpCurrent <= 0 ? "#ef4444" : hpCurrent <= hpMax*0.25 ? "#f59e0b" : "var(--accent)";
+
+    // Recalcular skills con bonos de dotes
+    Object.entries(SRD.skills).forEach(([name, stat]) => {
+        const featSkillBonus = {};
+        Object.entries(FEAT_SKILL_BONUSES).forEach(([featName, bonuses]) => {
+            if (featSels2.includes(featName)) {
+                Object.entries(bonuses).forEach(([skill, bonus]) => {
+                    featSkillBonus[skill] = (featSkillBonus[skill] || 0) + bonus;
+                });
+            }
+        });
+        const rnk    = parseInt(document.getElementById(`sk-rnk-${name}`)?.value) || 0;
+        const fBonus = featSkillBonus[name] || 0;
+        const modVal = parseInt(document.getElementById(`sk-mod-${name}`)?.innerText) || mods[stat];
+        document.getElementById(`sk-tot-${name}`).innerText = modVal + rnk + fBonus;
+    });
+
+    // Recalcular ataques
+    const baseBab = (cData.bab === "f") ? lvl : (cData.bab === "m" ? Math.floor(lvl*0.75) : Math.floor(lvl*0.5));
+    updateAttackSummary(baseBab, mods);
+    autoSave();
+}
 function updateFeatDesc(selId, descId) {
     let val = document.getElementById(selId).value;
     let feat = SRD.feats.find(f => f.name === val);
@@ -2276,6 +2420,7 @@ function collectSaveData() {
         kcHumanoids: document.getElementById('kc-humanoids')?.value || "0",
         kcAnimals:   document.getElementById('kc-animals')?.value   || "0",
         kcMagical:   document.getElementById('kc-magical')?.value   || "0",
+        rangerStyle: document.getElementById('ranger-style')?.value || "Archery",
         alignment: document.getElementById('alignment').value,
         deity:     document.getElementById('deity').value,
         race:     document.getElementById('race').value,
@@ -2330,6 +2475,7 @@ function applySaveData(data) {
     if (data.kcHumanoids) document.getElementById('kc-humanoids').value = data.kcHumanoids;
     if (data.kcAnimals)   document.getElementById('kc-animals').value   = data.kcAnimals;
     if (data.kcMagical)   document.getElementById('kc-magical').value   = data.kcMagical;
+    if (data.rangerStyle) document.getElementById('ranger-style').value = data.rangerStyle;
     if (data.alignment) { document.getElementById('alignment').value = data.alignment; updateDeityList(); }
     if (data.deity)     document.getElementById('deity').value     = data.deity;
     if (data.race)  document.getElementById('race').value  = data.race;
@@ -2593,19 +2739,38 @@ function updateAttackSummary(bab, mods) {
         const dmgDice    = w.unarmed ? getUnarmedDamage(lvlAtk, clsAtk) : w.dmg;
         const bonusRaw   = document.getElementById(`${id}-bonus`)?.value?.trim() || "";
         const magicBonus = parseInt(bonusRaw.replace("+","")) || 0;
-        const hasFinesse = getSelectedFeats().includes("Weapon Finesse");
+        const featSels   = getSelectedFeats();
+        const hasFinesse = featSels.includes("Weapon Finesse");
         const usesDEX    = hasFinesse && w.light;
         const atkStat    = usesDEX ? mods.DEX : mods.STR;
-        const dmgStat    = mods.STR; // daño siempre STR aunque uses DEX para atacar
-        const baseAtk    = bab + atkStat + magicBonus;
+        const dmgStat    = mods.STR;
+                // Bonos de dotes sobre arma principal (solo primer arma)
+        const isMainWeapon = (id === 'eq-weapon1');
+        const wfBonus  = isMainWeapon && featSels.includes("Weapon Focus")              ? 1 : 0;
+        const iwfBonus = isMainWeapon && featSels.includes("Improved Weapon Focus")     ? 1 : 0;
+        const gwfBonus = isMainWeapon && featSels.includes("Greater Weapon Focus")      ? 1 : 0;
+        const pbsBonus = isMainWeapon && featSels.includes("Point Blank Shot")          ? 1 : 0;
+        const wsBonus  = isMainWeapon && featSels.includes("Weapon Specialization")     ? 2 : 0;
+        const iwsBonus = isMainWeapon && featSels.includes("Improved Weapon Specialization") ? 2 : 0;
+        const gwsBonus = isMainWeapon && featSels.includes("Greater Weapon Specialization") ? 2 : 0;
+
+        // Improved Critical: duplicar rango crítico
+        let critDisplay = w.crit;
+        if (isMainWeapon && featSels.includes("Improved Critical")) {
+            const critMap = {"20":"19-20","19-20":"17-20","18-20":"15-20","17-20":"13-20"};
+            critDisplay = critMap[w.crit] || w.crit;
+        }
+
+        const baseAtk = bab + atkStat + magicBonus + wfBonus + iwfBonus +gwfBonus + pbsBonus;
         const smiteBonus = smiting ? mods.CHA : 0;
         const atkTotal   = baseAtk + smiteBonus;
         const atkStr     = (atkTotal >= 0 ? "+" : "") + atkTotal;
         const dmgMod     = dmgStat !== 0 ? (dmgStat > 0 ? "+" + dmgStat : dmgStat) : "";
         const magicDmgStr= magicBonus !== 0 ? (magicBonus > 0 ? `+${magicBonus}` : `${magicBonus}`) : "";
+        const featDmgStr = (wsBonus + iwsBonus + gwsBonus + pbsBonus) > 0 ? `+${wsBonus + iwsBonus + gwsBonus + pbsBonus}` : "";
         const smiteDmg   = smiting ? `+${lvlAtk}` : "";
         const sneakDmg   = sneaking ? ` <span style="color:#8b5cf6;">+${sneakDice}d6</span>` : "";
-        const dmgStr     = dmgDice + dmgMod + magicDmgStr + smiteDmg;
+        const dmgStr     = dmgDice + dmgMod + magicDmgStr + featDmgStr + smiteDmg;
 
         html += `
             <div style="display:grid; grid-template-columns: 70px 1fr 1fr 1fr; 
@@ -2617,7 +2782,7 @@ function updateAttackSummary(bab, mods) {
                               text-overflow:ellipsis;" title="${name}">${name}</span>
                 <span style="color:var(--accent); font-weight:bold; text-align:center;">${atkStr}</span>
                 <span style="text-align:right;">${dmgStr}${sneakDmg}
-                    <span style="color:#64748b; font-size:0.85em;">${w.crit}/${w.mult}</span>
+                    <span style="color:#64748b; font-size:0.85em;">${critDisplay}/${w.mult}</span>
                 </span>
             </div>`;
     });
