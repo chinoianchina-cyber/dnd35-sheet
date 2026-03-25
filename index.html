@@ -650,6 +650,7 @@
 </div>
 
 <script>
+let is_loading = true; // El freno de mano activo por defecto
 const SRD = {
     classes: [
         {"name":"Barbarian","hitDie":12,"skillPoints":4,"classSkills":["Climb","Craft","Handle Animal","Intimidate","Jump","Listen","Ride","Survival","Swim"],"bab":"f","fort":"g","ref":"p","will":"p","caster":false},
@@ -2650,6 +2651,7 @@ function applySaveData(data) {
 }
 
 function autoSave() {
+    if (is_loading) return;
     try {
         const data = collectSaveData();
         saveCharData(activeCharIdx, data);
@@ -3169,15 +3171,18 @@ if (_savedTheme) {
     if (sel) sel.value = _savedTheme;
 }
 
-init();
+// Función maestra de arranque
+window.addEventListener('DOMContentLoaded', () => {
+    is_loading = true; // Nos aseguramos que el freno esté puesto
 
-// Sistema multi-personaje: inicializar
-(function() {
+    // 1. Inicializamos la interfaz y listeners
+    init(); 
+
+    // 2. Lógica de carga de personajes
     let meta = getCharMeta();
     activeCharIdx = parseInt(localStorage.getItem('dnd35_active_char') || '0');
 
     if (meta.length === 0) {
-        // Primera vez — migrar personaje existente si hay uno
         const _saved = localStorage.getItem('dnd35_character');
         const firstData = _saved ? JSON.parse(_saved) : null;
         const firstName = firstData?.charName || 'Personaje 1';
@@ -3191,13 +3196,34 @@ init();
     if (activeCharIdx >= meta.length) activeCharIdx = 0;
 
     const data = loadCharData(activeCharIdx);
+    
     if (data) {
         try {
+            // Aplicamos los datos a los campos
             applySaveData(data);
+            // Corremos los cálculos de la ficha
             updateAll(false);
-        } catch(e) { console.warn("Error cargando personaje:", e); }
+            console.log("Datos cargados con éxito.");
+        } catch(e) { 
+            console.error("Error crítico en carga:", e); 
+        }
     }
-})();
+
+    // 3. Restaurar tema visual
+    const _savedTheme = localStorage.getItem('dnd35_theme');
+    if (_savedTheme) {
+        document.body.setAttribute('data-theme', _savedTheme);
+        const sel = document.getElementById('theme-selector');
+        if (sel) sel.value = _savedTheme;
+    }
+
+    // 4. SOLTAMOS EL FRENO DE MANO
+    // Usamos un pequeño delay para asegurarnos que los eventos de la carga terminaron
+    setTimeout(() => {
+        is_loading = false;
+        console.log("App lista. Guardado automático habilitado.");
+    }, 100);
+});
 </script>
 <script>
 if ('serviceWorker' in navigator) {
