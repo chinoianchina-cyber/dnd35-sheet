@@ -281,6 +281,7 @@
             <div class="card">
                 <h2>Combate</h2>
                 <div class="stat-row">BAB / Ataque Completo <b id="bab-val" class="val">+0</b></div>
+                <div class="stat-row" id="flurry-row" style="display:none;">Flurry of Blows <b id="flurry-val" class="val"></b></div>
                 <div class="stat-row" style="align-items:flex-start;">
                     <div>
                         <div>Clase de Armadura (CA)</div>
@@ -341,6 +342,10 @@
             <div class="card">
                 <h2>Atributos</h2>
                 <div id="stats-container"></div>
+                <div style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-size:0.8em; color:#94a3b8;">Velocidad</span>
+                    <b id="speed-val" class="val">30 ft</b>
+                </div>
                 <div id="rage-toggle-container" style="display:none; margin-top:10px; padding-top:10px; border-top:1px solid var(--border);">
                     <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
                         <input type="checkbox" id="rage-toggle" onchange="updateAll()" style="width:16px; height:16px;">
@@ -660,7 +665,13 @@ const SRD = {
         {"name":"Wizard","hitDie":4,"skillPoints":2,"classSkills":["Concentration","Craft","Decipher Script","Knowledge","Profession","Spellcraft"],"bab":"p","fort":"p","ref":"p","will":"g","caster":true,"stat":"INT"}
     ],
     races: [
-        {"name":"Human","modifiers":{},"notes":"+1 feat L1, +4 skill L1"},{"name":"Dwarf","modifiers":{"con":2,"cha":-2}},{"name":"Elf","modifiers":{"dex":2,"con":-2}},{"name":"Gnome","modifiers":{"con":2,"str":-2}},{"name":"Halfling","modifiers":{"dex":2,"str":-2}},{"name":"Half-Elf","modifiers":{}},{"name":"Half-Orc","modifiers":{"str":2,"int":-2,"cha":-2}}
+        {"name":"Human",    "modifiers":{},                      "skillBonus":{},                                                                          "speed":30, "notes":"+1 feat L1, +4 skill L1"},
+        {"name":"Dwarf",    "modifiers":{"con":2,"cha":-2},      "skillBonus":{"Appraise":2,"Craft":2},                                                    "speed":20},
+        {"name":"Elf",      "modifiers":{"dex":2,"con":-2},      "skillBonus":{"Listen":2,"Search":2,"Spot":2},                                            "speed":30},
+        {"name":"Gnome",    "modifiers":{"con":2,"str":-2},      "skillBonus":{"Listen":2,"Craft":2},                                                      "speed":20},
+        {"name":"Halfling", "modifiers":{"dex":2,"str":-2},      "skillBonus":{"Climb":2,"Jump":2,"Listen":2,"Move Silently":2},                           "speed":20},
+        {"name":"Half-Elf", "modifiers":{},                      "skillBonus":{"Listen":1,"Search":1,"Spot":1},                                            "speed":30},
+        {"name":"Half-Orc", "modifiers":{"str":2,"int":-2,"cha":-2}, "skillBonus":{},                                                                      "speed":30}
     ],
     feats: [
         {name:"Acrobatic", prereq:"—", desc:"Otorgás un bono de +2 a las pruebas de Jump y Tumble."},
@@ -1602,6 +1613,20 @@ function addCustomFeat() {
 }
 // ─────────────────────────────────────────────────────────────
 
+// Sinergias de skills SRD: si tenés 5+ rangos, sumás bonus en otras
+const SKILL_SYNERGIES = [
+    { from: "Bluff",            to: ["Diplomacy","Intimidate","Sleight of Hand"], bonus: 2 },
+    { from: "Diplomacy",        to: ["Bluff"],                                    bonus: 2 },
+    { from: "Handle Animal",    to: ["Ride"],                                     bonus: 2 },
+    { from: "Jump",             to: ["Tumble"],                                   bonus: 2 },
+    { from: "Knowledge",        to: ["Spellcraft"],                               bonus: 2 },
+    { from: "Search",           to: ["Survival"],                                 bonus: 2 },
+    { from: "Sense Motive",     to: ["Diplomacy"],                                bonus: 2 },
+    { from: "Spellcraft",       to: ["Use Magic Device"],                         bonus: 2 },
+    { from: "Survival",         to: ["Knowledge"],                                bonus: 2 },
+    { from: "Tumble",           to: ["Jump"],                                     bonus: 2 },
+    { from: "Use Magic Device", to: ["Spellcraft"],                               bonus: 2 },
+];
 
 // Dotes de skill: { nombre: { skill: bonus } }
 const FEAT_SKILL_BONUSES = {
@@ -1696,6 +1721,53 @@ function updateAll(save = true) {
     }
     document.getElementById('bab-val').innerText = babStr;
 
+    // Flurry of Blows (Monk only)
+    // Flurry of Blows (Monk only)
+const flurryRow = document.getElementById('flurry-row');
+
+if (clsName === "Monk" && flurryRow) {
+    flurryRow.style.display = "flex";
+
+    // Penalidad correcta según SRD
+    let penalty = 0;
+    if (lvl < 5) penalty = -2;
+    else if (lvl < 9) penalty = -1;
+    else penalty = 0;
+
+    // Generar ataques iterativos reales desde BAB
+    let attacks = [];
+
+// Siempre hay al menos un ataque base
+attacks.push(baseBab);
+
+let current = baseBab - 5;
+while (current > 0) {
+    attacks.push(current);
+    current -= 5;
+}
+    // Aplicar penalidad a todos
+    attacks = attacks.map(a => a + penalty);
+
+    // Agregar ataque extra de flurry (siempre 1)
+    attacks.unshift(baseBab + penalty);
+
+    // Greater Flurry (nivel 11+ → segundo ataque extra)
+    if (lvl >= 11) {
+        attacks.unshift(baseBab + penalty);
+    }
+
+    // Sumar STR
+    attacks = attacks.map(a => a + mods.STR);
+
+    // Formatear
+    const flurryStr = attacks.map(a => (a >= 0 ? "+" + a : a)).join("/");
+
+    document.getElementById('flurry-val').innerText = flurryStr;
+
+} else if (flurryRow) {
+    flurryRow.style.display = "none";
+}
+
     // Saves & HP
     const getSave = (type, mod) => {
         let b = (type === "g") ? (2 + Math.floor(lvl/2)) : Math.floor(lvl/3);
@@ -1772,26 +1844,71 @@ function updateAll(save = true) {
     document.getElementById('skill-points-total').innerText = totalSkillPoints;
 
     // Calcular bonos de dotes a skills
+    // ── Velocidad de movimiento ──
+    let speed = rData.speed || 30;
+    // Monk bonus
+    if (clsName === "Monk") {
+        if (lvl >= 12) speed += 40;
+        else if (lvl >= 9)  speed += 30;
+        else if (lvl >= 6)  speed += 20;
+        else if (lvl >= 3)  speed += 10;
+    }
+    // Barbarian bonus
+    if (clsName === "Barbarian") speed += 10;
+    // Penalización por armadura media/pesada
+    const armorEquipped = EQUIPMENT.armors.find(a => a.name === document.getElementById('eq-armor')?.value);
+    if (armorEquipped && (armorEquipped.type === "Media" || armorEquipped.type === "Pesada")) {
+        speed = (rData.speed >= 30) ? Math.max(20, speed - 10) : Math.max(15, speed - 5);
+    }
+    const speedEl = document.getElementById('speed-val');
+    if (speedEl) speedEl.innerText = speed + " ft";
+
+    // ── Bonus de Jump por velocidad ──
+    let jumpSpeedBonus = 0;
+    if (speed > 30) jumpSpeedBonus = Math.floor((speed - 30) / 10) * 4;
+    else if (speed < 30) jumpSpeedBonus = Math.floor((speed - 30) / 10) * 6;
+
+    // ── Bonos raciales a skills ──
+    const raceSkillBonus = rData.skillBonus || {};
+
+    // ── Calcular bonos de dotes a skills ──
     const featSkillBonus = {};
     selectedFeats.forEach(featName => {
-        // Dotes de par de skills
         const bonuses = FEAT_SKILL_BONUSES[featName];
         if (bonuses) {
             Object.entries(bonuses).forEach(([skill, bonus]) => {
                 featSkillBonus[skill] = (featSkillBonus[skill] || 0) + bonus;
             });
         }
-        // Skill Focus: +3 a una skill — el nombre es "Skill Focus" pero
-        // necesitamos saber a qué skill aplica. Por ahora lo ignoramos
-        // hasta implementar el selector de skill para Skill Focus.
     });
 
+    // ── Calcular rangos actuales para sinergias ──
+    const currentRanks = {};
+    Object.keys(SRD.skills).forEach(sk => {
+        currentRanks[sk] = parseInt(document.getElementById(`sk-rnk-${sk}`)?.value) || 0;
+    });
+
+    // ── Calcular bonos de sinergia ──
+    const synergyBonus = {};
+    SKILL_SYNERGIES.forEach(syn => {
+        const fromRank = currentRanks[syn.from] || 0;
+        if (fromRank >= 5) {
+            syn.to.forEach(toSkill => {
+                synergyBonus[toSkill] = (synergyBonus[toSkill] || 0) + syn.bonus;
+            });
+        }
+    });
+
+    // ── Actualizar totales ──
     Object.entries(SRD.skills).forEach(([name, stat]) => {
         document.getElementById(`sk-class-${name}`).innerText = cData.classSkills.includes(name) ? "●" : "";
         document.getElementById(`sk-mod-${name}`).innerText = mods[stat];
-        let rnk  = parseInt(document.getElementById(`sk-rnk-${name}`).value) || 0;
-        let fBonus = featSkillBonus[name] || 0;
-        document.getElementById(`sk-tot-${name}`).innerText = mods[stat] + rnk + fBonus;
+        const rnk     = parseInt(document.getElementById(`sk-rnk-${name}`).value) || 0;
+        const fBonus  = featSkillBonus[name]  || 0;
+        const rBonus  = raceSkillBonus[name]  || 0;
+        const sBonus  = synergyBonus[name]    || 0;
+        const jBonus  = name === "Jump" ? jumpSpeedBonus : 0;
+        document.getElementById(`sk-tot-${name}`).innerText = mods[stat] + rnk + fBonus + rBonus + sBonus + jBonus;
     });
 
     // Bonos de dotes a salvaciones y HP
@@ -2069,19 +2186,39 @@ function recalcFromFeats() {
     hpEl.style.color = hpCurrent <= 0 ? "#ef4444" : hpCurrent <= hpMax*0.25 ? "#f59e0b" : "var(--accent)";
 
     // Recalcular skills con bonos de dotes
+    const rData2      = SRD.races.find(r => r.name === raceName);
+    const raceSkillB  = rData2?.skillBonus || {};
+    const currentRnks = {};
+    Object.keys(SRD.skills).forEach(sk => {
+        currentRnks[sk] = parseInt(document.getElementById(`sk-rnk-${sk}`)?.value) || 0;
+    });
+    const synergyB = {};
+    SKILL_SYNERGIES.forEach(syn => {
+        if ((currentRnks[syn.from] || 0) >= 5) {
+            syn.to.forEach(toSkill => {
+                synergyB[toSkill] = (synergyB[toSkill] || 0) + syn.bonus;
+            });
+        }
+    });
+    const speedVal2   = parseInt(document.getElementById('speed-val')?.innerText) || 30;
+    const jumpSpeedB  = Math.floor((speedVal2 - 30) / 10) * (speedVal2 >= 30 ? 4 : -6);
+
+    const featSkillBonus2 = {};
+    Object.entries(FEAT_SKILL_BONUSES).forEach(([featName, bonuses]) => {
+        if (featSels2.includes(featName)) {
+            Object.entries(bonuses).forEach(([skill, bonus]) => {
+                featSkillBonus2[skill] = (featSkillBonus2[skill] || 0) + bonus;
+            });
+        }
+    });
     Object.entries(SRD.skills).forEach(([name, stat]) => {
-        const featSkillBonus = {};
-        Object.entries(FEAT_SKILL_BONUSES).forEach(([featName, bonuses]) => {
-            if (featSels2.includes(featName)) {
-                Object.entries(bonuses).forEach(([skill, bonus]) => {
-                    featSkillBonus[skill] = (featSkillBonus[skill] || 0) + bonus;
-                });
-            }
-        });
         const rnk    = parseInt(document.getElementById(`sk-rnk-${name}`)?.value) || 0;
-        const fBonus = featSkillBonus[name] || 0;
+        const fBonus = featSkillBonus2[name] || 0;
+        const rBonus = raceSkillB[name]      || 0;
+        const sBonus = synergyB[name]        || 0;
+        const jBonus = name === "Jump" ? jumpSpeedB : 0;
         const modVal = parseInt(document.getElementById(`sk-mod-${name}`)?.innerText) || mods[stat];
-        document.getElementById(`sk-tot-${name}`).innerText = modVal + rnk + fBonus;
+        document.getElementById(`sk-tot-${name}`).innerText = modVal + rnk + fBonus + rBonus + sBonus + jBonus;
     });
 
     // Recalcular ataques
@@ -3064,29 +3201,8 @@ init();
 </script>
 <script>
 if ('serviceWorker' in navigator) {
-    const swCode = `
-        const CACHE = 'dnd35-v1';
-        self.addEventListener('install', e => {
-            e.waitUntil(
-                caches.open(CACHE).then(cache => cache.addAll(['./', './index.html']))
-            );
-            self.skipWaiting();
-        });
-        self.addEventListener('activate', e => {
-            e.waitUntil(caches.keys().then(keys =>
-                Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-            ));
-            self.clients.claim();
-        });
-        self.addEventListener('fetch', e => {
-            e.respondWith(
-                caches.match(e.request).then(cached => cached || fetch(e.request))
-            );
-        });
-    `;
-    const blob = new Blob([swCode], {type: 'application/javascript'});
-    const swUrl = URL.createObjectURL(blob);
-    navigator.serviceWorker.register(swUrl).catch(err => console.log('SW:', err));
+    navigator.serviceWorker.register('/dnd35-sheet/sw.js')
+        .catch(err => console.log('SW error:', err));
 }
 </script>
 </body>
