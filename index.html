@@ -63,7 +63,7 @@
     .spell-slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
 
     b.val { color: var(--accent); font-size: 1.1em; }
-    #custom-grid { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    #custom-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     /* ── MOBILE RESPONSIVE ────────────────────────────────────── */
     @media (max-width: 768px) {
 
@@ -109,11 +109,17 @@
         #p2 select { width: 100% !important; }
         #p2 .stat-row > div { flex-wrap: wrap; }
 
+        /* Custom: una columna en mobile */
+        #p3b #custom-grid { grid-template-columns: 1fr !important; }
+        #p3b .card { min-width: 0; }
+        #p3b input, #p3b select, #p3b button { max-width: 100%; box-sizing: border-box; }
+        #p3b div[style*="display:flex; gap:8px;"] { flex-wrap: wrap; }
+
         /* Notas: una columna */
         #p4 > div { grid-template-columns: 1fr !important; }
 
-        /* Custom: una columna en mobile */
-        #custom-grid { grid-template-columns: 1fr !important; }
+        /* Estados: 2 columnas en mobile */
+        #conditions-grid { grid-template-columns: 1fr 1fr !important; }
 
         /* Botones exportar/importar más chicos */
         .tabs button, .tabs label { 
@@ -157,7 +163,7 @@
         .tab  { padding: 8px 12px; font-size: 0.72em; }
         .card { padding: 10px; }
         .stats-grid { grid-template-columns: 1fr 1fr !important; }
-        #custom-grid { grid-template-columns: 1fr !important; }
+        #p3b #custom-grid { grid-template-columns: 1fr !important; }
     }
     /* ──────────────────────────────────────────────────────────── */
     .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
@@ -191,6 +197,7 @@
         <option value="arcane">🔮 Arcane</option>
         <option value="parchment">📜 Parchment</option>
     </select>
+    <button onclick="quickGenerate()" style="padding:6px 14px; background:#7c3aed; color:white; border:none; border-radius:4px; cursor:pointer; font-size:0.8em; font-weight:bold;" title="Completar campos vacíos aleatoriamente">🎲 Quick Gen</button>
     <button onclick="exportCharacter()" style="padding:6px 14px; background:#1e40af; color:white; border:none; border-radius:4px; cursor:pointer; font-size:0.8em; font-weight:bold;">⬇ Exportar</button>
     <label style="padding:6px 14px; background:#065f46; color:white; border-radius:4px; cursor:pointer; font-size:0.8em; font-weight:bold;">⬆ Importar<input type="file" accept=".json" onchange="importCharacter(event)" style="display:none;"></label>
   </div>
@@ -252,11 +259,19 @@
                     </div>
                     <div style="display:flex; flex-direction:column; gap:3px;">
                         <label style="font-size:0.72em; color:#94a3b8;">Alineamiento</label>
-                        <select id="alignment" onchange="updateDeityList()" style="width:100%; box-sizing:border-box;"></select>
+                        <select id="alignment" onchange="updateDeityList(); updateAll()" style="width:100%; box-sizing:border-box;"></select>
                     </div>
                     <div style="display:flex; flex-direction:column; gap:3px;">
                         <label style="font-size:0.72em; color:#94a3b8;">Deidad</label>
-                        <select id="deity" onchange="autoSave()" style="width:100%; box-sizing:border-box;"></select>
+                        <select id="deity" onchange="updateAll()" style="width:100%; box-sizing:border-box;"></select>
+                    </div>
+                    <div id="cleric-domain1-container" style="display:none; flex-direction:column; gap:3px;">
+                        <label style="font-size:0.72em; color:#94a3b8;">Dominio I</label>
+                        <select id="cleric-domain1" onchange="updateAll()" style="width:100%; box-sizing:border-box;"></select>
+                    </div>
+                    <div id="cleric-domain2-container" style="display:none; flex-direction:column; gap:3px;">
+                        <label style="font-size:0.72em; color:#94a3b8;">Dominio II</label>
+                        <select id="cleric-domain2" onchange="updateAll()" style="width:100%; box-sizing:border-box;"></select>
                     </div>
                 </div>
                 <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--border);">
@@ -351,6 +366,44 @@
                         <input type="checkbox" id="rage-toggle" onchange="updateAll()" style="width:16px; height:16px;">
                         <span style="font-size:0.85em; font-weight:bold; color:#ef4444;">⚡ Rage</span>
                         <span id="rage-rounds-info" style="font-size:0.75em; color:#94a3b8;"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Estados</h2>
+                <div id="conditions-grid" style="display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:8px;">
+                    <label style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 10px; background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:6px; font-size:0.82em;">
+                        <span>Blinded</span>
+                        <input type="checkbox" id="cond-blinded" onchange="updateAll()">
+                    </label>
+                    <label style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 10px; background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:6px; font-size:0.82em;">
+                        <span>Grappled/Pinned</span>
+                        <input type="checkbox" id="cond-grappled" onchange="updateAll()">
+                    </label>
+                    <label style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 10px; background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:6px; font-size:0.82em;">
+                        <span>Fatigued/Exhausted</span>
+                        <input type="checkbox" id="cond-fatigued" onchange="updateAll()">
+                    </label>
+                    <label style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 10px; background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:6px; font-size:0.82em;">
+                        <span>Stunned</span>
+                        <input type="checkbox" id="cond-stunned" onchange="updateAll()">
+                    </label>
+                    <label style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 10px; background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:6px; font-size:0.82em;">
+                        <span>Helpless</span>
+                        <input type="checkbox" id="cond-helpless" onchange="updateAll()">
+                    </label>
+                    <label style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 10px; background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:6px; font-size:0.82em;">
+                        <span>Flanking</span>
+                        <input type="checkbox" id="cond-flanking" onchange="updateAll()">
+                    </label>
+                    <label style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 10px; background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:6px; font-size:0.82em;">
+                        <span>Sickened</span>
+                        <input type="checkbox" id="cond-sickened" onchange="updateAll()">
+                    </label>
+                    <label style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 10px; background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:6px; font-size:0.82em;">
+                        <span>Invisible</span>
+                        <input type="checkbox" id="cond-invisible" onchange="updateAll()">
                     </label>
                 </div>
             </div>
@@ -1628,6 +1681,198 @@ const SKILL_SYNERGIES = [
     { from: "Tumble",           to: ["Jump"],                                     bonus: 2 },
     { from: "Use Magic Device", to: ["Spellcraft"],                               bonus: 2 },
 ];
+
+// ── QUICK GENERATOR ──────────────────────────────────────────
+const QG = {
+    names: ["Aldric","Bram","Cass","Dorn","Elara","Fayne","Gorn","Hilde","Idris","Jace",
+            "Kira","Lorn","Mira","Nax","Oryn","Pell","Quinn","Rael","Sable","Thorn",
+            "Urist","Vex","Wren","Xan","Yara","Zane","Aela","Beric","Cira","Draven"],
+
+    // Alineamientos permitidos por clase
+    alignByClass: {
+        "Barbarian": ["CG","CN","CE","NG","N","NE"],
+        "Bard":      ["CG","CN","CE","NG","N","NE"],
+        "Cleric":    ["LG","LN","LE","NG","N","NE","CG","CN","CE"],
+        "Druid":     ["LG","LN","NG","N","NE","CG","CN","CE"],
+        "Fighter":   ["LG","LN","LE","NG","N","NE","CG","CN","CE"],
+        "Monk":      ["LG","LN","LE"],
+        "Paladin":   ["LG"],
+        "Ranger":    ["LG","LN","LE","NG","N","NE","CG","CN","CE"],
+        "Rogue":     ["LG","LN","LE","NG","N","NE","CG","CN","CE"],
+        "Sorcerer":  ["LG","LN","LE","NG","N","NE","CG","CN","CE"],
+        "Wizard":    ["LG","LN","LE","NG","N","NE","CG","CN","CE"],
+    },
+
+    // Equipo sugerido por clase
+    equipByClass: {
+        "Barbarian": { weapon:"Hacha grande",       armor:"Cuero tachonado", shield:"" },
+        "Bard":      { weapon:"Espada larga",        armor:"Cuero",           shield:"Escudo de madera pequeño" },
+        "Cleric":    { weapon:"Maza pesada",         armor:"Cota de mallas",  shield:"Escudo de metal grande" },
+        "Druid":     { weapon:"Bastón",              armor:"Armadura de pieles", shield:"" },
+        "Fighter":   { weapon:"Espada larga",        armor:"Cota de mallas",  shield:"Escudo de metal grande" },
+        "Monk":      { weapon:"Unarmed Strike",      armor:"",                shield:"" },
+        "Paladin":   { weapon:"Espada larga",        armor:"Cota de mallas",  shield:"Escudo de metal grande" },
+        "Ranger":    { weapon:"Arco largo",          armor:"Cuero tachonado", shield:"" },
+        "Rogue":     { weapon:"Daga",                armor:"Cuero",           shield:"" },
+        "Sorcerer":  { weapon:"Bastón",              armor:"",                shield:"" },
+        "Wizard":    { weapon:"Bastón",              armor:"",                shield:"" },
+    },
+
+    // Skills prioritarias por clase
+    skillPriorityByClass: {
+        "Barbarian": ["Climb","Intimidate","Listen","Survival","Jump"],
+        "Bard":      ["Perform","Bluff","Diplomacy","Listen","Sense Motive"],
+        "Cleric":    ["Concentration","Diplomacy","Heal","Knowledge","Spellcraft"],
+        "Druid":     ["Concentration","Handle Animal","Knowledge","Survival","Spot"],
+        "Fighter":   ["Climb","Intimidate","Jump","Ride","Swim"],
+        "Monk":      ["Balance","Concentration","Hide","Listen","Move Silently"],
+        "Paladin":   ["Concentration","Diplomacy","Heal","Ride","Sense Motive"],
+        "Ranger":    ["Hide","Listen","Move Silently","Search","Survival"],
+        "Rogue":     ["Hide","Move Silently","Open Lock","Search","Disable Device"],
+        "Sorcerer":  ["Bluff","Concentration","Knowledge","Spellcraft","Use Magic Device"],
+        "Wizard":    ["Concentration","Decipher Script","Knowledge","Spellcraft","Spot"],
+    }
+};
+
+function roll4d6() {
+    const rolls = [1,2,3,4].map(() => Math.floor(Math.random()*6)+1);
+    rolls.sort((a,b) => a-b);
+    return rolls.slice(1).reduce((a,b) => a+b, 0);
+}
+
+function pick(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
+
+function quickGenerate() {
+    const lvl     = parseInt(document.getElementById('level').value) || 1;
+    let clsName   = document.getElementById('class').value;
+    let raceName  = document.getElementById('race').value;
+
+    // Si no tiene clase o raza, elegir aleatoriamente
+    if (!clsName) {
+        clsName = pick(SRD.classes.map(c => c.name));
+        document.getElementById('class').value = clsName;
+    }
+    if (!raceName) {
+        raceName = pick(SRD.races.map(r => r.name));
+        document.getElementById('race').value = raceName;
+    }
+
+    const cData = SRD.classes.find(c => c.name === clsName);
+
+    // ── Nombre ──
+    if (!document.getElementById('charName').value || document.getElementById('charName').value === 'Nuevo Personaje') {
+        document.getElementById('charName').value = pick(QG.names);
+    }
+
+    // ── Alineamiento ──
+    if (!document.getElementById('alignment').value) {
+        const validAligns = QG.alignByClass[clsName] || ALIGNMENTS;
+        document.getElementById('alignment').value = pick(validAligns);
+        updateDeityList();
+    }
+
+    // ── Deidad ──
+    const currentDeity = document.getElementById('deity').value;
+    if (!currentDeity || currentDeity === "— Ninguna —") {
+        const alignment = document.getElementById('alignment').value;
+        const validDeities = DEITIES.filter(d => d.align.includes(alignment));
+        if (validDeities.length > 0) {
+            document.getElementById('deity').value = pick(validDeities).name;
+        }
+    }
+
+    // ── Stats: solo los que están en 10 ──
+    ["STR","DEX","CON","INT","WIS","CHA"].forEach(s => {
+        const el = document.getElementById(`base-${s}`);
+        if (el && parseInt(el.value) === 10) el.value = roll4d6();
+    });
+
+    // ── updateAll para que recalcule todo antes de asignar skills/feats ──
+    updateAll(false);
+
+    // ── Skills: distribuir puntos restantes en class skills prioritarias ──
+    const rData       = SRD.races.find(r => r.name === raceName);
+    const intMod      = Math.floor((parseInt(document.getElementById('base-INT').value) - 10) / 2);
+    const basePerLvl  = Math.max(1, cData.skillPoints + intMod);
+    let totalPoints   = (basePerLvl * 4) + (basePerLvl * (lvl - 1));
+    if (raceName === "Human") totalPoints += (4 + (lvl - 1));
+    const maxRank     = lvl + 3;
+
+    // Contar puntos ya usados
+    let usedPoints = 0;
+    Object.keys(SRD.skills).forEach(sk => {
+        usedPoints += parseInt(document.getElementById(`sk-rnk-${sk}`)?.value) || 0;
+    });
+    let remaining = totalPoints - usedPoints;
+
+    // Prioridad: class skills del perfil, luego todas las class skills
+    const priority   = QG.skillPriorityByClass[clsName] || [];
+    const classSkills = cData.classSkills || [];
+    const skillQueue = [
+        ...priority.filter(s => classSkills.includes(s)),
+        ...classSkills.filter(s => !priority.includes(s)),
+        ...Object.keys(SRD.skills).filter(s => !classSkills.includes(s))
+    ];
+
+    skillQueue.forEach(sk => {
+        if (remaining <= 0) return;
+        const el = document.getElementById(`sk-rnk-${sk}`);
+        if (!el) return;
+        const current = parseInt(el.value) || 0;
+        if (current > 0) return; // ya tiene rangos, no tocar
+        // Distribuir hasta maxRank pero de a poco para no agotar todos en una skill
+        const cap = classSkills.includes(sk) ? Math.min(maxRank, Math.ceil(remaining * 0.4)) : Math.min(Math.floor(maxRank / 2), Math.ceil(remaining * 0.2));
+        const toAdd = Math.min(cap, remaining);
+        if (toAdd > 0) { el.value = toAdd; remaining -= toAdd; }
+    });
+    // Si quedaron puntos, distribuirlos en más skills
+    if (remaining > 0) {
+        skillQueue.forEach(sk => {
+            if (remaining <= 0) return;
+            const el = document.getElementById(`sk-rnk-${sk}`);
+            if (!el) return;
+            const current = parseInt(el.value) || 0;
+            if (current >= maxRank) return;
+            const toAdd = Math.min(maxRank - current, remaining);
+            if (toAdd > 0) { el.value = current + toAdd; remaining -= toAdd; }
+        });
+    }
+
+    // ── Feats y Spells: esperar a que updateAll renderice los slots ──
+    // Forzar render de hechizos aunque la pestaña no esté activa
+    updateAll(false);
+    renderSpellsTab(lvl, clsName);
+    setTimeout(() => {
+        document.querySelectorAll('[id^="feat-sel-"]').forEach(sel => {
+            if (sel.value) return;
+            const opts = Array.from(sel.options).filter(o => o.value);
+            if (opts.length > 0) sel.value = pick(opts).value;
+        });
+
+        // Spells
+        document.querySelectorAll('.spell-selector').forEach(sel => {
+            if (sel.value) return;
+            const opts = Array.from(sel.options).filter(o => o.value);
+            if (opts.length > 0) sel.value = pick(opts).value;
+        });
+
+        // Equipo: solo si está vacío
+        const eq = QG.equipByClass[clsName];
+        if (eq) {
+            const w1 = document.getElementById('eq-weapon1');
+            if (w1 && !w1.value) w1.value = eq.weapon;
+            const arm = document.getElementById('eq-armor');
+            if (arm && !arm.value) arm.value = eq.armor;
+            const sh = document.getElementById('eq-shield');
+            if (sh && !sh.value && eq.shield) sh.value = eq.shield;
+        }
+
+        updateAll();
+        updateEquip();
+        updateSpellSummary();
+    }, 300);
+}
+// ─────────────────────────────────────────────────────────────
 
 // Dotes de skill: { nombre: { skill: bonus } }
 const FEAT_SKILL_BONUSES = {
@@ -3163,6 +3408,908 @@ function showTab(i) {
     });
 }
 
+function getCurrentTabIndex() {
+    return Array.from(document.querySelectorAll('.tab')).findIndex(tab => tab.classList.contains('active'));
+}
+
+function initTabSwipe() {
+    const panels = document.querySelectorAll('.panel');
+    let startX = 0;
+    let startY = 0;
+    let tracking = false;
+
+    const shouldIgnoreSwipe = (target) => {
+        return !!target.closest('input, textarea, select, button, label, .tabs');
+    };
+
+    panels.forEach(panel => {
+        panel.addEventListener('touchstart', (event) => {
+            if (shouldIgnoreSwipe(event.target) || event.touches.length !== 1) {
+                tracking = false;
+                return;
+            }
+            startX = event.touches[0].clientX;
+            startY = event.touches[0].clientY;
+            tracking = true;
+        }, { passive: true });
+
+        panel.addEventListener('touchend', (event) => {
+            if (!tracking || shouldIgnoreSwipe(event.target)) return;
+            const touch = event.changedTouches[0];
+            const dx = touch.clientX - startX;
+            const dy = touch.clientY - startY;
+            const absX = Math.abs(dx);
+            const absY = Math.abs(dy);
+            tracking = false;
+
+            if (absX < 60 || absX < absY * 1.5) return;
+
+            const current = getCurrentTabIndex();
+            if (current < 0) return;
+
+            if (dx < 0 && current < 5) showTab(current + 1);
+            if (dx > 0 && current > 0) showTab(current - 1);
+        }, { passive: true });
+
+        panel.addEventListener('touchcancel', () => {
+            tracking = false;
+        }, { passive: true });
+    });
+}
+
+// Overrides: preservan selecciones al rerenderizar y evitan depender de setTimeout.
+function quickGenerate() {
+    const lvl     = parseInt(document.getElementById('level').value) || 1;
+    let clsName   = document.getElementById('class').value;
+    let raceName  = document.getElementById('race').value;
+
+    if (!clsName) {
+        clsName = pick(SRD.classes.map(c => c.name));
+        document.getElementById('class').value = clsName;
+    }
+    if (!raceName) {
+        raceName = pick(SRD.races.map(r => r.name));
+        document.getElementById('race').value = raceName;
+    }
+
+    const cData = SRD.classes.find(c => c.name === clsName);
+
+    if (!document.getElementById('charName').value || document.getElementById('charName').value === 'Nuevo Personaje') {
+        document.getElementById('charName').value = pick(QG.names);
+    }
+
+    if (!document.getElementById('alignment').value) {
+        const validAligns = QG.alignByClass[clsName] || ALIGNMENTS;
+        document.getElementById('alignment').value = pick(validAligns);
+        updateDeityList();
+    }
+
+    const currentDeity = document.getElementById('deity').value;
+    if (!currentDeity || currentDeity === "â€” Ninguna â€”") {
+        const alignment = document.getElementById('alignment').value;
+        const validDeities = DEITIES.filter(d => d.align.includes(alignment));
+        if (validDeities.length > 0) {
+            document.getElementById('deity').value = pick(validDeities).name;
+        }
+    }
+
+    ["STR","DEX","CON","INT","WIS","CHA"].forEach(s => {
+        const el = document.getElementById(`base-${s}`);
+        if (el && parseInt(el.value) === 10) el.value = roll4d6();
+    });
+
+    updateAll(false);
+
+    const intMod      = Math.floor((parseInt(document.getElementById('base-INT').value) - 10) / 2);
+    const basePerLvl  = Math.max(1, cData.skillPoints + intMod);
+    let totalPoints   = (basePerLvl * 4) + (basePerLvl * (lvl - 1));
+    if (raceName === "Human") totalPoints += (4 + (lvl - 1));
+    const maxRank     = lvl + 3;
+
+    let usedPoints = 0;
+    Object.keys(SRD.skills).forEach(sk => {
+        usedPoints += parseInt(document.getElementById(`sk-rnk-${sk}`)?.value) || 0;
+    });
+    let remaining = totalPoints - usedPoints;
+
+    const priority    = QG.skillPriorityByClass[clsName] || [];
+    const classSkills = cData.classSkills || [];
+    const skillQueue = [
+        ...priority.filter(s => classSkills.includes(s)),
+        ...classSkills.filter(s => !priority.includes(s)),
+        ...Object.keys(SRD.skills).filter(s => !classSkills.includes(s))
+    ];
+
+    skillQueue.forEach(sk => {
+        if (remaining <= 0) return;
+        const el = document.getElementById(`sk-rnk-${sk}`);
+        if (!el) return;
+        const current = parseInt(el.value) || 0;
+        if (current > 0) return;
+        const cap = classSkills.includes(sk)
+            ? Math.min(maxRank, Math.ceil(remaining * 0.4))
+            : Math.min(Math.floor(maxRank / 2), Math.ceil(remaining * 0.2));
+        const toAdd = Math.min(cap, remaining);
+        if (toAdd > 0) { el.value = toAdd; remaining -= toAdd; }
+    });
+
+    if (remaining > 0) {
+        skillQueue.forEach(sk => {
+            if (remaining <= 0) return;
+            const el = document.getElementById(`sk-rnk-${sk}`);
+            if (!el) return;
+            const current = parseInt(el.value) || 0;
+            if (current >= maxRank) return;
+            const toAdd = Math.min(maxRank - current, remaining);
+            if (toAdd > 0) { el.value = current + toAdd; remaining -= toAdd; }
+        });
+    }
+
+    updateAll(false);
+
+    const generatedFeats = [];
+    document.querySelectorAll('[id^="feat-sel-"]').forEach(sel => {
+        if (!sel.value) {
+            const opts = Array.from(sel.options).filter(o => o.value);
+            if (opts.length > 0) sel.value = pick(opts).value;
+        }
+        generatedFeats.push(sel.value || "");
+    });
+    window._pendingFeats = generatedFeats;
+
+    const generatedSpells = [];
+    document.querySelectorAll('.spell-selector').forEach(sel => {
+        if (!sel.value) {
+            const opts = Array.from(sel.options).filter(o => o.value);
+            if (opts.length > 0) sel.value = pick(opts).value;
+        }
+        generatedSpells.push(sel.value || "");
+    });
+    window._pendingSpells = generatedSpells;
+
+    const eq = QG.equipByClass[clsName];
+    if (eq) {
+        const w1 = document.getElementById('eq-weapon1');
+        if (w1 && !w1.value) w1.value = eq.weapon;
+        const arm = document.getElementById('eq-armor');
+        if (arm && !arm.value) arm.value = eq.armor;
+        const sh = document.getElementById('eq-shield');
+        if (sh && !sh.value && eq.shield) sh.value = eq.shield;
+    }
+
+    updateAll();
+    updateEquip();
+    updateSpellSummary();
+}
+
+function renderFeatSlots(lvl, race, cls) {
+    const container = document.getElementById('feats-selection');
+    let slots = [];
+    for(let i=1; i<=lvl; i++) if(i === 1 || i % 3 === 0) slots.push(`Lvl ${i}`);
+    if(race === "Human") slots.push("Humano");
+    if(cls === "Fighter") {
+        if(lvl >= 1) slots.push("Fighter 1");
+        if(lvl >= 2) slots.push("Fighter 2");
+        for(let j=4; j<=lvl; j+=2) slots.push(`Fighter ${j}`);
+    }
+    if(cls === "Wizard") {
+        [5,10,15,20].filter(n => n <= lvl).forEach(n => slots.push(`Wizard ${n}`));
+    }
+    if(cls === "Sorcerer") {
+        [3,5,10,15,20].filter(n => n <= lvl).forEach(n => slots.push(`Sorcerer ${n}`));
+    }
+    if(cls === "Monk") {
+        if(lvl >= 1) slots.push("Monk 1");
+        if(lvl >= 2) slots.push("Monk 2");
+        if(lvl >= 6) slots.push("Monk 6");
+    }
+    if(cls === "Ranger") {
+        if(lvl >= 2)  slots.push("Ranger Style 2");
+        if(lvl >= 6)  slots.push("Ranger Style 6");
+        if(lvl >= 11) slots.push("Ranger Style 11");
+    }
+
+    const currentSelections = {};
+    container.querySelectorAll('.feat-item').forEach(item => {
+        const lbl = item.querySelector('.feat-label')?.textContent?.trim();
+        const val = item.querySelector('select')?.value;
+        if (lbl && val) currentSelections[lbl] = val;
+    });
+
+    container.innerHTML = "";
+    slots.forEach((label, idx) => {
+        let div = document.createElement('div');
+        div.className = "feat-item";
+        let selId = `feat-sel-${idx}`;
+        div.innerHTML = `<div class="feat-label">${label}</div>
+                         <select id="${selId}" onchange="updateFeatDesc('${selId}', 'desc-${idx}'); recalcFromFeats();">
+                            <option value="">-- Elige Dote --</option>
+                         </select>
+                         <div id="desc-${idx}"></div>`;
+        container.appendChild(div);
+        let select = div.querySelector('select');
+        const isFighterSlot   = label.startsWith("Fighter");
+        const isSorcererSlot  = label.startsWith("Sorcerer");
+        const isMonk1Slot     = label === "Monk 1";
+        const isMonk2Slot     = label === "Monk 2";
+        const isMonk6Slot     = label === "Monk 6";
+        const isRangerStyle2  = label === "Ranger Style 2";
+        const isRangerStyle6  = label === "Ranger Style 6";
+        const isRangerStyle11 = label === "Ranger Style 11";
+
+        const MONK1_FEATS = ["Combat Reflexes","Deflect Arrows"];
+        const MONK2_FEATS = ["Combat Reflexes","Deflect Arrows","Improved Grapple","Improved Trip"];
+        const MONK6_FEATS = ["Combat Reflexes","Deflect Arrows","Improved Disarm","Improved Grapple","Improved Trip","Stunning Fist"];
+
+        const rangerStyleVal = document.getElementById('ranger-style')?.value || "Archery";
+        const RANGER_FEATS = {
+            "Archery": { 2: "Rapid Shot", 6: "Manyshot", 11: "Improved Precise Shot" },
+            "TWF":     { 2: "Two-Weapon Fighting", 6: "Improved Two-Weapon Fighting", 11: "Greater Two-Weapon Fighting" }
+        };
+        const getRangerFeat = (lvlSlot) => {
+            const featName = RANGER_FEATS[rangerStyleVal]?.[lvlSlot];
+            return featName ? [{name: featName}] : [];
+        };
+
+        const featList = isFighterSlot   ? SRD.feats.filter(f => f.fighter) :
+                         isSorcererSlot  ? SRD.feats.filter(f => f.sorcerer) :
+                         isMonk1Slot     ? SRD.feats.filter(f => MONK1_FEATS.includes(f.name)) :
+                         isMonk2Slot     ? SRD.feats.filter(f => MONK2_FEATS.includes(f.name)) :
+                         isMonk6Slot     ? SRD.feats.filter(f => MONK6_FEATS.includes(f.name)) :
+                         isRangerStyle2  ? getRangerFeat(2) :
+                         isRangerStyle6  ? getRangerFeat(6) :
+                         isRangerStyle11 ? getRangerFeat(11) :
+                         SRD.feats;
+        featList.forEach(f => select.add(new Option(f.name, f.name)));
+        if (label.startsWith("Ranger Style") && featList.length === 1) {
+            select.value = featList[0].name;
+        } else if (currentSelections[label]) {
+            select.value = currentSelections[label];
+        }
+        updateFeatDesc(selId, `desc-${idx}`);
+    });
+}
+
+function renderSpellsTab(lvl, clsName) {
+    const cData = SRD.classes.find(c => c.name === clsName);
+    const container = document.getElementById('spells-per-level-container');
+    const notes = document.getElementById('caster-notes');
+    const currentSelections = Array.from(container.querySelectorAll('.spell-selector')).map(sel => sel.value || "");
+    let spellIdx = 0;
+    container.innerHTML = "";
+
+    if (!cData.caster) {
+        notes.innerText = "Esta clase no lanza hechizos.";
+        return;
+    }
+
+    const slotTable = SPELL_SLOTS[clsName];
+    if (!slotTable) {
+        notes.innerText = `Lanzador basado en ${cData.stat}. (Tabla de slots no encontrada)`;
+        return;
+    }
+
+    const lvlIdx = Math.min(lvl, 20) - 1;
+    const slotsRow = slotTable[lvlIdx];
+    const totalSlots = slotsRow.reduce((a, b) => a + b, 0);
+    if (totalSlots === 0) {
+        notes.innerText = `No lanza hechizos a este nivel.`;
+        return;
+    }
+
+    notes.innerText = `Lanzador basado en ${cData.stat}. Slots segÃºn SRD nivel ${lvl}.`;
+
+    for (let i = 0; i <= 9; i++) {
+        const numSlots = slotsRow[i];
+        if (numSlots === 0) continue;
+
+        let spellsOfLvl = SRD.spells.filter(sp => sp.level === i && sp.class.includes(clsName));
+        if (spellsOfLvl.length === 0) continue;
+
+        let section = document.createElement('div');
+        section.style.borderLeft = "3px solid var(--accent)";
+        section.style.paddingLeft = "10px";
+        section.style.marginBottom = "15px";
+        section.innerHTML = `<h3>Nivel ${i} <span style="font-size:0.7em; color:#94a3b8; font-weight:normal;">(${numSlots} slot${numSlots > 1 ? 's' : ''})</span></h3>
+                             <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:5px;"></div>`;
+        container.appendChild(section);
+        const grid = section.querySelector('div');
+
+        for (let s = 0; s < numSlots; s++) {
+            let sel = document.createElement('select');
+            sel.className = "spell-selector";
+            sel.onchange = updateSpellSummary;
+            sel.add(new Option("-- VacÃ­o --", ""));
+            spellsOfLvl.forEach(sp => sel.add(new Option(sp.name, sp.name)));
+            if (currentSelections[spellIdx]) sel.value = currentSelections[spellIdx];
+            spellIdx++;
+            grid.appendChild(sel);
+        }
+    }
+}
+
+const CLERIC_DOMAINS = {
+    "AIR":         { power: "Turn/Rebuke criaturas de aire como no muertos.", spells: {1:"Obscuring Mist",2:"Wind Wall",3:"Gaseous Form",4:"Air Walk",5:"Control Winds",6:"Chain Lightning",7:"Control Weather",8:"Whirlwind",9:"Elemental Swarm (air)"} },
+    "ANIMAL":      { power: "Empathy con animales (como druida lvl = cleric lvl).", spells: {1:"Calm Animals",2:"Hold Animal",3:"Dominate Animal",4:"Summon Nature's Ally IV",5:"Commune with Nature",6:"Antilife Shell",7:"Animal Shapes",8:"Summon Nature's Ally VIII",9:"Shapechange"} },
+    "CHAOS":       { power: "Lanzar spells con descriptor [chaotic] a +1 caster level.", spells: {1:"Protection from Law",2:"Shatter",3:"Magic Circle against Law",4:"Chaos Hammer",5:"Dispel Law",6:"Animate Objects",7:"Word of Chaos",8:"Cloak of Chaos",9:"Summon Monster IX (chaotic)"} },
+    "DEATH":       { power: "Tocar -> muerte (1/dia).", spells: {1:"Cause Fear",2:"Death Knell",3:"Animate Dead",4:"Death Ward",5:"Slay Living",6:"Create Undead",7:"Destruction",8:"Create Greater Undead",9:"Wail of the Banshee"} },
+    "DESTRUCTION": { power: "Smite 1/dia (+4 atk, +cleric lvl dano).", spells: {1:"Inflict Light Wounds",2:"Shatter",3:"Contagion",4:"Inflict Critical Wounds",5:"Slay Living",6:"Harm",7:"Disintegrate",8:"Earthquake",9:"Implosion"} },
+    "EARTH":       { power: "Turn/Rebuke criaturas de tierra.", spells: {1:"Magic Stone",2:"Soften Earth and Stone",3:"Stone Shape",4:"Spike Stones",5:"Wall of Stone",6:"Stoneskin",7:"Earthquake",8:"Iron Body",9:"Elemental Swarm (earth)"} },
+    "EVIL":        { power: "+1 caster level en spells [evil].", spells: {1:"Protection from Good",2:"Desecrate",3:"Magic Circle against Good",4:"Unholy Blight",5:"Dispel Good",6:"Create Undead",7:"Blasphemy",8:"Unholy Aura",9:"Summon Monster IX (evil)"} },
+    "FIRE":        { power: "Turn/Rebuke criaturas de fuego.", spells: {1:"Burning Hands",2:"Produce Flame",3:"Resist Energy",4:"Wall of Fire",5:"Fire Shield",6:"Fire Seeds",7:"Fire Storm",8:"Incendiary Cloud",9:"Elemental Swarm (fire)"} },
+    "GOOD":        { power: "+1 caster level en spells [good].", spells: {1:"Protection from Evil",2:"Aid",3:"Magic Circle against Evil",4:"Holy Smite",5:"Dispel Evil",6:"Blade Barrier",7:"Holy Word",8:"Holy Aura",9:"Summon Monster IX (good)"} },
+    "HEALING":     { power: "+1 caster level en healing spells.", spells: {1:"Cure Light Wounds",2:"Cure Moderate Wounds",3:"Cure Serious Wounds",4:"Cure Critical Wounds",5:"Mass Cure Light Wounds",6:"Heal",7:"Regenerate",8:"Mass Cure Critical Wounds",9:"Mass Heal"} },
+    "KNOWLEDGE":   { power: "Todos los Knowledge como habilidades de clase.", spells: {1:"Detect Secret Doors",2:"Detect Thoughts",3:"Clairaudience/Clairvoyance",4:"Divination",5:"True Seeing",6:"Find the Path",7:"Legend Lore",8:"Discern Location",9:"Foresight"} },
+    "LAW":         { power: "+1 caster level en spells [lawful].", spells: {1:"Protection from Chaos",2:"Calm Emotions",3:"Magic Circle against Chaos",4:"Order's Wrath",5:"Dispel Chaos",6:"Hold Monster",7:"Dictum",8:"Shield of Law",9:"Summon Monster IX (lawful)"} },
+    "LUCK":        { power: "Re-roll 1/dia.", spells: {1:"Entropic Shield",2:"Aid",3:"Protection from Energy",4:"Freedom of Movement",5:"Break Enchantment",6:"Mislead",7:"Spell Turning",8:"Moment of Prescience",9:"Miracle"} },
+    "MAGIC":       { power: "Usar scrolls/wands como wizard.", spells: {1:"Magic Aura",2:"Identify",3:"Dispel Magic",4:"Imbue with Spell Ability",5:"Spell Resistance",6:"Antimagic Field",7:"Spell Turning",8:"Protection from Spells",9:"Mage's Disjunction"} },
+    "PLANT":       { power: "Rebuke/Command plantas.", spells: {1:"Entangle",2:"Barkskin",3:"Plant Growth",4:"Command Plants",5:"Wall of Thorns",6:"Repel Wood",7:"Animate Plants",8:"Control Plants",9:"Shambler"} },
+    "PROTECTION":  { power: "+1 resistance saves 1 round (1/dia).", spells: {1:"Sanctuary",2:"Shield Other",3:"Protection from Energy",4:"Spell Immunity",5:"Spell Resistance",6:"Antimagic Field",7:"Repulsion",8:"Mind Blank",9:"Prismatic Sphere"} },
+    "STRENGTH":    { power: "Feat of Strength 1 round/dia.", spells: {1:"Enlarge Person",2:"Bull's Strength",3:"Magic Vestment",4:"Spell Immunity",5:"Righteous Might",6:"Stoneskin",7:"Grasping Hand",8:"Clenched Fist",9:"Crushing Hand"} },
+    "SUN":         { power: "Greater Turning 1/dia.", spells: {1:"Endure Elements",2:"Heat Metal",3:"Searing Light",4:"Fire Shield",5:"Flame Strike",6:"Fire Seeds",7:"Sunbeam",8:"Sunburst",9:"Prismatic Sphere"} },
+    "TRAVEL":      { power: "Freedom of movement parcial (1 round/dia).", spells: {1:"Longstrider",2:"Locate Object",3:"Fly",4:"Dimension Door",5:"Teleport",6:"Find the Path",7:"Teleport Greater",8:"Phase Door",9:"Astral Projection"} },
+    "TRICKERY":    { power: "Bluff, Disguise, Hide como class skills.", spells: {1:"Disguise Self",2:"Invisibility",3:"Nondetection",4:"Confusion",5:"False Vision",6:"Mislead",7:"Screen",8:"Polymorph Any Object",9:"Time Stop"} },
+    "WAR":         { power: "Weapon Focus con arma de deidad.", spells: {1:"Magic Weapon",2:"Spiritual Weapon",3:"Magic Vestment",4:"Divine Power",5:"Flame Strike",6:"Blade Barrier",7:"Power Word Blind",8:"Power Word Stun",9:"Power Word Kill"} },
+    "WATER":       { power: "Turn/Rebuke criaturas de agua.", spells: {1:"Obscuring Mist",2:"Fog Cloud",3:"Water Breathing",4:"Control Water",5:"Ice Storm",6:"Cone of Cold",7:"Acid Fog",8:"Horrid Wilting",9:"Elemental Swarm (water)"} },
+};
+
+const DEITY_DOMAIN_MAP = {
+    "Boccob": ["KNOWLEDGE","MAGIC","TRICKERY"],
+    "Corellon": ["CHAOS","GOOD","MAGIC","WAR"],
+    "Ehlonna": ["ANIMAL","GOOD","PLANT","SUN"],
+    "Erythnul": ["CHAOS","EVIL","TRICKERY"],
+    "Fharlanghn": ["TRAVEL","LUCK","PROTECTION"],
+    "Gruumsh": ["CHAOS","EVIL","STRENGTH","WAR"],
+    "Heironeous": ["GOOD","WAR","LAW","PROTECTION"],
+    "Hextor": ["DESTRUCTION","WAR","LAW","EVIL"],
+    "Kord": ["CHAOS","GOOD","STRENGTH","LUCK"],
+    "Moradin": ["GOOD","PROTECTION","EARTH"],
+    "Nerull": ["EVIL","DEATH","TRICKERY"],
+    "Obad-Hai": ["ANIMAL","AIR","EARTH","FIRE","WATER"],
+    "Olidammara": ["CHAOS","LUCK","TRICKERY"],
+    "Pelor": ["GOOD","HEALING","STRENGTH","SUN"],
+    "Ralishaz": ["CHAOS","DESTRUCTION","LUCK"],
+    "St. Cuthbert": ["DESTRUCTION","STRENGTH","PROTECTION"],
+    "Vecna": ["EVIL","KNOWLEDGE","MAGIC"],
+    "Wee Jas": ["DEATH","LAW","MAGIC"],
+};
+
+function getSelectedClericDomains() {
+    return [
+        document.getElementById('cleric-domain1')?.value || "",
+        document.getElementById('cleric-domain2')?.value || "",
+    ].filter(Boolean);
+}
+
+function domainAllowedByAlignment(domainName, alignment) {
+    if (!alignment) return true;
+    if (domainName === "GOOD") return alignment.includes("G");
+    if (domainName === "EVIL") return alignment.includes("E");
+    if (domainName === "LAW") return alignment.includes("L");
+    if (domainName === "CHAOS") return alignment.includes("C");
+    return true;
+}
+
+function getAllowedClericDomains() {
+    const clsName = document.getElementById('class')?.value;
+    const deity = document.getElementById('deity')?.value || "";
+    const alignment = document.getElementById('alignment')?.value || "";
+    if (clsName !== "Cleric" || !deity) return [];
+    return (DEITY_DOMAIN_MAP[deity] || []).filter(domain => domainAllowedByAlignment(domain, alignment));
+}
+
+function populateClericDomainSelect(selectId, currentValue, excludedValue) {
+    const sel = document.getElementById(selectId);
+    if (!sel) return "";
+    const options = getAllowedClericDomains().filter(domain => !excludedValue || domain !== excludedValue);
+    sel.innerHTML = "";
+    sel.add(new Option("-- Dominio --", ""));
+    options.forEach(domain => sel.add(new Option(domain, domain)));
+    if (currentValue && options.includes(currentValue)) sel.value = currentValue;
+    return sel.value || "";
+}
+
+function syncClericDomainUI() {
+    const isCleric = document.getElementById('class')?.value === "Cleric";
+    const c1 = document.getElementById('cleric-domain1-container');
+    const c2 = document.getElementById('cleric-domain2-container');
+    const s1 = document.getElementById('cleric-domain1');
+    const s2 = document.getElementById('cleric-domain2');
+    if (!c1 || !c2 || !s1 || !s2) return;
+
+    c1.style.display = isCleric ? "flex" : "none";
+    c2.style.display = isCleric ? "flex" : "none";
+    if (!isCleric) return;
+
+    const current1 = s1.value || "";
+    const current2 = s2.value || "";
+    const next1 = populateClericDomainSelect('cleric-domain1', current1, current2);
+    populateClericDomainSelect('cleric-domain2', current2, next1);
+}
+
+function getClericDomainSkillOverrides() {
+    const domains = getSelectedClericDomains();
+    const extra = [];
+    if (domains.includes("TRICKERY")) extra.push("Bluff", "Disguise", "Hide");
+    if (domains.includes("KNOWLEDGE")) extra.push("Knowledge");
+    return extra;
+}
+
+const _baseCollectSaveDataDomains = collectSaveData;
+collectSaveData = function() {
+    const data = _baseCollectSaveDataDomains();
+    data.clericDomains = {
+        domain1: document.getElementById('cleric-domain1')?.value || "",
+        domain2: document.getElementById('cleric-domain2')?.value || "",
+    };
+    return data;
+};
+
+const _baseApplySaveDataDomains = applySaveData;
+applySaveData = function(data) {
+    _baseApplySaveDataDomains(data);
+    syncClericDomainUI();
+    if (data?.clericDomains) {
+        if (document.getElementById('cleric-domain1')) document.getElementById('cleric-domain1').value = data.clericDomains.domain1 || "";
+        if (document.getElementById('cleric-domain2')) document.getElementById('cleric-domain2').value = data.clericDomains.domain2 || "";
+        syncClericDomainUI();
+    }
+};
+
+const _baseUpdateDeityListDomains = updateDeityList;
+updateDeityList = function() {
+    _baseUpdateDeityListDomains();
+    syncClericDomainUI();
+};
+
+const _baseRenderClassFeaturesDomains = renderClassFeatures;
+renderClassFeatures = function(lvl, clsName) {
+    _baseRenderClassFeaturesDomains(lvl, clsName);
+    if (clsName !== "Cleric" || lvl < 1) return;
+    const container = document.getElementById('class-features');
+    if (!container) return;
+    const domains = getSelectedClericDomains();
+    domains.forEach(domain => {
+        const info = CLERIC_DOMAINS[domain];
+        if (!info) return;
+        const el = document.createElement('span');
+        el.style.cssText = "display:inline-block; background:#4c1d95; border:1px solid #c084fc; color:#f5f3ff; padding:6px 10px; border-radius:6px; margin:4px 6px 0 0; font-size:0.82em;";
+        el.textContent = `${domain}: ${info.power}`;
+        container.appendChild(el);
+    });
+};
+
+const _baseRenderSpellsTabDomains = renderSpellsTab;
+renderSpellsTab = function(lvl, clsName) {
+    const cData = SRD.classes.find(c => c.name === clsName);
+    const container = document.getElementById('spells-per-level-container');
+    const notes = document.getElementById('caster-notes');
+    const currentSelections = {};
+    container.querySelectorAll('.spell-selector').forEach(sel => {
+        if (sel.dataset.slotKind !== "base") return;
+        const lvlKey = sel.dataset.spellLevel || "";
+        const slotKey = sel.dataset.slotIndex || "";
+        if (!lvlKey) return;
+        if (!currentSelections[lvlKey]) currentSelections[lvlKey] = {};
+        currentSelections[lvlKey][slotKey] = sel.value || "";
+    });
+    container.innerHTML = "";
+
+    if (!cData?.caster) {
+        notes.innerText = "Esta clase no lanza hechizos.";
+        return;
+    }
+
+    const slotTable = SPELL_SLOTS[clsName];
+    if (!slotTable) {
+        notes.innerText = `Lanzador basado en ${cData.stat}. (Tabla de slots no encontrada)`;
+        return;
+    }
+
+    const lvlIdx = Math.min(lvl, 20) - 1;
+    const slotsRow = slotTable[lvlIdx];
+    const totalSlots = slotsRow.reduce((a, b) => a + b, 0);
+    if (totalSlots === 0) {
+        notes.innerText = `No lanza hechizos a este nivel.`;
+        return;
+    }
+
+    const domains = clsName === "Cleric" ? getSelectedClericDomains() : [];
+    notes.innerText = clsName === "Cleric" && domains.length > 0
+        ? `Lanzador basado en ${cData.stat}. Slots segun SRD nivel ${lvl} + dominios.`
+        : `Lanzador basado en ${cData.stat}. Slots segun SRD nivel ${lvl}.`;
+
+    for (let i = 0; i <= 9; i++) {
+        const numSlots = slotsRow[i];
+        if (numSlots === 0) continue;
+
+        let spellsOfLvl = SRD.spells.filter(sp => sp.level === i && sp.class.includes(clsName));
+        const domainSpells = i >= 1
+            ? domains.map(domain => ({ domain, spell: CLERIC_DOMAINS[domain]?.spells[i] || "" })).filter(entry => entry.spell)
+            : [];
+        if (spellsOfLvl.length === 0 && domainSpells.length === 0) continue;
+
+        let section = document.createElement('div');
+        section.style.borderLeft = "3px solid var(--accent)";
+        section.style.paddingLeft = "10px";
+        section.style.marginBottom = "15px";
+        section.innerHTML = `<h3>Nivel ${i} <span style="font-size:0.7em; color:#94a3b8; font-weight:normal;">(${numSlots} slot${numSlots > 1 ? 's' : ''}${domainSpells.length ? ` + ${domainSpells.length} dominio` : ''})</span></h3>
+                             <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:5px;"></div>`;
+        container.appendChild(section);
+        const grid = section.querySelector('div');
+
+        for (let s = 0; s < numSlots; s++) {
+            let sel = document.createElement('select');
+            sel.className = "spell-selector";
+            sel.onchange = updateSpellSummary;
+            sel.dataset.spellLevel = String(i);
+            sel.dataset.slotKind = "base";
+            sel.dataset.slotIndex = String(s);
+            sel.add(new Option("-- Vacio --", ""));
+            spellsOfLvl.forEach(sp => sel.add(new Option(sp.name, sp.name)));
+            const preserved = currentSelections[String(i)]?.[String(s)];
+            if (preserved) sel.value = preserved;
+            grid.appendChild(sel);
+        }
+
+        domainSpells.forEach(entry => {
+            let sel = document.createElement('select');
+            sel.className = "spell-selector";
+            sel.dataset.spellLevel = String(i);
+            sel.dataset.slotKind = "domain";
+            sel.dataset.domain = entry.domain;
+            sel.disabled = true;
+            sel.style.borderColor = "#c084fc";
+            sel.style.color = "#e9d5ff";
+            sel.style.background = "#3b0764";
+            sel.add(new Option(`${entry.domain}: ${entry.spell}`, entry.spell));
+            sel.value = entry.spell;
+            grid.appendChild(sel);
+        });
+    }
+};
+
+const _baseUpdateSpellSummaryDomains = updateSpellSummary;
+updateSpellSummary = function() {
+    const summary = document.getElementById('spells-summary-list');
+    const selectors = document.querySelectorAll('.spell-selector');
+    let selected = [];
+    selectors.forEach(s => {
+        if (!s.value) return;
+        selected.push({
+            name: s.value,
+            level: s.dataset.spellLevel || null,
+        });
+    });
+
+    if (selected.length === 0) {
+        summary.innerHTML = `<p style="font-size:0.8em; color:#64748b;">No hay hechizos seleccionados.</p>`;
+        return;
+    }
+
+    let byLevel = {};
+    selected.forEach(entry => {
+        const sp = SRD.spells.find(s => s.name === entry.name);
+        const lvl = entry.level || (sp ? sp.level : "?");
+        if (!byLevel[lvl]) byLevel[lvl] = [];
+        if (!byLevel[lvl].includes(entry.name)) byLevel[lvl].push(entry.name);
+    });
+
+    summary.innerHTML = Object.keys(byLevel).sort((a,b) => a - b).map(lvl =>
+        `<div style="width:100%; margin-bottom:6px;">
+            <div style="font-size:0.65em; color:var(--accent); font-weight:bold; text-transform:uppercase; margin-bottom:3px;">Nivel ${lvl}</div>
+            <div>${byLevel[lvl].map(name => `<span class="spell-summary-tag">${name}</span>`).join("")}</div>
+         </div>`
+    ).join("");
+};
+
+const _baseUpdateSpellSlotsSummaryDomains = updateSpellSlotsSummary;
+updateSpellSlotsSummary = function(lvl, clsName) {
+    const card = document.getElementById('spell-slots-card');
+    const container = document.getElementById('spell-slots-summary');
+    const cData = SRD.classes.find(c => c.name === clsName);
+
+    if (!cData?.caster || !SPELL_SLOTS[clsName]) { card.style.display = "none"; return; }
+
+    const lvlIdx = Math.min(lvl, 20) - 1;
+    const slotsRow = SPELL_SLOTS[clsName][lvlIdx];
+    const totalBase = slotsRow.reduce((a, b) => a + b, 0);
+    if (totalBase === 0) { card.style.display = "none"; return; }
+
+    card.style.display = "block";
+
+    const statKey = cData.stat;
+    const baseVal = parseInt(document.getElementById(`base-${statKey}`)?.value) || 10;
+    const raceName = document.getElementById('race').value;
+    const rData = SRD.races.find(r => r.name === raceName);
+    const raceMod = rData.modifiers[statKey.toLowerCase()] || 0;
+    const statMod = Math.floor((baseVal + raceMod - 10) / 2);
+
+    function getBonusSlots(mod) {
+        let bonus = [0,0,0,0,0,0,0,0,0,0];
+        if (mod <= 0) return bonus;
+        for (let spLvl = 1; spLvl <= 9; spLvl++) {
+            let b = mod >= spLvl ? Math.floor((mod - spLvl) / 4) + 1 : 0;
+            bonus[spLvl] = b;
+        }
+        return bonus;
+    }
+
+    const bonus = getBonusSlots(statMod);
+    const hasDomainSlot = clsName === "Cleric" && getSelectedClericDomains().length > 0;
+
+    let rows = "";
+    for (let i = 0; i <= 9; i++) {
+        const base = slotsRow[i];
+        const bns = bonus[i];
+        const domainBonus = (hasDomainSlot && i >= 1 && base > 0) ? 1 : 0;
+        const total = base + bns + domainBonus;
+        if (total === 0) continue;
+
+        const bonusStr = bns > 0
+            ? `<span style="color:#f59e0b; font-size:0.75em;"> +${bns} (${statKey})</span>`
+            : "";
+        const domainStr = domainBonus > 0
+            ? `<span style="color:#c084fc; font-size:1em; font-weight:bold;"> +${domainBonus}</span>`
+            : "";
+
+        rows += `<div style="display:flex; justify-content:space-between; align-items:center; 
+                              padding:4px 8px; margin-bottom:3px; background:rgba(0,0,0,0.2); 
+                              border-radius:4px; border-left:2px solid var(--accent);">
+                    <span style="font-size:0.85em;">Nivel ${i}</span>
+                    <span><b style="color:var(--accent); font-size:1em;">${total}</b>${bonusStr}${domainStr}</span>
+                 </div>`;
+    }
+
+    container.innerHTML = `
+        <div style="font-size:0.7em; color:#94a3b8; margin-bottom:8px;">
+            ${statKey} ${baseVal + raceMod} (mod ${statMod >= 0 ? '+' : ''}${statMod}) · Nivel personaje ${lvl}
+        </div>
+        ${rows}`;
+};
+
+const _baseUpdateAllDomains = updateAll;
+updateAll = function(save = true) {
+    _baseUpdateAllDomains(false);
+    syncClericDomainUI();
+
+    const lvl = parseInt(document.getElementById('level').value) || 1;
+    const clsName = document.getElementById('class').value;
+
+    renderClassFeatures(lvl, clsName);
+    renderSpellsTab(lvl, clsName);
+    updateSpellSummary();
+    updateSpellSlotsSummary(lvl, clsName);
+
+    getClericDomainSkillOverrides().forEach(skill => {
+        const marker = document.getElementById(`sk-class-${skill}`);
+        if (marker) marker.innerText = "●";
+    });
+
+    if (save) autoSave();
+};
+
+const _baseQuickGenerateDomains = quickGenerate;
+quickGenerate = function() {
+    _baseQuickGenerateDomains();
+    if (document.getElementById('class')?.value !== "Cleric") return;
+
+    syncClericDomainUI();
+    const d1 = document.getElementById('cleric-domain1');
+    const d2 = document.getElementById('cleric-domain2');
+    if (!d1 || !d2) return;
+
+    const opts1 = Array.from(d1.options).map(o => o.value).filter(Boolean);
+    if (!d1.value && opts1.length > 0) d1.value = pick(opts1);
+
+    syncClericDomainUI();
+
+    const opts2 = Array.from(d2.options).map(o => o.value).filter(Boolean);
+    if (!d2.value && opts2.length > 0) d2.value = pick(opts2);
+
+    updateAll();
+};
+
+const CONDITION_IDS = [
+    "blinded",
+    "grappled",
+    "fatigued",
+    "stunned",
+    "helpless",
+    "flanking",
+    "sickened",
+    "invisible",
+];
+
+function getActiveConditions() {
+    const active = {};
+    CONDITION_IDS.forEach(id => {
+        active[id] = !!document.getElementById(`cond-${id}`)?.checked;
+    });
+    return active;
+}
+
+function formatSignedNumber(value) {
+    return value >= 0 ? `+${value}` : `${value}`;
+}
+
+function parseLastSignedNumber(text) {
+    const matches = String(text || "").match(/[+-]?\d+/g);
+    return matches && matches.length > 0 ? parseInt(matches[matches.length - 1], 10) : 0;
+}
+
+function getJumpBonusFromSpeed(speed) {
+    if (speed > 30) return Math.floor((speed - 30) / 10) * 4;
+    if (speed < 30) return Math.floor((speed - 30) / 10) * 6;
+    return 0;
+}
+
+function getConditionAdjustedState() {
+    const clsName = document.getElementById('class').value;
+    const raceName = document.getElementById('race').value;
+    const rData = SRD.races.find(r => r.name === raceName) || { modifiers: {} };
+    const active = getActiveConditions();
+    const raging = clsName === "Barbarian" && document.getElementById('rage-toggle')?.checked;
+
+    const baseScores = {};
+    STATS.forEach(stat => {
+        const base = parseInt(document.getElementById(`base-${stat}`)?.value) || 10;
+        const raceMod = rData.modifiers[stat.toLowerCase()] || 0;
+        baseScores[stat] = base + raceMod;
+    });
+    if (raging) {
+        baseScores.STR += 4;
+        baseScores.CON += 4;
+    }
+
+    const adjustedScores = { ...baseScores };
+    if (active.grappled) adjustedScores.DEX -= 2;
+    if (active.fatigued) {
+        adjustedScores.STR -= 4;
+        adjustedScores.DEX -= 4;
+    }
+    if (active.helpless) adjustedScores.DEX = 0;
+
+    const toMods = scores => Object.fromEntries(
+        Object.entries(scores).map(([stat, score]) => [stat, Math.floor((score - 10) / 2)])
+    );
+
+    return {
+        active,
+        baseScores,
+        adjustedScores,
+        baseMods: toMods(baseScores),
+        adjustedMods: toMods(adjustedScores),
+    };
+}
+
+function getAcDexContribution(dexMod, active) {
+    if (active.helpless) return -5;
+    if (active.blinded || active.stunned) return Math.min(0, dexMod);
+    return dexMod;
+}
+
+const _baseCollectSaveDataConditions = collectSaveData;
+collectSaveData = function() {
+    const data = _baseCollectSaveDataConditions();
+    data.conditions = Object.fromEntries(
+        CONDITION_IDS.map(id => [id, !!document.getElementById(`cond-${id}`)?.checked])
+    );
+    return data;
+};
+
+const _baseApplySaveDataConditions = applySaveData;
+applySaveData = function(data) {
+    _baseApplySaveDataConditions(data);
+    if (data?.conditions) {
+        CONDITION_IDS.forEach(id => {
+            const el = document.getElementById(`cond-${id}`);
+            if (el) el.checked = !!data.conditions[id];
+        });
+    }
+};
+
+const _baseUpdateAttackSummaryConditions = updateAttackSummary;
+updateAttackSummary = function(bab, mods) {
+    const state = getConditionAdjustedState();
+    const adjustedMods = { ...mods, STR: state.adjustedMods.STR, DEX: state.adjustedMods.DEX };
+    _baseUpdateAttackSummaryConditions(bab, adjustedMods);
+
+    const attackDelta =
+        (state.active.flanking ? 2 : 0) +
+        (state.active.invisible ? 2 : 0) -
+        (state.active.sickened ? 2 : 0);
+    const damageSuffix = state.active.sickened ? "-2" : "";
+
+    document.querySelectorAll('#attack-summary > div > div').forEach(row => {
+        const spans = row.querySelectorAll('span');
+        if (spans.length < 4) return;
+
+        const atkSpan = spans[2];
+        const atkValue = parseLastSignedNumber(atkSpan.textContent);
+        atkSpan.textContent = formatSignedNumber(atkValue + attackDelta);
+
+        if (!damageSuffix) return;
+        const dmgSpan = spans[3];
+        const firstTextNode = Array.from(dmgSpan.childNodes).find(node => node.nodeType === 3);
+        if (firstTextNode) {
+            firstTextNode.nodeValue = firstTextNode.nodeValue.trim() + damageSuffix;
+        } else {
+            dmgSpan.insertBefore(document.createTextNode(damageSuffix), dmgSpan.firstChild);
+        }
+    });
+};
+
+const _baseUpdateAllConditions = updateAll;
+updateAll = function(save = true) {
+    _baseUpdateAllConditions(false);
+
+    const state = getConditionAdjustedState();
+    const { active, baseMods, adjustedMods } = state;
+
+    document.getElementById('mod-STR').innerText = formatSignedNumber(adjustedMods.STR);
+    document.getElementById('mod-DEX').innerText = formatSignedNumber(adjustedMods.DEX);
+
+    const acEl = document.getElementById('ac-total');
+    const baseAc = parseLastSignedNumber(acEl.innerText);
+    const baseDexAc = baseMods.DEX;
+    const nextDexAc = getAcDexContribution(adjustedMods.DEX, active);
+    let acDelta = nextDexAc - baseDexAc;
+    if (active.blinded) acDelta -= 2;
+    if (active.grappled) acDelta -= 2;
+    if (active.stunned) acDelta -= 2;
+    if (active.invisible) acDelta += 2;
+    acEl.innerText = baseAc + acDelta;
+
+    const fortEl = document.getElementById('save-fort');
+    const willEl = document.getElementById('save-will');
+    fortEl.innerText = formatSignedNumber(parseLastSignedNumber(fortEl.innerText) + (adjustedMods.CON - baseMods.CON) - (active.sickened ? 2 : 0));
+    willEl.innerText = formatSignedNumber(parseLastSignedNumber(willEl.innerText) - (active.sickened ? 2 : 0));
+
+    const refEl = document.getElementById('save-ref');
+    const refTag = refEl.querySelector('span')?.outerHTML || "";
+    const refVal = parseLastSignedNumber(refEl.textContent) + (adjustedMods.DEX - baseMods.DEX) - (active.sickened ? 2 : 0);
+    refEl.innerHTML = `${refTag ? refTag + " " : ""}${formatSignedNumber(refVal)}`;
+
+    const speedEl = document.getElementById('speed-val');
+    const baseSpeed = parseLastSignedNumber(speedEl.innerText);
+    const finalSpeed = active.fatigued ? Math.max(5, Math.floor(baseSpeed / 2)) : baseSpeed;
+    speedEl.innerText = `${finalSpeed} ft`;
+    const jumpDelta = getJumpBonusFromSpeed(finalSpeed) - getJumpBonusFromSpeed(baseSpeed);
+
+    Object.entries(SRD.skills).forEach(([name, stat]) => {
+        const modEl = document.getElementById(`sk-mod-${name}`);
+        const totEl = document.getElementById(`sk-tot-${name}`);
+        if (!modEl || !totEl) return;
+
+        const baseTotal = parseLastSignedNumber(totEl.innerText);
+        let delta = 0;
+        if (stat === "STR" || stat === "DEX") {
+            modEl.innerText = adjustedMods[stat];
+            delta += adjustedMods[stat] - baseMods[stat];
+        }
+        if (active.blinded && (stat === "STR" || stat === "DEX")) delta -= 4;
+        if (active.sickened) delta -= 2;
+        if (name === "Jump") delta += jumpDelta;
+        totEl.innerText = baseTotal + delta;
+    });
+
+    const flurryEl = document.getElementById('flurry-val');
+    if (flurryEl && flurryEl.innerText) {
+        const attackDelta =
+            (adjustedMods.STR - baseMods.STR) +
+            (active.flanking ? 2 : 0) +
+            (active.invisible ? 2 : 0) -
+            (active.sickened ? 2 : 0);
+        flurryEl.innerText = flurryEl.innerText
+            .split('/')
+            .map(part => formatSignedNumber(parseLastSignedNumber(part) + attackDelta))
+            .join('/');
+    }
+
+    if (save) autoSave();
+};
+
 // Restaurar tema guardado
 const _savedTheme = localStorage.getItem('dnd35_theme');
 if (_savedTheme) {
@@ -3179,6 +4326,7 @@ window.addEventListener('DOMContentLoaded', () => {
     init(); 
 
     // 2. Lógica de carga de personajes
+    initTabSwipe();
     let meta = getCharMeta();
     activeCharIdx = parseInt(localStorage.getItem('dnd35_active_char') || '0');
 
