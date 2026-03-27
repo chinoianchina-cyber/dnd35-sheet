@@ -57,6 +57,24 @@
     /* Manual */
     .manual-item { background: var(--panel); border: 1px solid var(--border); padding: 12px; margin-bottom: 10px; border-radius: 6px; }
     .manual-tag { font-size: 0.7em; padding: 2px 6px; border-radius: 3px; margin-right: 8px; background: var(--accent); color: #000; font-weight: bold; }
+    .manual-menu { display: flex; flex-direction: column; gap: 12px; max-width: 760px; }
+    .manual-menu-card { background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(0,0,0,0.18)); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 10px; padding: 16px; cursor: pointer; transition: 0.2s; text-align: left; color: var(--text); }
+    .manual-menu-card:hover { transform: translateY(-1px); border-color: var(--accent); box-shadow: 0 8px 20px rgba(0,0,0,0.22); }
+    .manual-menu-label { display: block; font-size: 1em; font-weight: bold; letter-spacing: 0.8px; color: var(--accent); text-transform: uppercase; }
+    .manual-menu-desc { display: block; margin-top: 6px; color: #94a3b8; font-size: 0.86em; line-height: 1.35; }
+    .manual-detail-shell { max-width: 980px; }
+    .manual-toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+    .manual-back-btn { padding: 8px 12px; background: transparent; color: var(--accent); border: 1px solid var(--accent); border-radius: 6px; cursor: pointer; font-weight: bold; }
+    .manual-back-btn:hover { background: rgba(56,189,248,0.12); }
+    .manual-search { width: 100%; max-width: 420px; box-sizing: border-box; }
+    .manual-list { margin-top: 6px; max-height: 65vh; overflow-y: auto; padding-right: 5px; }
+    .manual-empty { font-size: 0.84em; color: #64748b; padding: 14px 0; }
+    .manual-jump { cursor: pointer; color: var(--text); text-decoration: underline dotted rgba(56,189,248,0.55); text-underline-offset: 3px; }
+    .manual-jump:hover { color: var(--accent); }
+    .manual-rule-title { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+    .manual-rule-summary { display: block; color: #cbd5e1; line-height: 1.45; }
+    .manual-rule-points { margin-top: 8px; display: flex; flex-direction: column; gap: 6px; }
+    .manual-rule-point { font-size: 0.8em; color: #94a3b8; line-height: 1.35; }
 
     /* Estética Spells Tab */
     .spell-level-section { border-left: 3px solid var(--accent); padding-left: 15px; margin-bottom: 25px; }
@@ -155,7 +173,7 @@
 
         /* Manual SRD: una columna */
         #p3 > div > div { flex-direction: column !important; }
-        #featsManualContent, #spellsManualContent, #equipManualContent { max-height: 300px; }
+        .manual-list { max-height: 300px; }
     }
 
     @media (max-width: 480px) {
@@ -297,6 +315,13 @@
                 <h2>Combate</h2>
                 <div class="stat-row">BAB / Ataque Completo <b id="bab-val" class="val">+0</b></div>
                 <div class="stat-row" id="flurry-row" style="display:none;">Flurry of Blows <b id="flurry-val" class="val"></b></div>
+                <div id="turn-undead-row" style="display:none; margin-bottom:8px; padding:8px 10px; background:rgba(0,0,0,0.18); border:1px solid var(--border); border-left:3px solid #f59e0b; border-radius:6px;">
+                    <div class="stat-row" style="margin-bottom:4px;">
+                        <span id="turn-undead-label" style="font-size:0.85em; font-weight:bold; color:#fbbf24;">Turn/Rebuke Undead</span>
+                        <b id="turn-undead-val" class="val"></b>
+                    </div>
+                    <div id="turn-undead-info" style="font-size:0.75em; color:#94a3b8; line-height:1.35;"></div>
+                </div>
                 <div class="stat-row" style="align-items:flex-start;">
                     <div>
                         <div>Clase de Armadura (CA)</div>
@@ -378,11 +403,11 @@
                         <input type="checkbox" id="cond-blinded" onchange="updateAll()">
                     </label>
                     <label style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 10px; background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:6px; font-size:0.82em;">
-                        <span>Grappled/Pinned</span>
+                        <span>Grappled</span>
                         <input type="checkbox" id="cond-grappled" onchange="updateAll()">
                     </label>
                     <label style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 10px; background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:6px; font-size:0.82em;">
-                        <span>Fatigued/Exhausted</span>
+                        <span>Fatigued</span>
                         <input type="checkbox" id="cond-fatigued" onchange="updateAll()">
                     </label>
                     <label style="display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 10px; background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:6px; font-size:0.82em;">
@@ -681,24 +706,17 @@
 
 <div class="panel" id="p3">
     <h3>Referencia SRD</h3>
-    <div style="display: flex; gap: 20px; align-items: flex-start;">
-        <div style="flex: 1; min-width: 0;">
-            <h4 style="border-bottom: 1px solid var(--border); padding-bottom: 5px;">Dotes</h4>
-            <input type="text" id="searchFeats" placeholder="Buscar dote..." onkeyup="renderManualFeats()" style="width: 100%; box-sizing: border-box;">
-            <div id="featsManualContent" style="margin-top:15px; max-height: 65vh; overflow-y: auto; padding-right: 5px;"></div>
+    <div id="manual-home" class="manual-menu"></div>
+    <div id="manual-detail" class="manual-detail-shell" style="display:none;">
+        <div class="manual-toolbar">
+            <button class="manual-back-btn" onclick="closeManualSection()">← Volver</button>
+            <div>
+                <div id="manual-detail-title" style="font-size:1.05em; font-weight:bold; color:var(--accent); text-transform:uppercase; letter-spacing:1px;"></div>
+                <div id="manual-detail-subtitle" style="font-size:0.78em; color:#94a3b8; margin-top:2px;"></div>
+            </div>
         </div>
-        
-        <div style="flex: 1; min-width: 0;">
-            <h4 style="border-bottom: 1px solid var(--border); padding-bottom: 5px;">Hechizos</h4>
-            <input type="text" id="searchSpells" placeholder="Buscar hechizo..." onkeyup="renderManualSpells()" style="width: 100%; box-sizing: border-box;">
-            <div id="spellsManualContent" style="margin-top:15px; max-height: 65vh; overflow-y: auto; padding-right: 5px;"></div>
-        </div>
-
-        <div style="flex: 1; min-width: 0;">
-            <h4 style="border-bottom: 1px solid var(--border); padding-bottom: 5px;">Equipo</h4>
-            <input type="text" id="searchEquip" placeholder="Buscar equipo..." onkeyup="renderManualEquip()" style="width: 100%; box-sizing: border-box;">
-            <div id="equipManualContent" style="margin-top:15px; max-height: 65vh; overflow-y: auto; padding-right: 5px;"></div>
-        </div>
+        <input type="text" id="manual-search" class="manual-search" placeholder="Buscar en esta sección..." onkeyup="renderManualDetail()" style="display:none;">
+        <div id="manual-detail-content" class="manual-list"></div>
     </div>
 </div>
 
@@ -1018,6 +1036,159 @@ const SRD = {
         {name:"Tormenta de venganza", level:9, class:["Druid"], desc:"Rayos, ácido y granizo."},
         {name:"Encarnación elemental", level:9, class:["Druid"], desc:"Elemental Mayor."},
         {name:"Antipatía", level:9, class:["Druid","Wizard","Sorcerer"], desc:"Repulsión irresistible por lugar."}
+        {name:"Acid Fog", level:7, class:["Cleric"], desc:"Fog deals acid damage."},
+        {name:"Aid", level:2, class:["Cleric"], desc:"+1 on attack rolls, +1 on saves against fear, 1d8 temporary hp +1/level (max +10)."},
+        {name:"Air Walk", level:4, class:["Cleric"], desc:"Subject treads on air as if solid (climb at 45-degree angle)."},
+        {name:"Animal Shapes", level:7, class:["Cleric"], desc:"One ally/level polymorphs into chosen animal."},
+        {name:"Animate Objects", level:6, class:["Cleric"], desc:"Objects attack your foes."},
+        {name:"Animate Plants", level:7, class:["Cleric"], desc:"One or more trees animate and fight for you."},
+        {name:"Antilife Shell", level:6, class:["Cleric"], desc:"10-ft. field hedges out living creatures."},
+        {name:"Antimagic Field", level:6, class:["Cleric"], desc:"Negates magic within 10 ft."},
+        {name:"Barkskin", level:2, class:["Cleric"], desc:"Grants +2 (or higher) enhancement to natural armor."},
+        {name:"Blade Barrier", level:6, class:["Cleric"], desc:"Wall of blades deals 1d6/level damage."},
+        {name:"Blasphemy", level:5, class:["Cleric"], desc:"Kills, paralyzes, weakens, or dazes nonevil subjects."},
+        {name:"Break Enchantment", level:5, class:["Cleric"], desc:"Frees subjects from enchantments, alterations, curses, and petrification."},
+        {name:"Bull's Strength", level:2, class:["Cleric"], desc:"Subject gains +4 to Str for 1 min./level."},
+        {name:"Burning Hands", level:1, class:["Cleric"], desc:"1d4/level fire damage (max 5d4)."},
+        {name:"Calm Animals", level:1, class:["Cleric"], desc:"Calms (2d4 + level) HD of animals."},
+        {name:"Calm Emotions", level:2, class:["Cleric"], desc:"Calms creatures, negating emotion effects."},
+        {name:"Cause Fear", level:1, class:["Cleric"], desc:"One creature of 5 HD or less flees for 1d4 rounds."},
+        {name:"Chain Lightning", level:6, class:["Cleric"], desc:"1d6/level damage; 1 secondary bolt/level each deals half damage."},
+        {name:"Chaos Hammer", level:4, class:["Cleric"], desc:"Damages and staggers lawful creatures."},
+        {name:"Clairaudience/Clairvoyance", level:3, class:["Cleric"], desc:"Hear or see at a distance for 1 min./level."},
+        {name:"Clenched Fist", level:7, class:["Cleric"], desc:"Large hand provides cover, pushes, or attacks your foes."},
+        {name:"Command Plants", level:4, class:["Cleric"], desc:"Sway the actions of one or more plant creatures."},
+        {name:"Commune with Nature", level:5, class:["Cleric"], desc:"Learn about terrain for 1 mile/level."},
+        {name:"Cone of Cold", level:6, class:["Cleric"], desc:"1d6/level cold damage."},
+        {name:"Confusion", level:3, class:["Cleric"], desc:"Subjects behave oddly for 1 round/level."},
+        {name:"Contagion", level:3, class:["Cleric"], desc:"Infects subject with chosen disease."},
+        {name:"Control Plants", level:8, class:["Cleric"], desc:"Control actions of one or more plant creatures."},
+        {name:"Control Water", level:4, class:["Cleric"], desc:"Raises or lowers bodies of water."},
+        {name:"Control Weather", level:7, class:["Cleric"], desc:"Changes weather in local area."},
+        {name:"Control Winds", level:5, class:["Cleric"], desc:"Change wind direction and speed."},
+        {name:"Crushing Hand", level:8, class:["Cleric"], desc:"Large hand provides cover, pushes, or crushes your foes."},
+        {name:"Cure Critical Wounds", level:4, class:["Cleric"], desc:"Cures 4d8 damage +1/level (max +20)."},
+        {name:"Cure Critical Wounds, Mass", level:8, class:["Cleric"], desc:"Cures 4d8 damage +1/level (max +40) for many creatures."},
+        {name:"Cure Light Wounds", level:1, class:["Cleric"], desc:"Cures 1d8 damage +1/level (max +5)."},
+        {name:"Cure Light Wounds, Mass", level:5, class:["Cleric"], desc:"Cures 1d8 damage +1/level (max +25) for many creatures."},
+        {name:"Cure Moderate Wounds", level:2, class:["Cleric"], desc:"Cures 2d8 damage +1/level (max +10)."},
+        {name:"Cure Serious Wounds", level:3, class:["Cleric"], desc:"Cures 3d8 damage +1/level (max +15)."},
+        {name:"Death Knell", level:2, class:["Cleric"], desc:"Kill dying creature and gain 1d8 temporary hp, +2 to Str, and +1 caster level."},
+        {name:"Death Ward", level:3, class:["Cleric"], desc:"Grants immunity to death spells and negative energy effects."},
+        {name:"Detect Secret Doors", level:1, class:["Cleric"], desc:"Reveals hidden doors within 60 ft."},
+        {name:"Detect Thoughts", level:2, class:["Cleric"], desc:"Allows \"listening\" to surface thoughts."},
+        {name:"Dictum", level:7, class:["Cleric"], desc:"Kills, paralyzes, slows, or deafens nonlawful subjects."},
+        {name:"Dimension Door", level:4, class:["Cleric"], desc:"Teleports you short distance."},
+        {name:"Discern Location", level:5, class:["Cleric"], desc:"Reveals exact location of creature or object."},
+        {name:"Disguise Self", level:1, class:["Cleric"], desc:"Disguise own appearance."},
+        {name:"Disintegrate", level:7, class:["Cleric"], desc:"Makes one creature or object vanish."},
+        {name:"Dispel Chaos", level:5, class:["Cleric"], desc:"+4 bonus against attacks by chaotic creatures."},
+        {name:"Dispel Evil", level:5, class:["Cleric"], desc:"+4 bonus against attacks by evil creatures."},
+        {name:"Dispel Good", level:4, class:["Cleric"], desc:"+4 bonus against attacks by good creatures."},
+        {name:"Dispel Law", level:5, class:["Cleric"], desc:"+4 bonus against attacks by lawful creatures."},
+        {name:"Dispel Magic", level:3, class:["Cleric"], desc:"Cancels magical spells and effects."},
+        {name:"Divine Power", level:4, class:["Cleric"], desc:"You gain attack bonus, +6 to Str, and 1 hp/level."},
+        {name:"Dominate Animal", level:3, class:["Cleric"], desc:"Subject animal obeys silent mental commands."},
+        {name:"Earthquake", level:8, class:["Cleric"], desc:"Intense tremor shakes 80-ft.-radius."},
+        {name:"Elemental Swarm", level:9, class:["Cleric"], desc:"Summons multiple elementals."},
+        {name:"Endure Elements", level:1, class:["Cleric"], desc:"Exist comfortably in hot or cold environments."},
+        {name:"Enlarge Person", level:1, class:["Cleric"], desc:"Humanoid creature doubles in size."},
+        {name:"Entangle", level:1, class:["Cleric"], desc:"Plants entangle everyone in 40-ft.-radius."},
+        {name:"Entropic Shield", level:1, class:["Cleric"], desc:"Ranged attacks against you have 20% miss chance."},
+        {name:"Find the Path", level:4, class:["Cleric"], desc:"Shows most direct way to a location."},
+        {name:"Fire Seeds", level:6, class:["Cleric"], desc:"Acorns and berries become grenades and bombs."},
+        {name:"Fire Shield", level:5, class:["Cleric"], desc:"Creatures attacking you take fire damage; you're protected from heat or cold."},
+        {name:"Fire Storm", level:7, class:["Cleric"], desc:"Deals 1d6/level fire damage."},
+        {name:"Flame Strike", level:5, class:["Cleric"], desc:"Smite foes with divine fire (1d6/level damage)."},
+        {name:"Fly", level:3, class:["Cleric"], desc:"Subject flies at speed of 60 ft."},
+        {name:"Fog Cloud", level:2, class:["Cleric"], desc:"Fog obscures vision."},
+        {name:"Foresight", level:6, class:["Cleric"], desc:"\"Sixth sense\" warns of impending danger."},
+        {name:"Freedom of Movement", level:4, class:["Cleric"], desc:"Subject moves normally despite impediments."},
+        {name:"Gaseous Form", level:3, class:["Cleric"], desc:"Subject becomes insubstantial and can fly slowly."},
+        {name:"Grasping Hand", level:6, class:["Cleric"], desc:"Large hand provides cover, pushes, or grapples."},
+        {name:"Harm", level:6, class:["Cleric"], desc:"Deals 10 points/level damage to target."},
+        {name:"Heal", level:6, class:["Cleric"], desc:"Cures 10 points/level of damage, all diseases and mental conditions."},
+        {name:"Heal, Mass", level:9, class:["Cleric"], desc:"As heal, but with several subjects."},
+        {name:"Heat Metal", level:2, class:["Cleric"], desc:"Make metal so hot it damages those who touch it."},
+        {name:"Hold Animal", level:2, class:["Cleric"], desc:"Paralyzes one animal for 1 round/level."},
+        {name:"Hold Monster", level:6, class:["Cleric"], desc:"As hold person, but any creature."},
+        {name:"Holy Aura", level:7, class:["Cleric"], desc:"+4 to AC, +4 resistance, and SR 25 against evil spells."},
+        {name:"Holy Smite", level:4, class:["Cleric"], desc:"Damages and blinds evil creatures."},
+        {name:"Horrid Wilting", level:8, class:["Cleric"], desc:"Deals 1d6/level damage within 30 ft."},
+        {name:"Ice Storm", level:5, class:["Cleric"], desc:"Hail deals 5d6 damage in cylinder 40 ft. across."},
+        {name:"Identify", level:2, class:["Cleric"], desc:"Determines properties of magic item."},
+        {name:"Imbue with Spell Ability", level:4, class:["Cleric"], desc:"Transfer spells to subject."},
+        {name:"Implosion", level:9, class:["Cleric"], desc:"Kills one creature/round."},
+        {name:"Incendiary Cloud", level:8, class:["Cleric"], desc:"Cloud deals 4d6 fire damage/round."},
+        {name:"Inflict Critical Wounds", level:4, class:["Cleric"], desc:"Touch attack, 4d8 damage +1/level (max +20)."},
+        {name:"Inflict Light Wounds", level:1, class:["Cleric"], desc:"Touch attack, 1d8 damage +1/level (max +5)."},
+        {name:"Inflict Light Wounds, Mass", level:5, class:["Cleric"], desc:"Deals 1d8 damage +1/level to any creatures."},
+        {name:"Invisibility", level:2, class:["Cleric"], desc:"Subject invisible 1 min./level or until it attacks."},
+        {name:"Iron Body", level:7, class:["Cleric"], desc:"Your body becomes living iron."},
+        {name:"Locate Object", level:2, class:["Cleric"], desc:"Senses direction toward object (specific or type)."},
+        {name:"Longstrider", level:1, class:["Cleric"], desc:"Increases your speed."},
+        {name:"Mage's Disjunction", level:8, class:["Cleric"], desc:"Dispels magic, disenchants magic items."},
+        {name:"Magic Aura", level:1, class:["Cleric"], desc:"Alters object's magic aura."},
+        {name:"Magic Circle against Chaos", level:3, class:["Cleric"], desc:"As protection spells, but 10-ft. radius and 10 min./level."},
+        {name:"Magic Circle against Evil", level:3, class:["Cleric"], desc:"As protection spells, but 10-ft. radius and 10 min./level."},
+        {name:"Magic Circle against Good", level:2, class:["Cleric"], desc:"As protection spells, but 10-ft. radius and 10 min./level."},
+        {name:"Magic Circle against Law", level:3, class:["Cleric"], desc:"As protection spells, but 10-ft. radius and 10 min./level."},
+        {name:"Magic Stone", level:1, class:["Cleric"], desc:"Three stones become +1 projectiles, 1d6 +1 damage."},
+        {name:"Magic Vestment", level:3, class:["Cleric"], desc:"Armor or shield gains +1 enhancement per four levels."},
+        {name:"Magic Weapon", level:1, class:["Cleric"], desc:"Weapon gains +1 bonus."},
+        {name:"Mind Blank", level:7, class:["Cleric"], desc:"Subject is immune to mental/emotional magic and scrying."},
+        {name:"Mislead", level:6, class:["Cleric"], desc:"Turns you invisible and creates illusory double."},
+        {name:"Moment of Prescience", level:8, class:["Cleric"], desc:"You gain insight bonus on single attack roll, check, or save."},
+        {name:"Obscuring Mist", level:1, class:["Cleric"], desc:"Fog surrounds you."},
+        {name:"Order's Wrath", level:4, class:["Cleric"], desc:"Damages and dazes chaotic creatures."},
+        {name:"Phase Door", level:8, class:["Cleric"], desc:"Creates an invisible passage through wood or stone."},
+        {name:"Plant Growth", level:3, class:["Cleric"], desc:"Grows vegetation, improves crops."},
+        {name:"Polymorph Any Object", level:6, class:["Cleric"], desc:"Changes any subject into anything else."},
+        {name:"Power Word Blind", level:7, class:["Cleric"], desc:"Blinds creature with 200 hp or less."},
+        {name:"Power Word Kill", level:9, class:["Cleric"], desc:"Kills creature with 100 hp or less."},
+        {name:"Power Word Stun", level:8, class:["Cleric"], desc:"Stuns creature with 150 hp or less."},
+        {name:"Prismatic Sphere", level:8, class:["Cleric"], desc:"As prismatic wall, but surrounds on all sides."},
+        {name:"Produce Flame", level:2, class:["Cleric"], desc:"1d6 damage +1/ level, touch or thrown."},
+        {name:"Protection from Chaos", level:1, class:["Cleric"], desc:"+2 to AC and saves, counter mind control, hedge out elementals and outsiders."},
+        {name:"Protection from Energy", level:3, class:["Cleric"], desc:"Absorb 12 points/level of damage from one kind of energy."},
+        {name:"Protection from Evil", level:1, class:["Cleric"], desc:"+2 to AC and saves, counter mind control, hedge out elementals and outsiders."},
+        {name:"Protection from Good", level:1, class:["Cleric"], desc:"+2 to AC and saves, counter mind control, hedge out elementals and outsiders."},
+        {name:"Protection from Law", level:1, class:["Cleric"], desc:"+2 to AC and saves, counter mind control, hedge out elementals and outsiders."},
+        {name:"Regenerate", level:7, class:["Cleric"], desc:"Subject's severed limbs grow back, cures 4d8 damage +1/level (max +35)."},
+        {name:"Repel Wood", level:6, class:["Cleric"], desc:"Pushes away wooden objects."},
+        {name:"Repulsion", level:6, class:["Cleric"], desc:"Creatures can't approach you."},
+        {name:"Resist Energy", level:3, class:["Cleric"], desc:"Ignores 10 (or more) points of damage/attack from specified energy type."},
+        {name:"Righteous Might", level:5, class:["Cleric"], desc:"Your size increases, and you gain combat bonuses."},
+        {name:"Sanctuary", level:1, class:["Cleric"], desc:"Opponents can't attack you, and you can't attack."},
+        {name:"Screen", level:5, class:["Cleric"], desc:"Illusion hides area from vision, scrying."},
+        {name:"Searing Light", level:3, class:["Cleric"], desc:"Ray deals 1d8/two levels, more against undead."},
+        {name:"Shambler", level:9, class:["Cleric"], desc:"Summons 1d4+2 shambling mounds to fight for you."},
+        {name:"Shatter", level:2, class:["Cleric"], desc:"Sonic vibration damages objects or crystalline creatures."},
+        {name:"Slay Living", level:4, class:["Cleric"], desc:"Touch attack kills subject."},
+        {name:"Soften Earth and Stone", level:2, class:["Cleric"], desc:"Turns stone to clay or dirt to sand or mud."},
+        {name:"Spell Immunity", level:3, class:["Cleric"], desc:"Subject is immune to one spell per four levels."},
+        {name:"Spell Resistance", level:5, class:["Cleric"], desc:"Subject gains SR 12 + level."},
+        {name:"Spell Turning", level:7, class:["Cleric"], desc:"Reflect 1d4+6 spell levels back at caster."},
+        {name:"Spike Stones", level:4, class:["Cleric"], desc:"Creatures in area take 1d8 damage, may be lowed."},
+        {name:"Spiritual Weapon", level:2, class:["Cleric"], desc:"Magical weapon attacks on its own."},
+        {name:"Stone Shape", level:3, class:["Cleric"], desc:"Sculpts stone into any shape."},
+        {name:"Summon Monster IX", level:8, class:["Cleric"], desc:"Calls extraplanar creature to fight for you."},
+        {name:"Summon Nature's Ally IV", level:4, class:["Cleric"], desc:"Calls creature to fight."},
+        {name:"Summon Nature's Ally VIII", level:8, class:["Cleric"], desc:"Calls creature to fight."},
+        {name:"Sunbeam", level:7, class:["Cleric"], desc:"Beam blinds and deals 4d6 damage."},
+        {name:"Sunburst", level:8, class:["Cleric"], desc:"Blinds all within 10 ft., deals 6d6 damage."},
+        {name:"Teleport", level:5, class:["Cleric"], desc:"Instantly transports you as far as 100 miles/level."},
+        {name:"Teleport, Greater", level:7, class:["Cleric"], desc:"As teleport, but no range limit and no off-target arrival."},
+        {name:"Time Stop", level:7, class:["Cleric"], desc:"You act freely for 1d4+1 rounds."},
+        {name:"Unholy Blight", level:3, class:["Cleric"], desc:"Damages and sickens good creatures."},
+        {name:"Wail of the Banshee", level:5, class:["Cleric"], desc:"Kills one creature/level."},
+        {name:"Wall of Fire", level:4, class:["Cleric"], desc:"Deals 2d4 fire damage out to 10 ft. and 1d4 out to 20 ft. Passing through wall deals 2d6 damage +1/level."},
+        {name:"Wall of Stone", level:5, class:["Cleric"], desc:"Creates a stone wall that can be shaped."},
+        {name:"Wall of Thorns", level:5, class:["Cleric"], desc:"Thorns damage anyone who tries to pass."},
+        {name:"Water Breathing", level:3, class:["Cleric"], desc:"Subjects can breathe underwater."},
+        {name:"Whirlwind", level:8, class:["Cleric"], desc:"Cyclone deals damage and can pick up creatures."},
+        {name:"Wind Wall", level:2, class:["Cleric"], desc:"Deflects arrows, smaller creatures, and gases."},
+        {name:"Word of Chaos", level:7, class:["Cleric"], desc:"Kills, confuses, stuns, or deafens nonchaotic subjects."},
     ],
     skills: {"Appraise":"INT","Balance":"DEX","Bluff":"CHA","Climb":"STR","Concentration":"CON","Decipher Script":"INT","Diplomacy":"CHA","Disable Device":"INT","Disguise":"CHA","Escape Artist":"DEX","Gather Information":"CHA","Handle Animal":"CHA","Heal":"WIS","Hide":"DEX","Intimidate":"CHA","Jump":"STR","Listen":"WIS","Move Silently":"DEX","Open Lock":"DEX","Ride":"DEX","Search":"INT","Sense Motive":"WIS","Spellcraft":"INT","Spot":"WIS","Survival":"WIS","Swim":"STR","Tumble":"DEX","Use Magic Device":"CHA"}
 };
@@ -1116,6 +1287,130 @@ const EQUIPMENT = {
         "1 pc","5 pc","10 pc","100 pc"
     ]
 };
+
+const MANUAL_MENU = [
+    { key: "feats", title: "Feats", desc: "Dotes del SRD con su efecto resumido." },
+    { key: "spells", title: "Spells", desc: "Hechizos con nivel, clases y descripción corta." },
+    { key: "weapons", title: "Armas", desc: "Armas simples, marciales y exóticas." },
+    { key: "armors", title: "Armaduras", desc: "Armaduras y escudos con CA y penalizador." },
+    { key: "gear", title: "Equipamiento", desc: "Herramientas y equipo de aventura de uso frecuente." },
+    { key: "items", title: "Items", desc: "Consumibles, objetos varios y monedas de referencia." },
+    { key: "rules", title: "Rules", desc: "Resumen rápido de estados, combate y reglas usadas seguido." }
+];
+
+const MANUAL_RULES = [
+    {
+        title: "Estados comunes",
+        tag: "RULES",
+        summary: "Blinded, grappled, fatigued, stunned, helpless, flanking, sickened e invisible cambian ataque, CA, DEX, movimiento o skills. Conviene tratarlos como modificadores temporales.",
+        points: [
+            "Blinded: penaliza CA, muchas pruebas basadas en vista y complica atacar.",
+            "Grappled: limita movimiento y suele aplicar penalizadores de ataque y DEX.",
+            "Fatigued: no podés correr ni cargar y bajan STR/DEX.",
+            "Stunned o helpless: perdés defensa activa y quedás muy expuesto."
+        ]
+    },
+    {
+        title: "Estructura del combate",
+        tag: "COMBAT",
+        summary: "Cada ronda dura 6 segundos. Normalmente hacés una acción estándar, una de movimiento y acciones libres; a veces podés cambiar la estándar por otra de movimiento.",
+        points: [
+            "Iniciativa define el orden de turno al comienzo del combate.",
+            "Moverte más de 5 pies puede provocar ataques de oportunidad.",
+            "Un ataque completo requiere quedarte casi quieto para aprovechar varios ataques."
+        ]
+    },
+    {
+        title: "Acciones frecuentes",
+        tag: "ACTIONS",
+        summary: "Atacar, lanzar un conjuro, usar un objeto, levantarte, desenvainar o moverte son las acciones más comunes que conviene tener a mano.",
+        points: [
+            "Paso de 5 pies: solo si no hiciste otro movimiento relevante en el turno.",
+            "Levantarte desde prone suele provocar ataque de oportunidad.",
+            "Preparar o retrasar acción cambia cómo entrás al orden de iniciativa."
+        ]
+    },
+    {
+        title: "Ataques de oportunidad",
+        tag: "AOO",
+        summary: "Salís de un casillero amenazado, lanzás en melee, te levantás o manipulás ciertos objetos y podés provocar AoO si no evitás el riesgo.",
+        points: [
+            "Una criatura normalmente hace 1 AoO por ronda, salvo mejoras como Combat Reflexes.",
+            "El paso de 5 pies evita el AoO por movimiento.",
+            "Cast defensively sirve para lanzar en melee sin provocar si superás Concentration."
+        ]
+    },
+    {
+        title: "Ataque, daño y crítico",
+        tag: "ATTACK",
+        summary: "Tirás d20 + ataque total contra CA. Si impactás, tirás daño. Una amenaza de crítico requiere confirmación para aplicar el multiplicador.",
+        points: [
+            "Un 20 natural impacta siempre y amenaza crítico si el arma lo permite.",
+            "Un 1 natural falla siempre.",
+            "Fuerza suele sumar al daño melee; DEX suele mandar en ataques a distancia."
+        ]
+    },
+    {
+        title: "Cobertura, ocultación y flanqueo",
+        tag: "POSITION",
+        summary: "La posición importa mucho: cobertura sube CA, ocultación puede dar fallo porcentual y flanquear suele dar +2 al ataque melee.",
+        points: [
+            "Cobertura y ocultación no son lo mismo; una protege CA y la otra puede hacer fallar el golpe.",
+            "Invisible suele negar parte de la defensa del rival y mejorar tus chances de impactar.",
+            "Flanquear funciona mejor con aliados colocados en lados opuestos del objetivo."
+        ]
+    },
+    {
+        title: "Lanzamiento de conjuros",
+        tag: "SPELLS",
+        summary: "El conjuro necesita componentes, un objetivo válido y a veces concentración. En melee o bajo presión, Concentration evita perderlo.",
+        points: [
+            "Cada clase usa una característica clave distinta para lanzar.",
+            "El DC típico es 10 + nivel del conjuro + modificador relevante.",
+            "Preparados y espontáneos no manejan igual los slots ni la selección de hechizos."
+        ]
+    },
+    {
+        title: "Salvaciones",
+        tag: "SAVES",
+        summary: "Fortitude resiste cuerpo y venenos, Reflex evita área o trampas, Will protege mente y efectos sobrenaturales similares.",
+        points: [
+            "Las clases tienen progresión buena o pobre de cada save.",
+            "CON ayuda a Fort, DEX a Ref y WIS a Will.",
+            "Condiciones como sickened pueden penalizar las tres."
+        ]
+    },
+    {
+        title: "Derribo, caída y muerte",
+        tag: "HP",
+        summary: "A 0 hp quedás disabled, de -1 a -9 estás dying, y a -10 morís. Curar o estabilizar rápido cambia mucho la pelea.",
+        points: [
+            "Stabilize o atención médica puede frenar la pérdida de hp.",
+            "Diehard te deja actuar mientras estés entre -1 y -9.",
+            "El daño no letal puede dejarte inconsciente sin matarte."
+        ]
+    },
+    {
+        title: "Turn or Rebuke Undead",
+        tag: "CLERIC",
+        summary: "Los clérigos buenos turn/rebuke según alineamiento: expulsan o destruyen undead; los malignos los rebukean o comandán. Consume intentos diarios basados en CHA.",
+        points: [
+            "Primero hacés la turning check para ver el undead más fuerte afectado.",
+            "Después tirás turning damage para ver cuántos HD totales alcanzás.",
+            "Se usa para espantar, destruir, reprender o controlar undead según el caso."
+        ]
+    },
+    {
+        title: "Habilidades y checks",
+        tag: "SKILLS",
+        summary: "La mayoría de checks son d20 + ranks + mod de característica + bonos varios. La clase, la armadura y la situación cambian bastante el resultado.",
+        points: [
+            "Cross-class cuesta más y tiene tope más bajo.",
+            "Armor check penalty pega sobre varias habilidades físicas.",
+            "Aid Another y Take 10/20 aparecen seguido fuera de combate."
+        ]
+    }
+];
 
 const ALIGNMENTS = ["LG","LN","LE","NG","N","NE","CG","CN","CE"];
 
@@ -1896,6 +2191,29 @@ function getSelectedFeats() {
                 .map(s => s.value).filter(v => v);
 }
 
+function countSelectedFeat(featName) {
+    return getSelectedFeats().filter(name => name === featName).length;
+}
+
+function getTurnUndeadLabel(alignment) {
+    if (!alignment) return "Turn/Rebuke Undead";
+    if (alignment.includes("E")) return "Rebuke Undead";
+    if (alignment.includes("G")) return "Turn Undead";
+    return "Turn/Rebuke Undead";
+}
+
+function getTurningMaxHd(checkTotal, effectiveLevel) {
+    if (checkTotal <= 0) return Math.max(0, effectiveLevel - 4);
+    if (checkTotal <= 3) return Math.max(0, effectiveLevel - 3);
+    if (checkTotal <= 6) return Math.max(0, effectiveLevel - 2);
+    if (checkTotal <= 9) return Math.max(0, effectiveLevel - 1);
+    if (checkTotal <= 12) return Math.max(0, effectiveLevel);
+    if (checkTotal <= 15) return Math.max(0, effectiveLevel + 1);
+    if (checkTotal <= 18) return Math.max(0, effectiveLevel + 2);
+    if (checkTotal <= 21) return Math.max(0, effectiveLevel + 3);
+    return Math.max(0, effectiveLevel + 4);
+}
+
 const STATS = ["STR", "DEX", "CON", "INT", "WIS", "CHA"];
 
 function init() {
@@ -1967,8 +2285,8 @@ function updateAll(save = true) {
     }
     document.getElementById('bab-val').innerText = babStr;
 
-    // Flurry of Blows (Monk only)
-    // Flurry of Blows (Monk only)
+// Flurry of Blows (Monk only)
+// Flurry of Blows (Monk only)
 const flurryRow = document.getElementById('flurry-row');
 
 if (clsName === "Monk" && flurryRow) {
@@ -2013,6 +2331,31 @@ while (current > 0) {
 } else if (flurryRow) {
     flurryRow.style.display = "none";
 }
+
+    const turnRow = document.getElementById('turn-undead-row');
+    if (clsName === "Cleric" && turnRow) {
+        const alignment = document.getElementById('alignment')?.value || "";
+        const chaMod = mods.CHA;
+        const improvedTurning = countSelectedFeat("Improved Turning");
+        const extraTurning = countSelectedFeat("Extra Turning");
+        const effectiveTurningLevel = lvl + improvedTurning;
+        const turningCheckBonus = chaMod;
+        const turningDamageBonus = lvl + chaMod;
+        const maxHd = getTurningMaxHd(10 + turningCheckBonus, effectiveTurningLevel);
+        const affectedHd = Math.max(0, 7 + turningDamageBonus);
+        const usesPerDay = Math.max(0, 3 + chaMod + (extraTurning * 4));
+        const modeLabel = getTurnUndeadLabel(alignment);
+
+        turnRow.style.display = "block";
+        document.getElementById('turn-undead-label').innerText = modeLabel;
+        document.getElementById('turn-undead-val').innerText = `1d20${turningCheckBonus >= 0 ? "+" : ""}${turningCheckBonus}`;
+        document.getElementById('turn-undead-info').innerHTML =
+            `Check base 10${turningCheckBonus >= 0 ? "+" : ""}${turningCheckBonus} -> Max HD <b>${maxHd}</b> · ` +
+            `Turning damage 2d6${turningDamageBonus >= 0 ? "+" : ""}${turningDamageBonus} -> HD totales <b>${affectedHd}</b> · ` +
+            `Usos/dia <b>${usesPerDay}</b>${improvedTurning ? ` · Improved Turning +${improvedTurning} lvl` : ""}${extraTurning ? ` · Extra Turning +${extraTurning * 4}` : ""}`;
+    } else if (turnRow) {
+        turnRow.style.display = "none";
+    }
 
     // Saves & HP
     const getSave = (type, mod) => {
@@ -2723,7 +3066,7 @@ function updateSpellSummary() {
     summary.innerHTML = Object.keys(byLevel).sort((a,b) => a - b).map(lvl =>
         `<div style="width:100%; margin-bottom:6px;">
             <div style="font-size:0.65em; color:var(--accent); font-weight:bold; text-transform:uppercase; margin-bottom:3px;">Nivel ${lvl}</div>
-            <div>${byLevel[lvl].map(name => `<span class="spell-summary-tag">${name}</span>`).join("")}</div>
+            <div>${byLevel[lvl].map(name => `<span class="spell-summary-tag manual-jump" onclick="openManualReference('spells', &quot;${String(name).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;")}&quot;)">${name}</span>`).join("")}</div>
          </div>`
     ).join("");
 }
@@ -3248,68 +3591,256 @@ function updateEquipSummary() {
                          .map(s => s.value).filter(v => v);
 
     let html = "";
-    const row = (label, val) => val
+    const escapeAttr = value => String(value || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const link = (section, value) => `<span class="manual-jump" onclick="openManualReference('${section}', &quot;${escapeAttr(value)}&quot;)">${value}</span>`;
+    const row = (label, val, section) => val
         ? `<div style="display:flex; justify-content:space-between; padding:3px 8px; 
                         margin-bottom:2px; background:rgba(0,0,0,0.2); border-radius:4px;
                         border-left:2px solid var(--accent); font-size:0.82em;">
                <span style="color:#94a3b8;">${label}</span>
-               <span style="font-weight:bold;">${val}</span>
+               <span style="font-weight:bold;">${link(section, val)}</span>
            </div>` : "";
 
-    html += row("Arma principal", w1);
-    html += row("Arma secundaria", w2);
-    html += row("Arma accesoria", w3);
-    html += row("Armadura", armor);
-    html += row("Escudo", shield);
+    html += row("Arma principal", w1, "weapons");
+    html += row("Arma secundaria", w2, "weapons");
+    html += row("Arma accesoria", w3, "weapons");
+    html += row("Armadura", armor, "armors");
+    html += row("Escudo", shield, "armors");
     if (general.length > 0) {
         html += `<div style="padding:3px 8px; margin-top:4px; font-size:0.82em; 
                               border-left:2px solid var(--accent); background:rgba(0,0,0,0.2); border-radius:4px;">
                     <span style="color:#94a3b8;">Equipamiento · </span>
-                    ${general.join(", ")}
+                    ${general.map(item => link("gear", item)).join(", ")}
                  </div>`;
     }
     container.innerHTML = html || `<p style="font-size:0.8em; color:#64748b;">Sin equipo seleccionado.</p>`;
 }
 // ─────────────────────────────────────────────────────────────
 
-function renderManualFeats() {
-    const q = document.getElementById('searchFeats').value.toLowerCase();
-    const cont = document.getElementById('featsManualContent');
-    cont.innerHTML = "";
-    
-    SRD.feats.filter(f => f.name.toLowerCase().includes(q)).forEach(f => {
-        let d = document.createElement('div');
-        d.className = "manual-item";
-        d.innerHTML = `<span class="manual-tag">DOTE</span><b>${f.name}</b><br><small>${f.desc}</small>`;
-        cont.appendChild(d);
-    });
+let activeManualSection = null;
+
+function getManualSectionMeta(section) {
+    return MANUAL_MENU.find(item => item.key === section) || null;
+}
+
+function getManualSearchValue() {
+    return (document.getElementById('manual-search')?.value || "").trim().toLowerCase();
+}
+
+function getManualCatalogLegacy(section) {
+    const gearNames = [
+        "Kit de ladron","Kit de curacion","Cuerda de canamo (15m)","Cuerda de seda (15m)",
+        "Antorcha","Raciones (1 dia)","Odre de agua","Mochila","Saco de dormir",
+        "Yesca y eslabon","Esposas","Garfio","Palanca","Martillo y clavos",
+        "Linterna con capucha","Tienda de campana","Escalera de mano","Polea","Zancos"
+    ];
+    const itemNames = EQUIPMENT.general.filter(name => !gearNames.includes(name));
+
+    const catalogs = {
+        feats: SRD.feats,
+        spells: SRD.spells,
+        weapons: EQUIPMENT.weapons,
+        armors: [...EQUIPMENT.armors, ...EQUIPMENT.shields.map(shield => ({ ...shield, type: "Escudo" }))],
+        gear: gearNames,
+        items: itemNames,
+        rules: MANUAL_RULES
+    };
+
+    return catalogs[section] || [];
+}
+
+function renderManualHome() {
+    const home = document.getElementById('manual-home');
+    const detail = document.getElementById('manual-detail');
+    const search = document.getElementById('manual-search');
+    if (!home || !detail || !search) return;
+
+    activeManualSection = null;
+    search.value = "";
+    search.style.display = "none";
+    detail.style.display = "none";
+    home.style.display = "flex";
+    home.innerHTML = MANUAL_MENU.map(item => `
+        <button class="manual-menu-card" onclick="openManualSection('${item.key}')">
+            <span class="manual-menu-label">${item.title}</span>
+            <span class="manual-menu-desc">${item.desc}</span>
+        </button>
+    `).join("");
+}
+
+function openManualSection(section) {
+    const meta = getManualSectionMeta(section);
+    const home = document.getElementById('manual-home');
+    const detail = document.getElementById('manual-detail');
+    const search = document.getElementById('manual-search');
+    if (!meta || !home || !detail || !search) return;
+
+    activeManualSection = section;
+    home.style.display = "none";
+    detail.style.display = "block";
+    document.getElementById('manual-detail-title').innerText = meta.title;
+    document.getElementById('manual-detail-subtitle').innerText = meta.desc;
+    search.value = "";
+    search.placeholder = section === "rules"
+        ? "Buscar regla, estado o mecanica..."
+        : `Buscar en ${meta.title.toLowerCase()}...`;
+    search.style.display = "block";
+    renderManualDetail();
+}
+
+function closeManualSection() {
+    renderManualHome();
+}
+
+function openManualReference(section, query = "") {
+    showTab(3);
+    openManualSection(section);
+    const search = document.getElementById('manual-search');
+    if (search) search.value = query || "";
+    renderManualDetail();
+}
+
+function renderManualDetail() {
+    const container = document.getElementById('manual-detail-content');
+    const search = document.getElementById('manual-search');
+    if (!container || !activeManualSection) return;
+
+    const q = getManualSearchValue();
+    const tagColor = {
+        "Simple": "#16a34a",
+        "Marcial": "#1d4ed8",
+        "Exótica": "#7c3aed",
+        "Ligera": "#0369a1",
+        "Media": "#0e7490",
+        "Pesada": "#155e75",
+        "Escudo": "#92400e",
+        "General": "#334155",
+        "RULES": "#b45309",
+        "COMBAT": "#dc2626",
+        "ACTIONS": "#2563eb",
+        "AOO": "#7c3aed",
+        "ATTACK": "#0f766e",
+        "POSITION": "#0891b2",
+        "SPELLS": "#8b5cf6",
+        "SAVES": "#475569",
+        "HP": "#be123c",
+        "CLERIC": "#a16207",
+        "SKILLS": "#4f46e5"
+    };
+
+    if (search) search.style.display = "block";
+
+    let html = "";
+
+    if (activeManualSection === "feats") {
+        html = getManualCatalog("feats")
+            .filter(feat => feat.name.toLowerCase().includes(q) || feat.desc.toLowerCase().includes(q) || (feat.prereq || "").toLowerCase().includes(q))
+            .map(feat => `
+                <div class="manual-item">
+                    <span class="manual-tag">DOTE</span><b>${feat.name}</b>
+                    ${feat.prereq ? `<div class="feat-prereq" style="margin-top:4px;">Prereq: ${feat.prereq}</div>` : ""}
+                    <small style="display:block; margin-top:4px;">${feat.desc}</small>
+                </div>
+            `).join("");
+    }
+
+    if (activeManualSection === "spells") {
+        html = getManualCatalog("spells")
+            .filter(spell =>
+                spell.name.toLowerCase().includes(q) ||
+                spell.desc.toLowerCase().includes(q) ||
+                spell.class.some(cls => cls.toLowerCase().includes(q))
+            )
+            .map(spell => {
+                const classTags = spell.class.map(cls =>
+                    `<span class="spell-summary-tag" style="font-size:0.7em; background:#334155; margin-right:3px;">${cls}</span>`
+                ).join("");
+                return `
+                    <div class="manual-item">
+                        <span class="manual-tag" style="background:#8b5cf6;">HECHIZO</span>
+                        <b>${spell.name}</b> (Niv ${spell.level})
+                        <div style="margin:4px 0;">${classTags}</div>
+                        <small>${spell.desc}</small>
+                    </div>
+                `;
+            }).join("");
+    }
+
+    if (activeManualSection === "weapons") {
+        html = getManualCatalog("weapons")
+            .filter(weapon =>
+                weapon.name.toLowerCase().includes(q) ||
+                weapon.type.toLowerCase().includes(q) ||
+                (weapon.notes || "").toLowerCase().includes(q)
+            )
+            .map(weapon => `
+                <div class="manual-item">
+                    <span class="manual-tag" style="background:${tagColor[weapon.type] || "#334155"};">ARMA ${weapon.type.toUpperCase()}</span>
+                    <b>${weapon.name}</b>
+                    <small style="display:block; margin-top:4px;">
+                        Dano: <b>${weapon.dmg}</b> · Crit: <b>${weapon.crit} / ${weapon.mult}</b>
+                        ${weapon.notes ? `· <span style="color:#f59e0b;">${weapon.notes}</span>` : ""}
+                    </small>
+                </div>
+            `).join("");
+    }
+
+    if (activeManualSection === "armors") {
+        html = getManualCatalog("armors")
+            .filter(armor =>
+                armor.name.toLowerCase().includes(q) ||
+                String(armor.type || "").toLowerCase().includes(q)
+            )
+            .map(armor => `
+                <div class="manual-item">
+                    <span class="manual-tag" style="background:${tagColor[armor.type] || "#334155"};">${armor.type === "Escudo" ? "ESCUDO" : `ARMADURA ${armor.type.toUpperCase()}`}</span>
+                    <b>${armor.name}</b>
+                    <small style="display:block; margin-top:4px;">
+                        CA: <b>+${armor.ca}</b> · Penalizador: <b>${armor.pen}</b>
+                    </small>
+                </div>
+            `).join("");
+    }
+
+    if (activeManualSection === "gear" || activeManualSection === "items") {
+        const label = activeManualSection === "gear" ? "EQUIPO" : "ITEM";
+        html = getManualCatalog(activeManualSection)
+            .filter(entry => entry.toLowerCase().includes(q))
+            .map(entry => `
+                <div class="manual-item">
+                    <span class="manual-tag" style="background:#334155;">${label}</span>
+                    <b>${entry}</b>
+                </div>
+            `).join("");
+    }
+
+    if (activeManualSection === "rules") {
+        html = getManualCatalog("rules")
+            .filter(rule => [rule.title, rule.summary, ...(rule.points || [])].join(" ").toLowerCase().includes(q))
+            .map(rule => `
+                <div class="manual-item">
+                    <div class="manual-rule-title">
+                        <span class="manual-tag" style="background:${tagColor[rule.tag] || "#334155"};">${rule.tag}</span>
+                        <b>${rule.title}</b>
+                    </div>
+                    <small class="manual-rule-summary">${rule.summary}</small>
+                    <div class="manual-rule-points">
+                        ${(rule.points || []).map(point => `<div class="manual-rule-point">• ${point}</div>`).join("")}
+                    </div>
+                </div>
+            `).join("");
+    }
+
+    container.innerHTML = html || `<div class="manual-empty">No se encontraron resultados en esta seccion.</div>`;
 }
 
 function renderManualSpells() {
-    const q = document.getElementById('searchSpells').value.toLowerCase();
-    const cont = document.getElementById('spellsManualContent');
-    cont.innerHTML = "";
-    
-    SRD.spells.filter(s => s.name.toLowerCase().includes(q)).forEach(s => {
-        // Creamos los tags de clase
-        const classTags = s.class.map(c => 
-            `<span class="spell-summary-tag" style="font-size:0.7em; background:#334155; margin-right:3px;">${c}</span>`
-        ).join("");
-
-        let d = document.createElement('div');
-        d.className = "manual-item";
-        d.innerHTML = `
-            <span class="manual-tag" style="background:#8b5cf6;">HECHIZO</span> 
-            <b>${s.name}</b> (Niv ${s.level})
-            <div style="margin: 4px 0;">${classTags}</div>
-            <small>${s.desc}</small>
-        `;
-        cont.appendChild(d);
-    });
+    if (activeManualSection !== "spells") openManualSection("spells");
+    else renderManualDetail();
 }
 
 // Esta función se mantiene para que el motor de pestañas siga funcionando al hacer click
-function renderManualEquip() {
+function renderManualEquipLegacy() {
     const q = document.getElementById('searchEquip').value.toLowerCase();
     const cont = document.getElementById('equipManualContent');
     cont.innerHTML = "";
@@ -3390,10 +3921,44 @@ function renderManualEquip() {
         });
 }
 
-function renderManual() {
+function renderManualLegacy() {
     renderManualFeats();
     renderManualSpells();
     renderManualEquip();
+}
+
+function getManualCatalog(section) {
+    const itemNames = EQUIPMENT.general.filter(name =>
+        /^(Aceite|Espejo|Instrumento|Lupa|Vial|Pergamino|Libro|\d+\s+p[opc])/.test(name)
+    );
+    const gearNames = EQUIPMENT.general.filter(name => !itemNames.includes(name));
+
+    const catalogs = {
+        feats: SRD.feats,
+        spells: SRD.spells,
+        weapons: EQUIPMENT.weapons,
+        armors: [...EQUIPMENT.armors, ...EQUIPMENT.shields.map(shield => ({ ...shield, type: "Escudo" }))],
+        gear: gearNames,
+        items: itemNames,
+        rules: MANUAL_RULES
+    };
+
+    return catalogs[section] || [];
+}
+
+function renderManualFeats() {
+    if (activeManualSection !== "feats") openManualSection("feats");
+    else renderManualDetail();
+}
+
+function renderManualEquip() {
+    if (!["weapons", "armors", "gear", "items"].includes(activeManualSection)) openManualSection("weapons");
+    else renderManualDetail();
+}
+
+function renderManual() {
+    if (!activeManualSection) renderManualHome();
+    else renderManualDetail();
 }
 function applyTheme(theme) {
     document.body.setAttribute('data-theme', theme);
@@ -3485,7 +4050,7 @@ function quickGenerate() {
     }
 
     const currentDeity = document.getElementById('deity').value;
-    if (!currentDeity || currentDeity === "â€” Ninguna â€”") {
+    if (!currentDeity || currentDeity === "-- Ninguna --" || currentDeity === "— Ninguna —") {
         const alignment = document.getElementById('alignment').value;
         const validDeities = DEITIES.filter(d => d.align.includes(alignment));
         if (validDeities.length > 0) {
@@ -3697,7 +4262,7 @@ function renderSpellsTab(lvl, clsName) {
         return;
     }
 
-    notes.innerText = `Lanzador basado en ${cData.stat}. Slots segÃºn SRD nivel ${lvl}.`;
+    notes.innerText = `Lanzador basado en ${cData.stat}. Slots segun SRD nivel ${lvl}.`;
 
     for (let i = 0; i <= 9; i++) {
         const numSlots = slotsRow[i];
@@ -3719,7 +4284,7 @@ function renderSpellsTab(lvl, clsName) {
             let sel = document.createElement('select');
             sel.className = "spell-selector";
             sel.onchange = updateSpellSummary;
-            sel.add(new Option("-- VacÃ­o --", ""));
+            sel.add(new Option("-- Vacio --", ""));
             spellsOfLvl.forEach(sp => sel.add(new Option(sp.name, sp.name)));
             if (currentSelections[spellIdx]) sel.value = currentSelections[spellIdx];
             spellIdx++;
@@ -3752,6 +4317,20 @@ const CLERIC_DOMAINS = {
     "WAR":         { power: "Weapon Focus con arma de deidad.", spells: {1:"Magic Weapon",2:"Spiritual Weapon",3:"Magic Vestment",4:"Divine Power",5:"Flame Strike",6:"Blade Barrier",7:"Power Word Blind",8:"Power Word Stun",9:"Power Word Kill"} },
     "WATER":       { power: "Turn/Rebuke criaturas de agua.", spells: {1:"Obscuring Mist",2:"Fog Cloud",3:"Water Breathing",4:"Control Water",5:"Ice Storm",6:"Cone of Cold",7:"Acid Fog",8:"Horrid Wilting",9:"Elemental Swarm (water)"} },
 };
+
+const DOMAIN_MANUAL_SPELL_NAMES = new Set(
+    Object.values(CLERIC_DOMAINS).flatMap(domain => Object.values(domain.spells)).map(name =>
+        String(name || "").replace(/\s*\((air|earth|fire|water|good|evil|lawful|chaotic)\)$/i, "")
+                          .replace(/\bGreater\b/i, "Greater")
+    )
+);
+
+SRD.spells.forEach(spell => {
+    if (!spell || !Array.isArray(spell.class)) return;
+    if (spell.class.length === 1 && spell.class[0] === "Cleric" && DOMAIN_MANUAL_SPELL_NAMES.has(spell.name)) {
+        spell.class = ["Domain"];
+    }
+});
 
 const DEITY_DOMAIN_MAP = {
     "Boccob": ["KNOWLEDGE","MAGIC","TRICKERY"],
@@ -3998,7 +4577,7 @@ updateSpellSummary = function() {
     summary.innerHTML = Object.keys(byLevel).sort((a,b) => a - b).map(lvl =>
         `<div style="width:100%; margin-bottom:6px;">
             <div style="font-size:0.65em; color:var(--accent); font-weight:bold; text-transform:uppercase; margin-bottom:3px;">Nivel ${lvl}</div>
-            <div>${byLevel[lvl].map(name => `<span class="spell-summary-tag">${name}</span>`).join("")}</div>
+            <div>${byLevel[lvl].map(name => `<span class="spell-summary-tag manual-jump" onclick="openManualReference('spells', &quot;${String(name).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;")}&quot;)">${name}</span>`).join("")}</div>
          </div>`
     ).join("");
 };
