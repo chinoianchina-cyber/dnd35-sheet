@@ -54,8 +54,11 @@
     .dice-modal.open { display: flex; }
     .dice-modal-card { width: min(540px, 100%); max-height: min(80vh, 760px); overflow-y: auto; background: linear-gradient(180deg, rgba(30,41,59,0.98), rgba(15,23,42,0.98)); border: 1px solid rgba(56,189,248,0.3); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,0.45); padding: 18px; }
     .dice-modal-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+    .dice-modal-title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
     .dice-modal-title { margin: 0; color: var(--accent); font-size: 1.05em; letter-spacing: 0.8px; text-transform: uppercase; }
     .dice-modal-subtitle { color: #94a3b8; font-size: 0.8em; margin-top: 4px; }
+    .dice-modal-external { display: none; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 8px; border: 1px solid rgba(56,189,248,0.28); background: rgba(56,189,248,0.08); color: var(--accent); cursor: pointer; transition: 0.2s; text-decoration: none; font-size: 0.88em; }
+    .dice-modal-external:hover { border-color: var(--accent); background: rgba(56,189,248,0.16); transform: translateY(-1px); }
     .dice-close { border: 1px solid rgba(148,163,184,0.35); background: rgba(15,23,42,0.8); color: #cbd5e1; border-radius: 8px; cursor: pointer; padding: 6px 10px; font-weight: bold; }
     .dice-close:hover { border-color: var(--accent); color: var(--accent); }
     .dice-result-group { background: rgba(15,23,42,0.7); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 12px; margin-bottom: 10px; }
@@ -860,7 +863,10 @@
     <div class="dice-modal-card">
         <div class="dice-modal-head">
             <div>
-                <h3 id="dice-modal-title" class="dice-modal-title">Dice Roller</h3>
+                <div class="dice-modal-title-row">
+                    <h3 id="dice-modal-title" class="dice-modal-title">Dice Roller</h3>
+                    <a id="dice-modal-external-link" class="dice-modal-external" href="#" target="_blank" rel="noopener noreferrer" title="Buscar imágenes">↗</a>
+                </div>
                 <div id="dice-modal-subtitle" class="dice-modal-subtitle"></div>
             </div>
             <button type="button" class="dice-close" onclick="closeDiceModal()">Cerrar</button>
@@ -4755,7 +4761,8 @@ function openBestiaryEntry(name) {
         <div class="bestiary-modal-note">Fuente base: statblocks del SRD 3.5e. Esta primera pasada del bestiario incluye solo criaturas de tipo Animal.</div>
     `;
 
-    showDiceModal(entry.name, `CD ${entry.cr} · ${entry.alignment} · ${entry.type}`, html);
+    const imageUrl = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(`${entry.name} Dungeons and Dragons`)}`;
+    showDiceModal(entry.name, `CD ${entry.cr} · ${entry.alignment} · ${entry.type}`, html, { externalUrl: imageUrl, externalTitle: "Buscar imágenes en Google" });
 }
 
 const COMPANION_CARD_STATE = {
@@ -6519,15 +6526,27 @@ function rollDamageFormula(formula) {
     };
 }
 
-function showDiceModal(title, subtitle, html) {
+function showDiceModal(title, subtitle, html, options = {}) {
     const modal = document.getElementById('dice-roller-modal');
     const titleEl = document.getElementById('dice-modal-title');
     const subtitleEl = document.getElementById('dice-modal-subtitle');
     const contentEl = document.getElementById('dice-modal-content');
+    const externalLink = document.getElementById('dice-modal-external-link');
     if (!modal || !titleEl || !subtitleEl || !contentEl) return;
     titleEl.innerText = title;
     subtitleEl.innerText = subtitle || "";
     contentEl.innerHTML = html;
+    if (externalLink) {
+        if (options.externalUrl) {
+            externalLink.href = options.externalUrl;
+            externalLink.title = options.externalTitle || "Abrir enlace externo";
+            externalLink.style.display = "inline-flex";
+        } else {
+            externalLink.href = "#";
+            externalLink.title = "Abrir enlace externo";
+            externalLink.style.display = "none";
+        }
+    }
     modal.classList.add('open');
     modal.querySelector('.dice-modal-card')?.scrollTo({ top: 0, behavior: 'auto' });
 }
