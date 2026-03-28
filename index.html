@@ -111,6 +111,26 @@
     .bestiary-modal-label { display: block; font-size: 0.72em; font-weight: bold; letter-spacing: 0.6px; text-transform: uppercase; color: #94a3b8; margin-bottom: 5px; }
     .bestiary-modal-value { color: #e2e8f0; line-height: 1.45; }
     .bestiary-modal-note { color: #94a3b8; font-size: 0.82em; line-height: 1.45; margin-top: 10px; }
+    .companion-toggle { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: transparent; border: none; padding: 0; color: inherit; text-align: left; cursor: pointer; }
+    .companion-toggle:hover .companion-toggle-title { color: var(--accent); }
+    .companion-toggle-main { display: flex; align-items: flex-start; gap: 10px; min-width: 0; }
+    .companion-toggle-title { font-size: 0.98em; font-weight: bold; transition: color 0.2s ease; }
+    .companion-toggle-meta { color: #94a3b8; font-size: 0.78em; line-height: 1.35; margin-top: 3px; }
+    .companion-chevron { color: var(--accent); font-size: 0.88em; font-weight: bold; transition: transform 0.2s ease; }
+    .companion-chevron.open { transform: rotate(180deg); }
+    .companion-body { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+    .companion-body.open { display: block; }
+    .companion-empty { color: #94a3b8; font-size: 0.84em; line-height: 1.45; padding: 10px 0 4px; }
+    .companion-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin: 12px 0; }
+    .companion-metric { background: rgba(15,23,42,0.7); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 10px; }
+    .companion-metric-label { display: block; font-size: 0.7em; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; color: #94a3b8; margin-bottom: 4px; }
+    .companion-metric-value { color: #e2e8f0; font-size: 0.95em; line-height: 1.35; }
+    .companion-block { background: rgba(15,23,42,0.55); border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin-top: 10px; }
+    .companion-block-title { display: block; color: var(--accent); font-size: 0.76em; font-weight: bold; text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 8px; }
+    .companion-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 2px; }
+    .companion-tag { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 999px; font-size: 0.72em; font-weight: bold; border: 1px solid rgba(56,189,248,0.25); background: rgba(56,189,248,0.12); color: #bae6fd; }
+    .companion-note { color: #94a3b8; font-size: 0.8em; line-height: 1.45; margin-top: 8px; }
+    .companion-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 
     /* Estética Spells Tab */
     .spell-level-section { border-left: 3px solid var(--accent); padding-left: 15px; margin-bottom: 25px; }
@@ -525,6 +545,46 @@
             <div class="card" id="spell-slots-card" style="display:none;">
                 <h2>Hechizos Lanzables por Día</h2>
                 <div id="spell-slots-summary"></div>
+            </div>
+
+            <div class="card" id="animal-companion-card" style="display:none;">
+                <button type="button" class="companion-toggle" onclick="toggleCompanionCard('animal')">
+                    <div class="companion-toggle-main">
+                        <span class="manual-tag" style="background:#16a34a;">SRD</span>
+                        <div>
+                            <div class="companion-toggle-title">Compañero animal</div>
+                            <div class="companion-toggle-meta" id="animal-companion-toggle-meta">Druida o ranger con progresión automática.</div>
+                        </div>
+                    </div>
+                    <span class="companion-chevron" id="animal-companion-chevron">▼</span>
+                </button>
+                <div class="companion-body" id="animal-companion-body">
+                    <div style="display:flex; flex-direction:column; gap:4px; margin-bottom:10px;">
+                        <label style="font-size:0.72em; color:#94a3b8;">Selección</label>
+                        <select id="animal-companion-select" onchange="updateAll()" style="width:100%; box-sizing:border-box;"></select>
+                    </div>
+                    <div id="animal-companion-content" class="companion-empty">No hay compañero seleccionado.</div>
+                </div>
+            </div>
+
+            <div class="card" id="familiar-card" style="display:none;">
+                <button type="button" class="companion-toggle" onclick="toggleCompanionCard('familiar')">
+                    <div class="companion-toggle-main">
+                        <span class="manual-tag" style="background:#8b5cf6;">SRD</span>
+                        <div>
+                            <div class="companion-toggle-title">Familiar</div>
+                            <div class="companion-toggle-meta" id="familiar-toggle-meta">Wizard y sorcerer con bonus al amo y progresión propia.</div>
+                        </div>
+                    </div>
+                    <span class="companion-chevron" id="familiar-chevron">▼</span>
+                </button>
+                <div class="companion-body" id="familiar-body">
+                    <div style="display:flex; flex-direction:column; gap:4px; margin-bottom:10px;">
+                        <label style="font-size:0.72em; color:#94a3b8;">Selección</label>
+                        <select id="familiar-select" onchange="updateAll()" style="width:100%; box-sizing:border-box;"></select>
+                    </div>
+                    <div id="familiar-content" class="companion-empty">No hay familiar seleccionado.</div>
+                </div>
             </div>
         </div>
     </div>
@@ -4698,6 +4758,467 @@ function openBestiaryEntry(name) {
     showDiceModal(entry.name, `CD ${entry.cr} · ${entry.alignment} · ${entry.type}`, html);
 }
 
+const COMPANION_CARD_STATE = {
+    animal: false,
+    familiar: false,
+};
+
+const ANIMAL_COMPANION_PROGRESSION = [
+    { min: 1, max: 2, bonusHd: 0, naturalArmor: 0, strDex: 0, bonusTricks: 1, specials: ["Link", "Share Spells"] },
+    { min: 3, max: 5, bonusHd: 2, naturalArmor: 2, strDex: 1, bonusTricks: 2, specials: ["Link", "Share Spells", "Evasion"] },
+    { min: 6, max: 8, bonusHd: 4, naturalArmor: 4, strDex: 2, bonusTricks: 3, specials: ["Link", "Share Spells", "Evasion", "Devotion"] },
+    { min: 9, max: 11, bonusHd: 6, naturalArmor: 6, strDex: 3, bonusTricks: 4, specials: ["Link", "Share Spells", "Evasion", "Devotion", "Multiattack"] },
+    { min: 12, max: 14, bonusHd: 8, naturalArmor: 8, strDex: 4, bonusTricks: 5, specials: ["Link", "Share Spells", "Evasion", "Devotion", "Multiattack"] },
+    { min: 15, max: 17, bonusHd: 10, naturalArmor: 10, strDex: 5, bonusTricks: 6, specials: ["Link", "Share Spells", "Evasion", "Devotion", "Multiattack", "Improved Evasion"] },
+    { min: 18, max: 20, bonusHd: 12, naturalArmor: 12, strDex: 6, bonusTricks: 7, specials: ["Link", "Share Spells", "Evasion", "Devotion", "Multiattack", "Improved Evasion"] },
+];
+
+const ANIMAL_COMPANION_OPTIONS = [
+    { name: "Badger", minLevel: 1, levelAdjustment: 0 },
+    { name: "Camel", minLevel: 1, levelAdjustment: 0 },
+    { name: "Dog", minLevel: 1, levelAdjustment: 0 },
+    { name: "Dog, Riding", minLevel: 1, levelAdjustment: 0 },
+    { name: "Eagle", minLevel: 1, levelAdjustment: 0 },
+    { name: "Hawk", minLevel: 1, levelAdjustment: 0 },
+    { name: "Horse, Heavy", minLevel: 1, levelAdjustment: 0 },
+    { name: "Horse, Light", minLevel: 1, levelAdjustment: 0 },
+    { name: "Owl", minLevel: 1, levelAdjustment: 0 },
+    { name: "Pony", minLevel: 1, levelAdjustment: 0 },
+    { name: "Porpoise", minLevel: 1, levelAdjustment: 0, aquatic: true },
+    { name: "Shark, Medium", minLevel: 1, levelAdjustment: 0, aquatic: true },
+    { name: "Snake, Medium Viper", minLevel: 1, levelAdjustment: 0 },
+    { name: "Snake, Small Viper", minLevel: 1, levelAdjustment: 0 },
+    { name: "Squid", minLevel: 1, levelAdjustment: 0, aquatic: true },
+    { name: "Wolf", minLevel: 1, levelAdjustment: 0 },
+    { name: "Ape", minLevel: 4, levelAdjustment: 3 },
+    { name: "Bear, Black", minLevel: 4, levelAdjustment: 3 },
+    { name: "Bison", minLevel: 4, levelAdjustment: 3 },
+    { name: "Boar", minLevel: 4, levelAdjustment: 3 },
+    { name: "Cheetah", minLevel: 4, levelAdjustment: 3 },
+    { name: "Constrictor Snake", minLevel: 4, levelAdjustment: 3 },
+    { name: "Crocodile", minLevel: 4, levelAdjustment: 3 },
+    { name: "Leopard", minLevel: 4, levelAdjustment: 3 },
+    { name: "Lizard, Monitor", minLevel: 4, levelAdjustment: 3 },
+    { name: "Shark, Large", minLevel: 4, levelAdjustment: 3, aquatic: true },
+    { name: "Snake, Large Viper", minLevel: 4, levelAdjustment: 3 },
+    { name: "Wolverine", minLevel: 4, levelAdjustment: 3 },
+    { name: "Bear, Brown", minLevel: 7, levelAdjustment: 6 },
+    { name: "Crocodile, Giant", minLevel: 7, levelAdjustment: 6 },
+    { name: "Lion", minLevel: 7, levelAdjustment: 6 },
+    { name: "Rhinoceros", minLevel: 7, levelAdjustment: 6 },
+    { name: "Snake, Huge Viper", minLevel: 7, levelAdjustment: 6 },
+    { name: "Tiger", minLevel: 7, levelAdjustment: 6 },
+    { name: "Bear, Polar", minLevel: 10, levelAdjustment: 9 },
+    { name: "Orca", minLevel: 10, levelAdjustment: 9, aquatic: true },
+    { name: "Shark, Huge", minLevel: 10, levelAdjustment: 9, aquatic: true },
+    { name: "Elephant", minLevel: 13, levelAdjustment: 12 },
+    { name: "Octopus, Giant", minLevel: 13, levelAdjustment: 12, aquatic: true },
+    { name: "Squid, Giant", minLevel: 16, levelAdjustment: 15, aquatic: true },
+];
+
+const FAMILIAR_PROGRESSION = [
+    { min: 1, max: 2, naturalArmor: 1, intelligence: 6, specials: ["Alertness", "Improved Evasion", "Share Spells", "Empathic Link"] },
+    { min: 3, max: 4, naturalArmor: 2, intelligence: 7, specials: ["Alertness", "Improved Evasion", "Share Spells", "Empathic Link", "Deliver Touch Spells"] },
+    { min: 5, max: 6, naturalArmor: 3, intelligence: 8, specials: ["Alertness", "Improved Evasion", "Share Spells", "Empathic Link", "Deliver Touch Spells", "Speak with Master"] },
+    { min: 7, max: 8, naturalArmor: 4, intelligence: 9, specials: ["Alertness", "Improved Evasion", "Share Spells", "Empathic Link", "Deliver Touch Spells", "Speak with Master", "Speak with Animals of Its Kind"] },
+    { min: 9, max: 10, naturalArmor: 5, intelligence: 10, specials: ["Alertness", "Improved Evasion", "Share Spells", "Empathic Link", "Deliver Touch Spells", "Speak with Master", "Speak with Animals of Its Kind"] },
+    { min: 11, max: 12, naturalArmor: 6, intelligence: 11, specials: ["Alertness", "Improved Evasion", "Share Spells", "Empathic Link", "Deliver Touch Spells", "Speak with Master", "Speak with Animals of Its Kind", "Spell Resistance"] },
+    { min: 13, max: 14, naturalArmor: 7, intelligence: 12, specials: ["Alertness", "Improved Evasion", "Share Spells", "Empathic Link", "Deliver Touch Spells", "Speak with Master", "Speak with Animals of Its Kind", "Spell Resistance", "Scry on Familiar"] },
+    { min: 15, max: 16, naturalArmor: 8, intelligence: 13, specials: ["Alertness", "Improved Evasion", "Share Spells", "Empathic Link", "Deliver Touch Spells", "Speak with Master", "Speak with Animals of Its Kind", "Spell Resistance", "Scry on Familiar"] },
+    { min: 17, max: 18, naturalArmor: 9, intelligence: 14, specials: ["Alertness", "Improved Evasion", "Share Spells", "Empathic Link", "Deliver Touch Spells", "Speak with Master", "Speak with Animals of Its Kind", "Spell Resistance", "Scry on Familiar"] },
+    { min: 19, max: 20, naturalArmor: 10, intelligence: 15, specials: ["Alertness", "Improved Evasion", "Share Spells", "Empathic Link", "Deliver Touch Spells", "Speak with Master", "Speak with Animals of Its Kind", "Spell Resistance", "Scry on Familiar"] },
+];
+
+const FAMILIAR_OPTIONS = [
+    { name: "Bat", masterBonus: { kind: "skill", target: "Listen", value: 3, label: "+3 Listen" } },
+    { name: "Cat", masterBonus: { kind: "skill", target: "Move Silently", value: 3, label: "+3 Move Silently" } },
+    { name: "Hawk", masterBonus: { kind: "conditional", label: "+3 Spot en luz brillante" } },
+    { name: "Lizard", masterBonus: { kind: "skill", target: "Climb", value: 3, label: "+3 Climb" } },
+    { name: "Owl", masterBonus: { kind: "conditional", label: "+3 Spot en sombras" } },
+    { name: "Rat", masterBonus: { kind: "save", target: "save-fort", value: 2, label: "+2 Fortitude" } },
+    { name: "Raven", masterBonus: { kind: "skill", target: "Appraise", value: 3, label: "+3 Appraise" }, notes: ["Puede hablar un idioma del amo como habilidad sobrenatural."] },
+    { name: "Snake, Tiny Viper", label: "Snake (Tiny viper)", masterBonus: { kind: "skill", target: "Bluff", value: 3, label: "+3 Bluff" } },
+    { name: "Toad", masterBonus: { kind: "hp", value: 3, label: "+3 HP al amo" } },
+    { name: "Weasel", masterBonus: { kind: "save", target: "save-ref", value: 2, label: "+2 Reflex" } },
+];
+
+function toggleCompanionCard(kind) {
+    COMPANION_CARD_STATE[kind] = !COMPANION_CARD_STATE[kind];
+    syncCompanionCardState(kind);
+    if (!is_loading) autoSave();
+}
+
+function syncCompanionCardState(kind) {
+    const body = document.getElementById(`${kind === "animal" ? "animal-companion" : "familiar"}-body`);
+    const chevron = document.getElementById(`${kind === "animal" ? "animal-companion" : "familiar"}-chevron`);
+    const open = !!COMPANION_CARD_STATE[kind];
+    if (body) body.classList.toggle('open', open);
+    if (chevron) chevron.classList.toggle('open', open);
+}
+
+function parseFractionalNumber(text) {
+    const clean = String(text || "").trim();
+    if (!clean) return 0;
+    if (clean.includes('/')) {
+        const [num, den] = clean.split('/').map(Number);
+        return den ? num / den : 0;
+    }
+    return parseFloat(clean) || 0;
+}
+
+function getBestiaryEntryByName(name) {
+    return MANUAL_BESTIARY.find(entry => entry && entry.name === name) || null;
+}
+
+function parseBestiaryHdCount(hdText) {
+    const match = String(hdText || "").match(/^(\d+\/\d+|\d+)\s*d/i);
+    return match ? parseFractionalNumber(match[1]) : 0;
+}
+
+function parseBestiaryHp(hdText) {
+    const match = String(hdText || "").match(/\((\d+)\s*hp\)/i);
+    return match ? parseInt(match[1], 10) : 0;
+}
+
+function parseBestiaryAcTotal(acText) {
+    const match = String(acText || "").match(/(\d+)/);
+    return match ? parseInt(match[1], 10) : 10;
+}
+
+function parseBestiaryNaturalArmor(acText) {
+    const match = String(acText || "").match(/\+(\d+)\s*natural/i);
+    return match ? parseInt(match[1], 10) : 0;
+}
+
+function parseBestiaryAbilities(abilitiesText) {
+    const stats = { STR: 10, DEX: 10, CON: 10, INT: 10, WIS: 10, CHA: 10 };
+    String(abilitiesText || "").replace(/\b(Str|Dex|Con|Int|Wis|Cha)\s+(-|\d+)/gi, (_, ability, value) => {
+        stats[ability.toUpperCase()] = value === "-" ? 0 : parseInt(value, 10);
+        return _;
+    });
+    return stats;
+}
+
+function getAbilityModifier(score) {
+    if (!score) return 0;
+    return Math.floor((score - 10) / 2);
+}
+
+function formatHdValue(value) {
+    if (!Number.isFinite(value)) return "0";
+    return Math.abs(value % 1) < 0.001 ? String(Math.round(value)) : value.toFixed(2).replace(/\.00$/, "");
+}
+
+function getAnimalCompanionEffectiveLevel(clsName, lvl) {
+    if (clsName === "Druid") return lvl;
+    if (clsName === "Ranger" && lvl >= 4) return Math.floor(lvl / 2);
+    return 0;
+}
+
+function getAnimalCompanionProgress(level) {
+    return ANIMAL_COMPANION_PROGRESSION.find(step => level >= step.min && level <= step.max) || null;
+}
+
+function getFamiliarProgress(level) {
+    return FAMILIAR_PROGRESSION.find(step => level >= step.min && level <= step.max) || FAMILIAR_PROGRESSION[0];
+}
+
+function getBaseSaveBonus(progressType, lvl) {
+    return progressType === "g" ? (2 + Math.floor(lvl / 2)) : Math.floor(lvl / 3);
+}
+
+function getPrimaryBabByClass(classData, lvl) {
+    if (!classData) return 0;
+    if (classData.bab === "f") return lvl;
+    if (classData.bab === "m") return Math.floor(lvl * 0.75);
+    return Math.floor(lvl * 0.5);
+}
+
+function buildCompanionTags(tags) {
+    return (tags || []).map(tag => `<span class="companion-tag">${escapeHtml(tag)}</span>`).join("");
+}
+
+function buildCompanionOptionLabel(option) {
+    const suffix = option.levelAdjustment > 0 ? ` (ef. -${option.levelAdjustment})` : "";
+    const aquatic = option.aquatic ? " · aquatic" : "";
+    return `${option.label || option.name}${suffix}${aquatic}`;
+}
+
+function syncAnimalCompanionOptions(effectiveLevel) {
+    const select = document.getElementById('animal-companion-select');
+    if (!select) return { selected: "", options: [] };
+    const current = select.value || window._pendingAnimalCompanionSelection || "";
+    const available = ANIMAL_COMPANION_OPTIONS.filter(option => effectiveLevel >= option.minLevel && (effectiveLevel - option.levelAdjustment) > 0);
+    const groups = [
+        { key: "core", label: "Lista base", options: available.filter(option => option.levelAdjustment === 0) },
+        { key: "plus3", label: "Alternativas (nivel efectivo 4+, ef. -3)", options: available.filter(option => option.levelAdjustment === 3) },
+        { key: "plus6", label: "Alternativas (nivel efectivo 7+, ef. -6)", options: available.filter(option => option.levelAdjustment === 6) },
+        { key: "plus9", label: "Alternativas (nivel efectivo 10+, ef. -9)", options: available.filter(option => option.levelAdjustment === 9) },
+        { key: "plus12", label: "Alternativas (nivel efectivo 13+, ef. -12)", options: available.filter(option => option.levelAdjustment === 12) },
+        { key: "plus15", label: "Alternativas (nivel efectivo 16+, ef. -15)", options: available.filter(option => option.levelAdjustment === 15) },
+    ];
+
+    select.innerHTML = `<option value="">-- Ninguno --</option>`;
+    groups.forEach(group => {
+        if (!group.options.length) return;
+        const optgroup = document.createElement('optgroup');
+        optgroup.label = group.label;
+        group.options.forEach(option => optgroup.appendChild(new Option(buildCompanionOptionLabel(option), option.name)));
+        select.appendChild(optgroup);
+    });
+
+    select.value = available.some(option => option.name === current) ? current : "";
+    if (select.value) window._pendingAnimalCompanionSelection = "";
+    return { selected: select.value, options: available };
+}
+
+function syncFamiliarOptions() {
+    const select = document.getElementById('familiar-select');
+    if (!select) return "";
+    const current = select.value || window._pendingFamiliarSelection || "";
+    select.innerHTML = `<option value="">-- Ninguno --</option>`;
+    FAMILIAR_OPTIONS.forEach(option => select.add(new Option(option.label || option.name, option.name)));
+    select.value = FAMILIAR_OPTIONS.some(option => option.name === current) ? current : "";
+    if (select.value) window._pendingFamiliarSelection = "";
+    return select.value;
+}
+
+function getSelectedAnimalCompanionOption() {
+    const name = document.getElementById('animal-companion-select')?.value || "";
+    return ANIMAL_COMPANION_OPTIONS.find(option => option.name === name) || null;
+}
+
+function getSelectedFamiliarOption() {
+    const name = document.getElementById('familiar-select')?.value || "";
+    return FAMILIAR_OPTIONS.find(option => option.name === name) || null;
+}
+
+function renderAnimalCompanionCard(clsName, lvl) {
+    const card = document.getElementById('animal-companion-card');
+    const content = document.getElementById('animal-companion-content');
+    const meta = document.getElementById('animal-companion-toggle-meta');
+    if (!card || !content || !meta) return;
+
+    const effectiveLevel = getAnimalCompanionEffectiveLevel(clsName, lvl);
+    const eligible = effectiveLevel > 0;
+    card.style.display = eligible ? "block" : "none";
+    if (!eligible) return;
+
+    meta.innerText = clsName === "Druid"
+        ? `Druida nivel ${lvl} · nivel efectivo de companion ${effectiveLevel}.`
+        : `Ranger nivel ${lvl} · companion como druida nivel ${effectiveLevel}.`;
+
+    syncAnimalCompanionOptions(effectiveLevel);
+    const option = getSelectedAnimalCompanionOption();
+    if (!option) {
+        content.innerHTML = `<div class="companion-empty">Elegi una criatura compatible con tu nivel efectivo para ver sus ajustes SRD, ataques base y habilidades especiales.</div>`;
+        return;
+    }
+
+    const entry = getBestiaryEntryByName(option.name);
+    const progressLevel = effectiveLevel - option.levelAdjustment;
+    const progress = getAnimalCompanionProgress(progressLevel);
+    if (!entry || !progress) {
+        content.innerHTML = `<div class="companion-empty">Esa opcion todavia no tiene statblock base cargado en el bestiario de la app.</div>`;
+        return;
+    }
+
+    const abilities = parseBestiaryAbilities(entry.abilities);
+    const totalStr = abilities.STR + progress.strDex;
+    const totalDex = abilities.DEX + progress.strDex;
+    const totalHd = parseBestiaryHdCount(entry.hd) + progress.bonusHd;
+    const totalHp = parseBestiaryHp(entry.hd) + Math.round(progress.bonusHd * (4.5 + getAbilityModifier(abilities.CON)));
+    const acTotal = parseBestiaryAcTotal(entry.ac) + progress.naturalArmor + (getAbilityModifier(totalDex) - getAbilityModifier(abilities.DEX));
+    const totalBab = Math.floor(totalHd * 0.75);
+    const fort = 2 + Math.floor(totalHd / 2) + getAbilityModifier(abilities.CON);
+    const ref = 2 + Math.floor(totalHd / 2) + getAbilityModifier(totalDex);
+    const will = Math.floor(totalHd / 3) + getAbilityModifier(abilities.WIS);
+    const baseBab = Math.floor(parseBestiaryHdCount(entry.hd) * 0.75);
+    const meleeDelta = (totalBab - baseBab) + (getAbilityModifier(totalStr) - getAbilityModifier(abilities.STR));
+    const rangedDelta = (totalBab - baseBab) + (getAbilityModifier(totalDex) - getAbilityModifier(abilities.DEX));
+    const tags = [
+        `Nivel efectivo ${progressLevel}`,
+        `+${progress.bonusHd} HD`,
+        `+${progress.naturalArmor} armadura natural`,
+        `+${progress.strDex} STR/DEX`,
+        `${progress.bonusTricks} tricks`,
+    ];
+
+    content.innerHTML = `
+        <div class="companion-tags">${buildCompanionTags(tags)}</div>
+        <div class="companion-grid">
+            <div class="companion-metric">
+                <span class="companion-metric-label">Size / Type</span>
+                <div class="companion-metric-value">${escapeHtml(entry.sizeType)}</div>
+            </div>
+            <div class="companion-metric">
+                <span class="companion-metric-label">HD / HP</span>
+                <div class="companion-metric-value">${formatHdValue(totalHd)} HD · HP aprox. ${totalHp}</div>
+            </div>
+            <div class="companion-metric">
+                <span class="companion-metric-label">AC</span>
+                <div class="companion-metric-value">${acTotal} total · natural +${parseBestiaryNaturalArmor(entry.ac) + progress.naturalArmor}</div>
+            </div>
+            <div class="companion-metric">
+                <span class="companion-metric-label">BAB / Saves</span>
+                <div class="companion-metric-value">BAB +${totalBab} · F ${formatSignedNumber(fort)} / R ${formatSignedNumber(ref)} / W ${formatSignedNumber(will)}</div>
+            </div>
+        </div>
+        <div class="companion-block">
+            <span class="companion-block-title">Caracteristicas ajustadas</span>
+            <div class="companion-metric-value">STR ${totalStr}, DEX ${totalDex}, CON ${abilities.CON}, INT ${abilities.INT}, WIS ${abilities.WIS}, CHA ${abilities.CHA}</div>
+        </div>
+        <div class="companion-block">
+            <span class="companion-block-title">Ataque y reglas base</span>
+            <div class="companion-metric-value"><b>Full attack base:</b> ${escapeHtml(entry.fullAttack)}</div>
+            <div class="companion-note">Ajuste aproximado sobre el statblock base: ${meleeDelta >= 0 ? "+" : ""}${meleeDelta} melee / ${rangedDelta >= 0 ? "+" : ""}${rangedDelta} ranged. El dano y ataques naturales siguen siendo los de la criatura base.</div>
+        </div>
+        <div class="companion-block">
+            <span class="companion-block-title">Special attacks / qualities</span>
+            <div class="companion-metric-value"><b>Special attacks:</b> ${escapeHtml(entry.specialAttacks || "-")}</div>
+            <div class="companion-metric-value" style="margin-top:6px;"><b>Special qualities:</b> ${escapeHtml(entry.specialQualities || "-")}</div>
+        </div>
+        <div class="companion-block">
+            <span class="companion-block-title">Progresion SRD del companion</span>
+            <div class="companion-tags">${buildCompanionTags(progress.specials)}</div>
+            <div class="companion-note">Link y Share Spells siempre aplican. Devotion da +4 morale contra enchantment. Multiattack da la dote o un segundo ataque con el arma natural principal si no tiene tres ataques naturales.</div>
+        </div>
+        <div class="companion-actions">
+            <button type="button" class="manual-back-btn" onclick="openManualReference('bestiary', '${escapeAttr(option.name)}')">Abrir en bestiario</button>
+        </div>
+    `;
+}
+
+function renderFamiliarCard(clsName, lvl) {
+    const card = document.getElementById('familiar-card');
+    const content = document.getElementById('familiar-content');
+    const meta = document.getElementById('familiar-toggle-meta');
+    if (!card || !content || !meta) return;
+
+    const eligible = clsName === "Wizard" || clsName === "Sorcerer";
+    card.style.display = eligible ? "block" : "none";
+    if (!eligible) return;
+
+    meta.innerText = `${clsName} nivel ${lvl} · progresion completa de familiar SRD.`;
+    syncFamiliarOptions();
+    const option = getSelectedFamiliarOption();
+    if (!option) {
+        content.innerHTML = `<div class="companion-empty">Elegi un familiar para ver sus bonus al amo, estadisticas derivadas y habilidades especiales.</div>`;
+        return;
+    }
+
+    const entry = getBestiaryEntryByName(option.name);
+    const progress = getFamiliarProgress(Math.max(1, lvl));
+    if (!entry) {
+        content.innerHTML = `<div class="companion-empty">Ese familiar todavia no tiene statblock base disponible en el bestiario de la app.</div>`;
+        return;
+    }
+
+    const classData = SRD.classes.find(c => c.name === clsName);
+    const abilities = parseBestiaryAbilities(entry.abilities);
+    const masterBab = getPrimaryBabByClass(classData, lvl);
+    const attackBonus = masterBab + Math.max(getAbilityModifier(abilities.STR), getAbilityModifier(abilities.DEX));
+    const hpDamage = parseInt(document.getElementById('hp-damage')?.value, 10) || 0;
+    const displayedHp = parseInt(document.getElementById('hp-val')?.innerText, 10) || 0;
+    const masterHpBonus = option.masterBonus?.kind === "hp" ? option.masterBonus.value : 0;
+    const masterHpMax = displayedHp + hpDamage + masterHpBonus;
+    const familiarHp = Math.floor(masterHpMax / 2);
+    const familiarHd = Math.max(parseBestiaryHdCount(entry.hd), lvl);
+    const familiarAc = parseBestiaryAcTotal(entry.ac) + progress.naturalArmor;
+    const fort = Math.max(2, getBaseSaveBonus(classData.fort, lvl)) + getAbilityModifier(abilities.CON);
+    const ref = Math.max(2, getBaseSaveBonus(classData.ref, lvl)) + getAbilityModifier(abilities.DEX);
+    const will = Math.max(0, getBaseSaveBonus(classData.will, lvl)) + getAbilityModifier(abilities.WIS);
+    const tags = [
+        `NA +${progress.naturalArmor}`,
+        `INT ${progress.intelligence}`,
+        option.masterBonus?.label || "Sin bonus directo al amo",
+    ];
+    if (option.masterBonus?.kind === "conditional") tags.push("No automatico");
+
+    content.innerHTML = `
+        <div class="companion-tags">${buildCompanionTags(tags)}</div>
+        <div class="companion-grid">
+            <div class="companion-metric">
+                <span class="companion-metric-label">Size / Type</span>
+                <div class="companion-metric-value">${escapeHtml(entry.sizeType.replace("Animal", "Magical Beast"))}</div>
+            </div>
+            <div class="companion-metric">
+                <span class="companion-metric-label">HD / HP</span>
+                <div class="companion-metric-value">${formatHdValue(familiarHd)} HD para efectos · ${familiarHp} HP</div>
+            </div>
+            <div class="companion-metric">
+                <span class="companion-metric-label">AC</span>
+                <div class="companion-metric-value">${familiarAc} total · natural +${parseBestiaryNaturalArmor(entry.ac) + progress.naturalArmor}</div>
+            </div>
+            <div class="companion-metric">
+                <span class="companion-metric-label">Ataque / Saves</span>
+                <div class="companion-metric-value">Ataque ${formatSignedNumber(attackBonus)} · F ${formatSignedNumber(fort)} / R ${formatSignedNumber(ref)} / W ${formatSignedNumber(will)}</div>
+            </div>
+        </div>
+        <div class="companion-block">
+            <span class="companion-block-title">Caracteristicas del familiar</span>
+            <div class="companion-metric-value">STR ${abilities.STR}, DEX ${abilities.DEX}, CON ${abilities.CON}, INT ${progress.intelligence}, WIS ${abilities.WIS}, CHA ${abilities.CHA}</div>
+        </div>
+        <div class="companion-block">
+            <span class="companion-block-title">Ataques y bonus al amo</span>
+            <div class="companion-metric-value"><b>Full attack base:</b> ${escapeHtml(entry.fullAttack || "Ataque natural segun criatura base")}</div>
+            <div class="companion-note">El familiar usa el BAB del amo y el mejor modificador entre STR y DEX para sus ataques naturales. El dano sigue siendo el de la criatura base.</div>
+            <div class="companion-note"><b>Bonus al amo:</b> ${escapeHtml(option.masterBonus?.label || "Sin bonus directo")}${option.masterBonus?.kind === "conditional" ? " (situacional, no se aplica automatico en la ficha)." : "."}</div>
+        </div>
+        <div class="companion-block">
+            <span class="companion-block-title">Habilidades especiales</span>
+            <div class="companion-tags">${buildCompanionTags(progress.specials)}</div>
+            <div class="companion-note">Alertness solo cuenta mientras el familiar este al alcance del brazo. Spell resistance, cuando aplica, es ${lvl + 5}. ${option.notes ? option.notes.map(note => escapeHtml(note)).join(" ") : ""}</div>
+        </div>
+        <div class="companion-block">
+            <span class="companion-block-title">Statblock base</span>
+            <div class="companion-metric-value"><b>Special attacks:</b> ${escapeHtml(entry.specialAttacks || "-")}</div>
+            <div class="companion-metric-value" style="margin-top:6px;"><b>Special qualities:</b> ${escapeHtml(entry.specialQualities || "-")}</div>
+        </div>
+        <div class="companion-actions">
+            <button type="button" class="manual-back-btn" onclick="openManualReference('bestiary', '${escapeAttr(option.name)}')">Abrir en bestiario</button>
+        </div>
+    `;
+}
+
+function applyTextDeltaToElement(id, delta) {
+    if (!delta) return;
+    const el = document.getElementById(id);
+    if (!el) return;
+    const current = parseLastSignedNumber(el.innerText || el.textContent || "");
+    if (Number.isNaN(current)) return;
+    const next = formatSignedNumber(current + delta);
+    if (id === "save-ref") {
+        el.innerHTML = el.innerHTML.replace(/([+-]?\d+)(?![\s\S]*[+-]?\d)/, next);
+    } else if (id === "save-fort" || id === "save-will") {
+        el.innerText = next;
+    } else {
+        el.innerText = current + delta;
+    }
+}
+
+function applyFamiliarMasterBonuses(clsName) {
+    if (clsName !== "Wizard" && clsName !== "Sorcerer") return;
+    const option = getSelectedFamiliarOption();
+    const bonus = option?.masterBonus;
+    if (!bonus || bonus.kind === "conditional") return;
+
+    if (bonus.kind === "skill") {
+        applyTextDeltaToElement(`sk-tot-${bonus.target}`, bonus.value);
+        return;
+    }
+
+    if (bonus.kind === "save") {
+        applyTextDeltaToElement(bonus.target, bonus.value);
+        return;
+    }
+
+    if (bonus.kind === "hp") {
+        const hpEl = document.getElementById('hp-val');
+        if (hpEl) hpEl.innerText = (parseInt(hpEl.innerText, 10) || 0) + bonus.value;
+    }
+}
+
 function syncManualSpellFilters() {
     const wrapper = document.getElementById('manual-spell-filters');
     const classFilter = document.getElementById('manual-spell-class-filter');
@@ -6395,6 +6916,68 @@ updateAll = function(save = true) {
             .map(part => formatSignedNumber(parseLastSignedNumber(part) + attackDelta))
             .join('/');
     }
+
+    if (save) autoSave();
+};
+
+const _baseCollectSaveDataCompanions = collectSaveData;
+collectSaveData = function() {
+    const data = _baseCollectSaveDataCompanions();
+    data.companions = {
+        animal: {
+            selection: document.getElementById('animal-companion-select')?.value || "",
+            open: !!COMPANION_CARD_STATE.animal,
+        },
+        familiar: {
+            selection: document.getElementById('familiar-select')?.value || "",
+            open: !!COMPANION_CARD_STATE.familiar,
+        },
+    };
+    return data;
+};
+
+const _baseApplySaveDataCompanions = applySaveData;
+applySaveData = function(data) {
+    _baseApplySaveDataCompanions(data);
+    const animalSelection = data?.companions?.animal?.selection || "";
+    const familiarSelection = data?.companions?.familiar?.selection || "";
+    window._pendingAnimalCompanionSelection = animalSelection;
+    window._pendingFamiliarSelection = familiarSelection;
+    COMPANION_CARD_STATE.animal = !!data?.companions?.animal?.open;
+    COMPANION_CARD_STATE.familiar = !!data?.companions?.familiar?.open;
+    syncCompanionCardState('animal');
+    syncCompanionCardState('familiar');
+};
+
+const _baseNewCharacterCompanions = newCharacter;
+newCharacter = function() {
+    _baseNewCharacterCompanions();
+    const animalSelect = document.getElementById('animal-companion-select');
+    const familiarSelect = document.getElementById('familiar-select');
+    if (animalSelect) animalSelect.value = "";
+    if (familiarSelect) familiarSelect.value = "";
+    window._pendingAnimalCompanionSelection = "";
+    window._pendingFamiliarSelection = "";
+    COMPANION_CARD_STATE.animal = false;
+    COMPANION_CARD_STATE.familiar = false;
+    syncCompanionCardState('animal');
+    syncCompanionCardState('familiar');
+    updateAll(false);
+    saveCharData(activeCharIdx, collectSaveData());
+};
+
+const _baseUpdateAllCompanions = updateAll;
+updateAll = function(save = true) {
+    _baseUpdateAllCompanions(false);
+
+    const lvl = parseInt(document.getElementById('level').value, 10) || 1;
+    const clsName = document.getElementById('class').value;
+
+    renderAnimalCompanionCard(clsName, lvl);
+    renderFamiliarCard(clsName, lvl);
+    applyFamiliarMasterBonuses(clsName);
+    syncCompanionCardState('animal');
+    syncCompanionCardState('familiar');
 
     if (save) autoSave();
 };
