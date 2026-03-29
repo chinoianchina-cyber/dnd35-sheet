@@ -138,6 +138,24 @@
     .companion-tag { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 999px; font-size: 0.72em; font-weight: bold; border: 1px solid rgba(56,189,248,0.25); background: rgba(56,189,248,0.12); color: #bae6fd; }
     .companion-note { color: #94a3b8; font-size: 0.8em; line-height: 1.45; margin-top: 8px; }
     .companion-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .dm-panel-shell { max-width: 1040px; display: flex; flex-direction: column; gap: 16px; }
+    .dm-section-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.22); }
+    .dm-subcards { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); gap: 12px; flex-direction: column; }
+    .dm-subcards.open { display: flex; }
+    .dm-subcard { background: rgba(15,23,42,0.55); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+    .dm-textarea { width: 100%; min-height: 140px; box-sizing: border-box; background: #0f172a; color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 10px; font-family: inherit; font-size: 0.88em; resize: vertical; line-height: 1.5; }
+    .dm-session-item, .dm-party-item { background: rgba(15,23,42,0.65); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 12px; margin-top: 10px; }
+    .dm-session-head, .dm-party-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+    .dm-session-title, .dm-party-name { color: var(--accent); font-weight: bold; font-size: 0.95em; }
+    .dm-party-meta { color: #94a3b8; font-size: 0.8em; line-height: 1.4; margin-top: 4px; }
+    .dm-party-power { color: #facc15; font-weight: bold; font-size: 0.92em; letter-spacing: 0.4px; }
+    .dm-mini-btn { border: 1px solid rgba(148,163,184,0.35); background: rgba(15,23,42,0.8); color: #cbd5e1; border-radius: 8px; cursor: pointer; padding: 6px 10px; font-size: 0.78em; font-weight: bold; }
+    .dm-mini-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .dm-modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; padding: 18px; background: rgba(2,6,23,0.72); backdrop-filter: blur(4px); z-index: 10000; }
+    .dm-modal.open { display: flex; }
+    .dm-modal-card { width: min(560px, 100%); background: linear-gradient(180deg, rgba(30,41,59,0.98), rgba(15,23,42,0.98)); border: 1px solid rgba(56,189,248,0.3); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,0.45); padding: 18px; }
+    .dm-modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .dm-modal-grid .full { grid-column: 1 / -1; }
 
     /* Estética Spells Tab */
     .spell-level-section { border-left: 3px solid var(--accent); padding-left: 15px; margin-bottom: 25px; }
@@ -269,6 +287,7 @@
   <div class="tab" onclick="showTab(3)">MANUAL (SRD)</div>
   <div class="tab" onclick="showTab(4)">CUSTOM</div>
   <div class="tab" onclick="showTab(5)">NOTAS</div>
+  <div class="tab" onclick="showTab(6)">DM TOOLS</div>
   <div style="margin-left:auto; display:flex; align-items:center; gap:8px; padding-right:12px;">
     <span id="save-indicator" style="font-size:0.7em; color:#64748b;"></span>
     <select id="theme-selector" onchange="applyTheme(this.value)" title="Tema de color"
@@ -823,6 +842,93 @@
     </div>
 </div>
 
+<div class="panel" id="p5">
+    <div class="dm-panel-shell">
+        <div class="dm-section-card">
+            <button type="button" class="companion-toggle" onclick="toggleDmSection('history')">
+                <div class="companion-toggle-main">
+                    <span class="manual-tag" style="background:#0f766e;">DM</span>
+                    <div>
+                        <div class="companion-toggle-title">Historia</div>
+                        <div class="companion-toggle-meta">Backstory, sesiones y notas generales de campana.</div>
+                    </div>
+                </div>
+                <span class="companion-chevron" id="dm-chevron-history">▼</span>
+            </button>
+            <div class="dm-subcards" id="dm-body-history">
+                <div class="dm-subcard">
+                    <button type="button" class="companion-toggle" onclick="toggleDmSection('history-backstory')">
+                        <div class="companion-toggle-main">
+                            <div>
+                                <div class="companion-toggle-title">Backstory</div>
+                                <div class="companion-toggle-meta">Contexto general, origen de la campana o historia principal.</div>
+                            </div>
+                        </div>
+                        <span class="companion-chevron" id="dm-chevron-history-backstory">▼</span>
+                    </button>
+                    <div class="dm-subcards" id="dm-body-history-backstory">
+                        <textarea id="dm-history-backstory" class="dm-textarea" placeholder="Historia base, origen del conflicto, facciones, secretos..." oninput="DM_TOOLS.history.backstory=this.value; autoSave()"></textarea>
+                    </div>
+                </div>
+
+                <div class="dm-subcard">
+                    <button type="button" class="companion-toggle" onclick="toggleDmSection('history-sessions')">
+                        <div class="companion-toggle-main">
+                            <div>
+                                <div class="companion-toggle-title">Sesiones</div>
+                                <div class="companion-toggle-meta">Agregar y ordenar el registro de sesiones.</div>
+                            </div>
+                        </div>
+                        <span class="companion-chevron" id="dm-chevron-history-sessions">▼</span>
+                    </button>
+                    <div class="dm-subcards" id="dm-body-history-sessions">
+                        <textarea id="dm-session-draft" class="dm-textarea" style="min-height:110px;" placeholder="Escribi el resumen o registro de la nueva sesion..."></textarea>
+                        <div class="companion-actions" style="margin-top:0;">
+                            <button type="button" class="manual-back-btn" onclick="addDmSession()">+ Agregar sesion</button>
+                        </div>
+                        <div id="dm-sessions-list"></div>
+                    </div>
+                </div>
+
+                <div class="dm-subcard">
+                    <button type="button" class="companion-toggle" onclick="toggleDmSection('history-notes')">
+                        <div class="companion-toggle-main">
+                            <div>
+                                <div class="companion-toggle-title">Notas</div>
+                                <div class="companion-toggle-meta">Ideas sueltas, recordatorios y apuntes del director.</div>
+                            </div>
+                        </div>
+                        <span class="companion-chevron" id="dm-chevron-history-notes">▼</span>
+                    </button>
+                    <div class="dm-subcards" id="dm-body-history-notes">
+                        <textarea id="dm-history-notes" class="dm-textarea" placeholder="Notas varias, ganchos, nombres, lugares, pendientes..." oninput="DM_TOOLS.history.notes=this.value; autoSave()"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dm-section-card">
+            <button type="button" class="companion-toggle" onclick="toggleDmSection('party')">
+                <div class="companion-toggle-main">
+                    <span class="manual-tag" style="background:#7c3aed;">DM</span>
+                    <div>
+                        <div class="companion-toggle-title">Party</div>
+                        <div class="companion-toggle-meta">Resumen del grupo, detalles especiales y carga rapida de miembros.</div>
+                    </div>
+                </div>
+                <span class="companion-chevron" id="dm-chevron-party">▼</span>
+            </button>
+            <div class="dm-subcards" id="dm-body-party">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+                    <div class="dm-party-power">POWER LEVEL <span id="dm-party-power-level">0</span></div>
+                    <button type="button" class="manual-back-btn" onclick="openPartyMemberModal()">+ Agregar miembro</button>
+                </div>
+                <div id="dm-party-list" class="companion-empty">Todavia no hay miembros cargados.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="panel" id="p3">
     <h3>Referencia SRD</h3>
     <div id="manual-home" class="manual-menu"></div>
@@ -876,6 +982,47 @@
             <button type="button" class="dice-close" onclick="closeDiceModal()">Cerrar</button>
         </div>
         <div id="dice-modal-content"></div>
+    </div>
+</div>
+
+<div id="dm-party-modal" class="dm-modal" onclick="handleDmPartyModalBackdrop(event)">
+    <div class="dm-modal-card">
+        <div class="dice-modal-head">
+            <div>
+                <h3 class="dice-modal-title" style="margin-bottom:4px;">Cargar miembro de la party</h3>
+                <div class="dice-modal-subtitle">Nombre, raza, clase, nivel y avance especial.</div>
+            </div>
+            <button type="button" class="dice-close" onclick="closePartyMemberModal()">Cerrar</button>
+        </div>
+        <div class="dm-modal-grid">
+            <label style="display:flex; flex-direction:column; gap:6px; color:#cbd5e1; font-size:0.82em;">
+                Nombre
+                <input id="dm-party-name" type="text">
+            </label>
+            <label style="display:flex; flex-direction:column; gap:6px; color:#cbd5e1; font-size:0.82em;">
+                Raza
+                <select id="dm-party-race"></select>
+            </label>
+            <label style="display:flex; flex-direction:column; gap:6px; color:#cbd5e1; font-size:0.82em;">
+                Clase
+                <select id="dm-party-class"></select>
+            </label>
+            <label style="display:flex; flex-direction:column; gap:6px; color:#cbd5e1; font-size:0.82em;">
+                Nivel
+                <input id="dm-party-level" type="number" min="1" max="20" value="1">
+            </label>
+            <label style="display:flex; flex-direction:column; gap:6px; color:#cbd5e1; font-size:0.82em;">
+                Avance Especial
+                <input id="dm-party-advance" type="number" min="1" max="10" value="1">
+            </label>
+            <label class="full" style="display:flex; flex-direction:column; gap:6px; color:#cbd5e1; font-size:0.82em;">
+                Detalle
+                <textarea id="dm-party-detail" class="dm-textarea" style="min-height:110px;"></textarea>
+            </label>
+        </div>
+        <div class="companion-actions" style="justify-content:flex-end; margin-top:14px;">
+            <button type="button" class="manual-back-btn" onclick="submitPartyMember()">Cargar</button>
+        </div>
     </div>
 </div>
 
@@ -2442,11 +2589,21 @@ const STATS = ["STR", "DEX", "CON", "INT", "WIS", "CHA"];
 function init() {
     const rSel = document.getElementById('race');
     SRD.races.forEach(r => rSel.add(new Option(r.name, r.name)));
+    const dmRaceSel = document.getElementById('dm-party-race');
+    if (dmRaceSel) {
+        dmRaceSel.innerHTML = "";
+        SRD.races.forEach(r => dmRaceSel.add(new Option(r.name, r.name)));
+    }
     const aSel = document.getElementById('alignment');
     ALIGNMENTS.forEach(a => aSel.add(new Option(a, a)));
     updateDeityList();
     const cSel = document.getElementById('class');
     SRD.classes.forEach(c => cSel.add(new Option(c.name, c.name)));
+    const dmClassSel = document.getElementById('dm-party-class');
+    if (dmClassSel) {
+        dmClassSel.innerHTML = "";
+        SRD.classes.forEach(c => dmClassSel.add(new Option(c.name, c.name)));
+    }
 
     const sContainer = document.getElementById('stats-container');
     sContainer.className = 'stats-grid';
@@ -2478,6 +2635,7 @@ function init() {
     initEquipment();
     renderItemSlots();
     renderCustomLists();
+    syncDmToolsUi();
 }
 
 function updateAll(save = true) {
@@ -5230,6 +5388,182 @@ function applyFamiliarMasterBonuses(clsName) {
     }
 }
 
+const DM_TOOLS = {
+    history: {
+        backstory: "",
+        notes: "",
+        sessions: []
+    },
+    party: []
+};
+
+const DM_UI_STATE = {
+    history: false,
+    "history-backstory": false,
+    "history-sessions": false,
+    "history-notes": false,
+    party: false
+};
+
+function toggleDmSection(key) {
+    DM_UI_STATE[key] = !DM_UI_STATE[key];
+    syncDmSection(key);
+}
+
+function syncDmSection(key) {
+    const body = document.getElementById(`dm-body-${key}`);
+    const chevron = document.getElementById(`dm-chevron-${key}`);
+    const open = !!DM_UI_STATE[key];
+    if (body) body.classList.toggle('open', open);
+    if (chevron) chevron.classList.toggle('open', open);
+    if (!is_loading) autoSave();
+}
+
+function renderDmSessions() {
+    const list = document.getElementById('dm-sessions-list');
+    if (!list) return;
+    if (!DM_TOOLS.history.sessions.length) {
+        list.innerHTML = `<div class="companion-empty">Todavia no hay sesiones cargadas.</div>`;
+        return;
+    }
+    list.innerHTML = DM_TOOLS.history.sessions.map((session, index) => `
+        <div class="dm-session-item">
+            <div class="dm-session-head">
+                <div class="dm-session-title">Sesion ${index + 1}</div>
+                <button type="button" class="dm-mini-btn" onclick="removeDmSession(${index})">Quitar</button>
+            </div>
+            <textarea class="dm-textarea" style="min-height:110px;" oninput="updateDmSession(${index}, this.value)">${escapeHtml(session)}</textarea>
+        </div>
+    `).join("");
+}
+
+function addDmSession() {
+    const draft = document.getElementById('dm-session-draft');
+    if (!draft) return;
+    const text = draft.value.trim();
+    if (!text) return;
+    DM_TOOLS.history.sessions.push(text);
+    draft.value = "";
+    renderDmSessions();
+    autoSave();
+}
+
+function updateDmSession(index, value) {
+    if (!DM_TOOLS.history.sessions[index] && DM_TOOLS.history.sessions[index] !== "") return;
+    DM_TOOLS.history.sessions[index] = value;
+    autoSave();
+}
+
+function removeDmSession(index) {
+    DM_TOOLS.history.sessions.splice(index, 1);
+    renderDmSessions();
+    autoSave();
+}
+
+function calculatePartyPowerLevel() {
+    if (!DM_TOOLS.party.length) return 0;
+    const casterClasses = new Set(["Druid", "Cleric", "Wizard", "Sorcerer"]);
+    const n = DM_TOOLS.party.length;
+    const totalLevels = DM_TOOLS.party.reduce((sum, member) => sum + (parseInt(member.level, 10) || 0), 0);
+    const averageLevel = n > 0 ? totalLevels / n : 0;
+    const casters = DM_TOOLS.party.filter(member => casterClasses.has(String(member.className || "").trim()));
+    const m = casters.length;
+    const casterBonus = casters.reduce((sum, member) => {
+        const casterLevel = parseInt(member.level, 10) || 0;
+        return sum + (Math.floor(casterLevel / 5) * 0.5);
+    }, 0);
+    const sizeFactor = 1 + (0.4 * (n - 4));
+    const casterFactor = 1 + (0.15 * m);
+    const rawPower = (averageLevel * sizeFactor * casterFactor) + casterBonus;
+    return Math.max(0, Math.round(rawPower * 10) / 10);
+}
+
+function renderPartyList() {
+    const list = document.getElementById('dm-party-list');
+    const power = document.getElementById('dm-party-power-level');
+    if (power) power.innerText = String(calculatePartyPowerLevel());
+    if (!list) return;
+    if (!DM_TOOLS.party.length) {
+        list.innerHTML = `<div class="companion-empty">Todavia no hay miembros cargados.</div>`;
+        return;
+    }
+    list.innerHTML = DM_TOOLS.party.map((member, index) => `
+        <div class="dm-party-item">
+            <div class="dm-party-head">
+                <div>
+                    <div class="dm-party-name">${escapeHtml(member.name)}</div>
+                    <div class="dm-party-meta">${escapeHtml(member.race)} · ${escapeHtml(member.className)} · Nivel ${escapeHtml(member.level)} · Avance Especial ${escapeHtml(member.advance)}</div>
+                </div>
+                <button type="button" class="dm-mini-btn" onclick="removePartyMember(${index})">Quitar</button>
+            </div>
+            <div class="companion-note">${escapeHtml(member.detail || "Sin detalle adicional.")}</div>
+        </div>
+    `).join("");
+}
+
+function openPartyMemberModal() {
+    document.getElementById('dm-party-modal')?.classList.add('open');
+}
+
+function closePartyMemberModal() {
+    document.getElementById('dm-party-modal')?.classList.remove('open');
+}
+
+function handleDmPartyModalBackdrop(event) {
+    if (event.target?.id === 'dm-party-modal') closePartyMemberModal();
+}
+
+function submitPartyMember() {
+    const nameEl = document.getElementById('dm-party-name');
+    const raceEl = document.getElementById('dm-party-race');
+    const classEl = document.getElementById('dm-party-class');
+    const levelEl = document.getElementById('dm-party-level');
+    const advanceEl = document.getElementById('dm-party-advance');
+    const detailEl = document.getElementById('dm-party-detail');
+    if (!nameEl || !raceEl || !classEl || !levelEl || !advanceEl || !detailEl) return;
+
+    const member = {
+        name: nameEl.value.trim(),
+        race: raceEl.value.trim(),
+        className: classEl.value.trim(),
+        level: Math.max(1, Math.min(20, parseInt(levelEl.value, 10) || 1)),
+        advance: Math.max(1, Math.min(10, parseInt(advanceEl.value, 10) || 1)),
+        detail: detailEl.value.trim()
+    };
+
+    if (!member.name || !member.race || !member.className) {
+        alert("Completá nombre, raza y clase.");
+        return;
+    }
+
+    DM_TOOLS.party.push(member);
+    nameEl.value = "";
+    raceEl.value = "";
+    classEl.value = "";
+    levelEl.value = "1";
+    advanceEl.value = "1";
+    detailEl.value = "";
+    closePartyMemberModal();
+    renderPartyList();
+    autoSave();
+}
+
+function removePartyMember(index) {
+    DM_TOOLS.party.splice(index, 1);
+    renderPartyList();
+    autoSave();
+}
+
+function syncDmToolsUi() {
+    const backstory = document.getElementById('dm-history-backstory');
+    const notes = document.getElementById('dm-history-notes');
+    if (backstory) backstory.value = DM_TOOLS.history.backstory || "";
+    if (notes) notes.value = DM_TOOLS.history.notes || "";
+    renderDmSessions();
+    renderPartyList();
+    Object.keys(DM_UI_STATE).forEach(syncDmSection);
+}
+
 function syncManualSpellFilters() {
     const wrapper = document.getElementById('manual-spell-filters');
     const classFilter = document.getElementById('manual-spell-class-filter');
@@ -5692,7 +6026,7 @@ function applyTheme(theme) {
     document.body.setAttribute('data-theme', theme);
     localStorage.setItem('dnd35_theme', theme);
 }
-const TAB_PANEL_IDS = ['p0','p1','p2','p3','p3b','p4'];
+const TAB_PANEL_IDS = ['p0','p1','p2','p3','p3b','p4','p5'];
 
 function showTab(i) {
     document.querySelectorAll('.tab').forEach((t, idx) => t.classList.toggle('active', idx === i));
@@ -7072,6 +7406,46 @@ updateAll = function(save = true) {
     syncCompanionCardState('familiar');
 
     if (save) autoSave();
+};
+
+const _baseCollectSaveDataDmTools = collectSaveData;
+collectSaveData = function() {
+    const data = _baseCollectSaveDataDmTools();
+    data.dmTools = {
+        history: {
+            backstory: DM_TOOLS.history.backstory || "",
+            notes: DM_TOOLS.history.notes || "",
+            sessions: [...DM_TOOLS.history.sessions]
+        },
+        party: DM_TOOLS.party.map(member => ({ ...member })),
+        uiState: { ...DM_UI_STATE }
+    };
+    return data;
+};
+
+const _baseApplySaveDataDmTools = applySaveData;
+applySaveData = function(data) {
+    _baseApplySaveDataDmTools(data);
+    DM_TOOLS.history.backstory = data?.dmTools?.history?.backstory || "";
+    DM_TOOLS.history.notes = data?.dmTools?.history?.notes || "";
+    DM_TOOLS.history.sessions = [...(data?.dmTools?.history?.sessions || [])];
+    DM_TOOLS.party = [...(data?.dmTools?.party || [])];
+    Object.keys(DM_UI_STATE).forEach(key => {
+        DM_UI_STATE[key] = !!data?.dmTools?.uiState?.[key];
+    });
+    syncDmToolsUi();
+};
+
+const _baseNewCharacterDmTools = newCharacter;
+newCharacter = function() {
+    _baseNewCharacterDmTools();
+    DM_TOOLS.history.backstory = "";
+    DM_TOOLS.history.notes = "";
+    DM_TOOLS.history.sessions = [];
+    DM_TOOLS.party = [];
+    Object.keys(DM_UI_STATE).forEach(key => { DM_UI_STATE[key] = false; });
+    syncDmToolsUi();
+    saveCharData(activeCharIdx, collectSaveData());
 };
 
 // Restaurar tema guardado
