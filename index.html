@@ -23,18 +23,26 @@
     .tab { padding: 12px 25px; cursor: pointer; font-weight: bold; border-right: 1px solid #333; transition: 0.2s; color: #64748b; }
     .tab:hover { background: #111; color: var(--accent); }
     .tab.active { background: var(--accent); color: #000; }
-    .mobile-tab-sheet { position: fixed; inset: 0; display: none; align-items: flex-start; justify-content: center; padding: 0; background: rgba(2,6,23,0.55); backdrop-filter: blur(4px); z-index: 10020; }
-    .mobile-tab-sheet.open { display: flex; }
-    .mobile-tab-sheet-panel { width: 100%; max-height: 78vh; background: linear-gradient(180deg, rgba(30,41,59,0.985), rgba(15,23,42,0.985)); border-bottom: 1px solid rgba(56,189,248,0.28); border-radius: 0 0 18px 18px; box-shadow: 0 18px 48px rgba(0,0,0,0.38); transform: translateY(-100%); transition: transform 0.24s cubic-bezier(0.22, 0.61, 0.36, 1); overflow: auto; }
-    .mobile-tab-sheet.open .mobile-tab-sheet-panel { transform: translateY(0); }
+    .mobile-tab-sheet { position: fixed; inset: 0; display: flex; align-items: flex-start; justify-content: center; padding: 0; background: rgba(2,6,23,0.0); backdrop-filter: blur(0px); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.22s ease, background 0.22s ease, backdrop-filter 0.22s ease; z-index: 10020; }
+    .mobile-tab-sheet.open { opacity: 1; visibility: visible; pointer-events: auto; background: rgba(2,6,23,0.55); backdrop-filter: blur(4px); }
+    .mobile-tab-sheet-panel { width: 100%; max-height: 78vh; background: linear-gradient(180deg, rgba(30,41,59,0.985), rgba(15,23,42,0.985)); border-bottom: 1px solid rgba(56,189,248,0.28); border-radius: 0 0 18px 18px; box-shadow: 0 18px 48px rgba(0,0,0,0.38); transform: translateY(-110%); opacity: 0.92; transition: transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.22s ease; overflow: auto; }
+    .mobile-tab-sheet.open .mobile-tab-sheet-panel { transform: translateY(0); opacity: 1; }
     .mobile-tab-sheet-handle { width: 64px; height: 6px; border-radius: 999px; background: rgba(148,163,184,0.45); margin: 12px auto 10px; }
     .mobile-tab-sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 16px 12px; }
     .mobile-tab-sheet-title { color: var(--accent); font-size: 0.92em; font-weight: bold; letter-spacing: 0.9px; text-transform: uppercase; }
     .mobile-tab-sheet-close { border: 1px solid rgba(148,163,184,0.35); background: rgba(15,23,42,0.78); color: #cbd5e1; border-radius: 8px; cursor: pointer; padding: 6px 10px; font-weight: bold; }
     .mobile-tab-sheet-grid { display: grid; gap: 12px; padding: 0 16px 18px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .mobile-tab-sheet-btn { min-height: 88px; border-radius: 14px; border: 1px solid rgba(148,163,184,0.24); background: rgba(15,23,42,0.78); color: #e2e8f0; font-weight: bold; letter-spacing: 0.4px; text-transform: uppercase; cursor: pointer; padding: 14px 12px; display: flex; align-items: center; justify-content: center; text-align: center; line-height: 1.25; transition: 0.2s; }
+    .mobile-tab-sheet-btn { min-height: 88px; border-radius: 14px; border: 1px solid rgba(148,163,184,0.24); background: rgba(15,23,42,0.78); color: #e2e8f0; font-weight: bold; letter-spacing: 0.4px; text-transform: uppercase; cursor: pointer; padding: 14px 12px; display: flex; align-items: center; justify-content: center; text-align: center; line-height: 1.25; transform: translateY(-10px); opacity: 0; transition: border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.2s ease; }
     .mobile-tab-sheet-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
     .mobile-tab-sheet-btn.active { border-color: rgba(56,189,248,0.58); background: rgba(56,189,248,0.18); color: #bae6fd; box-shadow: 0 8px 18px rgba(56,189,248,0.16); }
+    .mobile-tab-sheet.open .mobile-tab-sheet-btn { transform: translateY(0); opacity: 1; }
+    .mobile-tab-sheet.open .mobile-tab-sheet-btn:nth-child(1) { transition-delay: 0.04s; }
+    .mobile-tab-sheet.open .mobile-tab-sheet-btn:nth-child(2) { transition-delay: 0.06s; }
+    .mobile-tab-sheet.open .mobile-tab-sheet-btn:nth-child(3) { transition-delay: 0.08s; }
+    .mobile-tab-sheet.open .mobile-tab-sheet-btn:nth-child(4) { transition-delay: 0.10s; }
+    .mobile-tab-sheet.open .mobile-tab-sheet-btn:nth-child(5) { transition-delay: 0.12s; }
+    .mobile-tab-sheet.open .mobile-tab-sheet-btn:nth-child(6) { transition-delay: 0.14s; }
+    .mobile-tab-sheet.open .mobile-tab-sheet-btn:nth-child(7) { transition-delay: 0.16s; }
     .mobile-tab-sheet-note { padding: 0 16px 14px; color: #94a3b8; font-size: 0.78em; line-height: 1.4; }
     
     .panel { display: none; padding: 20px; overflow-y: auto; flex-grow: 1; transform: translateX(0); opacity: 1; transition: transform 0.22s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.22s ease; will-change: transform, opacity; touch-action: pan-y; }
