@@ -1324,6 +1324,41 @@
                 <div id="dm-loot-saved" class="dm-npc-list"></div>
             </div>
         </div>
+
+        <div class="dm-section-card">
+            <button type="button" class="companion-toggle" onclick="toggleDmSection('files')">
+                <div class="companion-toggle-main">
+                    <span class="manual-tag" style="background:#2563eb;">DM</span>
+                    <div>
+                        <div class="companion-toggle-title">Mis archivos</div>
+                        <div class="companion-toggle-meta">Accesos rápidos a documentos, mapas, handouts o notas externas, por ejemplo enlaces de Google Drive.</div>
+                    </div>
+                </div>
+                <span class="companion-chevron" id="dm-chevron-files">▼</span>
+            </button>
+            <div class="dm-subcards" id="dm-body-files">
+                <div class="dm-encounter-controls">
+                    <label>
+                        Nombre
+                        <input id="dm-file-name" type="text" placeholder="Mapa del puerto, Notas de facción...">
+                    </label>
+                    <label>
+                        Enlace
+                        <input id="dm-file-url" type="url" placeholder="https://drive.google.com/...">
+                    </label>
+                    <label>
+                        Etiqueta
+                        <input id="dm-file-tag" type="text" placeholder="Mapa, Handout, Docs, Música...">
+                    </label>
+                </div>
+                <div class="dm-encounter-actions">
+                    <button type="button" class="manual-back-btn" id="dm-file-submit-btn" onclick="submitDmFileLink()">Agregar archivo</button>
+                    <button type="button" class="dm-mini-btn" onclick="clearDmFileForm()">Limpiar</button>
+                </div>
+                <div class="dm-encounter-helper">Se guardan como accesos rápidos dentro de la app y se abren fuera de la PWA, en el navegador o en Drive según el link.</div>
+                <div id="dm-files-list" class="dm-npc-list"><div class="companion-empty">Todavia no hay archivos guardados.</div></div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -4831,6 +4866,7 @@ const MANUAL_BESTIARY = [
   { name: "Greater Shadow", sizeType: "Medium Undead (Incorporeal)", hd: "9d12 (58 hp)", ac: "14 (+2 Dex, +2 deflection), touch 14, flat-footed 12", abilities: "Str -, Dex 15, Con -, Int 6, Wis 12, Cha 14", fullAttack: "Incorporeal touch +6 melee (1d8 Str)", specialAttacks: "Create spawn, strength damage", specialQualities: "Darkvision 60 ft., incorporeal traits, +2 turn resistance, undead traits", cr: "8", alignment: "Always chaotic evil", type: "Undead" },
   { name: "Mohrg", sizeType: "Medium Undead", hd: "14d12 (91 hp)", ac: "23 (+4 Dex, +9 natural), touch 14, flat-footed 14", abilities: "Str 21, Dex 19, Con -, Int 11, Wis 10, Cha 10", fullAttack: "Slam +12 melee (1d6+7) and tongue +12 melee touch (paralysis)", specialAttacks: "Improved grab, paralyzing touch, create spawn", specialQualities: "Darkvision 60 ft., undead traits", cr: "8", alignment: "Always chaotic evil", type: "Undead" },
   { name: "Mummy", sizeType: "Medium Undead", hd: "8d12+3 (55 hp)", ac: "20 (+10 natural), touch 10, flat-footed 20", abilities: "Str 24, Dex 10, Con -, Int 6, Wis 14, Cha 15", fullAttack: "Slam +11 melee (1d6+10 plus mummy rot)", specialAttacks: "Despair, mummy rot", specialQualities: "Damage reduction 5/-, darkvision 60 ft., undead traits, vulnerability to fire", cr: "5", alignment: "Usually lawful evil", type: "Undead" },
+  { name: "Lich", sizeType: "Template (Any Humanoid Spellcaster)", hd: "All current and future Hit Dice become d12; a lich has no Constitution score", ac: "+5 natural armor or the base creature's natural armor, whichever is better", abilities: "Int +2, Wis +2, Cha +2; Con -", fullAttack: "Touch attack once per round or retained weapon/natural attacks from the base creature", specialAttacks: "Fear aura, paralyzing touch, retained spells and special attacks of the base creature", specialQualities: "Turn resistance +4, DR 15/bludgeoning and magic, immunity to cold/electricity/polymorph/mind-affecting, phylactery rejuvenation, undead traits", cr: "Varies (+2)", alignment: "Any evil", type: "Undead", summary: "Un lanzador de conjuros no muerto que vuelve una y otra vez mientras su filacteria permanezca intacta." },
   { name: "Mummy Lord, 10th-Level Cleric", sizeType: "Medium Undead", hd: "8d12 plus 10d8 (97 hp)", ac: "30 (+1 Dex, +10 natural, +9 +2 half-plate armor), touch 11, flat-footed 29", abilities: "Str 26, Dex 12, Con -, Int 8, Wis 20, Cha 17", fullAttack: "Slam +20 melee (1d6+12/19-20 plus mummy rot)", specialAttacks: "Despair, mummy rot, rebuke undead, spells", specialQualities: "Damage reduction 5/-, darkvision 60 ft., resistance to fire 10, undead traits, vulnerability to fire", cr: "15", alignment: "Usually lawful evil", type: "Undead" },
   { name: "Nightcrawler", sizeType: "Gargantuan Undead (Extraplanar)", hd: "25d12+50 (212 hp)", ac: "35 (-4 size, +29 natural), touch 6, flat-footed 35", abilities: "Str 48, Dex 10, Con -, Int 20, Wis 20, Cha 18", fullAttack: "Bite +29 melee (4d6+21/19-20) and sting +24 melee (2d8+11/19-20 plus poison)", specialAttacks: "Desecrating aura, energy drain, spell-like abilities, poison, summon undead, swallow whole", specialQualities: "Aversion to daylight, damage reduction 15/silver and magic, darkvision 60 ft., immunity to cold, spell resistance 31, telepathy 100 ft., tremorsense 60 ft., undead traits", cr: "18", alignment: "Always chaotic evil", type: "Undead" },
   { name: "Nightwalker", sizeType: "Huge Undead (Extraplanar)", hd: "21d12+42 (178 hp)", ac: "32 (-2 size, +2 Dex, +22 natural), touch 10, flat-footed 30", abilities: "Str 38, Dex 14, Con -, Int 20, Wis 20, Cha 18", fullAttack: "2 slams +24 melee (2d6+16)", specialAttacks: "Crush item, desecrating aura, evil gaze, spell-like abilities, summon undead", specialQualities: "Aversion to daylight, damage reduction 15/silver and magic, darkvision 60 ft., immunity to cold, spell resistance 29, telepathy 100 ft., undead traits", cr: "16", alignment: "Always chaotic evil", type: "Undead" },
@@ -5102,6 +5138,315 @@ const MANUAL_BESTIARY = [
   { name: "White Dragon, Young adult", sizeType: "Large Dragon (Cold)", hd: "15d12+45 (142 hp)", ac: "23 (-1 size, +14 natural), touch 9, flat-footed 23", abilities: "Str 19, Dex 10, Con 17, Int 8, Wis 11, Cha 10", fullAttack: "Bite +18 melee (2d6+4) and 2 claws +13 melee (1d8+2) and 2 wings +13 melee (1d6+2) and tail slap +13 melee (1d8+6)", specialAttacks: "Breath weapon: A white dragon has one type of breath weapon, a cone of cold. Damage 5d6 (DC 20); frightful presence (DC 17)", specialQualities: "DR 5/magic, SR 16", cr: "8", alignment: "Chaotic Evil", type: "Dragon" },
   { name: "Wyvern", sizeType: "Large Dragon", hd: "7d12+14 (59 hp)", ac: "18 (-1 size, +1 Dex, +8 natural), touch 10, flat-footed 17", abilities: "Str 19, Dex 12, Con 15, Int 6, Wis 12, Cha 9", fullAttack: "Sting +10 melee (1d6+4 plus poison) and bite +8 melee (2d8+4) and 2 wings +8 melee (1d8+2) and 2 talons +8 melee (2d6+4)", specialAttacks: "Poison, improved grab", specialQualities: "Darkvision 60 ft., immunity to sleep and paralysis, low-light vision, scent", cr: "6", alignment: "Neutral", type: "Dragon" },
 ];
+
+function createBestiarySummary(physical, behavior) {
+    return `${physical} ${behavior}`;
+}
+
+function getDragonAgePhrase(age) {
+    const key = String(age || "").toLowerCase();
+    if (key === "wyrmling") return "Todavía es una cría, pero ya posee la silueta inconfundible y la ferocidad de su especie.";
+    if (key === "very young") return "Todavía es joven, aunque su cuerpo ya muestra el porte y las armas naturales de un verdadero dragón.";
+    if (key === "young") return "Aún no alcanzó su tamaño pleno, pero su figura ya impone respeto a simple vista.";
+    if (key === "juvenile") return "Su tamaño y musculatura lo muestran en una etapa juvenil avanzada, peligrosamente cerca de su plenitud.";
+    if (key === "young adult") return "Su cuerpo ya alcanzó la forma dominante de un depredador dracónico adulto.";
+    if (key === "adult") return "Tiene el porte de un soberano alado en plena madurez.";
+    if (key === "mature adult") return "Se trata de un ejemplar enorme y curtido, con escamas gruesas y rasgos de veterano absoluto.";
+    if (key === "old") return "La edad le dio una masa gigantesca y una presencia casi mítica.";
+    if (key === "very old") return "Cada rasgo de su cuerpo revela siglos de crecimiento, cicatrices y poder acumulado.";
+    if (key === "ancient") return "Es una reliquia viviente de proporciones colosales, antigua incluso para la medida de los dragones.";
+    if (key === "wyrm") return "Su forma es desmesurada y majestuosa, propia de una de las mayores amenazas del mundo mortal.";
+    if (key === "great wyrm") return "Es una criatura titánica y casi legendaria, cuya sola presencia redefine el entorno a su alrededor.";
+    return "";
+}
+
+function getDragonFlavor(entry) {
+    const name = String(entry?.name || "");
+    const age = name.split(",")[1]?.trim() || "";
+    const families = {
+        "Black Dragon": {
+            physical: "Un dragón negro tiene un cráneo alargado, cuernos barridos hacia atrás y escamas oscuras de aspecto húmedo, como si siempre acabara de salir de un pantano ácido.",
+            behavior: "Prefiere emboscar desde agua, ruinas inundadas o niebla pestilente, desgastando a sus enemigos con ácido y crueldad paciente."
+        },
+        "Blue Dragon": {
+            physical: "Un dragón azul luce escamas azul profundo, un cuerpo poderoso y cuernos prominentes, con una silueta adaptada a los desiertos abiertos y al cielo de las tormentas.",
+            behavior: "Combate desde la distancia y en espacios amplios, usando relámpagos, enterramiento y superioridad táctica para desarmar al grupo."
+        },
+        "Brass Dragon": {
+            physical: "Un dragón de latón brillante y hocico largo, con placas limpias y cuernos curvos que le dan un aspecto regio pero inquieto.",
+            behavior: "Le gusta hablar casi tanto como combatir, pero cuando entra en acción combina aliento ardiente, sueño mágico y gran movilidad aérea."
+        },
+        "Bronze Dragon": {
+            physical: "Un dragón de escamas bronceadas y cuerpo robusto, con una presencia noble y marcial que encaja tanto en costas como en fortalezas.",
+            behavior: "Es un combatiente disciplinado que usa electricidad, control del terreno y magia para quebrar enemigos peligrosos sin desperdiciar movimientos."
+        },
+        "Copper Dragon": {
+            physical: "Un dragón cobrizo de hocico expresivo, escamas metálicas cálidas y rasgos ágiles, más esbelto y nervioso que otros dragones metálicos.",
+            behavior: "Disfruta confundir y humillar a sus oponentes con ácido, lentitud y trucos, antes de rematarlos cuando están fuera de posición."
+        },
+        "Gold Dragon": {
+            physical: "Un dragón dorado irradia majestuosidad, con escamas lustrosas, largos bigotes y una figura imponente que parece hecha para inspirar reverencia.",
+            behavior: "Suele pelear con inteligencia y contención, mezclando fuego, debilidad mágica y conjuros para neutralizar amenazas enormes."
+        },
+        "Green Dragon": {
+            physical: "Un dragón verde posee un cuerpo serpentino, escamas esmeralda y una cabeza llena de cuernos y púas que encaja a la perfección entre ramas y follaje.",
+            behavior: "Acecha, manipula y envenena, usando cobertura, mentira y desgaste antes de exponerse a un enfrentamiento directo."
+        },
+        "Pseudodragon": {
+            physical: "Un pseudodragón es un dragón diminuto de escamas rojizas, cola prensil y alas membranosas, más parecido a un familiar dracónico que a un gran depredador.",
+            behavior: "Prefiere observar, hostigar y dormir a sus enemigos con el aguijón antes de comprometerse a una pelea abierta."
+        },
+        "Red Dragon": {
+            physical: "Un dragón rojo es una montaña de músculo, cuernos y escamas encendidas, con alas enormes y una figura diseñada para dominar volcanes y cavernas ardientes.",
+            behavior: "Ataca con arrogancia frontal, lluvia de fuego y fuerza bruta, confiando en que casi nada puede soportar su asalto directo."
+        },
+        "White Dragon": {
+            physical: "Un dragón blanco tiene escamas pálidas, crestas duras y una anatomía compacta y brutal, hecha para hielo, nieve y caza despiadada.",
+            behavior: "Es el más instintivo y feroz de los dragones verdaderos, y prefiere abalanzarse con violencia y aliento gélido antes que planear demasiado."
+        },
+        "Silver Dragon": {
+            physical: "Un dragón plateado combina una silueta noble con escamas brillantes y facciones elegantes, más cercano a una figura mítica que a un simple depredador.",
+            behavior: "Lucha con calma y superioridad moral, alternando frío, gas paralizante y magia para controlar la batalla sin perder iniciativa."
+        },
+        "Dragon Turtle": {
+            physical: "La dragon turtle es una masa colosal de caparazón acorazado, mandíbulas de dragón y cuerpo de monstruo marino, enorme incluso para los estándares oceánicos.",
+            behavior: "Ataca barcos y presas grandes desde el agua, usando vapor hirviente, embestidas y una resistencia monstruosa para dominar el combate naval."
+        },
+        "Wyvern": {
+            physical: "Un wyvern es un reptil alado de cuerpo fibroso, garras de ave rapaz y una cola larga rematada en un aguijón venenoso.",
+            behavior: "Se lanza desde el aire, golpea con el veneno y vuelve a remontar antes de que su presa pueda reaccionar con orden."
+        }
+    };
+    const familyKey = Object.keys(families).find(key => name.startsWith(key)) || "";
+    const family = families[familyKey] || {
+        physical: "Es un gran reptil alado cubierto de escamas, con una silueta dracónica inmediatamente reconocible y una presencia sobrenatural dominante.",
+        behavior: "Combina vuelo, armas naturales y recursos especiales para imponer el ritmo del combate desde el primer asalto."
+    };
+    const agePhrase = getDragonAgePhrase(age);
+    return createBestiarySummary(
+        agePhrase ? `${family.physical} ${agePhrase}` : family.physical,
+        family.behavior
+    );
+}
+
+function getAnimalSummary(name) {
+    if (name === "Ape") return createBestiarySummary("Un gran simio de brazos desproporcionadamente largos, pecho ancho y mandíbula pesada, cubierto de un pelaje oscuro y áspero.", "Trepa, golpea con ambas manos y muerde con violencia cuando consigue cerrar al cuerpo a cuerpo.");
+    if (name === "Baboon") return createBestiarySummary("Un babuino es un mono de hocico alargado, pelaje duro y colmillos llamativos, con una postura inquieta y agresiva.", "Suele moverse en grupos ruidosos y morder con ferocidad cuando se siente acorralado o desafiado.");
+    if (name === "Badger") return createBestiarySummary("Un tejón es un animal bajo y compacto, de lomo musculoso, garras cavadoras y hocico terco y ancho.", "Cuando se enfurece se vuelve sorprendentemente agresivo y sigue peleando con rabia aunque esté malherido.");
+    if (name === "Baleen Whale") return createBestiarySummary("Una ballena barbada es una masa oceánica inmensa de piel lisa y mandíbula gigantesca, diseñada para surcar grandes profundidades.", "No es una cazadora de precisión, pero su tamaño y su coletazo bastan para volcar embarcaciones o arrasar presas pequeñas.");
+    if (name === "Bat") return createBestiarySummary("Un murciélago es una criatura diminuta de alas de cuero, cuerpo frágil y orejas desproporcionadas para su tamaño.", "Vuela de forma errática y se guía por ecolocalización, por lo que puede moverse incluso en oscuridad cerrada.");
+    if (name.startsWith("Bear")) return createBestiarySummary("Un oso es un mamífero pesado y peludo, de hombros enormes, garras poderosas y fauces capaces de partir huesos.", "Ataca de frente, derriba con zarpazos y, en los ejemplares más grandes, intenta sujetar a su presa para destrozarla.");
+    if (name === "Bison") return createBestiarySummary("Un bisonte es una bestia corpulenta de joroba alta, cabeza maciza y cuernos cortos pero peligrosos.", "Cuando entra en manada o en estampida arrolla líneas enteras y puede convertir un terreno abierto en una trampa letal.");
+    if (name === "Boar") return createBestiarySummary("Un jabalí es un animal compacto, de cuello grueso, cerdas rígidas y colmillos curvos saliendo del hocico.", "Carga con pura terquedad y sigue luchando incluso cuando el dolor habría detenido a la mayoría de las criaturas.");
+    if (name === "Cachalot Whale") return createBestiarySummary("El cachalote es una ballena colosal de cabeza cuadrada y mandíbula impresionante, hecha para embestir y devorar en aguas profundas.", "Caza con mordidas brutales y su tamaño le permite dominar casi cualquier encuentro marino frontal.");
+    if (name === "Camel") return createBestiarySummary("Un camello es un animal alto y huesudo, de cuello largo, patas resistentes y joroba prominente adaptada a climas secos.", "No es un combatiente nato, pero su resistencia y mala disposición pueden volverlo molesto y mordedor cuando se lo fuerza.");
+    if (name === "Cat") return createBestiarySummary("Un gato es un felino pequeño, ágil y silencioso, de ojos atentos y movimientos siempre medidos.", "Se apoya en reflejos y rapidez más que en fuerza, y rara vez se queda quieto cuando puede esquivar.");
+    if (name === "Cheetah") return createBestiarySummary("Un guepardo es un felino esbelto de patas larguísimas, lomo flexible y manchas negras sobre pelaje dorado.", "Confía en la velocidad absoluta para alcanzar, derribar y morder antes de que la presa entienda qué pasó.");
+    if (name.startsWith("Constrictor Snake")) return createBestiarySummary("La serpiente constrictora es un reptil de cuerpo grueso, escamas tensas y mandíbula diseñada para engullir presas desmesuradas.", "Muerde para sujetar y luego enrolla todo su cuerpo sobre la víctima hasta asfixiarla o inmovilizarla por completo.");
+    if (name.startsWith("Crocodile")) return createBestiarySummary("El cocodrilo es un reptil bajo y acorazado, con cola maciza, ojos fríos y una mandíbula como una trampa de hierro.", "Embosca desde el agua o la orilla, agarra con la boca y usa su masa para despedazar o arrastrar bajo la superficie.");
+    if (name === "Dog" || name === "Dog, Riding") return createBestiarySummary("Un perro es un cánido musculoso de hocico alerta y cuerpo hecho para correr, rastrear y morder.", "Persigue por olor, hostiga sin cansarse y, en los ejemplares de monta, intenta derribar para abrir paso al jinete.");
+    if (name === "Donkey" || name === "Mule") return createBestiarySummary("El burro y la mula son équidos compactos, de patas firmes, orejas largas y una constitución engañosamente resistente.", "No buscan pelea, pero responden con coces y mordiscos obstinados cuando se los arrincona.");
+    if (name === "Eagle" || name === "Hawk" || name === "Owl" || name === "Raven") return createBestiarySummary("Es un ave de presa o carroñera de alas amplias, pico duro y ojos afilados hechos para detectar movimiento a distancia.", "Ataca con picados y garras rápidas, y suele confiar en altura, vista y movilidad antes que en resistencia.");
+    if (name === "Elephant") return createBestiarySummary("Un elefante es una montaña viviente de piel gruesa, colmillos curvos y una trompa poderosa y sorprendentemente precisa.", "Aplasta, embiste y pisotea con una fuerza capaz de romper formaciones enteras si logra tomar carrera.");
+    if (name.startsWith("Horse") || name.startsWith("Warhorse") || name.startsWith("Pony")) return createBestiarySummary("Un caballo o poni es un équido de cuello fuerte, patas veloces y pecho amplio, criado para carga, carrera o guerra.", "En combate responde con coces, mordidas y cargas, y los ejemplares de guerra soportan bien el caos del frente.");
+    if (name === "Hyena") return createBestiarySummary("La hiena es un cánido de lomo descendente, mandíbula potente y expresión permanentemente hambrienta.", "Hostiga, persigue y busca morder para derribar a sus víctimas antes de rematarlas en grupo.");
+    if (name === "Leopard" || name === "Lion" || name === "Tiger") return createBestiarySummary("Es un gran felino de hombros elásticos, colmillos largos y musculatura pensada para saltar sobre la presa de una sola explosión.", "Aprovecha emboscada, zarpazos y mordida, y los ejemplares mayores intentan sujetar y desgarrar antes de soltar.");
+    if (name === "Lizard" || name === "Lizard, Monitor") return createBestiarySummary("Es un reptil bajo y flexible, de escamas secas, lengua inquieta y movimientos repentinos pero medidos.", "Muerde con velocidad y se beneficia de la sorpresa, la paciencia y el terreno cálido o rocoso.");
+    if (name === "Manta Ray") return createBestiarySummary("La raya manta parece una gran ala viviente bajo el agua, con cuerpo aplanado y una boca ancha orientada hacia delante.", "Se desliza con elegancia y embiste desde ángulos difíciles de prever para criaturas poco adaptadas al mar.");
+    if (name === "Monkey") return createBestiarySummary("Un mono es pequeño, nervioso y de manos ágiles, con cola y extremidades hechas para la copa de los árboles.", "Rara vez pelea de frente; prefiere escalar, escapar y aprovechar cualquier distracción.");
+    if (name.startsWith("Octopus")) return createBestiarySummary("Un pulpo es una masa blanda de carne y ojos grandes, rodeada por brazos cubiertos de ventosas y rematada por un pico duro.", "Abraza a la presa con varios tentáculos a la vez y se protege con tinta y propulsión repentina cuando la lucha se complica.");
+    if (name === "Orca") return createBestiarySummary("La orca es un depredador marino enorme, de cuerpo hidrodinámico negro y blanco y mandíbula capaz de partir presas grandes.", "Caza con inteligencia, velocidad y una mordida demoledora, dominando el agua abierta con brutal eficacia.");
+    if (name === "Porpoise") return createBestiarySummary("La marsopa es un pequeño cetáceo de cuerpo curvado y rostro amable, rápido y perfectamente adaptado al mar.", "Se mueve con enorme agilidad bajo el agua y aprovecha su ecolocalización para orientarse y embestir.");
+    if (name === "Rat") return createBestiarySummary("La rata es una alimaña pequeña, de pelaje sucio, cola desnuda y dientes siempre listos para roer.", "Se reproduce y se desplaza en números molestos, y su mordida puede propagar enfermedad más rápido que daño directo.");
+    if (name === "Rhinoceros") return createBestiarySummary("El rinoceronte es una bestia enorme, de piel gruesa y un cuerno frontal diseñado para perforar con pura inercia.", "Su forma de pelear es simple y aterradora: tomar distancia, cargar y partir lo que quede delante.");
+    if (name.startsWith("Shark")) return createBestiarySummary("El tiburón es un torpedo viviente de piel áspera, aleta rígida y mandíbulas llenas de dientes triangulares.", "Caza por olor y vibración, y una vez que detecta sangre se vuelve un perseguidor incansable.");
+    if (name.includes("Viper")) return createBestiarySummary("La víbora es una serpiente de cuerpo tenso, cabeza triangular y colmillos retráctiles cargados de veneno.", "No necesita imponerse por tamaño: una sola mordida bien colocada basta para volver el combate una carrera contra el tiempo.");
+    if (name === "Squid" || name === "Squid, Giant") return createBestiarySummary("El calamar es un cazador marino de cuerpo tubular, ojos enormes y tentáculos largos rematados en un pico córneo.", "Se lanza con chorro a presión, atrapa con tentáculos y aprovecha tinta y constricción para controlar la presa.");
+    if (name === "Toad") return createBestiarySummary("El sapo es un anfibio rechoncho, de piel húmeda y verrugosa y patas traseras preparadas para saltos cortos.", "No destaca por agresividad, pero sus reflejos y su capacidad para esconderse lo vuelven sorprendentemente escurridizo.");
+    if (name === "Weasel") return createBestiarySummary("La comadreja es un mamífero alargado, flexible y de hocico fino, hecho para colarse por huecos imposibles.", "Ataca mordiendo y aferrándose, y una vez enganchada resulta difícil quitársela de encima.");
+    if (name === "Wolf") return createBestiarySummary("El lobo es un cánido de pelaje denso, patas largas y mirada fija, hecho para correr y desgastar a sus presas.", "Prefiere cazar con persecución y coordinación, derribando antes de comprometerse a una pelea prolongada.");
+    if (name === "Wolverine") return createBestiarySummary("El glotón es un mustélido bajo, ancho y musculoso, con garras fuertes y una mandíbula sorprendentemente poderosa.", "Cuando entra en furia combate con una tenacidad desproporcionada para su tamaño y casi nunca se retira voluntariamente.");
+    return createBestiarySummary("Es un animal de silueta reconocible y rasgos bien definidos por su hábitat natural.", "Pelea por instinto, territorio o hambre, no por malicia o estrategia compleja.");
+}
+
+function getConstructSummary(name) {
+    if (name.startsWith("Animated Object")) return createBestiarySummary("Es un objeto cotidiano arrancado de su quietud natural y convertido en una masa hostil de madera, metal, tela o piedra en movimiento.", "No piensa ni duda: golpea sin pausa y aprovecha su material y su tamaño para resistir castigo y aplastar a quien se acerque.");
+    if (name === "Homunculus") return createBestiarySummary("El homúnculo es un pequeño sirviente alado, de cuerpo retorcido y rasgos artificiales que mezclan alquimia, cuero y carne modelada.", "Espía, hostiga y muerde con veneno, sirviendo más como extensión astuta de su creador que como bruto de combate.");
+    if (name === "Shield Guardian") return createBestiarySummary("El shield guardian es un coloso humanoide de metal o piedra, pesado y blindado, construido para imponerse a simple vista.", "Protege a su amo sin vacilar, absorbe castigo sobrenatural y pelea como una muralla con puños.");
+    return createBestiarySummary("Es una criatura artificial ensamblada de materiales inertes y animada por magia persistente.", "No siente miedo ni cansancio, por lo que sigue atacando hasta que algo la desarma.");
+}
+
+function getElementalSummary(name) {
+    if (/^Air Elemental/.test(name)) return createBestiarySummary("Un elemental de aire es un remolino semihumano de viento, polvo y presión, con extremidades apenas insinuadas dentro del torbellino.", "Se mueve con velocidad imposible, rodea a sus enemigos y puede atraparlos en remolinos que rompen la formación.");
+    if (/^Earth Elemental/.test(name)) return createBestiarySummary("Un elemental de tierra parece una estatua brutal de roca viva, con brazos macizos y un cuerpo compacto como una avalancha contenida.", "Avanza sin apuro y sin miedo, golpeando con una fuerza aplastante y sacando ventaja cuando pisa suelo firme.");
+    if (/^Fire Elemental/.test(name)) return createBestiarySummary("Un elemental de fuego es una figura viviente de llamas y brasas, cambiante, brillante y dolorosa incluso a la vista.", "Se arroja al combate para incendiar todo lo que toca y castigar a quien intente frenarlo en melé.");
+    if (/^Water Elemental/.test(name)) return createBestiarySummary("Un elemental de agua es una masa animada de corrientes, espuma y profundidad, con forma vagamente humanoide dentro de la ola.", "Golpea, envuelve y arrastra, aprovechando cualquier superficie acuática para controlar el espacio y ahogar a la presa.");
+    if (name === "Belker") return createBestiarySummary("El belker parece una nube espesa de humo negro y ceniza con miembros oscuros emergiendo y desapareciendo dentro de la bruma.", "Ataca desde una forma difícil de fijar, entrando en los pulmones o desgarrando desde la cobertura de su propia humareda.");
+    if (name === "Invisible Stalker") return createBestiarySummary("El invisible stalker casi nunca se ve, y solo se delata por huellas en polvo, remolinos breves o presión súbita en el aire.", "Persigue órdenes con disciplina sobrenatural y caza sin descanso hasta dar con su objetivo.");
+    if (name === "Magmin") return createBestiarySummary("El magmin es un pequeño humanoide de roca ennegrecida y grietas incandescentes por donde asoma un resplandor volcánico.", "Corre, golpea y prende fuego cuanto toca, confiando en su calor más que en su resistencia.");
+    if (name === "Thoqqua") return createBestiarySummary("El thoqqua es un gusano ígneo de roca fundida, con cuerpo cilíndrico y una estela de calor que deja la piedra al rojo vivo.", "Perfora suelo y muros como si fueran manteca y usa ese movimiento para aparecer donde más duela.");
+    return createBestiarySummary("Es una manifestación viva de un elemento primordial, con una forma cambiante ligada a su propia materia.", "Usa el terreno y la lógica de su elemento como principal herramienta de combate.");
+}
+
+function getGiantSummary(name) {
+    if (name === "Cloud Giant") return createBestiarySummary("Un cloud giant es un humanoide gigantesco de rasgos nobles, túnicas vistosas y un porte que parece hecho para palacios en las alturas.", "Pelea con fuerza inmensa y arroja rocas con precisión, combinando arrogancia y alcance para dominar el campo.");
+    if (name === "Fire Giant") return createBestiarySummary("El fire giant es un coloso musculoso de piel oscurecida y rasgos severos, forjado para hornos, guerra y armaduras pesadas.", "Avanza como infantería de asedio, confiando en armas enormes y disciplina brutal más que en sutileza.");
+    if (name === "Frost Giant") return createBestiarySummary("El frost giant es un gigante de piel pálida o azulada, cabellera áspera y proporciones descomunales adaptadas al hielo.", "Resuelve casi todo con violencia frontal, hachas enormes y una resistencia temible al frío y al castigo.");
+    if (name === "Hill Giant") return createBestiarySummary("El hill giant es un bruto desgarbado y enorme, de ropa tosca, barriga prominente y facciones simplonas pero amenazantes.", "Lucha con hambre, torpeza y fuerza basta, arrojando piedras o golpeando cualquier cosa que tenga delante.");
+    if (name === "Stone Giant") return createBestiarySummary("El stone giant es un gigante alto y austero, de piel grisácea y aspecto pétreo que casi lo confunde con riscos y cavernas.", "Suele elegir terreno elevado o rocoso y castiga con lanzamientos precisos antes de entrar en melé.");
+    if (name === "Storm Giant") return createBestiarySummary("El storm giant es un titán esbelto y majestuoso, de rasgos casi mitológicos y tamaño abrumador incluso entre los gigantes.", "Combina fuerza monstruosa con control del clima y una serenidad peligrosa que lo vuelve letal a cualquier distancia.");
+    if (name === "Ogre") return createBestiarySummary("Un ogro es un gigante gordo, de hombros caídos, mandíbula bestial y olor a suciedad vieja y carne cruda.", "Pelea de la manera más simple posible: golpeando fuerte, gritando y confiando en que su masa resuelva el resto.");
+    if (name === "Merrow") return createBestiarySummary("El merrow es un ogro acuático de piel verdosa y miembros largos, con rasgos toscos adaptados a aguas profundas y costas salvajes.", "Embosca desde el agua y arrastra a sus presas a un combate donde su tamaño y entorno le dan ventaja clara.");
+    if (name === "Ettin") return createBestiarySummary("El ettin es un gigante de dos cabezas, torso enorme y miembros pesados, como si dos brutos hubieran quedado fusionados en uno.", "Sus cabezas discuten, vigilan y atacan al mismo tiempo, lo que lo vuelve difícil de sorprender y muy peligroso en distancias cortas.");
+    if (name === "Troll") return createBestiarySummary("Un troll es un gigante larguirucho de brazos excesivos, piel gomosa y rasgos deformes, con dientes y garras hechos para desgarrar.", "Se lanza al frente confiando en su regeneración, y sigue despedazando enemigos aunque ya debería haber caído.");
+    if (name === "Scrag") return createBestiarySummary("El scrag es un troll acuático de piel verde viscosa, extremidades largas y una anatomía adaptada a charcas, ríos y cavernas sumergidas.", "Aprovecha el agua para aparecer y desaparecer mientras regenera heridas y despedaza a la presa con garras y dientes.");
+    if (name === "Ogre Mage") return createBestiarySummary("El ogre mage combina la talla brutal de un ogro con rasgos más refinados y una presencia sobrenatural claramente inteligente.", "No pelea como un bruto cualquiera: usa vuelo, invisibilidad y magia antes de exponerse a un intercambio directo.");
+    return createBestiarySummary("Es un gigante de proporciones brutales, hecho para dominar por alcance, fuerza y masa.", "Confía en su tamaño, su pegada y su resistencia para imponer la pelea.");
+}
+
+function getHumanoidSummary(name) {
+    if (name === "Bugbear") return createBestiarySummary("El bugbear es un goblinoide alto, peludo y encorvado, con brazos largos y una boca llena de colmillos cortos.", "Prefiere la sorpresa y la violencia breve, atacando desde sombras o pasillos estrechos antes de que la víctima reaccione.");
+    if (name === "Dwarf, Duergar") return createBestiarySummary("El duergar es un enano gris de ojos duros y rasgos severos, con la piel apagada por la vida subterránea y la crueldad.", "Pelea con disciplina amarga, usando tamaño, dureza y poderes innatos para castigar desde posiciones ventajosas.");
+    if (name === "Dwarf, Hill") return createBestiarySummary("El enano de las colinas es bajo, robusto y ancho de hombros, con barba espesa y una postura que sugiere solidez inamovible.", "Resiste, aguanta y contraataca, confiando en su dureza más que en la velocidad.");
+    if (name === "Elf, Drow") return createBestiarySummary("El drow es un elfo esbelto de piel oscura, cabello pálido y rasgos afilados, con una belleza tan fría como inquietante.", "Combina veneno, magia y movilidad, y rara vez entra en combate sin ventaja táctica o posibilidad de retirada.");
+    if (name === "Elf, High") return createBestiarySummary("El alto elfo es delgado, elegante y de facciones finas, con una presencia grácil que resalta incluso armado.", "Suele pelear con precisión y calma, favoreciendo arco, espada y disciplina sobre el puro empuje.");
+    if (name === "Gnoll") return createBestiarySummary("El gnoll es un humanoide hiena de lomo encorvado, hocico alargado y olor a carne podrida y campamento sucio.", "Ataca en banda y con entusiasmo cruel, confiando en miedo, número y brutalidad desordenada.");
+    if (name === "Gnome, Rock") return createBestiarySummary("El gnomo de las rocas es pequeño, compacto y expresivo, con barba prolija y ojos siempre despiertos.", "Rara vez gana por fuerza; prefiere astucia, herramientas, magia menor y terreno conocido.");
+    if (name === "Goblin") return createBestiarySummary("El goblin es un humanoide pequeño, de orejas puntiagudas, boca amplia y una energía nerviosa casi constante.", "Hostiga desde número, cobertura y cobardía, y rara vez se queda en una pelea que no le favorezca.");
+    if (name === "Halfling, Lightfoot") return createBestiarySummary("El halfling piesligeros es bajo, ligero y de rasgos amables, con manos rápidas y pasos casi silenciosos.", "En combate depende de puntería, movilidad y oportunidad, no de fuerza o resistencia bruta.");
+    if (name === "Hobgoblin") return createBestiarySummary("El hobgoblin es un goblinoide más alto y marcial que sus parientes, de postura rígida y rostro adusto.", "Prefiere formaciones, órdenes claras y violencia disciplinada antes que caos o saqueo sin plan.");
+    if (name === "Kobold") return createBestiarySummary("El kobold es un pequeño reptiliano de hocico estrecho, cola fina y ojos brillantes adaptados a la penumbra.", "Sobrevive con trampas, números y coberturas, y solo pelea de frente cuando no le queda otra.");
+    if (name === "Lizardfolk") return createBestiarySummary("El lizardfolk es un humanoide reptiliano de escamas duras, cola pesada y mandíbula repleta de dientes cortos.", "Combina armas simples con mordida y paciencia, y se vuelve más peligroso en pantanos o aguas someras.");
+    if (name === "Locathah") return createBestiarySummary("El locathah es un humanoide pez de piel escamosa, ojos saltones y extremidades adaptadas a una vida anfibia.", "Ataca bien en el agua y usa tridentes, redes o emboscadas costeras mejor que combates largos en tierra seca.");
+    if (name === "Merfolk") return createBestiarySummary("El merfolk presenta torso humano y una larga cola de pez cubierta de escamas brillantes, con rasgos claramente acuáticos.", "Bajo el agua es rápido y elegante, y combate mejor en grupo o con apoyo de corrientes y profundidad.");
+    if (name === "Orc") return createBestiarySummary("El orco es un humanoide musculoso de piel curtida, mandíbula prominente y colmillos inferiores visibles incluso con la boca cerrada.", "Tiende a resolver con agresión, empuje y superioridad numérica más que con paciencia o refinamiento.");
+    if (name === "Troglodyte") return createBestiarySummary("El troglodita es un reptiliano encorvado de piel verrugosa, dientes afilados y un olor nauseabundo imposible de ignorar.", "Se beneficia de cavernas, emboscadas y su hedor debilitante antes de lanzarse con garras, mordida o lanza.");
+    return createBestiarySummary("Es un humanoide de rasgos físicos bien definidos por su especie, cultura y entorno natural.", "Pelea según su sociedad y su temperamento, no solo por puro instinto animal.");
+}
+
+function getMagicalBeastSummary(name) {
+    if (name === "Ankheg") return createBestiarySummary("El ankheg es un insecto monstruoso de caparazón quitinoso, mandíbulas enormes y un cuerpo excavador capaz de desaparecer bajo tierra en segundos.", "Embosca desde abajo, agarra con sus fauces y escupe ácido para desorganizar a cualquiera que sobreviva al primer ataque.");
+    if (name === "Aranea") return createBestiarySummary("La aranea es una araña gigantesca de abdomen hinchado y patas largas, pero con ojos y postura que delatan una inteligencia incómodamente humana.", "Prefiere tender redes, cambiar de forma y usar conjuros antes de arriesgarse a un duelo directo.");
+    if (name === "Basilisk") return createBestiarySummary("El basilisco es un reptil pesado de piel escamosa, lomo bajo y ojos extrañamente brillantes que parecen fijarse en todo a la vez.", "No necesita alcanzar a su presa para vencerla: su mirada petrificante cambia la pelea desde el momento en que se lo enfrenta.");
+    if (name === "Behir") return createBestiarySummary("El behir es un monstruo serpentino gigantesco, cubierto de escamas azuladas y sostenido por múltiples patas ganchudas a lo largo del cuerpo.", "Caza con relámpagos, mordida y constricción, y se mueve por paredes y cavernas con una velocidad perturbadora para su tamaño.");
+    if (name === "Blink Dog") return createBestiarySummary("El blink dog parece un cánido fino y de mirada inteligente, con pelaje claro y una presencia casi feérica.", "Aprovecha saltos de teletransporte cortos para flanquear, desaparecer del alcance enemigo y morder desde ángulos imposibles.");
+    if (name === "Bulette") return createBestiarySummary("La bulette es una bestia acorazada de lomo en placas y mandíbula brutal, conocida con razón como el tiburón de tierra.", "Irrumpe desde el subsuelo, embiste con un salto imposible para su masa y destroza todo lo que no pueda apartarse.");
+    if (name === "Chimera") return createBestiarySummary("La quimera es un híbrido grotesco de cuerpo leonino, alas membranosas y varias cabezas animales compartiendo un mismo torso.", "Ataca como una pesadilla ensamblada: muerde, zarpa, vuela y suma aliento dracónico cuando quiere romper la línea enemiga.");
+    if (name === "Cockatrice") return createBestiarySummary("La cockatrice es un cruce enfermizo entre ave y reptil, con cresta extraña, alas torpes y cola de lagarto.", "Su aspecto no impresiona hasta que se acerca lo suficiente como para petrificar con su toque.");
+    if (/^Hydra,/.test(name)) {
+        const heads = name.split(",")[1]?.trim()?.replace("-Headed", "").toLowerCase() || "muchas";
+        return createBestiarySummary(`La hidra es un reptil enorme de piel pardo grisácea, vientre claro y ${heads} cabezas serpentinas brotando de un mismo cuerpo descomunal.`, "Ataca con todas sus fauces a la vez y su regeneración la vuelve un enemigo que castiga duramente cualquier remate mal hecho.");
+    }
+    if (/^Cryohydra,/.test(name)) {
+        const heads = name.split(",")[1]?.trim()?.replace("-Headed", "").toLowerCase() || "muchas";
+        return createBestiarySummary(`La cryohydra es una hidra purpúrea o azulada, cubierta de escamas frías y coronada por ${heads} cabezas reptilianas de aliento glacial.`, "Además de multiplicar mordidas como una hidra normal, exhala chorros de escarcha capaces de congelar la línea frontal.");
+    }
+    if (/^Pyrohydra,/.test(name)) {
+        const heads = name.split(",")[1]?.trim()?.replace("-Headed", "").toLowerCase() || "muchas";
+        return createBestiarySummary(`La pyrohydra es una variante rojiza y abrasadora de la hidra, con escamas de tono ígneo y ${heads} cuellos humeantes rematados en mandíbulas feroces.`, "Combina su andanada de mordidas con surtidores de fuego, lo que la vuelve devastadora en pasillos, puentes y formaciones cerradas.");
+    }
+    if (name === "Darkmantle") return createBestiarySummary("El darkmantle parece un pulpo pétreo del tamaño de una manta pequeña, con tentáculos colgantes y un vientre lleno de dientes circulares.", "Se deja caer desde techos, apaga la luz del entorno y asfixia a su presa antes de que el grupo entienda de dónde vino.");
+    if (name === "Digester") return createBestiarySummary("El digester es un reptil de escamas anaranjadas y mandíbula ancha, con aspecto de depredador cavernícola inflado por vapores corrosivos.", "Le gusta morder de cerca, pero su verdadero peligro es el chorro de ácido que derrite armaduras y disciplina por igual.");
+    if (name === "Dragonne") return createBestiarySummary("La dragonne tiene cuerpo de gran león, cabeza feroz, alas escamosas y un porte majestuoso a medio camino entre felino y dragón.", "Se lanza con garras y colmillos, y su rugido puede sembrar pánico antes del verdadero impacto.");
+    if (name === "Eagle, Giant") return createBestiarySummary("El águila gigante es un ave rapaz enorme, de pico curvo y plumaje amplio, con una mirada inteligente y orgullosa.", "Puede combatir en el aire o desde altura con más criterio que un animal común, y suele elegir muy bien cuándo intervenir.");
+    if (name === "Ethereal Marauder") return createBestiarySummary("El ethereal marauder es una criatura grisácea y extraña, con cuerpo aerodinámico y ojos múltiples adaptados a cazar entre planos.", "Aparece, golpea y se repliega con una movilidad planar frustrante, como un tiburón que mordiera desde la realidad misma.");
+    if (name === "Frost Worm") return createBestiarySummary("El frost worm es un gusano colosal de piel pálida y anillos helados, con una boca circular capaz de devorar presas enteras.", "Avanza desde la nieve o la tierra congelada, ruge con violencia sobrenatural y deja frío letal incluso cuando muere.");
+    if (name === "Girallon") return createBestiarySummary("El girallon es un gran simio albino de cuatro brazos, pelaje blanco y una boca llena de colmillos desproporcionados.", "Salta, abraza y despedaza con una violencia de manada que vuelve cualquier melé un baño de sangre.");
+    if (name === "Gorgon") return createBestiarySummary("La gorgona parece un toro de metal vivo, de placas oscuras, ojos rojos y aliento que huele a piedra recién tallada.", "Carga como un ariete y exhala vapores petrificantes que pueden convertir un buen combate en un desastre estático.");
+    if (name === "Gray Render") return createBestiarySummary("El gray render es una mole bípeda de carne gris y musculatura exagerada, con brazos inmensos y un rostro brutal apenas humano.", "Puede parecer apático hasta que adopta a alguien o algo como suyo, momento en que pelea con una ferocidad casi inagotable.");
+    if (name === "Griffon") return createBestiarySummary("El grifo combina el torso y la cabeza de águila con el cuerpo y cuartos traseros de un gran león.", "Caza desde el aire con picados feroces y remata en tierra con garras y mordida de depredador.");
+    if (name === "Hippogriff") return createBestiarySummary("El hipogrifo mezcla la parte delantera de un águila gigante con la zaga de un caballo fuerte y nervioso.", "Ataca con picados rápidos y es lo bastante agresivo como para convertir una montura en un peligro real por sí misma.");
+    if (name === "Kraken") return createBestiarySummary("El kraken es un monstruo abisal gigantesco, de tentáculos inmensos, pico oculto y ojos capaces de ver a través del agua negra del fondo.", "Combate desde la profundidad, aplasta con varios brazos a la vez y puede hundir barcos o arrastrar criaturas enteras al océano.");
+    if (name === "Krenshar") return createBestiarySummary("El krenshar es un felino oscuro y flaco, con dientes largos y un rostro capaz de retraerse para mostrar el cráneo desnudo.", "Usa ese despliegue horrendo para sembrar miedo antes de lanzarse a morder o destripar a la presa asustada.");
+    if (name === "Lamia") return createBestiarySummary("La lamia tiene torso de mujer de belleza inquietante y el cuerpo inferior de una gran bestia felina de lomo poderoso.", "Prefiere engañar, drenar sabiduría y usar magia o encanto antes de confiar solo en el combate físico.");
+    if (name === "Manticore") return createBestiarySummary("La mantícora es un monstruo leonino alado, con rostro casi humano y una cola cargada de púas listas para dispararse.", "Puede pelear desde el cielo o desde tierra, hostigando primero con espinas antes de entrar con garras y dientes.");
+    if (name === "Owl, Giant") return createBestiarySummary("El búho gigante es una enorme ave nocturna de plumaje espeso, ojos descomunales y un aire sabio pero indómito.", "Ataca desde el silencio y la altura, y su inteligencia la vuelve mucho más peligrosa que una simple bestia voladora.");
+    if (name === "Owlbear") return createBestiarySummary("El owlbear es una masa de plumas y músculo con cuerpo híbrido de oso y búho, pico de color marfil y ojos ribeteados de locura bestial.", "Ataca a casi cualquier presa a la vista y pelea hasta la muerte, sujetando y desgarrando con garras y pico.");
+    if (name === "Pegasus") return createBestiarySummary("El pegaso es un corcel blanco alado de aspecto puro y casi sobrenatural, con una silueta tan noble como poderosa.", "No busca pelea sin motivo, pero en vuelo puede golpear, patear y maniobrar con una gracia difícil de igualar.");
+    if (name === "Phase Spider") return createBestiarySummary("La phase spider es una araña grande y de patas largas, con un brillo antinatural en los ojos y una presencia apenas desfasada de la realidad.", "Salta entre el Plano Etéreo y el material para morder con veneno y desaparecer antes de la represalia.");
+    if (name === "Purple Worm") return createBestiarySummary("El purple worm es un gusano monstruoso de anillos violetas, boca cavernosa y aguijón trasero tan letal como su mandíbula.", "Irrumpe desde la tierra, traga presas enteras y convierte cualquier terreno blando en un frente de batalla impredecible.");
+    if (name === "Remorhaz") return createBestiarySummary("El remorhaz es un ciempiés polar gigantesco, con placas azuladas y rojas que irradian un calor imposible en medio del hielo.", "Muerde, traga y quema por proximidad, obligando a elegir entre acercarse o dejar que siga devorando.");
+    if (name === "Roper") return createBestiarySummary("El roper parece una columna rocosa o un hongo mineral con boca central y varios tentáculos rígidos extendidos como raíces.", "Se disfraza entre piedra, atrae a la presa con filamentos y la destroza una vez que la tiene al alcance.");
+    if (name === "Sea Cat") return createBestiarySummary("El sea cat es un felino marino de gran tamaño, con aletas, dientes de depredador y cuerpo flexible para aguas costeras o profundas.", "Se mueve bajo el agua con la agresividad de un gran gato, pero usando emboscadas y persecución acuática.");
+    if (name === "Shocker Lizard") return createBestiarySummary("El shocker lizard es un pequeño reptil de mirada viva y piel marcada por patrones eléctricos amarillentos.", "Se vuelve realmente peligroso en grupo, cuando coordina descargas capaces de derribar objetivos mucho mayores.");
+    if (name === "Spider Eater") return createBestiarySummary("El spider eater es una bestia peluda y extraña, mezcla de depredador de cuatro patas con rasgos adaptados a cazar arañas enormes.", "Se especializa en abalanzarse, sujetar y despedazar criaturas arácnidas o cualquier presa de movilidad similar.");
+    if (name === "Stirge") return createBestiarySummary("La stirge es una alimaña alada del tamaño de un ave grande, con patas ganchudas y una trompa rígida para perforar carne.", "No busca un duelo: se engancha al cuerpo y drena sangre mientras su presa intenta arrancársela de encima.");
+    if (name === "Tarrasque") return createBestiarySummary("La tarrasque es una catástrofe ambulante de caparazón imposible, cuernos, colmillos y garras del tamaño de troncos.", "No pelea como una criatura sino como un desastre natural: aplasta, devora, regenera y sigue avanzando.");
+    if (name === "Unicorn") return createBestiarySummary("El unicornio es un corcel blanco de belleza sobrenatural, con crin luminosa y un cuerno espiralado que lo vuelve inconfundible.", "Evita la violencia innecesaria, pero puede cargar, sanar y castigar el mal con una mezcla de gracia y magia sagrada.");
+    if (name === "Winter Wolf") return createBestiarySummary("El winter wolf es un lobo enorme de pelaje blanco o gris pálido y ojos inteligentes que destacan sobre el hielo.", "Caza como un depredador de manada, pero suma aliento gélido y astucia suficiente para preparar emboscadas.");
+    if (name === "Worg") return createBestiarySummary("El worg es un lobo gigantesco de mirada maliciosa y proporciones casi humanoides en inteligencia y presencia.", "No es solo una montura monstruosa: coordina, acecha y aprovecha el caos con una crueldad claramente consciente.");
+    if (name === "Yrthak") return createBestiarySummary("El yrthak es una bestia voladora ciega, de alas enormes y cabeza chata, con una cresta sensorial inquietante en lugar de ojos funcionales.", "Ataca guiándose por ecolocalización y pulsa rayos sónicos capaces de desorientar o despedazar a distancia.");
+    return createBestiarySummary("Es una bestia mágica de rasgos muy particulares, claramente más extraña e inteligente que un animal común.", "No pelea por simple instinto animal: su anatomía especial define un estilo de combate propio y reconocible.");
+}
+
+function getMonstrousHumanoidSummary(name) {
+    if (name === "Centaur") return createBestiarySummary("Un centauro tiene el cuerpo de un caballo poderoso rematado por el torso y la cabeza de un humanoide, elevándose mucho más alto que un jinete normal.", "Suele ser inteligente y diestro con armas y arco, y en combate combina movilidad de carga con conocimiento del bosque y disciplina de cazador.");
+    if (name === "Derro") return createBestiarySummary("El derro es un humanoide pequeño y demacrado, de piel pálida, ojos perturbadores y una sonrisa que rara vez transmite cordura.", "Acosa con crueldad, venenos y tácticas mezquinas, apoyándose en magia menor y locura imprevisible.");
+    if (name === "Doppelganger") return createBestiarySummary("El doppelganger en su forma real es un humanoide alto, lampiño y de piel grisácea, con ojos grandes y rasgos flexibles y extraños.", "Su verdadera fuerza está en imitar, infiltrar y elegir el momento exacto para revelar garras y traición.");
+    if (name === "Gargoyle") return createBestiarySummary("La gárgola parece una grotesca estatua alada de piedra, con cuernos, garras y una sonrisa feroz tallada en el rostro.", "Permanece inmóvil hasta el instante perfecto y luego cae desde altura o cornisa con una violencia sorprendente.");
+    if (name === "Gargoyle, Kapoacinth") return createBestiarySummary("El kapoacinth es una gárgola de tonos verdosos y forma reptiliana, igual de pétrea pero claramente asociada al agua salada y la ruina costera.", "Embosca desde muros o acantilados, con la misma paciencia asesina de una gárgola común pero mejor adaptada al entorno acuático.");
+    if (name === "Grimlock") return createBestiarySummary("El grimlock es un humanoide subterráneo musculoso, de piel pálida y ojos inútiles hundidos en un rostro casi bestial.", "Aunque ciego, caza con oído y olfato excelentes, y se vuelve especialmente peligroso en túneles y oscuridad total.");
+    if (name === "Harpy") return createBestiarySummary("La harpía combina torso femenino con alas amplias, garras de ave rapaz y un rostro tan bello como salvaje.", "Su canto atrae a la presa hacia posiciones vulnerables antes de que ella y su bandada se lancen a desgarrarla.");
+    if (name === "Harpy, Archer") return createBestiarySummary("La harpía arquera mantiene el mismo cuerpo alado y rostro cautivador de su especie, pero suma postura y equipo de tiradora experimentada.", "Usa su canción para dividir al grupo y castiga desde el aire o desde salientes con fuego preciso de arco.");
+    if (name === "Medusa") return createBestiarySummary("La medusa parece una mujer de belleza terrible, coronada por serpientes vivas en lugar de cabello y con ojos imposibles de ignorar.", "Prefiere usar su mirada petrificante y el miedo que inspira antes de exponerse, y remata con arco o acero cuando el enemigo ya está quebrado.");
+    if (name === "Minotaur") return createBestiarySummary("El minotauro es un humanoide enorme con cabeza de toro, cuernos pesados, torso macizo y una presencia hecha para pasillos de piedra y sangre.", "Caza en laberintos o espacios cerrados, embiste con fuerza descomunal y aprovecha su sentido de la orientación para convertir el terreno en arma.");
+    if (name === "Sahuagin") return createBestiarySummary("El sahuagin es un depredador marino humanoide, de piel escamosa, dientes serrados y ojos de tiburón siempre evaluando a la presa.", "Ataca mejor en el agua y en grupo, mezclando ferocidad ritual con conocimiento absoluto del entorno costero.");
+    return createBestiarySummary("Es un humanoide monstruoso de forma inconfundible, tan inteligente como físicamente peligroso.", "Su modo de pelear nace de su anatomía especial y de hábitos culturales o predatorios muy marcados.");
+}
+
+function getUndeadSummary(name) {
+    if (name === "Allip") return createBestiarySummary("Un allip es una silueta incorpórea y temblorosa, como la sombra rota de alguien consumido por la locura.", "No mata por fuerza física, sino por susurros, confusión y una cercanía que erosiona la mente del objetivo.");
+    if (name === "Bodak") return createBestiarySummary("El bodak es un cadáver ennegrecido y reseco, con rasgos deformados por una maldad tan profunda que parece vaciarle el rostro.", "Su sola mirada puede matar, por lo que obliga a pelear evitándolo incluso antes del primer golpe.");
+    if (name === "Devourer") return createBestiarySummary("El devourer es un esqueleto gigantesco envuelto en pellejo marchito, con gemas o almas atrapadas brillando dentro de la caja torácica.", "Consume energía vital y usa las almas robadas como recurso, lo que lo vuelve tan aterrador tácticamente como visualmente.");
+    if (name === "Dread Wraith") return createBestiarySummary("El dread wraith es una masa negra e incorpórea, más vasta y terrible que un wraith común, como una grieta viviente en la noche.", "Drena vida con un simple roce y puede multiplicar el horror creando más muertos a partir de sus víctimas.");
+    if (name === "Ghast") return createBestiarySummary("El ghast es un cadáver famélico de piel tirante, garras sucias y boca llena de dientes necróticos, rodeado por un hedor insoportable.", "Combina parálisis y peste carroñera con la agresión salvaje de un depredador hambriento.");
+    if (name === "Ghoul") return createBestiarySummary("El ghoul es un cadáver ágil y macilento, de uñas largas, dientes afilados y una postura encorvada de carroñero humano.", "Se abalanza para paralizar con garras y dientes, y luego despedaza a la víctima antes de que el resto pueda reaccionar.");
+    if (name === "Greater Shadow") return createBestiarySummary("El greater shadow es una mancha humanoide de oscuridad densa, más definida y ominosa que una simple sombra errante.", "Ataca drenando fuerza desde una forma casi intangible y convierte espacios mal iluminados en territorio propio.");
+    if (name === "Mohrg") return createBestiarySummary("El mohrg es un cadáver alargado y reseco, con la lengua convertida en una especie de serpiente negra y huesuda.", "Paraliza, estrangula y mata con una precisión enfermiza, como un asesino que siguiera trabajando después de la muerte.");
+    if (name === "Mummy Lord, 10th-Level Cleric") return createBestiarySummary("La mummy lord es una figura funeraria envuelta en vendas regias y símbolos sagrados profanados, con un aire de autoridad sepulcral.", "Combina la maldición y resistencia de una momia con poder clerical, convirtiéndola en un ancla sobrenatural para toda la escena.");
+    if (name === "Mummy") return createBestiarySummary("La momia es un cadáver antiguo envuelto en vendas secas, rígido pero imponente, con ojos hundidos y olor a tumba cerrada.", "Avanza con lentitud inexorable, propagando terror y una maldición putrefacta que puede marcar la aventura entera.");
+    if (name === "Lich") return createBestiarySummary("El lich es un esqueleto o cadáver momificado vestido con restos de grandeza arcana, conservado por voluntad y magia negra en vez de carne viva.", "No es solo un no muerto duro: pelea como un gran lanzador de conjuros y vuelve mientras su filacteria siga intacta.");
+    if (name === "Nightcrawler") return createBestiarySummary("El nightcrawler es un gusano colosal de negrura absoluta, como una fosa viviente moviéndose bajo la piel del mundo.", "Devora, aplasta y llena la escena de energía negativa, funcionando más como un apocalipsis ambulante que como un simple monstruo.");
+    if (name === "Nightwalker") return createBestiarySummary("El nightwalker es una figura humanoide gigantesca envuelta en oscuridad viva, alta como una torre y con rasgos apenas visibles.", "Su sola presencia parece vaciar la esperanza del lugar, y en combate castiga con energía negativa, miedo y fuerza desmedida.");
+    if (name === "Nightwing") return createBestiarySummary("El nightwing es una aberración alada de oscuridad sólida, con silueta de murciélago demoníaco recortada contra el vacío.", "Ataca desde el aire con velocidad, chillidos y poder necrótico, dominando zonas amplias con pura amenaza.");
+    if (name === "Shadow") return createBestiarySummary("La shadow parece la silueta humana de una persona arrancada de la pared y convertida en entidad propia.", "No necesita atravesar armaduras: debilita desde dentro drenando fuerza y usando la oscuridad como refugio.");
+    if (name === "Spectre") return createBestiarySummary("El spectre es el fantasma de un humanoide grande, de rasgos distorsionados y odio tan denso que casi toma forma física.", "Flota fuera del alcance normal, drena niveles con el toque y puede llenar la escena de nuevos muertos a su servicio.");
+    if (name === "Wight") return createBestiarySummary("El wight es un cadáver reseco y despierto, con ojos vacíos y una rigidez hambrienta más cercana al odio que al simple hambre.", "Ataca para drenar vida y levantar esclavos no muertos, por lo que una victoria parcial puede convertirse en una plaga.");
+    if (name === "Wraith") return createBestiarySummary("El wraith es una sombra incorpórea con forma humanoide, más definida y maliciosa que un espectro común.", "Golpea desde una forma intangible y roba la vitalidad de sus víctimas con una rapidez aterradora.");
+    return createBestiarySummary("Es un no muerto de apariencia antinatural, fácilmente reconocible como algo que debería haber permanecido en la tumba.", "Su amenaza no depende solo del daño físico: suele traer miedo, maldición, drenaje o propagación de la muerte.");
+}
+
+function buildFallbackBestiarySummary(entry) {
+    const type = String(entry?.type || "").toLowerCase();
+    if (type === "animal") return createBestiarySummary("Es un animal de silueta reconocible y rasgos bien definidos por su hábitat natural.", "Pelea por instinto, territorio o hambre, no por malicia o estrategia compleja.");
+    if (type === "dragon") return createBestiarySummary("Es un gran reptil alado cubierto de escamas y armado con colmillos, garras y una presencia dracónica imponente.", "Combina movilidad aérea, armas naturales y poderes especiales para controlar el combate.");
+    if (type === "undead") return createBestiarySummary("Es un no muerto de aspecto antinatural, marcado por la muerte, la descomposición o la energía negativa.", "Suele pelear de forma implacable y trae consigo algo peor que el mero daño físico.");
+    if (type === "humanoid" || type === "monstrous humanoid") return createBestiarySummary("Es un humanoide de rasgos físicos bien definidos por su especie, cultura y entorno.", "Su forma de pelear responde tanto a inteligencia y costumbres como a su propia anatomía.");
+    if (type === "magical beast") return createBestiarySummary("Es una bestia mágica de aspecto distintivo, claramente más extraña y peligrosa que un animal corriente.", "Su estilo de combate nace de una anatomía y poderes especiales muy concretos.");
+    if (type === "giant") return createBestiarySummary("Es un gigante de proporciones brutales, hecho para dominar por alcance, fuerza y masa.", "Confía en su tamaño, su pegada y su resistencia para imponer la pelea.");
+    if (type === "construct") return createBestiarySummary("Es una criatura artificial ensamblada de materiales inertes y animada por magia.", "No siente miedo ni cansancio, por lo que sigue atacando hasta que algo la desarma.");
+    if (type === "elemental") return createBestiarySummary("Es una manifestación física de una fuerza elemental, con una forma viva ligada al entorno del que nace.", "Usa el terreno y la lógica de su elemento como principal herramienta de combate.");
+    return createBestiarySummary("Es una criatura fantástica de rasgos propios y una apariencia fácil de imaginar a simple vista.", "En combate se comporta según su naturaleza, su anatomía y los poderes que la distinguen.");
+}
+
+function buildBestiarySummary(entry) {
+    const name = String(entry?.name || "");
+    const type = String(entry?.type || "").toLowerCase();
+    if (type === "dragon") return getDragonFlavor(entry);
+    if (type === "animal") return getAnimalSummary(name);
+    if (type === "construct") return getConstructSummary(name);
+    if (type === "elemental") return getElementalSummary(name);
+    if (type === "giant") return getGiantSummary(name);
+    if (type === "humanoid") return getHumanoidSummary(name);
+    if (type === "magical beast") return getMagicalBeastSummary(name);
+    if (type === "monstrous humanoid") return getMonstrousHumanoidSummary(name);
+    if (type === "undead") return getUndeadSummary(name);
+    return buildFallbackBestiarySummary(entry);
+}
+
+MANUAL_BESTIARY.forEach((entry) => {
+    entry.summary = buildBestiarySummary(entry);
+});
 
 const MANUAL_RULES = [
     {
@@ -5622,6 +5967,10 @@ function openBestiaryEntry(name) {
             ${buildBestiaryTags(entry)}
         </div>
         <div class="bestiary-modal-grid">
+            <div class="bestiary-modal-row">
+                <span class="bestiary-modal-label">Descripción</span>
+                <div class="bestiary-modal-value">${escapeHtml(entry.summary || "Sin descripción breve cargada.")}</div>
+            </div>
             <div class="bestiary-modal-row">
                 <span class="bestiary-modal-label">Size / Type</span>
                 <div class="bestiary-modal-value">${escapeHtml(entry.sizeType)}</div>
@@ -6178,6 +6527,15 @@ const DM_TOOLS = {
         current: null,
         saved: []
     },
+    files: {
+        draft: {
+            name: "",
+            url: "",
+            tag: ""
+        },
+        editingId: "",
+        items: []
+    },
     encounterBuilder: {
         difficulty: "standard",
         environment: [],
@@ -6208,6 +6566,7 @@ const DM_UI_STATE = {
     event: false,
     sidequest: false,
     loot: false,
+    files: false,
     encounter: false
 };
 
@@ -7962,6 +8321,151 @@ function renderSavedLootPackages() {
             <button type="button" class="dm-mini-btn" onclick="removeSavedLootPackage(${index})">Quitar</button>
         `
     })).join("");
+}
+
+function normalizeDmFileItem(item = {}, index = 0) {
+    return {
+        id: item?.id || makeId(`file-${index + 1}`),
+        name: String(item?.name || "").trim() || `Archivo ${index + 1}`,
+        url: String(item?.url || "").trim(),
+        tag: String(item?.tag || "").trim(),
+        createdAt: item?.createdAt || Date.now()
+    };
+}
+
+function isValidExternalUrl(url) {
+    try {
+        const parsed = new URL(String(url || "").trim());
+        return parsed.protocol === "https:" || parsed.protocol === "http:";
+    } catch (error) {
+        return false;
+    }
+}
+
+function getDmFileKind(url) {
+    const value = String(url || "").toLowerCase();
+    if (value.includes("drive.google.com")) return "Drive";
+    if (value.includes("docs.google.com/document")) return "Docs";
+    if (value.includes("docs.google.com/spreadsheets")) return "Sheets";
+    if (value.includes("docs.google.com/presentation")) return "Slides";
+    if (value.endsWith(".pdf")) return "PDF";
+    return "Link";
+}
+
+function syncDmFileForm() {
+    const draft = DM_TOOLS.files?.draft || { name: "", url: "", tag: "" };
+    const nameEl = document.getElementById('dm-file-name');
+    const urlEl = document.getElementById('dm-file-url');
+    const tagEl = document.getElementById('dm-file-tag');
+    const submitBtn = document.getElementById('dm-file-submit-btn');
+    if (nameEl) nameEl.value = draft.name || "";
+    if (urlEl) urlEl.value = draft.url || "";
+    if (tagEl) tagEl.value = draft.tag || "";
+    if (submitBtn) submitBtn.innerText = DM_TOOLS.files?.editingId ? "Guardar cambios" : "Agregar archivo";
+}
+
+function clearDmFileForm() {
+    DM_TOOLS.files.draft = { name: "", url: "", tag: "" };
+    DM_TOOLS.files.editingId = "";
+    syncDmFileForm();
+    autoSave();
+}
+
+function updateDmFileDraftFromInputs() {
+    DM_TOOLS.files.draft = {
+        name: document.getElementById('dm-file-name')?.value || "",
+        url: document.getElementById('dm-file-url')?.value || "",
+        tag: document.getElementById('dm-file-tag')?.value || ""
+    };
+}
+
+function submitDmFileLink() {
+    updateDmFileDraftFromInputs();
+    const draft = DM_TOOLS.files.draft || {};
+    const name = String(draft.name || "").trim();
+    const url = String(draft.url || "").trim();
+    const tag = String(draft.tag || "").trim();
+    if (!name || !isValidExternalUrl(url)) return;
+    const nextItem = normalizeDmFileItem({
+        id: DM_TOOLS.files.editingId || undefined,
+        name,
+        url,
+        tag
+    }, (DM_TOOLS.files.items || []).length);
+    const existingIndex = (DM_TOOLS.files.items || []).findIndex(item => item.id === nextItem.id);
+    if (existingIndex >= 0) {
+        DM_TOOLS.files.items[existingIndex] = {
+            ...DM_TOOLS.files.items[existingIndex],
+            ...nextItem
+        };
+    } else {
+        DM_TOOLS.files.items.unshift(nextItem);
+    }
+    renderDmFilesList();
+    clearDmFileForm();
+    autoSave();
+}
+
+function editDmFileLink(id) {
+    const item = (DM_TOOLS.files.items || []).find(entry => entry.id === id);
+    if (!item) return;
+    DM_TOOLS.files.editingId = item.id;
+    DM_TOOLS.files.draft = {
+        name: item.name || "",
+        url: item.url || "",
+        tag: item.tag || ""
+    };
+    syncDmFileForm();
+}
+
+function removeDmFileLink(id) {
+    DM_TOOLS.files.items = (DM_TOOLS.files.items || []).filter(item => item.id !== id);
+    if (DM_TOOLS.files.editingId === id) clearDmFileForm();
+    renderDmFilesList();
+    autoSave();
+}
+
+function copyDmFileLink(url) {
+    if (!url) return;
+    if (navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(url).catch(() => {});
+        return;
+    }
+    const temp = document.createElement('textarea');
+    temp.value = url;
+    document.body.appendChild(temp);
+    temp.select();
+    try { document.execCommand('copy'); } catch (error) {}
+    document.body.removeChild(temp);
+}
+
+function renderDmFilesList() {
+    const container = document.getElementById('dm-files-list');
+    if (!container) return;
+    DM_TOOLS.files.items = (DM_TOOLS.files.items || []).map(normalizeDmFileItem);
+    if (!DM_TOOLS.files.items.length) {
+        container.innerHTML = `<div class="companion-empty">Todavia no hay archivos guardados.</div>`;
+        syncDmFileForm();
+        return;
+    }
+    container.innerHTML = DM_TOOLS.files.items.map((item, index) => `
+        <div class="dm-npc-card">
+            <div class="dm-encounter-head">
+                <div>
+                    <div class="dm-npc-title">${escapeHtml(item.name)}</div>
+                    <div class="dm-npc-subtitle">${escapeHtml(item.tag || getDmFileKind(item.url))}</div>
+                </div>
+                <div class="dm-encounter-actions" style="margin-top:0;">
+                    <a class="dm-mini-btn" href="${escapeAttr(item.url)}" target="_blank" rel="noopener noreferrer">Abrir</a>
+                    <button type="button" class="dm-mini-btn" onclick="copyDmFileLink('${escapeAttr(item.url)}')">Copiar</button>
+                    <button type="button" class="dm-mini-btn" onclick="editDmFileLink('${escapeAttr(item.id)}')">Editar</button>
+                    <button type="button" class="dm-mini-btn" onclick="removeDmFileLink('${escapeAttr(item.id)}')">Quitar</button>
+                </div>
+            </div>
+            <div class="dm-event-detail"><b>Link:</b> <a href="${escapeAttr(item.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.url)}</a></div>
+        </div>
+    `).join("");
+    syncDmFileForm();
 }
 
 function syncDmSection(key) {
@@ -9873,6 +10377,7 @@ function syncDmToolsUi() {
     syncLootGeneratorControls();
     renderLootGeneratorCurrent();
     renderSavedLootPackages();
+    renderDmFilesList();
     syncEncounterBuilderControls();
     syncManualEncounterBuilderControls();
     syncEncounterBuilderSummary();
@@ -11783,6 +12288,15 @@ collectSaveData = function() {
             current: DM_TOOLS.lootGenerator.current ? JSON.parse(JSON.stringify(DM_TOOLS.lootGenerator.current)) : null,
             saved: Array.isArray(DM_TOOLS.lootGenerator.saved) ? JSON.parse(JSON.stringify(DM_TOOLS.lootGenerator.saved)) : []
         },
+        files: {
+            draft: {
+                name: DM_TOOLS.files?.draft?.name || "",
+                url: DM_TOOLS.files?.draft?.url || "",
+                tag: DM_TOOLS.files?.draft?.tag || ""
+            },
+            editingId: DM_TOOLS.files?.editingId || "",
+            items: Array.isArray(DM_TOOLS.files?.items) ? JSON.parse(JSON.stringify(DM_TOOLS.files.items.map(normalizeDmFileItem))) : []
+        },
         encounterBuilder: {
             difficulty: DM_TOOLS.encounterBuilder.difficulty || "standard",
             environment: normalizeEncounterFilterValues(DM_TOOLS.encounterBuilder.environment),
@@ -11849,6 +12363,15 @@ applySaveData = function(data) {
     DM_TOOLS.lootGenerator.saved = Array.isArray(data?.dmTools?.lootGenerator?.saved)
         ? JSON.parse(JSON.stringify(data.dmTools.lootGenerator.saved))
         : [];
+    DM_TOOLS.files.draft = {
+        name: data?.dmTools?.files?.draft?.name || "",
+        url: data?.dmTools?.files?.draft?.url || "",
+        tag: data?.dmTools?.files?.draft?.tag || ""
+    };
+    DM_TOOLS.files.editingId = data?.dmTools?.files?.editingId || "";
+    DM_TOOLS.files.items = Array.isArray(data?.dmTools?.files?.items)
+        ? data.dmTools.files.items.map(normalizeDmFileItem)
+        : [];
     DM_TOOLS.encounterBuilder.difficulty = data?.dmTools?.encounterBuilder?.difficulty || "standard";
     DM_TOOLS.encounterBuilder.environment = normalizeEncounterFilterValues(data?.dmTools?.encounterBuilder?.environment);
     DM_TOOLS.encounterBuilder.creatureType = normalizeEncounterFilterValues(data?.dmTools?.encounterBuilder?.creatureType);
@@ -11905,6 +12428,9 @@ newCharacter = function() {
     DM_TOOLS.lootGenerator.source = "manual";
     DM_TOOLS.lootGenerator.current = null;
     DM_TOOLS.lootGenerator.saved = [];
+    DM_TOOLS.files.draft = { name: "", url: "", tag: "" };
+    DM_TOOLS.files.editingId = "";
+    DM_TOOLS.files.items = [];
     DM_TOOLS.encounterBuilder.difficulty = "standard";
     DM_TOOLS.encounterBuilder.environment = [];
     DM_TOOLS.encounterBuilder.creatureType = [];
@@ -11991,7 +12517,3 @@ if ('serviceWorker' in navigator) {
 </script>
 </body>
 </html>
-
-
-
-
