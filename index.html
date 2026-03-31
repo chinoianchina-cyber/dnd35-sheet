@@ -54,6 +54,24 @@
     
     .card { background: var(--card-bg); border: 1px solid var(--border); padding: 15px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3); }
     h2, h3 { margin-top: 0; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 8px; font-size: 1.1em; text-transform: uppercase; letter-spacing: 1.5px; }
+    .sheet-card-collapsible { padding-top: 0; overflow: hidden; }
+    .sheet-card-toggle { width: 100%; border: none; background: transparent; color: inherit; padding: 14px 0 0; cursor: pointer; text-align: left; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .sheet-card-toggle:hover .sheet-card-toggle-title { color: var(--accent); }
+    .sheet-card-toggle-main { min-width: 0; flex: 1 1 auto; }
+    .sheet-card-toggle-title { display: block; color: var(--accent); font-size: 1.02em; font-weight: bold; letter-spacing: 1.2px; text-transform: uppercase; transition: color 0.2s ease; }
+    .sheet-card-toggle-summary { display: block; color: #94a3b8; font-size: 0.8em; line-height: 1.45; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sheet-card-toggle-chevron { color: var(--accent); font-size: 0.88em; font-weight: bold; transition: transform 0.22s ease; padding-top: 2px; }
+    .sheet-card-collapsible.expanded .sheet-card-toggle-chevron { transform: rotate(180deg); }
+    .sheet-card-body { overflow: hidden; max-height: 0; opacity: 0; transition: max-height 0.28s ease, opacity 0.18s ease, margin-top 0.28s ease; pointer-events: none; margin-top: 0; }
+    .sheet-card-collapsible.expanded .sheet-card-body { max-height: 6000px; opacity: 1; pointer-events: auto; margin-top: 12px; }
+    .sheet-card-collapsible .sheet-card-body > :first-child { margin-top: 0; }
+    .sheet-card-collapsible .sheet-card-body h2 { display: none; }
+    .sheet-card-collapsible .sheet-card-body .sheet-body-header { display: none !important; }
+    .damage-adjust-group { display: inline-flex; align-items: center; gap: 6px; }
+    .damage-adjust-btn { min-width: 28px; height: 28px; border-radius: 999px; border: 1px solid rgba(148,163,184,0.32); background: rgba(15,23,42,0.82); color: #cbd5e1; font-size: 0.78em; font-weight: bold; cursor: pointer; transition: 0.2s; }
+    .damage-adjust-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+    .damage-adjust-btn.heal:hover { border-color: #22c55e; color: #86efac; }
+    .damage-adjust-btn.hurt:hover { border-color: #ef4444; color: #fca5a5; }
     
     .stat-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 10px; }
     input, select { background: #0f172a; color: white; border: 1px solid var(--border); padding: 6px 10px; border-radius: 4px; font-size: 0.9em; transition: 0.2s; }
@@ -106,7 +124,7 @@
     .manual-item-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; flex-shrink: 0; }
     .manual-equip-btn { border: 1px solid rgba(74,222,128,0.45); background: rgba(74,222,128,0.12); color: #86efac; border-radius: 999px; cursor: pointer; padding: 5px 10px; font-size: 0.74em; font-weight: bold; letter-spacing: 0.3px; transition: 0.2s; }
     .manual-equip-btn:hover { border-color: #4ade80; background: rgba(74,222,128,0.2); transform: translateY(-1px); }
-    .manual-menu { display: flex; flex-direction: column; gap: 12px; max-width: 760px; }
+    .manual-menu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; max-width: 980px; }
     .manual-menu-card { background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(0,0,0,0.18)); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 10px; padding: 16px; cursor: pointer; transition: 0.2s; text-align: left; color: var(--text); }
     .manual-menu-card:hover { transform: translateY(-1px); border-color: var(--accent); box-shadow: 0 8px 20px rgba(0,0,0,0.22); }
     .manual-menu-label { display: block; font-size: 1em; font-weight: bold; letter-spacing: 0.8px; color: var(--accent); text-transform: uppercase; }
@@ -120,6 +138,13 @@
     .manual-filter-select { min-width: 150px; max-width: 220px; }
         .manual-list { margin-top: 6px; max-height: 65vh; overflow-y: auto; padding-right: 5px; }
     .manual-empty { font-size: 0.84em; color: #64748b; padding: 14px 0; }
+    .manual-category-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+    .manual-category-card { background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(0,0,0,0.16)); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 10px; padding: 14px; text-align: left; color: var(--text); cursor: pointer; transition: 0.2s; }
+    .manual-category-card:hover { border-color: var(--accent); transform: translateY(-1px); box-shadow: 0 8px 20px rgba(0,0,0,0.18); }
+    .manual-category-card.active { border-color: var(--accent); background: rgba(56,189,248,0.1); }
+    .manual-category-title { display: block; color: var(--accent); font-weight: bold; text-transform: uppercase; letter-spacing: 0.8px; }
+    .manual-category-desc { display: block; margin-top: 6px; color: #94a3b8; font-size: 0.82em; line-height: 1.45; }
+    .manual-category-meta { display: block; margin-top: 8px; color: #cbd5e1; font-size: 0.76em; }
     .manual-jump { cursor: pointer; color: var(--text); text-decoration: underline dotted rgba(56,189,248,0.55); text-underline-offset: 3px; }
     .manual-jump:hover { color: var(--accent); }
     .manual-rule-title { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
@@ -128,6 +153,10 @@
     .manual-rule-point { font-size: 0.8em; color: #94a3b8; line-height: 1.35; }
     .manual-bestiary-card { width: 100%; text-align: left; cursor: pointer; color: inherit; background: var(--panel); font: inherit; }
     .manual-bestiary-card:hover { border-color: var(--accent); box-shadow: 0 8px 20px rgba(0,0,0,0.18); }
+    .manual-bestiary-card.compact { padding: 10px 12px; }
+    .manual-bestiary-line { display: block; }
+    .manual-bestiary-line.name { color: #f8fafc; font-weight: bold; font-size: 0.94em; }
+    .manual-bestiary-line.meta { color: #94a3b8; font-size: 0.8em; margin-top: 4px; }
     .manual-bestiary-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 6px; }
     .manual-bestiary-meta { display: block; color: #94a3b8; line-height: 1.4; }
     .bestiary-tag { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 999px; font-size: 0.72em; font-weight: bold; letter-spacing: 0.2px; border: 1px solid rgba(148,163,184,0.25); background: rgba(15,23,42,0.68); color: #e2e8f0; }
@@ -162,8 +191,10 @@
     .companion-tag { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 999px; font-size: 0.72em; font-weight: bold; border: 1px solid rgba(56,189,248,0.25); background: rgba(56,189,248,0.12); color: #bae6fd; }
     .companion-note { color: #94a3b8; font-size: 0.8em; line-height: 1.45; margin-top: 8px; }
     .companion-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-    .dm-panel-shell { max-width: 1040px; display: flex; flex-direction: column; gap: 16px; }
-    .dm-section-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.22); }
+    .dm-panel-shell { max-width: 1160px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; }
+    .dm-section-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.22); transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease; }
+    .dm-section-card.expanded { grid-column: 1 / -1; }
+    .dm-section-card:hover { border-color: rgba(56,189,248,0.24); box-shadow: 0 10px 26px rgba(0,0,0,0.22); }
     .dm-subcards { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); gap: 12px; flex-direction: column; }
     .dm-subcards.open { display: flex; }
     .dm-subcard { background: rgba(15,23,42,0.55); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
@@ -285,6 +316,9 @@
 
         /* Grids a una sola columna */
         .grid-main                              { grid-template-columns: 1fr !important; }
+        .manual-menu,
+        .manual-category-grid,
+        .dm-panel-shell                         { grid-template-columns: 1fr !important; }
         .stats-grid                             { grid-template-columns: 1fr 1fr 1fr !important; }
         .skill-grid                             { grid-template-columns: 16px 1fr 42px 38px 36px !important; }
 
@@ -323,6 +357,7 @@
         #p3b div[style*="display:flex; gap:8px;"] { flex-wrap: wrap; }
         .manual-list { max-height: 300px; }
         .mobile-tab-sheet-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .sheet-card-toggle-summary { white-space: normal; }
 
         /* Notas: una columna */
         #p4 > div { grid-template-columns: 1fr !important; }
@@ -334,6 +369,11 @@
         .tabs button, .tabs label { 
             padding: 5px 8px !important; 
             font-size: 0.72em !important; 
+        }
+        #char-menu-btn {
+            min-width: 56px !important;
+            padding: 0 18px !important;
+            font-size: 1.15em !important;
         }
 
         /* Theme selector */
@@ -388,10 +428,10 @@
 
 <div class="tabs">
   <button id="char-menu-btn" onclick="toggleCharDrawer()" title="Personajes"
-          style="padding:0 16px; background:none; border:none; border-right:1px solid #333; 
+          style="padding:0 22px; min-width:58px; background:none; border:none; border-right:1px solid #333; 
                  color:#94a3b8; font-size:1.3em; cursor:pointer; flex-shrink:0;
                  transition:0.2s;" onmouseover="this.style.color='var(--accent)'" 
-                 onmouseout="this.style.color='#94a3b8'">&#9776;</button>
+                  onmouseout="this.style.color='#94a3b8'">&#9776;</button>
   <div class="tab active" onclick="showTab(0)">PERSONAJE</div>
   <div class="tab" onclick="showTab(1)">HECHIZOS</div>
   <div class="tab" onclick="showTab(2)">EQUIPO</div>
@@ -463,8 +503,8 @@
     <div class="grid-main">
         
         <div>
-            <div class="card">
-                <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid var(--border);">
+            <div class="card" id="identity-card">
+                <div class="sheet-body-header" style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid var(--border);">
                     <h2 style="margin:0; border-bottom:none; padding-bottom:0;">Identidad</h2>
                     <button type="button" class="roll-trigger" style="min-width:64px;" onclick="openGenericDiceRoller()">Tirada</button>
                 </div>
@@ -528,7 +568,7 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card" id="combat-card">
                 <h2>Combate</h2>
                 <div class="stat-row">BAB / Ataque Completo <b id="bab-val" class="val">+0</b></div>
                 <div class="stat-row" id="flurry-row" style="display:none;">Flurry of Blows <b id="flurry-val" class="val"></b></div>
@@ -550,9 +590,17 @@
                 </div>
                 <div class="stat-row">
                     <span>Puntos de Golpe (HP)</span>
-                    <div style="display:flex; align-items:center; gap:8px;">
-                        <span style="color:#64748b; font-size:0.8em;">dano</span>
-                        <input type="number" id="hp-damage" value="0" min="0" onchange="updateHP()" style="width:55px;" title="Dano recibido">
+                    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                        <span style="color:#64748b; font-size:0.8em;">Daño</span>
+                        <div class="damage-adjust-group">
+                            <button type="button" class="damage-adjust-btn heal" onclick="adjustHpDamage(-5)">-5</button>
+                            <button type="button" class="damage-adjust-btn heal" onclick="adjustHpDamage(-1)">-1</button>
+                        </div>
+                        <input type="number" id="hp-damage" value="0" min="0" onchange="updateHP()" style="width:55px;" title="Daño recibido">
+                        <div class="damage-adjust-group">
+                            <button type="button" class="damage-adjust-btn hurt" onclick="adjustHpDamage(1)">+1</button>
+                            <button type="button" class="damage-adjust-btn hurt" onclick="adjustHpDamage(5)">+5</button>
+                        </div>
                         <b id="hp-val" class="val">0</b>
                     </div>
                 </div>
@@ -595,7 +643,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
+            <div class="card" id="attributes-card">
                 <h2>Equipo</h2>
                 <div id="equip-summary-box">
                     <p style="font-size:0.8em; color:#64748b;">Sin equipo seleccionado.</p>
@@ -607,7 +655,7 @@
         </div>
 
         <div>
-            <div class="card">
+            <div class="card" id="states-card">
                 <h2>Atributos</h2>
                 <div id="stats-container"></div>
                 <div style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
@@ -663,7 +711,7 @@
 
             <div style="display:grid; grid-template-columns: 3fr 1.3fr; gap:12px; align-items:start; margin-bottom:20px;">
 
-                <div class="card" style="margin-bottom:0;">
+                <div class="card" id="skills-card" style="margin-bottom:0;">
                     <h2>Habilidades</h2>
                     <div style="font-size: 0.75em; margin-bottom: 10px; color: #94a3b8; background: rgba(0,0,0,0.2); padding: 5px; border-radius: 4px;">
                         Puntos Disp: <b id="skill-points-total" style="color:var(--accent)">0</b> | Rango Máx: <b id="max-rank-display" style="color:var(--accent)">0</b>
@@ -678,7 +726,7 @@
                     </div>
                 </div>
 
-                <div class="card" style="margin-bottom:0;">
+                <div class="card" id="class-features-card" style="margin-bottom:0;">
                     <h2>Talentos de Clase</h2>
                     <div id="class-features"></div>
                 </div>
@@ -687,7 +735,7 @@
         </div>
 
         <div>
-            <div class="card">
+            <div class="card" id="feats-card">
                 <h2>Dotes Seleccionadas</h2>
                 <div id="feats-selection"></div>
             </div>
@@ -953,7 +1001,7 @@
         <div style="display:flex; flex-direction:column; gap:20px;">
             <div class="card" style="display:flex; flex-direction:column;">
                 <h2>Log de Combate</h2>
-                <textarea id="notes-combat" placeholder="Registro de combates, enemigos derrotados, dano recibido, pociones usadas..."
+    <textarea id="notes-combat" placeholder="Registro de combates, enemigos derrotados, daño recibido, pociones usadas..."
                     style="min-height:180px; background:#0f172a; color:var(--text); border:1px solid var(--border); 
                            border-radius:4px; padding:10px; font-family:inherit; font-size:0.88em; 
                            resize:none; line-height:1.6; outline:none;"
@@ -975,7 +1023,7 @@
 
 <div class="panel" id="p5">
     <div class="dm-panel-shell">
-        <div class="dm-section-card">
+        <div class="dm-section-card" data-dm-section="sessionHub">
             <button type="button" class="companion-toggle" onclick="toggleDmSection('sessionHub')">
                 <div class="companion-toggle-main">
                     <span class="manual-tag" style="background:#0ea5e9;">DM</span>
@@ -997,7 +1045,7 @@
             </div>
         </div>
 
-        <div class="dm-section-card">
+        <div class="dm-section-card" data-dm-section="history">
             <button type="button" class="companion-toggle" onclick="toggleDmSection('history')">
                 <div class="companion-toggle-main">
                     <span class="manual-tag" style="background:#0f766e;">DM</span>
@@ -1060,7 +1108,7 @@
             </div>
         </div>
 
-        <div class="dm-section-card">
+        <div class="dm-section-card" data-dm-section="party">
             <button type="button" class="companion-toggle" onclick="toggleDmSection('party')">
                 <div class="companion-toggle-main">
                     <span class="manual-tag" style="background:#7c3aed;">DM</span>
@@ -1083,7 +1131,7 @@
             </div>
         </div>
 
-        <div class="dm-section-card">
+        <div class="dm-section-card" data-dm-section="npc">
             <button type="button" class="companion-toggle" onclick="toggleDmSection('npc')">
                 <div class="companion-toggle-main">
                     <span class="manual-tag" style="background:#16a34a;">DM</span>
@@ -1129,7 +1177,7 @@
             </div>
         </div>
 
-        <div class="dm-section-card">
+        <div class="dm-section-card" data-dm-section="encounter">
             <button type="button" class="companion-toggle" onclick="toggleDmSection('encounter')">
                 <div class="companion-toggle-main">
                     <span class="manual-tag" style="background:#b45309;">DM</span>
@@ -1242,7 +1290,7 @@
             </div>
         </div>
 
-        <div class="dm-section-card">
+        <div class="dm-section-card" data-dm-section="event">
             <button type="button" class="companion-toggle" onclick="toggleDmSection('event')">
                 <div class="companion-toggle-main">
                     <span class="manual-tag" style="background:#8b5cf6;">DM</span>
@@ -1276,7 +1324,7 @@
             </div>
         </div>
 
-        <div class="dm-section-card">
+        <div class="dm-section-card" data-dm-section="sidequest">
             <button type="button" class="companion-toggle" onclick="toggleDmSection('sidequest')">
                 <div class="companion-toggle-main">
                     <span class="manual-tag" style="background:#f97316;">DM</span>
@@ -1319,7 +1367,7 @@
             </div>
         </div>
 
-        <div class="dm-section-card">
+        <div class="dm-section-card" data-dm-section="loot">
             <button type="button" class="companion-toggle" onclick="toggleDmSection('loot')">
                 <div class="companion-toggle-main">
                     <span class="manual-tag" style="background:#14b8a6;">DM</span>
@@ -1370,7 +1418,7 @@
             </div>
         </div>
 
-        <div class="dm-section-card">
+        <div class="dm-section-card" data-dm-section="files">
             <button type="button" class="companion-toggle" onclick="toggleDmSection('files')">
                 <div class="companion-toggle-main">
                     <span class="manual-tag" style="background:#2563eb;">DM</span>
@@ -1649,7 +1697,7 @@ const SRD = {
         {name:"Rapid Reload", prereq:"—", desc:"Recargás ballestas ligeras como acción libre y ballestas pesadas como acción de movimiento.", fighter:true},
         {name:"Rapid Shot", prereq:"Dex 13, Point Blank Shot", desc:"Ganás un ataque extra por asalto con armas a distancia con un penalizador de -2 a todos los ataques.", fighter:true},
         {name:"Ride-By Attack", prereq:"Mounted Combat", desc:"Podés moverte, atacar y seguir moviéndote en línea recta mientras vas montado.", fighter:true},
-        {name:"Run", prereq:"—", desc:"Corrés a 5 veces tu velocidad normal (4Ã— con armadura pesada) y conservás tu bono de DEX a la CA al correr."},
+        {name:"Run", prereq:"—", desc:"Corrés a 5 veces tu velocidad normal (4x con armadura pesada) y conservás tu bono de DEX a la CA al correr."},
         {name:"Scribe Scroll", prereq:"Caster lvl 1", desc:"Podés crear pergaminos mágicos de cualquier hechizo que conozcas.", sorcerer:true},
         {name:"Self-Sufficient", prereq:"—", desc:"Otorgás un bono de +2 a las pruebas de Heal y Survival."},
         {name:"Shield Proficiency", prereq:"—", desc:"Podés usar escudos sin aplicar su penalizador de armadura a las tiradas de ataque."},
@@ -2597,9 +2645,9 @@ ${idx === activeCharIdx ? '<span style="font-size:0.7em; color:var(--accent); ma
                 </div>
                 <div style="display:flex; gap:4px; margin-left:8px;">
                     <button onclick="duplicateCharacter(${idx})" title="Duplicar"
-                            style="background:none; border:1px solid var(--border); color:#94a3b8; border-radius:4px; padding:3px 7px; cursor:pointer; font-size:0.8em;">âŽ˜</button>
+                            style="background:none; border:1px solid var(--border); color:#94a3b8; border-radius:4px; padding:3px 7px; cursor:pointer; font-size:0.72em; font-weight:bold;">Dup</button>
                     ${idx !== activeCharIdx ? `<button onclick="deleteCharacter(${idx})" title="Eliminar"
-                            style="background:none; border:1px solid var(--border); color:#94a3b8; border-radius:4px; padding:3px 7px; cursor:pointer; font-size:0.8em;">âœ•</button>` : ''}
+                            style="background:none; border:1px solid var(--border); color:#94a3b8; border-radius:4px; padding:3px 7px; cursor:pointer; font-size:0.72em; font-weight:bold;">X</button>` : ''}
                 </div>
             </div>
         </div>`
@@ -2689,7 +2737,7 @@ function duplicateCharacter(idx) {
 }
 
 function deleteCharacter(idx) {
-    if (!confirm(`Â¿Eliminar "${getCharMeta()[idx]?.name || 'este personaje'}"? No se puede deshacer.`)) return;
+    if (!confirm(`¿Eliminar "${getCharMeta()[idx]?.name || 'este personaje'}"? No se puede deshacer.`)) return;
     const meta = getCharMeta();
     meta.splice(idx, 1);
     for (let i = idx; i < meta.length; i++) {
@@ -2721,22 +2769,22 @@ function renderCustomLists() {
     const cwList = document.getElementById('cw-list');
     if (cwList) cwList.innerHTML = CUSTOM.weapons.length === 0
         ? `<p style="font-size:0.75em; color:#64748b;">Sin armas custom.</p>`
-        : CUSTOM.weapons.map((w,i) => `<div style="${styleItem}"><span>${w.name} <small style="color:#94a3b8;">(${w.type} · ${w.dmg})</small></span><button style="${btnStyle}" onclick="removeCustom('weapons',${i})">âœ•</button></div>`).join("");
+        : CUSTOM.weapons.map((w,i) => `<div style="${styleItem}"><span>${w.name} <small style="color:#94a3b8;">(${w.type} · ${w.dmg})</small></span><button style="${btnStyle}" onclick="removeCustom('weapons',${i})">X</button></div>`).join("");
 
     const caList = document.getElementById('ca-list');
     if (caList) caList.innerHTML = CUSTOM.armors.length === 0
         ? `<p style="font-size:0.75em; color:#64748b;">Sin armaduras custom.</p>`
-        : CUSTOM.armors.map((a,i) => `<div style="${styleItem}"><span>${a.name} <small style="color:#94a3b8;">(${a.type} · CA+${a.ca})</small></span><button style="${btnStyle}" onclick="removeCustom('armors',${i})">âœ•</button></div>`).join("");
+        : CUSTOM.armors.map((a,i) => `<div style="${styleItem}"><span>${a.name} <small style="color:#94a3b8;">(${a.type} · CA+${a.ca})</small></span><button style="${btnStyle}" onclick="removeCustom('armors',${i})">X</button></div>`).join("");
 
     const cgList = document.getElementById('cg-list');
     if (cgList) cgList.innerHTML = CUSTOM.general.length === 0
         ? `<p style="font-size:0.75em; color:#64748b;">Sin equipo custom.</p>`
-        : CUSTOM.general.map((g,i) => `<div style="${styleItem}"><span>${g}</span><button style="${btnStyle}" onclick="removeCustom('general',${i})">âœ•</button></div>`).join("");
+        : CUSTOM.general.map((g,i) => `<div style="${styleItem}"><span>${g}</span><button style="${btnStyle}" onclick="removeCustom('general',${i})">X</button></div>`).join("");
 
     const cfList = document.getElementById('cf-list');
     if (cfList) cfList.innerHTML = CUSTOM.feats.length === 0
         ? `<p style="font-size:0.75em; color:#64748b;">Sin dotes custom.</p>`
-        : CUSTOM.feats.map((f,i) => `<div style="${styleItem}"><span>${f.name} <small style="color:#94a3b8;">${f.prereq !== '—' ? `· ${f.prereq}` : ''}</small></span><button style="${btnStyle}" onclick="removeCustom('feats',${i})">âœ•</button></div>`).join("");
+        : CUSTOM.feats.map((f,i) => `<div style="${styleItem}"><span>${f.name} <small style="color:#94a3b8;">${f.prereq !== '—' ? `· ${f.prereq}` : ''}</small></span><button style="${btnStyle}" onclick="removeCustom('feats',${i})">X</button></div>`).join("");
 }
 
 function removeCustom(category, idx) {
@@ -4141,7 +4189,7 @@ function autoSave() {
             saveCharMeta(meta);
         }
         const ind = document.getElementById('save-indicator');
-        ind.innerText = "âœ“ Guardado";
+        ind.innerText = "OK Guardado";
         ind.style.color = "#4ade80";
         setTimeout(() => { ind.innerText = ""; }, 2000);
     } catch(e) { console.warn("AutoSave error:", e); }
@@ -4491,6 +4539,14 @@ function updateHP() {
     autoSave();
 }
 
+function adjustHpDamage(delta) {
+    const input = document.getElementById('hp-damage');
+    if (!input) return;
+    const current = parseInt(input.value, 10) || 0;
+    input.value = Math.max(0, current + delta);
+    updateHP();
+}
+
 function updateEquipSummary() {
     const container = document.getElementById('equip-summary-box');
     if (!container) return;
@@ -4748,7 +4804,7 @@ const CLASS_FEATURE_SUMMARIES = {
     "Well-Versed": "Obtiene bonus contra efectos bardicos, sonicos y similares.",
     "Wholeness of Body": "Puede curarse a si mismo una cantidad limitada de hp por dia.",
     "Wild Empathy": "Mejora pruebas para influir animales como un ranger o druida.",
-    "Woodland Stride": "Se mueve por maleza natural sin reducir velocidad ni sufrir dano."
+    "Woodland Stride": "Se mueve por maleza natural sin reducir velocidad ni sufrir daño."
 };
 
 function getClassFeatureSummary(name, clsName) {
@@ -4758,10 +4814,10 @@ function getClassFeatureSummary(name, clsName) {
     if (match) return `Puede entrar en furia ${match[1]}, ganando bonus de combate y voluntad con penalizador a la CA.`;
 
     match = name.match(/^Damage Reduction (\d+)\/-$/);
-    if (match) return `Reduce ${match[1]} puntos del dano de la mayoria de los ataques fisicos.`;
+    if (match) return `Reduce ${match[1]} puntos del daño de la mayoría de los ataques físicos.`;
 
     match = name.match(/^Smite Evil \((.+)\)$/);
-    if (match) return `Puede usar smite evil ${match[1]}, sumando CHA al ataque y dano extra contra objetivos malignos.`;
+    if (match) return `Puede usar smite evil ${match[1]}, sumando CHA al ataque y daño extra contra objetivos malignos.`;
 
     match = name.match(/^Remove Disease \((.+)\)$/);
     if (match) return `Puede usar remove disease ${match[1]}.`;
@@ -4773,7 +4829,7 @@ function getClassFeatureSummary(name, clsName) {
     if (match) return `Gana +${match[1]} a REF contra trampas y a la CA contra ataques de trampas.`;
 
     match = name.match(/^Inspire Courage \+(\d+)$/);
-    if (match) return `Otorga +${match[1]} a ataques, dano y salvaciones contra miedo y charm.`;
+    if (match) return `Otorga +${match[1]} a ataques, daño y salvaciones contra miedo y charm.`;
 
     if (/^Favored Enemy/.test(name)) {
         return "Obtiene o mejora bonificadores contra enemigos predilectos y mejora varias pruebas relacionadas con rastreo y percepcion.";
@@ -4786,10 +4842,10 @@ function getClassFeatureSummary(name, clsName) {
     if (match) return `Amplia wild shape para adoptar ${match[1].toLowerCase()}.`;
 
     match = name.match(/^Slow Fall (.+)$/);
-    if (match) return `Reduce dano por caida hasta ${match[1]} cuando tiene una superficie cercana para apoyarse.`;
+    if (match) return `Reduce daño por caída hasta ${match[1]} cuando tiene una superficie cercana para apoyarse.`;
 
     match = name.match(/^Ki Strike \((.+)\)$/);
-    if (match) return `Sus ataques desarmados cuentan como ${match[1]} para superar reduccion de dano.`;
+    if (match) return `Sus ataques desarmados cuentan como ${match[1]} para superar reducción de daño.`;
 
     return `Rasgo de clase de ${clsName} segun la progresion SRD.`;
 }
@@ -4976,7 +5032,7 @@ const MANUAL_BESTIARY = [
   { name: "Ankheg", sizeType: "Large Magical Beast", hd: "3d10+12 (28 hp)", ac: "18 (-1 size, +9 natural), touch 9, flat-footed 18", abilities: "Str 21, Dex 10, Con 17, Int 1, Wis 13, Cha 6", fullAttack: "Bite +7 melee (2d6+7 plus 1d4 acid)", specialAttacks: "Improved grab, spit acid", specialQualities: "Darkvision 60 ft., low-light vision, tremorsense 60 ft.", cr: "3", alignment: "Neutral", type: "Magical Beast" },
   { name: "Aranea", sizeType: "Medium Magical Beast (Shapechanger)", hd: "3d10+6 (22 hp)", ac: "13 (+2 Dex, +1 natural), touch 12, flat-footed 11", abilities: "Str 11, Dex 15, Con 14, Int 14, Wis 13, Cha 14", fullAttack: "Bite +5 melee (1d6 plus poison) or web +5 ranged", specialAttacks: "Poison, spells, web", specialQualities: "Change shape, darkvision 60 ft., low-light vision", cr: "4", alignment: "Neutral", type: "Magical Beast" },
   { name: "Basilisk", sizeType: "Medium Magical Beast", hd: "6d10+12 (45 hp)", ac: "16 (-1 Dex, +7 natural), touch 9, flat-footed 16", abilities: "Str 15, Dex 8, Con 15, Int 2, Wis 12, Cha 11", fullAttack: "Bite +8 melee (1d8+3)", specialAttacks: "Petrifying gaze", specialQualities: "Darkvision 60 ft., low-light vision", cr: "5", alignment: "Neutral", type: "Magical Beast" },
-  { name: "Behir", sizeType: "Huge Magical Beast", hd: "9d10+45 (94 hp)", ac: "20 (-2 size, +1 Dex, +11 natural), touch 9, flat-footed 19", abilities: "Str 26, Dex 13, Con 21, Int 7, Wis 14, Cha 12", fullAttack: "Bite +15 melee (2d4+12)", specialAttacks: "Breath weapon, constrict 2d8+8, improved grab, rake 1d4+4, swallow whole", specialQualities: "Canât be tripped, darkvision 60 ft., immunity to electricity, low-light vision, scent", cr: "8", alignment: "Neutral", type: "Magical Beast" },
+  { name: "Behir", sizeType: "Huge Magical Beast", hd: "9d10+45 (94 hp)", ac: "20 (-2 size, +1 Dex, +11 natural), touch 9, flat-footed 19", abilities: "Str 26, Dex 13, Con 21, Int 7, Wis 14, Cha 12", fullAttack: "Bite +15 melee (2d4+12)", specialAttacks: "Breath weapon, constrict 2d8+8, improved grab, rake 1d4+4, swallow whole", specialQualities: "Can't be tripped, darkvision 60 ft., immunity to electricity, low-light vision, scent", cr: "8", alignment: "Neutral", type: "Magical Beast" },
   { name: "Blink Dog", sizeType: "Medium Magical Beast", hd: "4d10 (22 hp)", ac: "16 (+3 Dex, +3 natural), touch 13, flat-footed 13", abilities: "Str 10, Dex 17, Con 10, Int 10, Wis 13, Cha 11", fullAttack: "Bite +4 melee (1d6)", specialAttacks: "-", specialQualities: "Blink, darkvision 60 ft., dimension door, low-light vision, scent", cr: "2", alignment: "Lawful Good", type: "Magical Beast" },
   { name: "Bulette", sizeType: "Huge Magical Beast", hd: "9d10+45 (94 hp)", ac: "22 (-2 size, +2 Dex, +12 natural), touch 10, flat-footed 20", abilities: "Str 27, Dex 15, Con 20, Int 2, Wis 13, Cha 6", fullAttack: "Bite +16 melee (2d8+8) and 2 claws +10 melee (2d6+4)", specialAttacks: "Leap", specialQualities: "Darkvision 60 ft., low-light vision, scent, tremorsense 60 ft.", cr: "7", alignment: "Neutral", type: "Magical Beast" },
   { name: "Chimera", sizeType: "Large Magical Beast", hd: "9d10+27 (76 hp)", ac: "19 (-1 size, +1 Dex, +9 natural), touch 10, flat-footed 18", abilities: "Str 19, Dex 13, Con 17, Int 4, Wis 13, Cha 10", fullAttack: "Bite +12 melee (2d6+4) and bite +12 melee (1d8+4) and gore +12 melee (1d8+4) and 2 claws +10 melee (1d6+2)", specialAttacks: "Breath weapon", specialQualities: "Darkvision 60 ft., low-light vision, scent", cr: "7", alignment: "Chaotic Evil", type: "Magical Beast" },
@@ -5536,13 +5592,13 @@ const MANUAL_RULES = [
         ]
     },
     {
-        title: "Ataque, dano y critico",
+        title: "Ataque, daño y crítico",
         tag: "ATTACK",
-        summary: "Tiras d20 + ataque total contra CA. Si impactas, tiras dano. Una amenaza de critico requiere confirmacion para aplicar el multiplicador.",
+        summary: "Tiras d20 + ataque total contra CA. Si impactas, tiras daño. Una amenaza de crítico requiere confirmación para aplicar el multiplicador.",
         points: [
             "Un 20 natural impacta siempre y amenaza critico si el arma lo permite.",
             "Un 1 natural falla siempre.",
-            "Fuerza suele sumar al dano melee; DEX suele mandar en ataques a distancia."
+            "Fuerza suele sumar al daño melee; DEX suele mandar en ataques a distancia."
         ]
     },
     {
@@ -5582,7 +5638,7 @@ const MANUAL_RULES = [
         points: [
             "Stabilize o atencion medica puede frenar la perdida de hp.",
             "Diehard te deja actuar mientras estes entre -1 y -9.",
-            "El dano no letal puede dejarte inconsciente sin matarte."
+            "El daño no letal puede dejarte inconsciente sin matarte."
         ]
     },
     {
@@ -6318,12 +6374,11 @@ function renderAnimalCompanionCard(clsName, lvl) {
     card.style.display = eligible ? "block" : "none";
     if (!eligible) return;
 
-    meta.innerText = clsName === "Druid"
-        ? `Druida nivel ${lvl} · nivel efectivo de companion ${effectiveLevel}.`
-        : `Ranger nivel ${lvl} · companion como druida nivel ${effectiveLevel}.`;
-
     syncAnimalCompanionOptions(effectiveLevel);
     const option = getSelectedAnimalCompanionOption();
+    meta.innerText = clsName === "Druid"
+        ? `Druida nivel ${lvl} · companion efectivo ${effectiveLevel}${option ? ` · ${option.name}` : ""}.`
+        : `Ranger nivel ${lvl} · companion como druida ${effectiveLevel}${option ? ` · ${option.name}` : ""}.`;
     if (!option) {
         content.innerHTML = `<div class="companion-empty">Elegi una criatura compatible con tu nivel efectivo para ver sus ajustes SRD, ataques base y habilidades especiales.</div>`;
         return;
@@ -6385,7 +6440,7 @@ function renderAnimalCompanionCard(clsName, lvl) {
         <div class="companion-block">
             <span class="companion-block-title">Ataque y reglas base</span>
             <div class="companion-metric-value"><b>Full attack base:</b> ${escapeHtml(entry.fullAttack)}</div>
-            <div class="companion-note">Ajuste aproximado sobre el statblock base: ${meleeDelta >= 0 ? "+" : ""}${meleeDelta} melee / ${rangedDelta >= 0 ? "+" : ""}${rangedDelta} ranged. El dano y ataques naturales siguen siendo los de la criatura base.</div>
+        <div class="companion-note">Ajuste aproximado sobre el statblock base: ${meleeDelta >= 0 ? "+" : ""}${meleeDelta} melee / ${rangedDelta >= 0 ? "+" : ""}${rangedDelta} ranged. El daño y ataques naturales siguen siendo los de la criatura base.</div>
         </div>
         <div class="companion-block">
             <span class="companion-block-title">Special attacks / qualities</span>
@@ -6413,9 +6468,9 @@ function renderFamiliarCard(clsName, lvl) {
     card.style.display = eligible ? "block" : "none";
     if (!eligible) return;
 
-    meta.innerText = `${clsName} nivel ${lvl} · progresion completa de familiar SRD.`;
     syncFamiliarOptions();
     const option = getSelectedFamiliarOption();
+    meta.innerText = `${clsName} nivel ${lvl} · progresion completa de familiar SRD${option ? ` · ${option.name}` : ""}.`;
     if (!option) {
         content.innerHTML = `<div class="companion-empty">Elegi un familiar para ver sus bonus al amo, estadisticas derivadas y habilidades especiales.</div>`;
         return;
@@ -6476,7 +6531,7 @@ function renderFamiliarCard(clsName, lvl) {
         <div class="companion-block">
             <span class="companion-block-title">Ataques y bonus al amo</span>
             <div class="companion-metric-value"><b>Full attack base:</b> ${escapeHtml(entry.fullAttack || "Ataque natural segun criatura base")}</div>
-            <div class="companion-note">El familiar usa el BAB del amo y el mejor modificador entre STR y DEX para sus ataques naturales. El dano sigue siendo el de la criatura base.</div>
+        <div class="companion-note">El familiar usa el BAB del amo y el mejor modificador entre STR y DEX para sus ataques naturales. El daño sigue siendo el de la criatura base.</div>
             <div class="companion-note"><b>Bonus al amo:</b> ${escapeHtml(option.masterBonus?.label || "Sin bonus directo")}${option.masterBonus?.kind === "conditional" ? " (situacional, no se aplica automatico en la ficha)." : "."}</div>
         </div>
         <div class="companion-block">
@@ -8516,9 +8571,11 @@ function renderDmFilesList() {
 function syncDmSection(key) {
     const body = document.getElementById(`dm-body-${key}`);
     const chevron = document.getElementById(`dm-chevron-${key}`);
+    const card = document.querySelector(`.dm-section-card[data-dm-section="${key}"]`);
     const open = !!DM_UI_STATE[key];
     if (body) body.classList.toggle('open', open);
     if (chevron) chevron.classList.toggle('open', open);
+    if (card) card.classList.toggle('expanded', open);
     if (!is_loading) autoSave();
 }
 
@@ -10546,6 +10603,7 @@ function renderManualHome() {
     if (!home || !detail || !search) return;
 
     activeManualSection = null;
+    activeManualWeaponGroup = "";
     search.value = "";
     search.style.display = "none";
     if (spellFilters) spellFilters.style.display = "none";
@@ -10572,6 +10630,7 @@ function openManualSection(section) {
     if (!meta || !home || !detail || !search) return;
 
     activeManualSection = section;
+    if (section !== "weapons") activeManualWeaponGroup = "";
     home.style.display = "none";
     detail.style.display = "block";
     document.getElementById('manual-detail-title').innerText = meta.title;
@@ -10661,6 +10720,100 @@ function equipItemFromManual(name) {
     autoSave();
 }
 
+const MANUAL_CLASS_OVERVIEWS = {
+    Barbarian: "Guerrero feroz de primera línea, con gran resistencia y daño explosivo gracias a Rage. Destaca por aguantar castigo, abrir combates y desbordar a enemigos físicos.",
+    Bard: "Apoyo versátil que mezcla habilidades sociales, conocimientos, magia espontánea y canciones bardicas. Brilla potenciando al grupo, manipulando escenas y resolviendo problemas fuera de combate.",
+    Cleric: "Lanzador divino preparado con gran aguante, curación y magia de soporte o control. Puede ocupar roles de sanador, tanque secundario o caster de primera línea según deidad y dominios.",
+    Druid: "Caster divino ligado a la naturaleza con invocaciones, control de terreno y formas salvajes. Es una clase muy flexible que combina magia, exploración y presencia física sólida.",
+    Fighter: "Especialista marcial puro, centrado en dotes, equipo y dominio del combate directo. Es ideal para quien quiere consistencia, personalización táctica y presencia estable en primera línea.",
+    Monk: "Combatiente móvil y técnico que usa ataques desarmados, velocidad y defensas especiales. Se distingue por su movilidad, control posicional y herramientas únicas más que por daño bruto constante.",
+    Paladin: "Campeón sagrado con buenas defensas, apoyo divino y capacidad de castigar al mal. Funciona como frente resistente con utilidades de protección, curación y liderazgo moral.",
+    Ranger: "Cazador adaptable con buen combate, exploración y vínculo con la naturaleza. Suele destacar rastreando, moviéndose por terreno salvaje y castigando enemigos concretos con precisión.",
+    Rogue: "Especialista en habilidades, infiltración y daño oportunista con Sneak Attack. Brilla resolviendo trampas, explorando, manipulando situaciones y castigando objetivos desprevenidos.",
+    Sorcerer: "Lanzador arcano espontáneo con pocos hechizos conocidos pero mucha flexibilidad para repetirlos. Se distingue por su simplicidad de uso y potencia sostenida en combate mágico.",
+    Wizard: "Lanzador arcano preparado con enorme profundidad táctica y acceso al repertorio más amplio. Es la clase más orientada a planificación, control, utilidades y soluciones precisas."
+};
+
+const MANUAL_WEAPON_GROUPS = [
+    { key: "Simple", title: "Simples", desc: "Armas fáciles de usar, comunes entre personajes sin entrenamiento marcial extenso." },
+    { key: "Marcial", title: "Marciales", desc: "Armas de guerra más efectivas, propias de clases con entrenamiento marcial formal." },
+    { key: "Exótica", title: "Exóticas", desc: "Armas especiales o poco comunes que suelen requerir dotes o entrenamiento dedicado." },
+    { key: "Mágica", title: "Mágicas", desc: "Espacio reservado para armas mágicas con propiedades especiales. Todavía no hay entradas cargadas." }
+];
+
+let activeManualWeaponGroup = "";
+
+function getClassFeatureManualOverview(className) {
+    return MANUAL_CLASS_OVERVIEWS[className]
+        || `Clase base del SRD orientada a ${className.toLowerCase()}, con herramientas propias para ocupar un rol reconocible dentro del grupo.`;
+}
+
+function getWeaponManualGroup(weapon) {
+    const type = String(weapon?.type || "");
+    if (type === "Simple" || type === "Marcial" || type === "Exótica" || type === "Exotica") return type === "Exotica" ? "Exótica" : type;
+    return "Mágica";
+}
+
+function getWeaponRangeTag(weapon) {
+    const text = `${weapon?.name || ""} ${weapon?.notes || ""}`.toLowerCase();
+    const rangedHints = ["arco", "ballesta", "honda", "dardo", "jabalina", "red", "arrojad"];
+    return rangedHints.some(hint => text.includes(hint)) ? "A distancia" : "Melee";
+}
+
+function setManualClassFeatureClassFilter(className = "") {
+    const filter = document.getElementById('manual-class-feature-filter');
+    const nextValue = filter && filter.value === className ? "" : className;
+    if (filter) filter.value = nextValue;
+    renderManualDetail();
+}
+
+function setManualWeaponGroup(group = "") {
+    activeManualWeaponGroup = activeManualWeaponGroup === group ? "" : (group || "");
+    renderManualDetail();
+}
+
+function buildManualClassFeatureCategoryGrid(selectedClass = "") {
+    const catalog = getManualCatalog("classFeatures");
+    const classNames = [...new Set(catalog.map(entry => entry.className))].sort((a, b) => {
+        const orderDiff = MANUAL_CLASS_FEATURE_ORDER.indexOf(a) - MANUAL_CLASS_FEATURE_ORDER.indexOf(b);
+        if (MANUAL_CLASS_FEATURE_ORDER.includes(a) || MANUAL_CLASS_FEATURE_ORDER.includes(b)) return orderDiff;
+        return a.localeCompare(b);
+    });
+    return `
+        <div class="manual-category-grid">
+            ${classNames.map(className => {
+                const count = catalog.filter(entry => entry.className === className).length;
+                return `
+                    <button type="button" class="manual-category-card ${selectedClass === className ? "active" : ""}" onclick="setManualClassFeatureClassFilter('${escapeAttr(className)}')">
+                        <span class="manual-category-title">${escapeHtml(className)}</span>
+                        <span class="manual-category-desc">${escapeHtml(getClassFeatureManualOverview(className))}</span>
+                        <span class="manual-category-meta">${count} talento(s) o rasgo(s) manuales.</span>
+                    </button>
+                `;
+            }).join("")}
+        </div>
+    `;
+}
+
+function buildManualWeaponCategoryGrid(selectedGroup = "") {
+    return `
+        <div class="manual-category-grid">
+            ${MANUAL_WEAPON_GROUPS.map(group => {
+                const count = group.key === "Mágica"
+                    ? 0
+                    : getManualCatalog("weapons").filter(weapon => getWeaponManualGroup(weapon) === group.key).length;
+                return `
+                    <button type="button" class="manual-category-card ${selectedGroup === group.key ? "active" : ""}" onclick="setManualWeaponGroup('${escapeAttr(group.key)}')">
+                        <span class="manual-category-title">${escapeHtml(group.title)}</span>
+                        <span class="manual-category-desc">${escapeHtml(group.desc)}</span>
+                        <span class="manual-category-meta">${count > 0 ? `${count} arma(s) cargada(s).` : "Sin armas cargadas por ahora."}</span>
+                    </button>
+                `;
+            }).join("")}
+        </div>
+    `;
+}
+
 function renderManualDetail() {
     const container = document.getElementById('manual-detail-content');
     const search = document.getElementById('manual-search');
@@ -10741,7 +10894,7 @@ function renderManualDetail() {
                 `;
             }).join("");
     } else if (activeManualSection === "classFeatures") {
-        html = getManualCatalog("classFeatures")
+        const features = getManualCatalog("classFeatures")
             .filter(feature =>
                 (!classFeatureFilter || feature.className === classFeatureFilter) &&
                 (
@@ -10750,18 +10903,24 @@ function renderManualDetail() {
                     feature.className.toLowerCase().includes(q) ||
                     formatManualFeatureLevels(feature.levels).toLowerCase().includes(q)
                 )
-            )
-            .map(feature => `
-                <div class="manual-item">
-                    <span class="manual-tag" style="background:${tagColor.FEATURE};">TALENTO</span>
-                    <b>${feature.name}</b>
-                    <div style="margin:4px 0 6px 0;">
-                        <span class="spell-summary-tag" style="font-size:0.7em; background:#334155; margin-right:4px;">${feature.className}</span>
-                        <span class="spell-summary-tag" style="font-size:0.7em; background:#1e293b;">${formatManualFeatureLevels(feature.levels)}</span>
-                    </div>
-                    <small style="display:block; margin-top:4px;">${feature.desc}</small>
+            );
+        const categoryGrid = buildManualClassFeatureCategoryGrid(classFeatureFilter);
+        const featureList = features.map(feature => `
+            <div class="manual-item">
+                <span class="manual-tag" style="background:${tagColor.FEATURE};">TALENTO</span>
+                <b>${feature.name}</b>
+                <div style="margin:4px 0 6px 0;">
+                    <span class="spell-summary-tag" style="font-size:0.7em; background:#334155; margin-right:4px;">${feature.className}</span>
+                    <span class="spell-summary-tag" style="font-size:0.7em; background:#1e293b;">${formatManualFeatureLevels(feature.levels)}</span>
                 </div>
-            `).join("");
+                <small style="display:block; margin-top:4px;">${feature.desc}</small>
+            </div>
+        `).join("");
+        html = categoryGrid + (
+            classFeatureFilter || q
+                ? (featureList || `<div class="manual-empty">No se encontraron talentos de clase con ese filtro.</div>`)
+                : `<div class="manual-empty">Elegí una clase para ver sus talentos y rasgos de clase en detalle.</div>`
+        );
     } else if (activeManualSection === "bestiary") {
         html = getManualCatalog("bestiary")
             .filter(entry =>
@@ -10786,30 +10945,33 @@ function renderManualDetail() {
                 )
             )
             .map(entry => `
-                <button type="button" class="manual-item manual-bestiary-card" data-bestiary-name="${escapeAttr(entry.name)}" onclick="openBestiaryEntry(this.dataset.bestiaryName)">
-                    <div class="manual-rule-title">
-                        <span class="manual-tag" style="background:#0f766e;">BESTIARIO</span>
-                        <b>${entry.name}</b>
-                    </div>
-                    <div class="manual-bestiary-tags">
-                        ${buildBestiaryTags(entry, { compact: true })}
-                    </div>
-                    <div class="manual-bestiary-meta">${escapeHtml(formatBestiaryCardMeta(entry))}</div>
-                    <div class="manual-bestiary-meta">Rol ${escapeHtml(formatBestiaryRole(entry.tacticalRole))} · Ambiente ${escapeHtml(formatBestiaryList(entry.environments))}</div>
+                <button type="button" class="manual-item manual-bestiary-card compact" data-bestiary-name="${escapeAttr(entry.name)}" onclick="openBestiaryEntry(this.dataset.bestiaryName)">
+                    <span class="manual-bestiary-line name">${escapeHtml(entry.name)}</span>
+                    <span class="manual-bestiary-line meta">CD ${escapeHtml(entry.cr)} - ${escapeHtml(entry.type)}</span>
                 </button>
             `).join("");
     } else if (activeManualSection === "weapons") {
-        html = getManualCatalog("weapons")
-            .filter(weapon =>
-                weapon.name.toLowerCase().includes(q) ||
-                weapon.type.toLowerCase().includes(q) ||
-                (weapon.notes || "").toLowerCase().includes(q)
-            )
-            .map(weapon => `
+        const categoryGrid = buildManualWeaponCategoryGrid(activeManualWeaponGroup);
+        const weapons = getManualCatalog("weapons")
+            .filter(weapon => {
+                const group = getWeaponManualGroup(weapon);
+                const mode = getWeaponRangeTag(weapon);
+                return (!activeManualWeaponGroup || group === activeManualWeaponGroup) && (
+                    weapon.name.toLowerCase().includes(q) ||
+                    weapon.type.toLowerCase().includes(q) ||
+                    group.toLowerCase().includes(q) ||
+                    mode.toLowerCase().includes(q) ||
+                    (weapon.notes || "").toLowerCase().includes(q)
+                );
+            });
+        const weaponList = weapons.map(weapon => {
+            const group = getWeaponManualGroup(weapon);
+            const rangeTag = getWeaponRangeTag(weapon);
+            return `
                 <div class="manual-item">
                     <div class="manual-item-head">
                         <div>
-                            <span class="manual-tag" style="background:${tagColor[weapon.type] || "#334155"};">ARMA ${weapon.type.toUpperCase()}</span>
+                            <span class="manual-tag" style="background:${tagColor[group] || "#334155"};">ARMA ${group.toUpperCase()}</span>
                             <b>${weapon.name}</b>
                         </div>
                         <div class="manual-item-actions">
@@ -10817,11 +10979,18 @@ function renderManualDetail() {
                         </div>
                     </div>
                     <small style="display:block; margin-top:4px;">
-                        Dano: <b>${weapon.dmg}</b> · Crit: <b>${weapon.crit} / ${weapon.mult}</b>
+                        <span class="spell-summary-tag" style="font-size:0.7em; background:#334155; margin-right:4px;">${rangeTag}</span>
+                        Daño: <b>${weapon.dmg}</b> · Crit: <b>${weapon.crit} / ${weapon.mult}</b>
                         ${weapon.notes ? `· <span style="color:#f59e0b;">${weapon.notes}</span>` : ""}
                     </small>
                 </div>
-            `).join("");
+            `;
+        }).join("");
+        html = categoryGrid + (
+            activeManualWeaponGroup || q
+                ? (weaponList || `<div class="manual-empty">No hay armas cargadas en esta categoría todavía.</div>`)
+                : `<div class="manual-empty">Elegí una categoría de arma para ver su lista. Las armas mágicas ya tienen su espacio preparado para cuando las carguemos.</div>`
+        );
     } else if (activeManualSection === "armors") {
         html = getManualCatalog("armors")
             .filter(armor =>
@@ -11458,7 +11627,7 @@ const CLERIC_DOMAINS = {
     "ANIMAL":      { power: "Empathy con animales (como druida lvl = cleric lvl).", spells: {1:"Calm Animals",2:"Hold Animal",3:"Dominate Animal",4:"Summon Nature's Ally IV",5:"Commune with Nature",6:"Antilife Shell",7:"Animal Shapes",8:"Summon Nature's Ally VIII",9:"Shapechange"} },
     "CHAOS":       { power: "Lanzar spells con descriptor [chaotic] a +1 caster level.", spells: {1:"Protection from Law",2:"Shatter",3:"Magic Circle against Law",4:"Chaos Hammer",5:"Dispel Law",6:"Animate Objects",7:"Word of Chaos",8:"Cloak of Chaos",9:"Summon Monster IX (chaotic)"} },
     "DEATH":       { power: "Tocar -> muerte (1/dia).", spells: {1:"Cause Fear",2:"Death Knell",3:"Animate Dead",4:"Death Ward",5:"Slay Living",6:"Create Undead",7:"Destruction",8:"Create Greater Undead",9:"Wail of the Banshee"} },
-    "DESTRUCTION": { power: "Smite 1/dia (+4 atk, +cleric lvl dano).", spells: {1:"Inflict Light Wounds",2:"Shatter",3:"Contagion",4:"Inflict Critical Wounds",5:"Slay Living",6:"Harm",7:"Disintegrate",8:"Earthquake",9:"Implosion"} },
+    "DESTRUCTION": { power: "Smite 1/dia (+4 atk, +cleric lvl daño).", spells: {1:"Inflict Light Wounds",2:"Shatter",3:"Contagion",4:"Inflict Critical Wounds",5:"Slay Living",6:"Harm",7:"Disintegrate",8:"Earthquake",9:"Implosion"} },
     "EARTH":       { power: "Turn/Rebuke criaturas de tierra.", spells: {1:"Magic Stone",2:"Soften Earth and Stone",3:"Stone Shape",4:"Spike Stones",5:"Wall of Stone",6:"Stoneskin",7:"Earthquake",8:"Iron Body",9:"Elemental Swarm (earth)"} },
     "EVIL":        { power: "+1 caster level en spells [evil].", spells: {1:"Protection from Good",2:"Desecrate",3:"Magic Circle against Good",4:"Unholy Blight",5:"Dispel Good",6:"Create Undead",7:"Blasphemy",8:"Unholy Aura",9:"Summon Monster IX (evil)"} },
     "FIRE":        { power: "Turn/Rebuke criaturas de fuego.", spells: {1:"Burning Hands",2:"Produce Flame",3:"Resist Energy",4:"Wall of Fire",5:"Fire Shield",6:"Fire Seeds",7:"Fire Storm",8:"Incendiary Cloud",9:"Elemental Swarm (fire)"} },
@@ -12414,6 +12583,137 @@ updateAll = function(save = true) {
     if (save) autoSave();
 };
 
+const SHEET_CARD_CONFIG = [
+    { id: "identity-card", title: "Identidad", defaultExpanded: false, summary: buildIdentityCardSummary },
+    { id: "attributes-card", title: "Atributos", defaultExpanded: false, summary: buildAttributesCardSummary },
+    { id: "states-card", title: "Estados", defaultExpanded: false, summary: buildStatesCardSummary },
+    { id: "skills-card", title: "Habilidades", defaultExpanded: false, summary: buildSkillsCardSummary },
+    { id: "class-features-card", title: "Talentos de Clase", defaultExpanded: false, summary: buildClassFeaturesCardSummary },
+    { id: "feats-card", title: "Dotes Seleccionadas", defaultExpanded: false, summary: buildFeatsCardSummary }
+];
+
+const SHEET_CARD_STATE = {};
+
+function getSelectText(id) {
+    const el = document.getElementById(id);
+    if (!el) return "";
+    return el.options?.[el.selectedIndex]?.text || el.value || "";
+}
+
+function ensureSheetCardSummariesInitialized() {
+    SHEET_CARD_CONFIG.forEach(config => {
+        const card = document.getElementById(config.id);
+        if (!card || card.dataset.sheetCardInit === "1") return;
+        card.dataset.sheetCardInit = "1";
+        card.classList.add("sheet-card-collapsible");
+        SHEET_CARD_STATE[config.id] = !!config.defaultExpanded;
+
+        const toggle = document.createElement("button");
+        toggle.type = "button";
+        toggle.className = "sheet-card-toggle";
+        toggle.innerHTML = `
+            <span class="sheet-card-toggle-main">
+                <span class="sheet-card-toggle-title">${escapeHtml(config.title)}</span>
+                <span class="sheet-card-toggle-summary" id="${config.id}-summary"></span>
+            </span>
+            <span class="sheet-card-toggle-chevron">▼</span>
+        `;
+        toggle.onclick = () => toggleSheetCharacterCard(config.id);
+
+        const body = document.createElement("div");
+        body.className = "sheet-card-body";
+        while (card.firstChild) body.appendChild(card.firstChild);
+
+        card.appendChild(toggle);
+        card.appendChild(body);
+        card.classList.toggle("expanded", !!SHEET_CARD_STATE[config.id]);
+    });
+    syncSheetCardSummaries();
+}
+
+function toggleSheetCharacterCard(cardId) {
+    SHEET_CARD_STATE[cardId] = !SHEET_CARD_STATE[cardId];
+    const card = document.getElementById(cardId);
+    if (card) card.classList.toggle("expanded", !!SHEET_CARD_STATE[cardId]);
+}
+
+function buildIdentityCardSummary() {
+    const name = (document.getElementById("charName")?.value || "Sin nombre").trim() || "Sin nombre";
+    const cls = getSelectText("class") || "Clase";
+    const lvl = document.getElementById("level")?.value || "1";
+    const race = getSelectText("race") || "Raza";
+    const alignment = getSelectText("alignment") || "";
+    const deity = getSelectText("deity") || "";
+    const domains = ["cleric-domain1", "cleric-domain2"]
+        .map(id => getSelectText(id))
+        .filter(Boolean)
+        .join(" · ");
+    return [name, `${cls} ${lvl}`, race, alignment, deity, domains].filter(Boolean).join(" · ");
+}
+
+function buildAttributesCardSummary() {
+    const raceName = document.getElementById("race")?.value || "";
+    const raceData = SRD.races.find(race => race.name === raceName);
+    const stats = STATS.map(stat => {
+        const base = parseInt(document.getElementById(`base-${stat}`)?.value, 10) || 10;
+        const racial = raceData?.modifiers?.[stat.toLowerCase()] || 0;
+        const mod = document.getElementById(`mod-${stat}`)?.innerText?.trim() || "+0";
+        return `${stat} ${base + racial} (${mod})`;
+    });
+    const speed = document.getElementById("speed-val")?.innerText?.trim();
+    return speed ? `${stats.join(", ")} · Vel ${speed}` : stats.join(", ");
+}
+
+function buildStatesCardSummary() {
+    const active = Array.from(document.querySelectorAll("#conditions-grid input:checked"))
+        .map(input => input.closest("label")?.querySelector("span")?.innerText?.trim())
+        .filter(Boolean);
+    return active.length ? active.join(" · ") : "Sin estados activos.";
+}
+
+function buildSkillsCardSummary() {
+    const totals = Object.keys(SRD.skills).map(name => ({
+        name,
+        total: parseInt(document.getElementById(`sk-tot-${name}`)?.innerText, 10) || 0
+    }));
+    const top = totals
+        .filter(entry => entry.total !== 0)
+        .sort((a, b) => Math.abs(b.total) - Math.abs(a.total))
+        .slice(0, 4)
+        .map(entry => `${entry.name} ${formatSignedNumber(entry.total)}`);
+    const points = document.getElementById("skill-points-total")?.innerText?.trim() || "0";
+    return top.length ? `${top.join(" · ")} · Disp ${points}` : `Sin rangos cargados · Disp ${points}`;
+}
+
+function buildClassFeaturesCardSummary() {
+    const names = Array.from(document.querySelectorAll("#class-features .manual-jump"))
+        .map(el => el.innerText.trim())
+        .filter(Boolean);
+    if (!names.length) return "Sin talentos especiales activos.";
+    return names.slice(0, 5).join(" · ") + (names.length > 5 ? ` · +${names.length - 5} más` : "");
+}
+
+function buildFeatsCardSummary() {
+    const feats = Array.from(document.querySelectorAll('[id^="feat-sel-"]'))
+        .map(select => select.value)
+        .filter(Boolean);
+    if (!feats.length) return "Sin dotes seleccionadas.";
+    return feats.slice(0, 5).join(" · ") + (feats.length > 5 ? ` · +${feats.length - 5} más` : "");
+}
+
+function syncSheetCardSummaries() {
+    SHEET_CARD_CONFIG.forEach(config => {
+        const summary = document.getElementById(`${config.id}-summary`);
+        if (summary) summary.innerText = config.summary();
+    });
+}
+
+const _baseUpdateAllSheetCards = updateAll;
+updateAll = function(save = true) {
+    _baseUpdateAllSheetCards(save);
+    syncSheetCardSummaries();
+};
+
 const _baseCollectSaveDataDmTools = collectSaveData;
 collectSaveData = function() {
     const data = _baseCollectSaveDataDmTools();
@@ -12632,6 +12932,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // 1. Inicializamos la interfaz y listeners
     init(); 
+    ensureSheetCardSummariesInitialized();
 
     // 2. Lógica de carga de personajes
     initTabSwipe();
@@ -12660,6 +12961,7 @@ window.addEventListener('DOMContentLoaded', () => {
             applySaveData(data);
             // Corremos los cálculos de la ficha
             updateAll(false);
+            syncSheetCardSummaries();
             console.log("Datos cargados con éxito.");
         } catch(e) { 
             console.error("Error crítico en carga:", e); 
