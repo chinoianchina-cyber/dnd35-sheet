@@ -125,7 +125,8 @@
     .manual-menu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; max-width: 980px; align-items: start; }
     .manual-menu-cell { min-width: 0; transition: transform 0.24s ease, opacity 0.24s ease; }
     .manual-menu-cell.active { grid-column: 1 / -1; }
-    .manual-menu-card { width: 100%; min-height: 110px; aspect-ratio: 1 / 1; background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(0,0,0,0.18)); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 12px; padding: 14px; cursor: pointer; transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, background 0.22s ease; text-align: left; color: var(--text); display: flex; flex-direction: column; justify-content: center; }
+    .manual-menu-card { width: 100%; min-height: 86px; aspect-ratio: auto; background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(0,0,0,0.18)); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 12px; padding: 12px; cursor: pointer; transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, background 0.22s ease; text-align: left; color: var(--text); display: flex; flex-direction: column; justify-content: center; }
+    .manual-menu-card:not(.active) { text-align: center; align-items: center; }
     .manual-menu-card:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: 0 10px 24px rgba(0,0,0,0.24); }
     .manual-menu-card.active { min-height: 0; aspect-ratio: auto; justify-content: flex-start; border-bottom-left-radius: 0; border-bottom-right-radius: 0; box-shadow: 0 10px 24px rgba(0,0,0,0.26); background: linear-gradient(180deg, rgba(15,23,42,0.94), rgba(15,23,42,0.84)); }
     .manual-menu-card-inner { display: flex; flex-direction: column; gap: 6px; }
@@ -155,8 +156,9 @@
 .manual-bestiary-list-name { display: block; font-weight: bold; color: var(--accent); margin-bottom: 3px; }
     .manual-bestiary-list-meta { display: block; font-size: 0.8em; color: #94a3b8; }
     @media (max-width: 720px) {
-        .manual-menu-card { min-height: 96px; padding: 12px; }
-        .manual-menu-label { font-size: 0.9em; }
+        .manual-menu { gap: 10px; }
+        .manual-menu-card { min-height: 72px; padding: 10px; border-radius: 10px; }
+        .manual-menu-label { font-size: 0.82em; }
     }
     .manual-back-btn { padding: 8px 12px; background: transparent; color: var(--accent); border: 1px solid var(--accent); border-radius: 6px; cursor: pointer; font-weight: bold; }
     .manual-back-btn:hover { background: rgba(56,189,248,0.12); }
@@ -207,8 +209,16 @@
     .companion-tag { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 999px; font-size: 0.72em; font-weight: bold; border: 1px solid rgba(56,189,248,0.25); background: rgba(56,189,248,0.12); color: #bae6fd; }
     .companion-note { color: #94a3b8; font-size: 0.8em; line-height: 1.45; margin-top: 8px; }
     .companion-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-    .dm-panel-shell { max-width: 1040px; display: flex; flex-direction: column; gap: 16px; }
-    .dm-section-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.22); }
+    .dm-panel-shell { max-width: 1040px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; }
+    .dm-section-card { min-width: 0; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.22); transition: transform 0.24s ease, box-shadow 0.22s ease, border-color 0.22s ease; }
+    .dm-section-card.active { grid-column: 1 / -1; box-shadow: 0 12px 28px rgba(2,8,23,0.26); border-color: rgba(56,189,248,0.38); }
+    .dm-section-card:hover { border-color: rgba(56,189,248,0.26); }
+    .dm-section-card[data-dm-section]:not(.active) .companion-toggle { justify-content: center; text-align: center; }
+    .dm-section-card[data-dm-section]:not(.active) .companion-toggle-main { width: 100%; justify-content: center; }
+    .dm-section-card[data-dm-section]:not(.active) .manual-tag,
+    .dm-section-card[data-dm-section]:not(.active) .companion-toggle-meta { display: none; }
+    .dm-section-card[data-dm-section]:not(.active) .companion-toggle-title { text-align: center; width: 100%; }
+    .dm-section-card[data-dm-section]:not(.active) .companion-chevron { margin-left: 0; }
     .dm-subcards { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); gap: 12px; flex-direction: column; }
     .dm-subcards.open { display: flex; }
     .dm-subcard { background: rgba(15,23,42,0.55); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
@@ -252,6 +262,10 @@
     .dm-encounter-manual-loader { display: none; margin-top: 12px; }
     .dm-encounter-manual-loader.active { display: block; }
     .dm-encounter-search-input { width: 100%; box-sizing: border-box; }
+    @media (max-width: 720px) {
+        .dm-panel-shell { gap: 12px; }
+        .dm-section-card { padding: 12px; }
+    }
     .dm-manual-catalog { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; max-height: 420px; overflow: auto; padding-right: 4px; }
     .dm-encounter-item-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
     .dm-encounter-advancement { display: grid; grid-template-columns: minmax(140px, 1fr) 96px; gap: 8px; margin-top: 10px; }
@@ -1120,7 +1134,7 @@
 
 <div class="panel" id="p5">
     <div class="dm-panel-shell">
-        <div class="dm-section-card">
+        <div class="dm-section-card" data-dm-section="sessionHub">
             <button type="button" class="companion-toggle" onclick="toggleDmSection('sessionHub')">
                 <div class="companion-toggle-main">
                     <span class="manual-tag" style="background:#0ea5e9;">DM</span>
@@ -1142,7 +1156,7 @@
             </div>
         </div>
 
-        <div class="dm-section-card">
+        <div class="dm-section-card" data-dm-section="history">
             <button type="button" class="companion-toggle" onclick="toggleDmSection('history')">
                 <div class="companion-toggle-main">
                     <span class="manual-tag" style="background:#0f766e;">DM</span>
@@ -1205,7 +1219,7 @@
             </div>
         </div>
 
-        <div class="dm-section-card">
+        <div class="dm-section-card" data-dm-section="party">
             <button type="button" class="companion-toggle" onclick="toggleDmSection('party')">
                 <div class="companion-toggle-main">
                     <span class="manual-tag" style="background:#7c3aed;">DM</span>
@@ -1228,7 +1242,7 @@
             </div>
         </div>
 
-        <div class="dm-section-card">
+        <div class="dm-section-card" data-dm-section="npc">
             <button type="button" class="companion-toggle" onclick="toggleDmSection('npc')">
                 <div class="companion-toggle-main">
                     <span class="manual-tag" style="background:#16a34a;">DM</span>
@@ -1274,7 +1288,7 @@
             </div>
         </div>
 
-        <div class="dm-section-card">
+        <div class="dm-section-card" data-dm-section="encounter">
             <button type="button" class="companion-toggle" onclick="toggleDmSection('encounter')">
                 <div class="companion-toggle-main">
                     <span class="manual-tag" style="background:#b45309;">DM</span>
@@ -1387,7 +1401,7 @@
             </div>
         </div>
 
-        <div class="dm-section-card">
+        <div class="dm-section-card" data-dm-section="event">
             <button type="button" class="companion-toggle" onclick="toggleDmSection('event')">
                 <div class="companion-toggle-main">
                     <span class="manual-tag" style="background:#8b5cf6;">DM</span>
@@ -1421,7 +1435,7 @@
             </div>
         </div>
 
-        <div class="dm-section-card">
+        <div class="dm-section-card" data-dm-section="sidequest">
             <button type="button" class="companion-toggle" onclick="toggleDmSection('sidequest')">
                 <div class="companion-toggle-main">
                     <span class="manual-tag" style="background:#f97316;">DM</span>
@@ -1464,7 +1478,7 @@
             </div>
         </div>
 
-        <div class="dm-section-card">
+        <div class="dm-section-card" data-dm-section="loot">
             <button type="button" class="companion-toggle" onclick="toggleDmSection('loot')">
                 <div class="companion-toggle-main">
                     <span class="manual-tag" style="background:#14b8a6;">DM</span>
@@ -1515,7 +1529,7 @@
             </div>
         </div>
 
-        <div class="dm-section-card">
+        <div class="dm-section-card" data-dm-section="files">
             <button type="button" class="companion-toggle" onclick="toggleDmSection('files')">
                 <div class="companion-toggle-main">
                     <span class="manual-tag" style="background:#2563eb;">DM</span>
@@ -6912,6 +6926,46 @@ const DM_UI_STATE = {
     encounter: false
 };
 
+const DM_TOP_LEVEL_SECTIONS = ["sessionHub", "history", "party", "npc", "encounter", "event", "sidequest", "loot", "files"];
+
+function getDmSectionCardRects() {
+    return Array.from(document.querySelectorAll('#p5 .dm-section-card[data-dm-section]')).map(card => ({
+        key: card.dataset.dmSection,
+        rect: card.getBoundingClientRect()
+    }));
+}
+
+function animateDmSectionGrid(mutator) {
+    const before = getDmSectionCardRects();
+    mutator();
+    const afterCards = Array.from(document.querySelectorAll('#p5 .dm-section-card[data-dm-section]'));
+    if (!before.length || !afterCards.length) return;
+    const beforeMap = new Map(before.map(entry => [entry.key, entry.rect]));
+    afterCards.forEach(card => {
+        const prev = beforeMap.get(card.dataset.dmSection);
+        if (!prev) return;
+        const next = card.getBoundingClientRect();
+        const dx = prev.left - next.left;
+        const dy = prev.top - next.top;
+        if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return;
+        card.style.transition = 'none';
+        card.style.transform = `translate(${dx}px, ${dy}px)`;
+        requestAnimationFrame(() => {
+            card.style.transition = 'transform 0.24s ease, box-shadow 0.22s ease, border-color 0.22s ease';
+            card.style.transform = '';
+        });
+    });
+}
+
+function normalizeDmTopLevelOpenState() {
+    const openTopLevel = DM_TOP_LEVEL_SECTIONS.filter(key => !!DM_UI_STATE[key]);
+    if (openTopLevel.length <= 1) return;
+    const keep = openTopLevel[0];
+    DM_TOP_LEVEL_SECTIONS.forEach(key => {
+        DM_UI_STATE[key] = key === keep;
+    });
+}
+
 const DM_SESSION_PICKER_STATE = {
     payload: null
 };
@@ -7139,6 +7193,21 @@ function rollEncounterLayout(config, rows = []) {
 }
 
 function toggleDmSection(key) {
+    if (DM_TOP_LEVEL_SECTIONS.includes(key)) {
+        const nextOpen = !DM_UI_STATE[key];
+        animateDmSectionGrid(() => {
+            if (nextOpen) {
+                DM_TOP_LEVEL_SECTIONS.forEach(sectionKey => {
+                    DM_UI_STATE[sectionKey] = sectionKey === key;
+                    syncDmSection(sectionKey);
+                });
+            } else {
+                DM_UI_STATE[key] = false;
+                syncDmSection(key);
+            }
+        });
+        return;
+    }
     DM_UI_STATE[key] = !DM_UI_STATE[key];
     syncDmSection(key);
 }
@@ -8813,9 +8882,11 @@ function renderDmFilesList() {
 function syncDmSection(key) {
     const body = document.getElementById(`dm-body-${key}`);
     const chevron = document.getElementById(`dm-chevron-${key}`);
+    const card = document.querySelector(`.dm-section-card[data-dm-section="${key}"]`);
     const open = !!DM_UI_STATE[key];
     if (body) body.classList.toggle('open', open);
     if (chevron) chevron.classList.toggle('open', open);
+    if (card) card.classList.toggle('active', open);
     if (!is_loading) autoSave();
 }
 
@@ -8904,9 +8975,11 @@ function toggleSessionBoardCollapsed(sessionId) {
 }
 
 function collapseAllDmToolsSections() {
-    Object.keys(DM_UI_STATE).forEach(key => {
-        DM_UI_STATE[key] = false;
-        syncDmSection(key);
+    animateDmSectionGrid(() => {
+        Object.keys(DM_UI_STATE).forEach(key => {
+            DM_UI_STATE[key] = false;
+            syncDmSection(key);
+        });
     });
     autoSave();
 }
@@ -9029,11 +9102,19 @@ function confirmAddToSession() {
 
 function openDmToolsArea(sectionKeys = [], scrollTargetId = "") {
     showTab(6);
-    sectionKeys.forEach(key => {
-        if (key in DM_UI_STATE) {
+    animateDmSectionGrid(() => {
+        const topLevelTarget = sectionKeys.find(key => DM_TOP_LEVEL_SECTIONS.includes(key));
+        if (topLevelTarget) {
+            DM_TOP_LEVEL_SECTIONS.forEach(key => {
+                DM_UI_STATE[key] = key === topLevelTarget;
+                syncDmSection(key);
+            });
+        }
+        sectionKeys.forEach(key => {
+            if (!(key in DM_UI_STATE)) return;
             DM_UI_STATE[key] = true;
             syncDmSection(key);
-        }
+        });
     });
     const targetId = scrollTargetId || (sectionKeys.length ? `dm-body-${sectionKeys[sectionKeys.length - 1]}` : "p5");
     setTimeout(() => {
@@ -10699,6 +10780,7 @@ function clearEncounterBuilderResult() {
 }
 
 function syncDmToolsUi() {
+    normalizeDmTopLevelOpenState();
     const backstory = document.getElementById('dm-history-backstory');
     const notes = document.getElementById('dm-history-notes');
     if (backstory) backstory.value = DM_TOOLS.history.backstory || "";
