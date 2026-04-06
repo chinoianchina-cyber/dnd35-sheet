@@ -79,13 +79,13 @@
     .collapsible-card-summary-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
     .collapsible-card-summary-title { margin: 0; border-bottom: none; padding-bottom: 0; }
     .collapsible-card-summary-text { color: var(--summary-text); font-size: 0.88em; line-height: 1.5; text-wrap: pretty; }
-    .collapsible-card-summary-hint { color: var(--accent); font-size: 0.76em; font-weight: bold; letter-spacing: 0.6px; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; background: var(--summary-chip-bg); border: 1px solid var(--accent-edge); box-shadow: inset 0 1px 0 rgba(255,255,255,0.06); }
+    .collapsible-card-summary-hint { color: var(--accent); font-size: 0.76em; font-weight: bold; letter-spacing: 0.6px; text-transform: uppercase; padding: 4px 9px; border-radius: 10px; background: var(--summary-chip-bg); border: 1px solid var(--accent-edge); box-shadow: inset 0 1px 0 rgba(255,255,255,0.06); }
     .collapsible-card.collapsed .collapsible-card-summary-head { margin-bottom: 10px; }
     .collapsible-card.collapsed .collapsible-card-summary-title { color: var(--accent); }
     .collapsible-card-body-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
     .collapsible-card-body-head h2 { margin-bottom: 0; flex: 1; }
     .collapsible-card-head-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .collapsible-card-toggle { padding: 6px 10px; border-radius: 999px; border: 1px solid var(--accent-edge); background: var(--accent-glow); color: var(--accent); font-size: 0.72em; font-weight: 800; letter-spacing: 0.4px; text-transform: uppercase; cursor: pointer; transition: 0.2s; box-shadow: inset 0 1px 0 rgba(255,255,255,0.06); }
+    .collapsible-card-toggle { padding: 6px 10px; border-radius: 10px; border: 1px solid var(--accent-edge); background: rgba(255,255,255,0.03); color: var(--accent); font-size: 0.72em; font-weight: 800; letter-spacing: 0.4px; text-transform: uppercase; cursor: pointer; transition: 0.2s; box-shadow: inset 0 1px 0 rgba(255,255,255,0.06); }
     .collapsible-card-toggle:hover { border-color: var(--accent); background: rgba(255,255,255,0.04); transform: translateY(-1px); }
     h2, h3 { margin-top: 0; color: var(--accent); border-bottom: 1px solid var(--soft-line); padding: 0 0 10px 0; font-size: 1.08em; text-transform: uppercase; letter-spacing: 1.5px; text-shadow: 0 1px 0 rgba(0,0,0,0.55), 0 0 14px var(--accent-glow); }
     
@@ -93,7 +93,7 @@
     .stat-row > span:first-child,
     .stat-row > div:first-child > div:first-child { color: var(--summary-muted); font-weight: 600; letter-spacing: 0.18px; }
     label { color: var(--summary-muted); font-weight: 600; letter-spacing: 0.15px; }
-    input, select { background: linear-gradient(180deg, rgba(0,0,0,0.2), transparent 28%), linear-gradient(180deg, var(--panel-2), var(--panel)); color: var(--text); border: 1px solid rgba(0,0,0,0.22); padding: 6px 10px; border-radius: 8px; font-size: 0.9em; transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, transform 0.18s ease; box-shadow: inset 0 2px 5px rgba(2,6,23,0.28), inset 0 1px 0 rgba(0,0,0,0.22), 0 1px 0 rgba(255,255,255,0.04); }
+    input, select { background: var(--panel-2); color: var(--text); border: 1px solid rgba(0,0,0,0.22); padding: 6px 10px; border-radius: 8px; font-size: 0.9em; transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, transform 0.18s ease; box-shadow: inset 0 2px 5px rgba(2,6,23,0.28), inset 0 1px 0 rgba(0,0,0,0.22), 0 1px 0 rgba(255,255,255,0.04); }
     input:hover, select:hover { border-color: rgba(148,163,184,0.34); }
     input:focus, select:focus { border-color: var(--accent); outline: none; box-shadow: inset 0 2px 5px rgba(2,6,23,0.22), 0 0 0 3px var(--accent-glow), 0 6px 18px rgba(2,6,23,0.16); }
     input[type="number"] { width: 60px; text-align: center; }
@@ -105,32 +105,43 @@
     .skill-grid b { text-align: center; display: block; color: var(--accent); }
     .skill-header { font-weight: bold; border-bottom: 1px solid var(--border); color: var(--accent); margin-bottom: 5px; padding-bottom: 3px; }
     .class-skill-mark { color: var(--accent); font-weight: bold; text-align: center; font-size: 1.2em; }
-    .roll-trigger { display: inline-flex; align-items: center; justify-content: center; min-width: 34px; height: 26px; padding: 0 8px; border-radius: 999px; border: 1px solid var(--accent-edge); background: linear-gradient(180deg, var(--accent-glow), rgba(255,255,255,0.02)); color: var(--accent); font-size: 0.68em; font-weight: 800; letter-spacing: 0.35px; cursor: pointer; transition: 0.2s; box-shadow: inset 0 1px 0 rgba(255,255,255,0.08); }
-    .roll-trigger:hover { background: linear-gradient(180deg, rgba(255,255,255,0.06), var(--accent-glow)); border-color: var(--accent); transform: translateY(-1px); box-shadow: 0 8px 18px var(--accent-glow); }
+    .roll-trigger { display: inline-flex; align-items: center; justify-content: center; min-width: 34px; height: 26px; padding: 0 8px; border-radius: 9px; border: 1px solid var(--accent-edge); background: rgba(255,255,255,0.03); color: var(--accent); font-size: 0.68em; font-weight: 800; letter-spacing: 0.35px; cursor: pointer; transition: 0.2s; box-shadow: inset 0 1px 0 rgba(255,255,255,0.08); }
+    .roll-trigger:hover { background: rgba(255,255,255,0.06); border-color: var(--accent); transform: translateY(-1px); box-shadow: 0 8px 18px var(--accent-glow); }
     .roll-trigger:active { transform: translateY(0); }
     .roll-trigger.attack { min-width: 38px; }
     .hp-adjust-row { display: inline-flex; align-items: center; gap: 4px; flex-wrap: wrap; margin-left: 6px; }
-    .hp-adjust-btn { min-width: 34px; height: 26px; padding: 0 8px; border-radius: 999px; border: 1px solid rgba(148,163,184,0.28); background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(15,23,42,0.82)); color: #cbd5e1; font-size: 0.72em; font-weight: 800; cursor: pointer; transition: 0.18s; }
+    .hp-adjust-btn { min-width: 34px; height: 26px; padding: 0 8px; border-radius: 9px; border: 1px solid rgba(148,163,184,0.28); background: rgba(15,23,42,0.82); color: #cbd5e1; font-size: 0.72em; font-weight: 800; cursor: pointer; transition: 0.18s; }
     .hp-adjust-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); box-shadow: 0 8px 18px var(--accent-glow); }
     .dice-modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; padding: 18px; background: rgba(2,6,23,0.72); backdrop-filter: blur(4px); z-index: 9999; }
     .dice-modal.open { display: flex; }
-    .dice-modal-card { width: min(540px, 100%); max-height: min(80vh, 760px); overflow-y: auto; background: linear-gradient(180deg, rgba(30,41,59,0.98), rgba(15,23,42,0.98)); border: 1px solid rgba(56,189,248,0.3); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,0.45); padding: 18px; }
-    .dice-modal-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+    .dice-modal-card { position: relative; width: min(680px, 100%); max-height: min(82vh, 820px); overflow-y: auto; background:
+        radial-gradient(circle at top right, var(--accent-glow), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,0.05), transparent 20%),
+        linear-gradient(180deg, rgba(30,41,59,0.985), rgba(15,23,42,0.985)); border: 1px solid var(--accent-edge); border-radius: 16px; box-shadow: 0 28px 72px rgba(0,0,0,0.5); padding: 20px; }
+    .dice-modal-card::before { content: ""; position: absolute; left: 16px; right: 16px; top: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.22), transparent); opacity: 0.95; pointer-events: none; }
+    .dice-modal-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--soft-line); }
     .dice-modal-title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .dice-modal-title { margin: 0; color: var(--accent); font-size: 1.05em; letter-spacing: 0.8px; text-transform: uppercase; }
-    .dice-modal-subtitle { color: #94a3b8; font-size: 0.8em; margin-top: 4px; }
-    .dice-modal-external { display: none; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 8px; border: 1px solid rgba(56,189,248,0.28); background: rgba(56,189,248,0.08); color: var(--accent); cursor: pointer; transition: 0.2s; text-decoration: none; font-size: 0.88em; }
-    .dice-modal-external:hover { border-color: var(--accent); background: rgba(56,189,248,0.16); transform: translateY(-1px); }
-    .dice-close { border: 1px solid rgba(148,163,184,0.35); background: rgba(15,23,42,0.8); color: #cbd5e1; border-radius: 8px; cursor: pointer; padding: 6px 10px; font-weight: bold; }
+    .dice-modal-title { margin: 0; color: var(--accent); font-size: 1.08em; letter-spacing: 1px; text-transform: uppercase; text-shadow: 0 1px 0 rgba(0,0,0,0.45), 0 0 18px var(--accent-glow); }
+    .dice-modal-subtitle { color: #a5b4c8; font-size: 0.82em; margin-top: 6px; line-height: 1.45; }
+    .dice-modal-external { display: none; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 10px; border: 1px solid rgba(56,189,248,0.28); background: rgba(255,255,255,0.04); color: var(--accent); cursor: pointer; transition: 0.2s; text-decoration: none; font-size: 0.92em; box-shadow: inset 0 1px 0 rgba(255,255,255,0.06); }
+    .dice-modal-external:hover { border-color: var(--accent); background: rgba(255,255,255,0.06); transform: translateY(-1px); box-shadow: 0 10px 18px var(--accent-glow); }
+    .dice-close { border: 1px solid rgba(148,163,184,0.35); background: rgba(15,23,42,0.8); color: #cbd5e1; border-radius: 10px; cursor: pointer; padding: 6px 10px; font-weight: bold; }
     .dice-close:hover { border-color: var(--accent); color: var(--accent); }
-    .dice-result-group { background: rgba(15,23,42,0.7); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 12px; margin-bottom: 10px; }
+    .dice-result-group { position: relative; background:
+        linear-gradient(180deg, rgba(255,255,255,0.04), transparent 34%),
+        linear-gradient(180deg, rgba(15,23,42,0.9), rgba(15,23,42,0.72)); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 12px; padding: 13px; margin-bottom: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 14px 24px rgba(2,6,23,0.14); }
     .dice-result-label { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 6px; color: #e2e8f0; font-weight: bold; }
     .dice-result-line { color: #cbd5e1; font-size: 0.9em; line-height: 1.45; margin-top: 4px; }
-    .dice-result-total { color: var(--accent); font-size: 1.15em; font-weight: bold; }
-    .dice-banner { display: inline-block; margin-top: 8px; padding: 4px 8px; border-radius: 999px; font-size: 0.76em; font-weight: bold; letter-spacing: 0.4px; }
+    .dice-result-total { display: inline-flex; align-items: center; justify-content: center; min-width: 56px; padding: 5px 10px; border-radius: 10px; color: var(--accent); font-size: 1.05em; font-weight: 900; border: 1px solid var(--accent-edge); background: rgba(255,255,255,0.04); box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 8px 16px rgba(2,6,23,0.16); }
+    .dice-banner { display: inline-block; margin-top: 8px; padding: 4px 8px; border-radius: 10px; font-size: 0.76em; font-weight: bold; letter-spacing: 0.4px; }
     .dice-banner.crit { background: rgba(239,68,68,0.16); color: #fca5a5; border: 1px solid rgba(239,68,68,0.35); }
     .dice-banner.fail { background: rgba(234,179,8,0.16); color: #fde68a; border: 1px solid rgba(234,179,8,0.35); }
     .dice-inline-tag { display: inline-block; margin-left: 8px; font-size: 0.72em; color: #94a3b8; }
+    .dice-controls-grid { display: grid; grid-template-columns: 1fr 90px auto; gap: 10px; align-items: end; }
+    .dice-control-label { display: flex; flex-direction: column; gap: 6px; color: #cbd5e1; font-size: 0.82em; }
+    .dice-control-label select,
+    .dice-control-label input { width: 100%; box-sizing: border-box; }
+    .dice-roll-results { margin-top: 2px; }
 
     /* Dotes & Spells Summary */
     .feat-item { position: relative; margin-bottom: 12px; padding: 8px 0 10px 12px; border-bottom: 1px solid var(--soft-line); }
@@ -139,7 +150,29 @@
     .feat-text { font-size: 0.75em; color: #94a3b8; margin-top: 4px; line-height: 1.2; }
     .feat-prereq { font-size: 0.7em; color: #f59e0b; font-style: italic; }
     
-    .spell-summary-tag { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(15,23,42,0.74)); color: #fff; padding: 5px 10px; border-radius: 999px; font-size: 0.78em; margin: 3px; border: 1px solid var(--accent-edge); box-shadow: inset 0 1px 0 rgba(255,255,255,0.05); }
+    .spell-summary-tag { display: inline-flex; align-items: center; gap: 6px; background:
+        linear-gradient(180deg, rgba(255,255,255,0.06), transparent 36%),
+        linear-gradient(180deg, rgba(15,23,42,0.92), rgba(15,23,42,0.72)); color: #fff; padding: 6px 12px; border-radius: 999px; font-size: 0.78em; margin: 4px 5px 4px 0; border: 1px solid var(--accent-edge); box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 8px 16px rgba(2,6,23,0.14); font-weight: 700; letter-spacing: 0.2px; transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease; }
+    .spell-summary-tag::before { content: "✦"; font-size: 0.7em; color: var(--accent); opacity: 0.9; }
+    .spell-summary-tag:hover { transform: translateY(-1px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 12px 22px var(--accent-glow); }
+    .summary-chip-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+    .summary-chip-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+    .summary-chip-label { display: inline-flex; align-items: center; padding: 4px 9px; border-radius: 999px; background: rgba(255,255,255,0.04); border: 1px solid var(--soft-line); color: var(--summary-muted); font-size: 0.7em; font-weight: 800; letter-spacing: 0.45px; text-transform: uppercase; }
+    .summary-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--soft-line); background:
+        linear-gradient(180deg, rgba(255,255,255,0.05), transparent 36%),
+        linear-gradient(180deg, rgba(15,23,42,0.88), rgba(15,23,42,0.7));
+        color: var(--summary-text); font-size: 0.78em; line-height: 1.2; box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 8px 16px rgba(2,6,23,0.14); }
+    .summary-chip::before { content: "•"; color: var(--accent); font-size: 0.85em; opacity: 0.9; }
+    .summary-chip.weapon { border-color: rgba(56,189,248,0.28); }
+    .summary-chip.armor { border-color: rgba(250,204,21,0.28); }
+    .summary-chip.gear { border-color: rgba(74,222,128,0.28); }
+    .summary-chip.item { border-color: rgba(139,92,246,0.28); }
+    .summary-chip a,
+    .summary-chip .manual-jump { color: inherit; text-decoration: none; }
+    #equip-summary-box,
+    #items-summary-box,
+    #spells-summary-list { display: flex; flex-direction: column; gap: 8px; }
+    #spell-slots-summary > div { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--soft-line); background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(15,23,42,0.58)); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04); margin-bottom: 6px; }
 
     /* Manual */
     .manual-item { background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(0,0,0,0.08)); border: 1px solid var(--border); padding: 12px; margin-bottom: 10px; border-radius: 10px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.03); }
@@ -210,11 +243,21 @@
     .bestiary-tag.role { border-color: rgba(168,85,247,0.35); color: #d8b4fe; }
     .bestiary-tag.environment { border-color: rgba(14,165,233,0.35); color: #7dd3fc; }
     .bestiary-tag.encounter { border-color: rgba(250,204,21,0.35); color: #fde68a; }
-    .bestiary-modal-grid { display: grid; gap: 10px; }
-    .bestiary-modal-row { background: rgba(15,23,42,0.7); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 12px; }
-    .bestiary-modal-label { display: block; font-size: 0.72em; font-weight: bold; letter-spacing: 0.6px; text-transform: uppercase; color: #94a3b8; margin-bottom: 5px; }
-    .bestiary-modal-value { color: #e2e8f0; line-height: 1.45; }
-    .bestiary-modal-note { color: #94a3b8; font-size: 0.82em; line-height: 1.45; margin-top: 10px; }
+    .bestiary-modal-grid { display: grid; gap: 12px; grid-template-columns: 1fr; }
+    .bestiary-modal-row { position: relative; background:
+        linear-gradient(180deg, rgba(255,255,255,0.04), transparent 34%),
+        linear-gradient(180deg, rgba(15,23,42,0.9), rgba(15,23,42,0.72)); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 12px; padding: 13px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 14px 24px rgba(2,6,23,0.12); }
+    .bestiary-modal-row.wide { grid-column: 1 / -1; }
+    .bestiary-modal-row.featured { border-left-color: #f59e0b; background:
+        radial-gradient(circle at top right, rgba(245,158,11,0.12), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,0.05), transparent 28%),
+        linear-gradient(180deg, rgba(15,23,42,0.92), rgba(15,23,42,0.74)); }
+    .bestiary-modal-label { display: inline-flex; align-items: center; gap: 6px; font-size: 0.68em; font-weight: 800; letter-spacing: 0.72px; text-transform: uppercase; color: #c8d6e8; margin-bottom: 8px; padding: 4px 8px; border-radius: 10px; border: 1px solid rgba(148,163,184,0.2); background: rgba(255,255,255,0.04); }
+    .bestiary-modal-value { color: #edf4ff; line-height: 1.55; text-shadow: 0 1px 0 rgba(0,0,0,0.24); }
+    .bestiary-modal-note { color: #b8c7da; font-size: 0.82em; line-height: 1.55; margin-top: 12px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--soft-line); background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(15,23,42,0.5)); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04); }
+    @media (min-width: 700px) {
+        .bestiary-modal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
     .companion-toggle { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: transparent; border: none; padding: 0; color: inherit; text-align: left; cursor: pointer; }
     .companion-toggle:hover .companion-toggle-title { color: var(--accent); text-shadow: 0 0 14px var(--accent-glow); }
     .companion-toggle-main { display: flex; align-items: flex-start; gap: 10px; min-width: 0; }
@@ -236,9 +279,13 @@
     .companion-note { color: #94a3b8; font-size: 0.8em; line-height: 1.45; margin-top: 8px; }
     .companion-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
     .dm-panel-shell { max-width: 1040px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; }
-    .dm-section-card { min-width: 0; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.22); transition: transform 0.24s ease, box-shadow 0.22s ease, border-color 0.22s ease; }
-    .dm-section-card.active { grid-column: 1 / -1; box-shadow: 0 12px 28px rgba(2,8,23,0.26); border-color: rgba(56,189,248,0.38); }
+    .dm-section-card { min-width: 0; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.22); transition: transform 0.24s ease, box-shadow 0.22s ease, border-color 0.22s ease, background 0.22s ease; }
+    .dm-section-card.active { grid-column: 1 / -1; box-shadow: 0 12px 28px rgba(2,8,23,0.26); border-color: rgba(56,189,248,0.38); background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent 28%), linear-gradient(180deg, rgba(15,23,42,0.74), rgba(15,23,42,0.28)), var(--card-bg); }
     .dm-section-card:hover { border-color: rgba(56,189,248,0.26); }
+    .dm-section-card[data-dm-section].active .companion-toggle { padding: 10px 12px 12px; margin: -2px -2px 12px; border-radius: 12px; background: radial-gradient(circle at top right, var(--accent-glow), transparent 34%), linear-gradient(180deg, rgba(255,255,255,0.045), transparent 40%), linear-gradient(180deg, rgba(15,23,42,0.88), rgba(15,23,42,0.58)); border: 1px solid var(--soft-line); box-shadow: inset 0 1px 0 rgba(255,255,255,0.05); }
+    .dm-section-card[data-dm-section].active .companion-toggle-title { font-size: 1.04em; letter-spacing: 0.6px; color: #f8fafc; text-shadow: 0 1px 0 rgba(0,0,0,0.45), 0 0 14px var(--accent-glow); }
+    .dm-section-card[data-dm-section].active .companion-toggle-meta { color: var(--summary-text); }
+    .dm-section-card[data-dm-section] .manual-tag { box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 10px 18px rgba(2,6,23,0.14); font-size: 0.66em; }
     .dm-section-card[data-dm-section]:not(.active) .companion-toggle { justify-content: center; text-align: center; }
     .dm-section-card[data-dm-section]:not(.active) .companion-toggle-main { width: 100%; justify-content: center; }
     .dm-section-card[data-dm-section]:not(.active) .manual-tag,
@@ -255,34 +302,35 @@
     .dm-party-meta { color: #94a3b8; font-size: 0.8em; line-height: 1.4; margin-top: 4px; }
     .dm-party-power { color: #facc15; font-weight: bold; font-size: 0.92em; letter-spacing: 0.4px; }
     .dm-party-status-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
-    .dm-party-status-tag { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 999px; font-size: 0.72em; font-weight: bold; border: 1px solid rgba(148,163,184,0.25); background: rgba(15,23,42,0.68); color: #e2e8f0; }
-    .dm-party-status-tag.present { border-color: rgba(34,197,94,0.35); color: #86efac; }
-    .dm-party-status-tag.absent { border-color: rgba(239,68,68,0.35); color: #fca5a5; }
+    .dm-party-status-tag { display: inline-flex; align-items: center; gap: 4px; padding: 4px 9px; border-radius: 999px; font-size: 0.72em; font-weight: bold; border: 1px solid rgba(148,163,184,0.25); background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(15,23,42,0.68)); color: #e2e8f0; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04); }
+    .dm-party-status-tag.present { border-color: rgba(34,197,94,0.35); color: #86efac; box-shadow: 0 8px 16px rgba(34,197,94,0.08), inset 0 1px 0 rgba(255,255,255,0.05); }
+    .dm-party-status-tag.absent { border-color: rgba(239,68,68,0.35); color: #fca5a5; box-shadow: 0 8px 16px rgba(239,68,68,0.08), inset 0 1px 0 rgba(255,255,255,0.05); }
     .dm-encounter-metric-action { margin-top: 8px; }
     .dm-inline-link-btn { border: none; background: transparent; color: var(--accent); padding: 0; cursor: pointer; font-size: 0.76em; font-weight: 800; text-decoration: underline dotted rgba(56,189,248,0.55); text-underline-offset: 3px; transition: color 0.16s ease, text-shadow 0.16s ease; }
     .dm-inline-link-btn:hover { color: #bae6fd; text-shadow: 0 0 10px var(--accent-glow); }
-    .dm-mini-btn { border: 1px solid rgba(148,163,184,0.28); background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(15,23,42,0.8)); color: #cbd5e1; border-radius: 10px; cursor: pointer; padding: 6px 10px; font-size: 0.78em; font-weight: 800; box-shadow: inset 0 1px 0 rgba(255,255,255,0.05); }
+    .dm-mini-btn { border: 1px solid rgba(148,163,184,0.28); background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(15,23,42,0.8)); color: #cbd5e1; border-radius: 10px; cursor: pointer; padding: 6px 10px; font-size: 0.78em; font-weight: 800; box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 8px 16px rgba(2,6,23,0.1); letter-spacing: 0.2px; }
     .dm-mini-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); box-shadow: 0 10px 18px var(--accent-glow); }
     .dm-encounter-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-top: 12px; }
     .dm-encounter-controls label { display: flex; flex-direction: column; gap: 6px; color: #cbd5e1; font-size: 0.82em; }
     .dm-filter-chip-group { display: flex; flex-wrap: wrap; gap: 6px; }
-    .dm-filter-chip { border: 1px solid rgba(148,163,184,0.3); background: rgba(15,23,42,0.78); color: #cbd5e1; border-radius: 999px; padding: 6px 10px; font-size: 0.75em; font-weight: bold; cursor: pointer; transition: 0.2s; }
+    .dm-filter-chip { border: 1px solid rgba(148,163,184,0.3); background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent 34%), rgba(15,23,42,0.78); color: #cbd5e1; border-radius: 999px; padding: 6px 10px; font-size: 0.75em; font-weight: bold; cursor: pointer; transition: 0.2s; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04); }
     .dm-filter-chip:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
-    .dm-filter-chip.active { border-color: rgba(56,189,248,0.55); background: rgba(56,189,248,0.18); color: #bae6fd; }
+    .dm-filter-chip.active { border-color: rgba(56,189,248,0.55); background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(56,189,248,0.18)); color: #bae6fd; box-shadow: 0 8px 18px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.08); }
     .dm-encounter-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 12px 0; }
-    .dm-encounter-metric { background: rgba(15,23,42,0.65); border: 1px solid var(--border); border-left: 3px solid #facc15; border-radius: 10px; padding: 10px; }
-    .dm-encounter-metric-label { display: block; font-size: 0.7em; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-    .dm-encounter-metric-value { color: #f8fafc; font-weight: bold; font-size: 0.95em; }
+    .dm-encounter-metric { background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent 34%), rgba(15,23,42,0.65); border: 1px solid var(--border); border-left: 3px solid #facc15; border-radius: 12px; padding: 11px 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 10px 18px rgba(2,6,23,0.12); }
+    .dm-encounter-metric-label { display: block; font-size: 0.7em; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 5px; font-weight: 800; }
+    .dm-encounter-metric-value { color: #f8fafc; font-weight: 900; font-size: 1.04em; letter-spacing: 0.2px; text-shadow: 0 1px 0 rgba(0,0,0,0.35); }
     .dm-encounter-list { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
-    .dm-encounter-item { background: rgba(15,23,42,0.65); border: 1px solid var(--border); border-left: 3px solid #f59e0b; border-radius: 10px; padding: 12px; }
+    .dm-encounter-item { background: rgba(15,23,42,0.65); border: 1px solid var(--border); border-left: 3px solid #f59e0b; border-radius: 10px; padding: 12px; position: relative; overflow: hidden; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 12px 22px rgba(2,6,23,0.12); }
+    .dm-encounter-item::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent); opacity: 0.8; pointer-events: none; }
     .dm-encounter-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
-    .dm-encounter-name { color: #f8fafc; font-weight: bold; font-size: 0.95em; }
+    .dm-encounter-name { color: #f8fafc; font-weight: bold; font-size: 0.95em; text-shadow: 0 1px 0 rgba(0,0,0,0.45); }
     .dm-encounter-meta { color: #94a3b8; font-size: 0.8em; line-height: 1.45; margin-top: 4px; }
     .dm-encounter-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0; }
-    .dm-encounter-tag { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 999px; font-size: 0.72em; font-weight: 800; border: 1px solid rgba(250,204,21,0.28); background: linear-gradient(180deg, rgba(250,204,21,0.16), rgba(15,23,42,0.38)); color: #fde68a; box-shadow: inset 0 1px 0 rgba(255,255,255,0.05); }
+    .dm-encounter-tag { display: inline-flex; align-items: center; gap: 4px; padding: 4px 9px; border-radius: 999px; font-size: 0.72em; font-weight: 800; border: 1px solid rgba(250,204,21,0.28); background: linear-gradient(180deg, rgba(250,204,21,0.16), rgba(15,23,42,0.38)); color: #fde68a; box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 8px 16px rgba(2,6,23,0.12); letter-spacing: 0.2px; }
     .dm-encounter-note { color: #94a3b8; font-size: 0.8em; line-height: 1.5; margin-top: 8px; }
     .dm-encounter-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-    .dm-encounter-helper { color: #94a3b8; font-size: 0.8em; line-height: 1.45; margin-top: 8px; }
+    .dm-encounter-helper { color: #cbd5e1; font-size: 0.8em; line-height: 1.5; margin-top: 8px; padding: 9px 11px; border-radius: 10px; border: 1px solid var(--soft-line); background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(15,23,42,0.46)); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04); }
     .dm-encounter-pane { display: none; }
     .dm-encounter-pane.active { display: block; }
     .dm-encounter-manual-loader { display: none; margin-top: 12px; }
@@ -300,35 +348,49 @@
     .dm-encounter-advancement input, .dm-encounter-advancement select { width: 100%; box-sizing: border-box; }
     .dm-encounter-advancement-note { color: #94a3b8; font-size: 0.78em; line-height: 1.45; margin-top: 8px; }
     .dm-npc-list { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
-    .dm-npc-card { background: rgba(15,23,42,0.66); border: 1px solid var(--border); border-left: 3px solid #22c55e; border-radius: 10px; padding: 12px; }
-    .dm-npc-title { color: #f8fafc; font-weight: bold; font-size: 1em; }
+    .dm-npc-card { background: rgba(15,23,42,0.66); border: 1px solid var(--border); border-left: 3px solid #22c55e; border-radius: 10px; padding: 12px; position: relative; overflow: hidden; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 12px 22px rgba(2,6,23,0.12); }
+    .dm-npc-card::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent); opacity: 0.8; pointer-events: none; }
+    .dm-npc-title { color: #f8fafc; font-weight: bold; font-size: 1em; text-shadow: 0 1px 0 rgba(0,0,0,0.45); }
     .dm-npc-subtitle { color: #94a3b8; font-size: 0.82em; line-height: 1.45; margin-top: 4px; }
     .dm-npc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-top: 10px; }
     .dm-npc-detail { color: #e2e8f0; line-height: 1.5; margin-top: 8px; }
     .dm-npc-detail b { color: #f8fafc; }
-    .dm-event-card { background: rgba(15,23,42,0.66); border: 1px solid var(--border); border-left: 3px solid #8b5cf6; border-radius: 10px; padding: 12px; }
-    .dm-event-title { color: #f8fafc; font-weight: bold; font-size: 1em; }
+    .dm-event-card { background: rgba(15,23,42,0.66); border: 1px solid var(--border); border-left: 3px solid #8b5cf6; border-radius: 10px; padding: 12px; position: relative; overflow: hidden; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 12px 22px rgba(2,6,23,0.12); }
+    .dm-event-card::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent); opacity: 0.8; pointer-events: none; }
+    .dm-event-title { color: #f8fafc; font-weight: bold; font-size: 1em; text-shadow: 0 1px 0 rgba(0,0,0,0.45); }
     .dm-event-subtitle { color: #94a3b8; font-size: 0.82em; line-height: 1.45; margin-top: 4px; }
     .dm-event-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px; margin-top: 10px; }
     .dm-event-detail { color: #e2e8f0; line-height: 1.5; margin-top: 8px; }
     .dm-event-detail b { color: #f8fafc; }
-    .dm-sidequest-card { background: rgba(15,23,42,0.66); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 10px; padding: 12px; }
-    .dm-sidequest-title { color: #f8fafc; font-weight: bold; font-size: 1em; }
+    .dm-sidequest-card { background: rgba(15,23,42,0.66); border: 1px solid var(--border); border-left: 3px solid #f97316; border-radius: 10px; padding: 12px; position: relative; overflow: hidden; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 12px 22px rgba(2,6,23,0.12); }
+    .dm-sidequest-card::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent); opacity: 0.8; pointer-events: none; }
+    .dm-sidequest-title { color: #f8fafc; font-weight: bold; font-size: 1em; text-shadow: 0 1px 0 rgba(0,0,0,0.45); }
     .dm-sidequest-subtitle { color: #94a3b8; font-size: 0.82em; line-height: 1.45; margin-top: 4px; }
-    .dm-loot-card { background: rgba(15,23,42,0.66); border: 1px solid var(--border); border-left: 3px solid #14b8a6; border-radius: 10px; padding: 12px; }
-    .dm-loot-title { color: #f8fafc; font-weight: bold; font-size: 1em; }
+    .dm-loot-card { background: rgba(15,23,42,0.66); border: 1px solid var(--border); border-left: 3px solid #14b8a6; border-radius: 10px; padding: 12px; position: relative; overflow: hidden; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 12px 22px rgba(2,6,23,0.12); }
+    .dm-loot-card::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent); opacity: 0.8; pointer-events: none; }
+    .dm-loot-title { color: #f8fafc; font-weight: bold; font-size: 1em; text-shadow: 0 1px 0 rgba(0,0,0,0.45); }
     .dm-loot-subtitle { color: #94a3b8; font-size: 0.82em; line-height: 1.45; margin-top: 4px; }
     .dm-loot-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
     .dm-loot-line { color: #e2e8f0; line-height: 1.5; }
     .dm-loot-line b { color: #f8fafc; }
-    .dm-session-board-list { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
-    .dm-session-board-card { background: rgba(15,23,42,0.65); border: 1px solid var(--border); border-left: 3px solid #38bdf8; border-radius: 10px; padding: 12px; }
-    .dm-session-board-items { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
-    .dm-session-board-item { width: 100%; text-align: left; background: rgba(15,23,42,0.72); border: 1px solid var(--border); border-radius: 8px; padding: 10px; color: inherit; cursor: pointer; }
-    .dm-session-board-item:hover { border-color: var(--accent); }
+    .dm-session-board-list { display: flex; flex-direction: column; gap: 14px; margin-top: 12px; }
+    .dm-session-board-card { background:
+        radial-gradient(circle at top right, rgba(56,189,248,0.12), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,0.05), transparent 28%),
+        linear-gradient(180deg, rgba(15,23,42,0.74), rgba(15,23,42,0.64)); border: 1px solid var(--border); border-left: 4px solid #38bdf8; border-radius: 12px; padding: 13px; position: relative; overflow: hidden; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 16px 28px rgba(2,6,23,0.16); }
+    .dm-session-board-card::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent); opacity: 0.8; pointer-events: none; }
+    .dm-session-board-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+    .dm-session-board-title-wrap { flex: 1 1 240px; min-width: 0; }
+    .dm-session-board-title-input { width: 100%; max-width: 340px; box-sizing: border-box; background: rgba(15,23,42,0.82); color: var(--text); border: 1px solid var(--border); border-radius: 10px; padding: 9px 11px; font-weight: 800; box-shadow: inset 0 2px 6px rgba(2,6,23,0.24), inset 0 1px 0 rgba(255,255,255,0.04); }
+    .dm-session-board-count { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; color: #cfe8fb; font-size: 0.76em; font-weight: 800; letter-spacing: 0.35px; padding: 4px 9px; border-radius: 10px; border: 1px solid rgba(56,189,248,0.22); background: rgba(56,189,248,0.1); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04); }
+    .dm-session-board-items { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+    .dm-session-board-item { width: 100%; text-align: left; background:
+        linear-gradient(180deg, rgba(255,255,255,0.045), transparent 34%),
+        linear-gradient(180deg, rgba(15,23,42,0.86), rgba(15,23,42,0.74)); border: 1px solid var(--border); border-left: 3px solid rgba(148,163,184,0.3); border-radius: 10px; padding: 11px; color: inherit; cursor: pointer; transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 10px 18px rgba(2,6,23,0.1); }
+    .dm-session-board-item:hover { border-color: var(--accent); transform: translateY(-1px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 14px 24px rgba(2,6,23,0.15); }
     .dm-session-board-item-title { color: #f8fafc; font-weight: bold; font-size: 0.9em; }
-    .dm-session-board-item-meta { color: #94a3b8; font-size: 0.76em; line-height: 1.4; margin-top: 4px; }
-    .dm-session-board-item-summary { color: #cbd5e1; font-size: 0.82em; line-height: 1.45; margin-top: 6px; }
+    .dm-session-board-item-meta { color: #9fb6cb; font-size: 0.72em; line-height: 1.4; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 800; }
+    .dm-session-board-item-summary { color: #d7e4f2; font-size: 0.82em; line-height: 1.5; margin-top: 7px; }
     .dm-combat-list { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
     .dm-combat-card { background: rgba(15,23,42,0.68); border: 1px solid var(--border); border-left: 3px solid #ef4444; border-radius: 10px; padding: 12px; }
     .dm-combat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-top: 10px; }
@@ -336,7 +398,7 @@
     .dm-combat-metric-label { display: block; font-size: 0.68em; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.45px; margin-bottom: 4px; }
     .dm-combat-metric-value { color: #f8fafc; font-size: 0.88em; line-height: 1.4; }
     .dm-combat-hp-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; align-items: center; }
-    .dm-combat-hp-chip { display: flex; align-items: center; gap: 6px; background: rgba(15,23,42,0.72); border: 1px solid var(--border); border-radius: 999px; padding: 4px 8px; }
+    .dm-combat-hp-chip { display: flex; align-items: center; gap: 6px; background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(15,23,42,0.72)); border: 1px solid var(--border); border-radius: 999px; padding: 4px 8px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04); }
     .dm-combat-hp-chip input { width: 64px; text-align: center; padding: 4px 6px; }
     .dm-combat-qty { width: 72px !important; }
     .dm-modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; padding: 18px; background: rgba(2,6,23,0.72); backdrop-filter: blur(4px); z-index: 10000; }
@@ -347,14 +409,50 @@
     .dm-party-presence-list { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; max-height: min(55vh, 480px); overflow: auto; padding-right: 4px; }
     .dm-party-presence-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px; background: rgba(15,23,42,0.68); border: 1px solid var(--border); border-left: 3px solid #facc15; border-radius: 10px; }
     .dm-party-presence-meta { color: #94a3b8; font-size: 0.8em; line-height: 1.45; margin-top: 4px; }
-    .dm-party-presence-toggle { display: inline-flex; align-items: center; gap: 8px; color: #e2e8f0; font-size: 0.82em; font-weight: bold; white-space: nowrap; }
+    .dm-party-presence-toggle { display: inline-flex; align-items: center; gap: 8px; color: #e2e8f0; font-size: 0.82em; font-weight: bold; white-space: nowrap; padding: 5px 10px; border-radius: 999px; border: 1px solid rgba(148,163,184,0.22); background: rgba(15,23,42,0.42); transition: border-color 0.18s ease, box-shadow 0.18s ease, color 0.18s ease; }
     .dm-party-presence-toggle input { width: 16px; height: 16px; accent-color: #38bdf8; }
+    .dm-party-presence-toggle:has(input:checked) { border-color: rgba(34,197,94,0.34); color: #dcfce7; box-shadow: 0 8px 16px rgba(34,197,94,0.08), inset 0 1px 0 rgba(255,255,255,0.04); }
+    .dm-party-presence-toggle:has(input:not(:checked)) { border-color: rgba(239,68,68,0.28); color: #fecaca; }
+    .dice-modal-card.is-bestiary { width: min(760px, 100%); }
+    .dice-modal-card.is-bestiary .dice-modal-title { font-size: 1.16em; letter-spacing: 1.1px; }
+    .dice-modal-card.is-bestiary .manual-bestiary-tags { margin-bottom: 14px; }
+    .dice-modal-card.is-generic-roll { width: min(560px, 100%); }
 
     /* EstÃ©tica Spells Tab */
     .spell-level-section { border-left: 3px solid var(--accent); padding-left: 15px; margin-bottom: 25px; }
     .spell-slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
 
-    b.val { color: var(--accent); font-size: 1.1em; }
+    b.val,
+    #hp-val,
+    #ac-total,
+    #bab-val,
+    #save-fort,
+    #save-ref,
+    #save-will,
+    #flurry-val { display: inline-flex; align-items: center; justify-content: center; min-width: 58px; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--accent-edge); background: linear-gradient(180deg, rgba(255,255,255,0.08), transparent 38%), linear-gradient(180deg, rgba(2,6,23,0.18), rgba(2,6,23,0.04)), linear-gradient(180deg, var(--accent-glow), rgba(15,23,42,0.35)); color: var(--accent); font-size: 1em; font-weight: 900; letter-spacing: 0.35px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.14), 0 8px 18px rgba(2,6,23,0.18); text-shadow: 0 1px 0 rgba(0,0,0,0.42), 0 0 12px var(--accent-glow); font-variant-numeric: tabular-nums; }
+    #hp-val,
+    #ac-total { min-width: 68px; font-size: 1.08em; padding-inline: 12px; }
+    #bab-val { min-width: 74px; }
+    #save-fort,
+    #save-ref,
+    #save-will { min-width: 64px; }
+    input[type="checkbox"] { accent-color: var(--accent); cursor: pointer; }
+    input[type="checkbox"]:focus-visible { outline: 2px solid var(--accent-edge); outline-offset: 2px; }
+    #conditions-grid label,
+    #rage-toggle-container label,
+    #smite-toggle-container label,
+    #sneak-toggle-container label { transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease, transform 0.18s ease; }
+    #conditions-grid label { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 10px; border: 1px solid rgba(148,163,184,0.16); background: rgba(15,23,42,0.26); box-shadow: inset 0 1px 0 rgba(255,255,255,0.03); }
+    #conditions-grid label:hover,
+    #rage-toggle-container label:hover,
+    #smite-toggle-container label:hover,
+    #sneak-toggle-container label:hover { border-color: var(--accent-edge); box-shadow: 0 10px 18px rgba(2,6,23,0.1); }
+    #conditions-grid label:has(input:checked),
+    #rage-toggle-container label:has(input:checked),
+    #smite-toggle-container label:has(input:checked),
+    #sneak-toggle-container label:has(input:checked) { border-color: var(--accent-edge); background: linear-gradient(180deg, rgba(255,255,255,0.05), var(--accent-glow)); box-shadow: 0 10px 20px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.06); }
+    .attack-summary-row { background: linear-gradient(180deg, rgba(255,255,255,0.05), transparent 40%), linear-gradient(180deg, rgba(15,23,42,0.88), rgba(15,23,42,0.68)) !important; border: 1px solid var(--soft-line) !important; border-left: 3px solid var(--accent) !important; border-radius: 12px !important; padding: 8px 10px !important; margin-bottom: 7px !important; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 10px 18px rgba(2,6,23,0.12); }
+    .attack-summary-row:hover { border-color: var(--accent-edge) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 14px 22px rgba(2,6,23,0.18); }
     #custom-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     /* -- MOBILE RESPONSIVE -------------------------------------- */
     @media (max-width: 768px) {
@@ -468,6 +566,69 @@
     .stat-box label { font-size: 0.8em; color: var(--accent); font-weight: bold; letter-spacing: 1px; min-width: 30px; }
     .stat-box input { width: 44px; text-align: center; }
     .stat-box .mod-bubble { background: var(--accent); color: #000; font-weight: bold; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85em; flex-shrink: 0; }
+    /* Visual discipline pass: fewer pills, fewer repeated gradients */
+    .spell-summary-tag,
+    .summary-chip,
+    .summary-chip-label,
+    .dm-party-status-tag,
+    .dm-combat-hp-chip,
+    .dm-filter-chip,
+    .dm-encounter-tag,
+    .collapsible-card-summary-hint,
+    .collapsible-card-toggle {
+        border-radius: 10px;
+    }
+    .spell-summary-tag,
+    .summary-chip,
+    .dm-mini-btn,
+    .dm-filter-chip,
+    .dm-encounter-metric,
+    .dm-encounter-helper,
+    .dm-combat-hp-chip,
+    .dm-party-status-tag,
+    #spell-slots-summary > div {
+        background-image: none;
+    }
+    .spell-summary-tag { background-color: rgba(15,23,42,0.78); }
+    .summary-chip { background-color: rgba(15,23,42,0.76); }
+    .dm-mini-btn { background-color: rgba(15,23,42,0.8); }
+    .dm-filter-chip { background-color: rgba(15,23,42,0.78); }
+    .dm-filter-chip.active { background-color: rgba(56,189,248,0.16); }
+    .dm-encounter-metric { background-color: rgba(15,23,42,0.65); }
+    .dm-encounter-helper { background-color: rgba(15,23,42,0.46); }
+    .dm-combat-hp-chip { background-color: rgba(15,23,42,0.72); }
+    .dm-party-status-tag { background-color: rgba(15,23,42,0.68); }
+    #spell-slots-summary > div { background-color: rgba(15,23,42,0.58); }
+    .spell-summary-tag::before { content: "✦"; }
+    .summary-chip::before { content: "•"; }
+    .roll-trigger,
+    .hp-adjust-btn {
+        border-radius: 9px;
+    }
+    .roll-trigger {
+        background: rgba(255,255,255,0.03);
+    }
+    .roll-trigger:hover {
+        background: rgba(255,255,255,0.06);
+    }
+    .hp-adjust-btn {
+        background: rgba(15,23,42,0.82);
+    }
+    .roll-trigger.attack {
+        min-width: 40px;
+    }
+    b.val,
+    #hp-val,
+    #ac-total,
+    #bab-val,
+    #save-fort,
+    #save-ref,
+    #save-will,
+    #flurry-val {
+        border-radius: 12px;
+        background-image: none;
+        background-color: rgba(15,23,42,0.48);
+    }
 </style>
 </head>
 <body>
@@ -1645,7 +1806,7 @@
             <div>
                 <div class="dice-modal-title-row">
                     <h3 id="dice-modal-title" class="dice-modal-title">Dice Roller</h3>
-                    <a id="dice-modal-external-link" class="dice-modal-external" href="#" target="_blank" rel="noopener noreferrer" title="Buscar imÃ¡genes">â†—</a>
+                    <a id="dice-modal-external-link" class="dice-modal-external" href="#" target="_blank" rel="noopener noreferrer" title="Buscar imagenes">↗</a>
                 </div>
                 <div id="dice-modal-subtitle" class="dice-modal-subtitle"></div>
             </div>
@@ -5110,7 +5271,7 @@ function getManualWeaponGroups() {
 function renderManualWeaponsSubcards(q, tagColor) {
     const groups = getManualWeaponGroups();
     const weaponMatchesSearch = weapon =>
-        !q || [weapon.name, weapon.type, weapon.manualType, weapon.rangeTag, weapon.notes || ""].join(" ").toLowerCase().includes(q);
+        !q || manualSearchMatch(q, weapon.name, weapon.type, weapon.manualType, weapon.rangeTag, weapon.notes || "");
     const cardGroups = groups.filter(group =>
         group.key === activeManualWeaponCategory ||
         group.weapons.some(weaponMatchesSearch) ||
@@ -5118,7 +5279,7 @@ function renderManualWeaponsSubcards(q, tagColor) {
     );
     const visibleGroups = groups.filter(group => {
         if (activeManualWeaponCategory && group.key !== activeManualWeaponCategory) return false;
-        return group.key === "Magicas" ? (!q || group.title.toLowerCase().includes(q)) : group.weapons.some(weaponMatchesSearch);
+        return group.key === "Magicas" ? (!q || manualSearchMatch(q, group.title)) : group.weapons.some(weaponMatchesSearch);
     });
 
     const cardGrid = `
@@ -5947,8 +6108,21 @@ function getManualSectionMeta(section) {
     return MANUAL_MENU.find(item => item.key === section) || null;
 }
 
+function normalizeSearchText(text) {
+    return String(normalizeVisibleMojibake(text ?? ""))
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .trim();
+}
+
+function manualSearchMatch(query, ...parts) {
+    if (!query) return true;
+    return normalizeSearchText(parts.join(" ")).includes(query);
+}
+
 function getManualSearchValue() {
-    return (document.getElementById('manual-search')?.value || "").trim().toLowerCase();
+    return normalizeSearchText(document.getElementById('manual-search')?.value || "");
 }
 
 const MANUAL_SPELL_CLASS_ORDER = ["Bard","Cleric","Druid","Paladin","Ranger","Sorcerer","Wizard","Domain"];
@@ -11087,7 +11261,7 @@ function openManualReference(section, query = "") {
     showTab(3);
     openManualSection(section);
     const search = document.getElementById('manual-search');
-    if (search) search.value = query || "";
+    if (search) search.value = normalizeVisibleMojibake(query || "");
     renderManualDetail();
 }
 
@@ -11096,7 +11270,7 @@ function openClassFeatureReference(query = "", className = "") {
     openManualSection("classFeatures");
     const search = document.getElementById('manual-search');
     const classFilter = document.getElementById('manual-class-feature-filter');
-    if (search) search.value = query || "";
+    if (search) search.value = normalizeVisibleMojibake(query || "");
     if (classFilter) classFilter.value = className || "";
     renderManualDetail();
 }
@@ -11190,7 +11364,7 @@ function renderManualDetail() {
 
     if (activeManualSection === "feats") {
         html = getManualCatalog("feats")
-            .filter(feat => feat.name.toLowerCase().includes(q) || feat.desc.toLowerCase().includes(q) || (feat.prereq || "").toLowerCase().includes(q))
+            .filter(feat => manualSearchMatch(q, feat.name, feat.desc, feat.prereq || ""))
             .map(feat => `
                 <div class="manual-item">
                     <span class="manual-tag">DOTE</span><b>${feat.name}</b>
@@ -11209,11 +11383,7 @@ function renderManualDetail() {
                     !spellFilters.level ||
                     String(getSpellMinLevel(spell)) === spellFilters.level
                 ) &&
-                (
-                    spell.name.toLowerCase().includes(q) ||
-                    spell.desc.toLowerCase().includes(q) ||
-                    getSpellClassList(spell).some(cls => cls.toLowerCase().includes(q))
-                )
+                manualSearchMatch(q, spell.name, spell.desc, ...getSpellClassList(spell))
             )
             .map(spell => {
                 const classTags = getSpellClassList(spell).map(cls =>
@@ -11240,8 +11410,8 @@ function renderManualDetail() {
                     feature.desc,
                     formatManualFeatureLevels(feature.levels)
                 ])
-            ].join(" ").toLowerCase();
-            return haystack.includes(q);
+            ].join(" ");
+            return manualSearchMatch(q, haystack);
         };
         const cardGroups = groups.filter(group => groupMatchesSearch(group) || group.className === classFeatureFilter);
         const filteredGroups = groups.filter(group => {
@@ -11270,12 +11440,12 @@ function renderManualDetail() {
         const featureSections = filteredGroups.map(group => {
             if (!classFeatureFilter && !q) return "";
             const visibleFeatures = group.features.filter(feature =>
-                !q || [
+                !q || manualSearchMatch(q,
                     feature.name,
                     feature.desc,
                     feature.className,
                     formatManualFeatureLevels(feature.levels)
-                ].join(" ").toLowerCase().includes(q)
+                )
             );
             if (!visibleFeatures.length) return "";
             return `
@@ -11309,19 +11479,20 @@ function renderManualDetail() {
                 (!bestiaryFilters.type || entry.type === bestiaryFilters.type) &&
                 (!bestiaryFilters.environment || (entry.environments || []).includes(bestiaryFilters.environment)) &&
                 (!bestiaryFilters.role || entry.tacticalRole === bestiaryFilters.role) &&
-                (
-                    entry.name.toLowerCase().includes(q) ||
-                    entry.sizeType.toLowerCase().includes(q) ||
-                    entry.hd.toLowerCase().includes(q) ||
-                    entry.ac.toLowerCase().includes(q) ||
-                    entry.abilities.toLowerCase().includes(q) ||
-                    entry.fullAttack.toLowerCase().includes(q) ||
-                    String(entry.specialAttacks || "").toLowerCase().includes(q) ||
-                    String(entry.specialQualities || "").toLowerCase().includes(q) ||
-                    (entry.environments || []).join(" ").toLowerCase().includes(q) ||
-                    String(entry.tacticalRole || "").toLowerCase().includes(q) ||
-                    (entry.encounterTags || []).join(" ").toLowerCase().includes(q) ||
-                    (entry.synergies || []).join(" ").toLowerCase().includes(q)
+                manualSearchMatch(
+                    q,
+                    entry.name,
+                    entry.sizeType,
+                    entry.hd,
+                    entry.ac,
+                    entry.abilities,
+                    entry.fullAttack,
+                    String(entry.specialAttacks || ""),
+                    String(entry.specialQualities || ""),
+                    (entry.environments || []).join(" "),
+                    String(entry.tacticalRole || ""),
+                    (entry.encounterTags || []).join(" "),
+                    (entry.synergies || []).join(" ")
                 )
             )
             .map(entry => `
@@ -11344,19 +11515,20 @@ function renderManualDetail() {
                 (!bestiaryFilters.type || entry.type === bestiaryFilters.type) &&
                 (!bestiaryFilters.environment || (entry.environments || []).includes(bestiaryFilters.environment)) &&
                 (!bestiaryFilters.role || entry.tacticalRole === bestiaryFilters.role) &&
-                (
-                    entry.name.toLowerCase().includes(q) ||
-                    entry.sizeType.toLowerCase().includes(q) ||
-                    entry.hd.toLowerCase().includes(q) ||
-                    entry.ac.toLowerCase().includes(q) ||
-                    entry.abilities.toLowerCase().includes(q) ||
-                    entry.fullAttack.toLowerCase().includes(q) ||
-                    String(entry.specialAttacks || "").toLowerCase().includes(q) ||
-                    String(entry.specialQualities || "").toLowerCase().includes(q) ||
-                    (entry.environments || []).join(" ").toLowerCase().includes(q) ||
-                    String(entry.tacticalRole || "").toLowerCase().includes(q) ||
-                    (entry.encounterTags || []).join(" ").toLowerCase().includes(q) ||
-                    (entry.synergies || []).join(" ").toLowerCase().includes(q)
+                manualSearchMatch(
+                    q,
+                    entry.name,
+                    entry.sizeType,
+                    entry.hd,
+                    entry.ac,
+                    entry.abilities,
+                    entry.fullAttack,
+                    String(entry.specialAttacks || ""),
+                    String(entry.specialQualities || ""),
+                    (entry.environments || []).join(" "),
+                    String(entry.tacticalRole || ""),
+                    (entry.encounterTags || []).join(" "),
+                    (entry.synergies || []).join(" ")
                 )
             )
             .map(entry => `
@@ -11368,11 +11540,7 @@ function renderManualDetail() {
         html = `<div class="manual-bestiary-list">${bestiaryRows}</div>`;
     } else if (activeManualSection === "weapons") {
         html = getManualCatalog("weapons")
-            .filter(weapon =>
-                weapon.name.toLowerCase().includes(q) ||
-                weapon.type.toLowerCase().includes(q) ||
-                (weapon.notes || "").toLowerCase().includes(q)
-            )
+            .filter(weapon => manualSearchMatch(q, weapon.name, weapon.type, weapon.notes || ""))
             .map(weapon => `
                 <div class="manual-item">
                     <div class="manual-item-head">
@@ -11392,10 +11560,7 @@ function renderManualDetail() {
             `).join("");
     } else if (activeManualSection === "armors") {
         html = getManualCatalog("armors")
-            .filter(armor =>
-                armor.name.toLowerCase().includes(q) ||
-                String(armor.type || "").toLowerCase().includes(q)
-            )
+            .filter(armor => manualSearchMatch(q, armor.name, String(armor.type || "")))
             .map(armor => `
                 <div class="manual-item">
                     <div class="manual-item-head">
@@ -11415,7 +11580,7 @@ function renderManualDetail() {
     } else if (activeManualSection === "gear" || activeManualSection === "items") {
         const label = activeManualSection === "gear" ? "EQUIPO" : "ITEM";
         html = getManualCatalog(activeManualSection)
-            .filter(entry => entry.toLowerCase().includes(q))
+            .filter(entry => manualSearchMatch(q, entry))
             .map(entry => `
                 <div class="manual-item">
                     <div class="manual-item-head">
@@ -11431,7 +11596,7 @@ function renderManualDetail() {
             `).join("");
     } else if (activeManualSection === "rules") {
         html = getManualCatalog("rules")
-            .filter(rule => [rule.title, rule.summary, ...(rule.points || [])].join(" ").toLowerCase().includes(q))
+            .filter(rule => manualSearchMatch(q, rule.title, rule.summary, ...(rule.points || [])))
             .map(rule => `
                 <div class="manual-item">
                     <div class="manual-rule-title">
@@ -13380,10 +13545,32 @@ normalizeVisibleMojibake = function(text) {
         fixed = decoded;
     }
     return fixed
+        .replace(/ÃƒÂ¡/g, "\u00E1")
+        .replace(/ÃƒÂ©/g, "\u00E9")
+        .replace(/ÃƒÂ­/g, "\u00ED")
+        .replace(/ÃƒÂ³/g, "\u00F3")
+        .replace(/ÃƒÂº/g, "\u00FA")
+        .replace(/ÃƒÂ±/g, "\u00F1")
+        .replace(/Ã¡/g, "\u00E1")
+        .replace(/Ã©/g, "\u00E9")
+        .replace(/Ã­/g, "\u00ED")
+        .replace(/Ã³/g, "\u00F3")
+        .replace(/Ãº/g, "\u00FA")
+        .replace(/Ã±/g, "\u00F1")
+        .replace(/Ã¢â€“Â¼/g, "\u25BC")
+        .replace(/Ã¢â€ /g, "\u00D7")
+        .replace(/âœ•/g, "\u00D7")
+        .replace(/Ã‚Â·/g, "\u00B7")
+        .replace(/Â·/g, "\u00B7")
         .replace(/\u00C2\u00B7/g, "\u00B7")
         .replace(/\u00C2/g, "")
         .replace(/Todavia/g, "Todav\u00EDa")
         .replace(/todavia/g, "todav\u00EDa")
+        .replace(/sesion/g, "sesi\u00F3n")
+        .replace(/Sesion/g, "Sesi\u00F3n")
+        .replace(/musica/g, "m\u00FAsica")
+        .replace(/faccion/g, "facci\u00F3n")
+        .replace(/descripcion/g, "descripci\u00F3n")
         .replace(/dano/g, "da\u00F1o");
 };
 
@@ -13757,6 +13944,252 @@ renderSavedNpcList = function() {
             <button type="button" class="dm-mini-btn" onclick="removeSavedNpc(${index})">Quitar</button>
         `
     })).join("");
+};
+
+renderNpcCard = function(npc, options = {}) {
+    if (!npc) return `<div class="companion-empty">Todavia no hay NPC generado.</div>`;
+    const actions = options.actions || "";
+    const subtitle = [
+        escapeHtml(npc.race),
+        `${escapeHtml(npc.className)} ${escapeHtml(String(npc.level))}`,
+        escapeHtml(npc.role),
+        escapeHtml(npc.tone),
+        escapeHtml(npc.context)
+    ].join(" &middot; ");
+    return `
+        <div class="dm-npc-card">
+            <div class="dm-encounter-head">
+                <div>
+                    <div class="dm-npc-title">${escapeHtml(npc.name)}</div>
+                    <div class="dm-npc-subtitle">${subtitle}</div>
+                </div>
+                <div class="dm-encounter-actions" style="margin-top:0;">${actions}</div>
+            </div>
+            <div class="dm-npc-grid">
+                <div class="dm-encounter-metric">
+                    <span class="dm-encounter-metric-label">Rasgo</span>
+                    <div class="dm-encounter-metric-value">${escapeHtml(npc.trait)}</div>
+                </div>
+                <div class="dm-encounter-metric">
+                    <span class="dm-encounter-metric-label">Motivacion</span>
+                    <div class="dm-encounter-metric-value">${escapeHtml(npc.motivation)}</div>
+                </div>
+            </div>
+            <div class="dm-npc-detail"><b>Secreto / conflicto:</b> ${escapeHtml(npc.secret)}</div>
+            <div class="dm-npc-detail"><b>Uso inmediato:</b> ${escapeHtml(npc.hook)}</div>
+        </div>
+    `;
+};
+
+function renderSummaryManualLink(section, value, variant) {
+    const safeSection = String(section || "").replace(/'/g, "\\'");
+    const safeAttr = String(value || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    return `<span class="summary-chip ${variant}"><span class="manual-jump" onclick="openManualReference('${safeSection}', &quot;${safeAttr}&quot;)">${escapeHtml(value)}</span></span>`;
+}
+
+updateItemSummary = function() {
+    const container = document.getElementById('items-summary-box');
+    if (!container) return;
+    const items = Array.from(document.querySelectorAll('#items-slots input'))
+        .map(i => i.value.trim()).filter(v => v);
+    if (items.length === 0) {
+        container.innerHTML = `<p style="font-size:0.8em; color:#64748b;">Sin items.</p>`;
+        updateCollapsibleCardSummary('equipment');
+        return;
+    }
+    container.innerHTML = `
+        <div class="summary-chip-row">
+            <span class="summary-chip-label">Items</span>
+            <div class="summary-chip-cloud">
+                ${items.map(item => `<span class="summary-chip item">${escapeHtml(item)}</span>`).join("")}
+            </div>
+        </div>
+    `;
+    updateCollapsibleCardSummary('equipment');
+};
+
+updateEquipSummary = function() {
+    const container = document.getElementById('equip-summary-box');
+    if (!container) return;
+
+    const w1 = document.getElementById('eq-weapon1')?.value;
+    const w2 = document.getElementById('eq-weapon2')?.value;
+    const w3 = document.getElementById('eq-weapon3')?.value;
+    const armor = document.getElementById('eq-armor')?.value;
+    const shield = document.getElementById('eq-shield')?.value;
+    const general = Array.from(document.querySelectorAll('#eq-general-slots select'))
+        .map(s => s.value).filter(v => v);
+
+    const rows = [];
+    const pushRow = (label, values, section, variant) => {
+        const filtered = values.filter(Boolean);
+        if (!filtered.length) return;
+        rows.push(`
+            <div class="summary-chip-row">
+                <span class="summary-chip-label">${label}</span>
+                <div class="summary-chip-cloud">
+                    ${filtered.map(val => renderSummaryManualLink(section, val, variant)).join("")}
+                </div>
+            </div>
+        `);
+    };
+
+    pushRow("Armas", [w1, w2, w3], "weapons", "weapon");
+    pushRow("Defensa", [armor, shield], "armors", "armor");
+    pushRow("Equipo", general, "gear", "gear");
+
+    container.innerHTML = rows.join("") || `<p style="font-size:0.8em; color:#64748b;">Sin equipo seleccionado.</p>`;
+};
+
+const _baseShowDiceModalVisualPolish = showDiceModal;
+showDiceModal = function(title, subtitle, html, options = {}) {
+    _baseShowDiceModalVisualPolish(title, subtitle, html, options);
+    const card = document.querySelector('#dice-roller-modal .dice-modal-card');
+    if (!card) return;
+    card.classList.remove('is-bestiary', 'is-generic-roll');
+    if (options?.variant === 'bestiary') card.classList.add('is-bestiary');
+    if (options?.variant === 'generic-roll') card.classList.add('is-generic-roll');
+};
+
+openBestiaryEntry = function(name) {
+    const entry = getManualCatalog("bestiary").find(creature => creature && creature.name === name);
+    if (!entry) return;
+
+    const html = `
+        <div class="manual-bestiary-tags">
+            ${buildBestiaryTags(entry)}
+        </div>
+        <div class="bestiary-modal-grid">
+            <div class="bestiary-modal-row wide featured">
+                <span class="bestiary-modal-label">Descripci&oacute;n</span>
+                <div class="bestiary-modal-value">${escapeHtml(entry.summary || "Sin descripcion breve cargada.")}</div>
+            </div>
+            <div class="bestiary-modal-row">
+                <span class="bestiary-modal-label">Tama&ntilde;o / Tipo</span>
+                <div class="bestiary-modal-value">${escapeHtml(entry.sizeType)}</div>
+            </div>
+            <div class="bestiary-modal-row">
+                <span class="bestiary-modal-label">HD</span>
+                <div class="bestiary-modal-value">${escapeHtml(entry.hd)}</div>
+            </div>
+            <div class="bestiary-modal-row">
+                <span class="bestiary-modal-label">AC</span>
+                <div class="bestiary-modal-value">${escapeHtml(entry.ac)}</div>
+            </div>
+            <div class="bestiary-modal-row">
+                <span class="bestiary-modal-label">Ambientes sugeridos</span>
+                <div class="bestiary-modal-value">${escapeHtml(formatBestiaryList(entry.environments))}</div>
+            </div>
+            <div class="bestiary-modal-row">
+                <span class="bestiary-modal-label">Rol tactico</span>
+                <div class="bestiary-modal-value">${escapeHtml(formatBestiaryRole(entry.tacticalRole))}</div>
+            </div>
+            <div class="bestiary-modal-row">
+                <span class="bestiary-modal-label">Tags de encounter</span>
+                <div class="bestiary-modal-value">${escapeHtml(formatBestiaryList(entry.encounterTags))}</div>
+            </div>
+            <div class="bestiary-modal-row">
+                <span class="bestiary-modal-label">Sinergias</span>
+                <div class="bestiary-modal-value">${escapeHtml(formatBestiaryList(entry.synergies))}</div>
+            </div>
+            <div class="bestiary-modal-row">
+                <span class="bestiary-modal-label">Perfil de loot</span>
+                <div class="bestiary-modal-value">Fuentes ${escapeHtml(formatBestiaryList(entry.lootProfile?.sources))} | Temas ${escapeHtml(formatBestiaryList(entry.lootProfile?.themes))} | Restos ${escapeHtml(formatBestiaryList(entry.lootProfile?.bodyTags))}</div>
+            </div>
+            <div class="bestiary-modal-row wide">
+                <span class="bestiary-modal-label">Caracteristicas</span>
+                <div class="bestiary-modal-value">${escapeHtml(entry.abilities)}</div>
+            </div>
+            <div class="bestiary-modal-row wide">
+                <span class="bestiary-modal-label">Full attack</span>
+                <div class="bestiary-modal-value">${escapeHtml(entry.fullAttack)}</div>
+            </div>
+            <div class="bestiary-modal-row">
+                <span class="bestiary-modal-label">Special attacks</span>
+                <div class="bestiary-modal-value">${escapeHtml(entry.specialAttacks || "-")}</div>
+            </div>
+            <div class="bestiary-modal-row">
+                <span class="bestiary-modal-label">Special qualities</span>
+                <div class="bestiary-modal-value">${escapeHtml(entry.specialQualities || "-")}</div>
+            </div>
+        </div>
+        <div class="bestiary-modal-note">Statblock base SRD 3.5e. Los campos de ambiente, rol tactico, tags, sinergias y perfil de loot son metadata heuristica para herramientas de encounter y loot, y no reemplazan el texto SRD.</div>
+    `;
+
+    const imageUrl = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(`${entry.name} Dungeons and Dragons`)}`;
+    showDiceModal(entry.name, `CD ${entry.cr} | ${entry.alignment} | ${entry.type} | ${formatBestiaryRole(entry.tacticalRole)}`, html, {
+        externalUrl: imageUrl,
+        externalTitle: "Buscar imagenes en Google",
+        variant: 'bestiary'
+    });
+};
+
+openGenericDiceRoller = function() {
+    const options = ["d4","d6","d8","d10","d12","d20","d100"]
+        .map(die => `<option value="${die}">${die}</option>`)
+        .join("");
+
+    showDiceModal(
+        "Dice Roller",
+        "Tirada libre",
+        `
+            <div class="dice-result-group">
+                <div class="dice-controls-grid">
+                    <label class="dice-control-label">
+                        Tipo de dado
+                        <select id="generic-roll-die">
+                            ${options}
+                        </select>
+                    </label>
+                    <label class="dice-control-label">
+                        Cantidad
+                        <input id="generic-roll-count" type="number" min="1" max="50" value="1">
+                    </label>
+                    <button type="button" class="roll-trigger" style="height:38px; min-width:72px;" onclick="performGenericDiceRoll()">Tirar</button>
+                </div>
+            </div>
+            <div id="generic-roll-results" class="dice-roll-results"></div>
+        `,
+        { variant: 'generic-roll' }
+    );
+};
+
+renderSessionHub = function() {
+    const container = document.getElementById('dm-session-board-list');
+    if (!container) return;
+    DM_TOOLS.sessionHub.sessions = (DM_TOOLS.sessionHub.sessions || []).map((session, index) => normalizeSessionHubSession(session, index));
+    if (!DM_TOOLS.sessionHub.sessions.length) {
+        container.innerHTML = `<div class="companion-empty">Todav&iacute;a no hay sesiones creadas.</div>`;
+        return;
+    }
+    container.innerHTML = DM_TOOLS.sessionHub.sessions.map(session => `
+        <div class="dm-session-board-card">
+            <div class="dm-session-board-head">
+                <div class="dm-session-board-title-wrap">
+                    <input
+                        class="dm-session-board-title-input"
+                        type="text"
+                        value="${escapeAttr(session.name)}"
+                        oninput="updateSessionBoardName('${escapeAttr(session.id)}', this.value)"
+                    >
+                    <div class="dm-session-board-count">${session.items.length} elemento(s) cargados en esta sesi&oacute;n</div>
+                </div>
+                <div class="dm-encounter-actions" style="margin-top:0;">
+                    <button type="button" class="dm-mini-btn" onclick="toggleSessionBoardCollapsed('${escapeAttr(session.id)}')">${session.collapsed ? "Expandir" : "Plegar"}</button>
+                    <button type="button" class="dm-mini-btn" onclick="removeSessionBoard('${escapeAttr(session.id)}')">Quitar</button>
+                </div>
+            </div>
+            <div class="dm-session-board-items" style="${session.collapsed ? "display:none;" : ""}">
+                ${session.items.length ? session.items.map(item => `
+                    <button type="button" class="dm-session-board-item" onclick="openSessionHubItem('${escapeAttr(session.id)}','${escapeAttr(item.id)}')">
+                        <div class="dm-session-board-item-title">${escapeHtml(item.title)}</div>
+                        <div class="dm-session-board-item-meta">${escapeHtml(item.sourceLabel)}</div>
+                        <div class="dm-session-board-item-summary">${escapeHtml(item.summary)}</div>
+                    </button>
+                `).join("") : `<div class="companion-empty">Todav&iacute;a no hay elementos agregados a esta sesi&oacute;n.</div>`}
+            </div>
+        </div>
+    `).join("");
 };
 </script>
 <script>
