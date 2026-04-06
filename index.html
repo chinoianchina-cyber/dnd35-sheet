@@ -84,6 +84,9 @@
     .roll-trigger:hover { background: rgba(56,189,248,0.2); border-color: var(--accent); transform: translateY(-1px); }
     .roll-trigger:active { transform: translateY(0); }
     .roll-trigger.attack { min-width: 38px; }
+    .hp-adjust-row { display: inline-flex; align-items: center; gap: 4px; flex-wrap: wrap; margin-left: 6px; }
+    .hp-adjust-btn { min-width: 34px; height: 26px; padding: 0 8px; border-radius: 999px; border: 1px solid rgba(148,163,184,0.35); background: rgba(15,23,42,0.82); color: #cbd5e1; font-size: 0.72em; font-weight: bold; cursor: pointer; transition: 0.18s; }
+    .hp-adjust-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
     .dice-modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; padding: 18px; background: rgba(2,6,23,0.72); backdrop-filter: blur(4px); z-index: 9999; }
     .dice-modal.open { display: flex; }
     .dice-modal-card { width: min(540px, 100%); max-height: min(80vh, 760px); overflow-y: auto; background: linear-gradient(180deg, rgba(30,41,59,0.98), rgba(15,23,42,0.98)); border: 1px solid rgba(56,189,248,0.3); border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,0.45); padding: 18px; }
@@ -119,13 +122,42 @@
     .manual-item-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; flex-shrink: 0; }
     .manual-equip-btn { border: 1px solid rgba(74,222,128,0.45); background: rgba(74,222,128,0.12); color: #86efac; border-radius: 999px; cursor: pointer; padding: 5px 10px; font-size: 0.74em; font-weight: bold; letter-spacing: 0.3px; transition: 0.2s; }
     .manual-equip-btn:hover { border-color: #4ade80; background: rgba(74,222,128,0.2); transform: translateY(-1px); }
-    .manual-menu { display: flex; flex-direction: column; gap: 12px; max-width: 760px; }
-    .manual-menu-card { background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(0,0,0,0.18)); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 10px; padding: 16px; cursor: pointer; transition: 0.2s; text-align: left; color: var(--text); }
-    .manual-menu-card:hover { transform: translateY(-1px); border-color: var(--accent); box-shadow: 0 8px 20px rgba(0,0,0,0.22); }
+    .manual-menu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; max-width: 980px; align-items: start; }
+    .manual-menu-cell { min-width: 0; transition: transform 0.24s ease, opacity 0.24s ease; }
+    .manual-menu-cell.active { grid-column: 1 / -1; }
+    .manual-menu-card { width: 100%; min-height: 110px; aspect-ratio: 1 / 1; background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(0,0,0,0.18)); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 12px; padding: 14px; cursor: pointer; transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, background 0.22s ease; text-align: left; color: var(--text); display: flex; flex-direction: column; justify-content: center; }
+    .manual-menu-card:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: 0 10px 24px rgba(0,0,0,0.24); }
+    .manual-menu-card.active { min-height: 0; aspect-ratio: auto; justify-content: flex-start; border-bottom-left-radius: 0; border-bottom-right-radius: 0; box-shadow: 0 10px 24px rgba(0,0,0,0.26); background: linear-gradient(180deg, rgba(15,23,42,0.94), rgba(15,23,42,0.84)); }
+    .manual-menu-card-inner { display: flex; flex-direction: column; gap: 6px; }
     .manual-menu-label { display: block; font-size: 1em; font-weight: bold; letter-spacing: 0.8px; color: var(--accent); text-transform: uppercase; }
     .manual-menu-desc { display: block; margin-top: 6px; color: #94a3b8; font-size: 0.86em; line-height: 1.35; }
+    .manual-menu-card.active .manual-menu-desc { color: #cbd5e1; }
+    .manual-menu-active-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; width: fit-content; padding: 4px 10px; border-radius: 999px; font-size: 0.74em; font-weight: bold; background: rgba(56,189,248,0.14); border: 1px solid rgba(56,189,248,0.32); color: #bae6fd; }
+    .manual-inline-host { overflow: hidden; opacity: 0; max-height: 0; transform: translateY(-6px); transition: max-height 0.28s ease, opacity 0.22s ease, transform 0.24s ease; }
+    .manual-inline-host.ready { opacity: 1; max-height: 5000px; transform: translateY(0); }
+    .manual-inline-host .manual-detail-shell { max-width: none; background: rgba(15,23,42,0.78); border: 1px solid var(--border); border-top: none; border-radius: 0 0 12px 12px; padding: 14px; box-shadow: 0 16px 28px rgba(2,8,23,0.18); }
+    .manual-inline-host .manual-toolbar { margin-bottom: 12px; }
     .manual-detail-shell { max-width: 980px; }
-    .manual-toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+.manual-toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+.manual-class-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.manual-class-card { background: linear-gradient(180deg, rgba(15,23,42,0.95), rgba(15,23,42,0.8)); border: 1px solid var(--border); border-radius: 10px; padding: 14px; text-align: left; color: white; cursor: pointer; transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease; }
+.manual-class-card:hover { transform: translateY(-2px); border-color: rgba(56,189,248,0.55); box-shadow: 0 10px 24px rgba(2,8,23,0.28); }
+.manual-class-card.active { border-color: rgba(56,189,248,0.9); box-shadow: 0 0 0 1px rgba(56,189,248,0.35), 0 12px 28px rgba(2,8,23,0.32); }
+.manual-class-card-title { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+.manual-class-card-title strong { font-size: 0.98em; color: var(--accent); letter-spacing: 0.5px; text-transform: uppercase; }
+.manual-class-card-count { font-size: 0.72em; padding: 3px 7px; border-radius: 999px; background: rgba(51,65,85,0.8); color: #cbd5e1; }
+.manual-class-card-desc { font-size: 0.8em; line-height: 1.45; color: #cbd5e1; }
+.manual-class-card-actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+.manual-class-card-helper { font-size: 0.78em; color: #94a3b8; }
+    .manual-bestiary-list { display: flex; flex-direction: column; gap: 8px; }
+.manual-bestiary-list-item { width: 100%; text-align: left; background: rgba(15,23,42,0.88); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; color: white; cursor: pointer; transition: border-color 0.16s ease, transform 0.16s ease, box-shadow 0.16s ease; }
+.manual-bestiary-list-item:hover { border-color: rgba(56,189,248,0.55); transform: translateY(-1px); box-shadow: 0 8px 18px rgba(2,8,23,0.22); }
+.manual-bestiary-list-name { display: block; font-weight: bold; color: var(--accent); margin-bottom: 3px; }
+    .manual-bestiary-list-meta { display: block; font-size: 0.8em; color: #94a3b8; }
+    @media (max-width: 720px) {
+        .manual-menu-card { min-height: 96px; padding: 12px; }
+        .manual-menu-label { font-size: 0.9em; }
+    }
     .manual-back-btn { padding: 8px 12px; background: transparent; color: var(--accent); border: 1px solid var(--accent); border-radius: 6px; cursor: pointer; font-weight: bold; }
     .manual-back-btn:hover { background: rgba(56,189,248,0.12); }
     .manual-search { width: 100%; max-width: 420px; box-sizing: border-box; }
@@ -401,7 +433,7 @@
 
 <div class="tabs">
   <button id="char-menu-btn" onclick="toggleCharDrawer()" title="Personajes"
-          style="padding:0 16px; background:none; border:none; border-right:1px solid #333; 
+          style="padding:0 20px; min-width:52px; background:none; border:none; border-right:1px solid #333; 
                  color:#94a3b8; font-size:1.3em; cursor:pointer; flex-shrink:0;
                  transition:0.2s;" onmouseover="this.style.color='var(--accent)'" 
                  onmouseout="this.style.color='#94a3b8'">&#9776;</button>
@@ -588,6 +620,12 @@
                         <div style="display:flex; align-items:center; gap:8px;">
                             <span style="color:#64748b; font-size:0.8em;">da&ntilde;o</span>
                             <input type="number" id="hp-damage" value="0" min="0" onchange="updateHP()" style="width:55px;" title="Da&ntilde;o recibido">
+                            <div class="hp-adjust-row">
+                                <button type="button" class="hp-adjust-btn" onclick="adjustHpDamage(-5)">-5</button>
+                                <button type="button" class="hp-adjust-btn" onclick="adjustHpDamage(-1)">-1</button>
+                                <button type="button" class="hp-adjust-btn" onclick="adjustHpDamage(1)">+1</button>
+                                <button type="button" class="hp-adjust-btn" onclick="adjustHpDamage(5)">+5</button>
+                            </div>
                             <b id="hp-val" class="val">0</b>
                         </div>
                     </div>
@@ -2860,10 +2898,10 @@ function rebuildCustomLists() {
         if (!sel) return;
         const current = sel.value;
         sel.innerHTML = "";
-        sel.add(new Option("-- Ninguna --", ""));
+        sel.add(buildNormalizedOption("-- Ninguna --", ""));
         ["Simple","Marcial","ExÃ³tica"].forEach(tipo => {
             const group = document.createElement('optgroup');
-            group.label = tipo;
+            group.label = normalizeVisibleMojibake(tipo);
             const all = [...EQUIPMENT.weapons, ...CUSTOM.weapons].filter(w => w.type === tipo);
             all.forEach(w => group.appendChild(new Option(w.name, w.name)));
             sel.appendChild(group);
@@ -2894,7 +2932,7 @@ function rebuildCustomLists() {
         const current = sel.value;
         sel.innerHTML = "";
         sel.add(new Option("-- VacÃ­o --", ""));
-        allGeneral.forEach(item => sel.add(new Option(item, item)));
+        allGeneral.forEach(item => sel.add(buildNormalizedOption(item, item)));
         sel.value = current;
     });
 
@@ -4282,6 +4320,10 @@ function importCharacter(event) {
 // -------------------------------------------------------------
 
 // -- EQUIPO ---------------------------------------------------
+function buildNormalizedOption(label, value) {
+    return new Option(normalizeVisibleMojibake(String(label ?? "")), value);
+}
+
 function initEquipment() {
     // Armas: con optgroups por tipo
     ["eq-weapon1","eq-weapon2","eq-weapon3"].forEach(id => {
@@ -4292,7 +4334,7 @@ function initEquipment() {
             const group = document.createElement('optgroup');
             group.label = tipo;
             EQUIPMENT.weapons.filter(w => w.type === tipo).forEach(w => {
-                group.appendChild(new Option(w.name, w.name));
+                group.appendChild(buildNormalizedOption(w.name, w.name));
             });
             sel.appendChild(group);
         });
@@ -4301,12 +4343,12 @@ function initEquipment() {
     // Armaduras: con optgroups por tipo
     const armorSel = document.getElementById('eq-armor');
     armorSel.innerHTML = "";
-    armorSel.add(new Option("-- Ninguna --", ""));
+    armorSel.add(buildNormalizedOption("-- Ninguna --", ""));
     ["Ligera","Media","Pesada"].forEach(tipo => {
         const group = document.createElement('optgroup');
-        group.label = tipo;
+        group.label = normalizeVisibleMojibake(tipo);
         EQUIPMENT.armors.filter(a => a.type === tipo).forEach(a => {
-            group.appendChild(new Option(a.name, a.name));
+            group.appendChild(buildNormalizedOption(a.name, a.name));
         });
         armorSel.appendChild(group);
     });
@@ -4314,8 +4356,8 @@ function initEquipment() {
     // Escudos
     const shieldSel = document.getElementById('eq-shield');
     shieldSel.innerHTML = "";
-    shieldSel.add(new Option("-- Ninguno --", ""));
-    EQUIPMENT.shields.forEach(s => shieldSel.add(new Option(s.name, s.name)));
+    shieldSel.add(buildNormalizedOption("-- Ninguno --", ""));
+    EQUIPMENT.shields.forEach(s => shieldSel.add(buildNormalizedOption(s.name, s.name)));
 
     renderGeneralSlots();
     updateEquip();
@@ -4337,7 +4379,7 @@ function renderGeneralSlots() {
         sel.style.width = "220px";
         sel.dataset.idx = idx;
         sel.add(new Option("-- VacÃ­o --", ""));
-        EQUIPMENT.general.forEach(item => sel.add(new Option(item, item)));
+        [...EQUIPMENT.general, ...CUSTOM.general].forEach(item => sel.add(buildNormalizedOption(item, item)));
         sel.value = val;
         sel.onchange = () => { renderGeneralSlots(); updateEquipSummary(); autoSave(); };
         row.appendChild(sel);
@@ -4591,6 +4633,8 @@ function updateHP() {
         const rMod = rData?.modifiers[s.toLowerCase()] || 0;
         mods[s] = Math.floor((base + rMod - 10) / 2);
     });
+    const selectedFeats = getSelectedFeats();
+    const hasToughness = selectedFeats.includes("Toughness");
     const toughnessBonus = (hasToughness ? 3 : 0);
     const hpMax = cData.hitDie + mods.CON + (lvl-1)*(cData.hitDie/2 + 1 + mods.CON) + toughnessBonus;
     const hpDmg = parseInt(document.getElementById('hp-damage')?.value) || 0;
@@ -4778,6 +4822,27 @@ const MANUAL_MENU = [
 
 const MANUAL_CLASS_FEATURE_ORDER = SRD.classes.map(c => c.name);
 
+const CLASS_MANUAL_OVERVIEWS = {
+    Barbarian: "El barbaro es un combatiente explosivo y resistente, pensado para entrar al frente, absorber castigo y decidir peleas con furia, movilidad y dano bruto.",
+    Bard: "El bardo mezcla magia, conocimientos y apoyo tactico; destaca potenciando aliados, manipulando escenas sociales y resolviendo problemas con versatilidad.",
+    Cleric: "El clerigo combina magia divina, soporte y presencia en primera linea; puede curar, proteger, expulsar no muertos y adaptarse al dominio de su deidad.",
+    Druid: "El druida domina la naturaleza con conjuros, companion y cambio de forma; puede pelear, apoyar o controlar el campo segun la necesidad del grupo.",
+    Fighter: "El fighter es el especialista marcial puro: sencillo de usar, muy flexible en equipo y dotes, y excelente para sostener el frente o especializarse en un estilo.",
+    Monk: "El monje es un combatiente movil y disciplinado que mezcla ataques desarmados, defensa, velocidad y tecnicas especiales para hostigar o controlar objetivos.",
+    Paladin: "El paladin es un campeon sagrado que une combate, resistencia y apoyo; sobresale enfrentando el mal, protegiendo aliados y aportando presencia heroica.",
+    Ranger: "El ranger es un cazador experto en rastreo, combate especializado y supervivencia; brilla en exploracion, disparo o pelea dual segun su estilo.",
+    Rogue: "El rogue vive de la precision, la iniciativa y la habilidad; destaca explorando, desactivando trampas, flanqueando y resolviendo escenas con astucia.",
+    Sorcerer: "El sorcerer lanza magia arcana de forma espontanea, con menos preparacion pero gran facilidad para reaccionar rapido y repetir sus mejores conjuros.",
+    Wizard: "El wizard es el arcanista mas tecnico y flexible; requiere preparacion, pero compensa con el repertorio de conjuros mas amplio y soluciones muy poderosas."
+};
+
+const MANUAL_WEAPON_GROUPS = [
+    { key: "Simple", title: "Simples", desc: "Armas comunes, faciles de usar y presentes en casi cualquier trasfondo marcial o aventurero." },
+    { key: "Marcial", title: "Marciales", desc: "Armas de guerra mas especializadas, pensadas para combatientes entrenados y estilos ofensivos mas potentes." },
+    { key: "Exotica", title: "Exoticas", desc: "Armas raras o tecnicas que suelen exigir entrenamiento especifico para sacarles verdadero provecho." },
+    { key: "Magicas", title: "Magicas", desc: "Espacio reservado para armas con propiedades magicas, reliquias o piezas especiales de alto impacto." }
+];
+
 const CLASS_FEATURE_SUMMARIES = {
     "2 Domains": "El clerigo elige dos dominios de su deidad; cada uno concede un poder especial y acceso a su magia asociada.",
     "Abundant Step": "El monje puede usar dimension door una vez al dia como capacidad sobrenatural.",
@@ -4948,6 +5013,123 @@ function getClassFeatureManualCatalog() {
         if (classDiff !== 0) return classDiff;
         return a.name.localeCompare(b.name);
     });
+}
+
+function adjustHpDamage(delta) {
+    const input = document.getElementById('hp-damage');
+    if (!input) return;
+    const current = parseInt(input.value, 10) || 0;
+    input.value = Math.max(0, current + delta);
+    updateHP();
+}
+
+function getManualClassFeatureGroups() {
+    const catalog = getManualCatalog("classFeatures");
+    return MANUAL_CLASS_FEATURE_ORDER
+        .filter(className => catalog.some(entry => entry.className === className))
+        .map(className => {
+            const features = catalog.filter(entry => entry.className === className);
+            return {
+                className,
+                desc: CLASS_MANUAL_OVERVIEWS[className] || `Clase de ${className} con rasgos, progresion y rol propios dentro del grupo.`,
+                count: features.length,
+                features
+            };
+        });
+}
+
+function normalizeWeaponManualType(type) {
+    const clean = String(type || "").toLowerCase();
+    if (clean.includes("simple")) return "Simple";
+    if (clean.includes("marcial")) return "Marcial";
+    if (clean.includes("ex")) return "Exotica";
+    return "Simple";
+}
+
+function getWeaponRangeTag(weapon) {
+    const name = String(weapon?.name || "").toLowerCase();
+    const notes = String(weapon?.notes || "").toLowerCase();
+    const rangedMarkers = ["arco", "ballesta", "honda", "dardo", "jabalina", "shuriken", "red", "arrojad"];
+    return rangedMarkers.some(marker => name.includes(marker) || notes.includes(marker)) ? "A distancia" : "Melee";
+}
+
+function getManualWeaponGroups() {
+    const weapons = getManualCatalog("weapons").map(weapon => ({
+        ...weapon,
+        manualType: normalizeWeaponManualType(weapon.type),
+        rangeTag: getWeaponRangeTag(weapon)
+    }));
+    return MANUAL_WEAPON_GROUPS.map(group => ({
+        ...group,
+        weapons: group.key === "Magicas" ? [] : weapons.filter(weapon => weapon.manualType === group.key),
+        count: group.key === "Magicas" ? 0 : weapons.filter(weapon => weapon.manualType === group.key).length
+    }));
+}
+
+function renderManualWeaponsSubcards(q, tagColor) {
+    const groups = getManualWeaponGroups();
+    const weaponMatchesSearch = weapon =>
+        !q || [weapon.name, weapon.type, weapon.manualType, weapon.rangeTag, weapon.notes || ""].join(" ").toLowerCase().includes(q);
+    const cardGroups = groups.filter(group =>
+        group.key === activeManualWeaponCategory ||
+        group.weapons.some(weaponMatchesSearch) ||
+        (!q && !activeManualWeaponCategory)
+    );
+    const visibleGroups = groups.filter(group => {
+        if (activeManualWeaponCategory && group.key !== activeManualWeaponCategory) return false;
+        return group.key === "Magicas" ? (!q || group.title.toLowerCase().includes(q)) : group.weapons.some(weaponMatchesSearch);
+    });
+
+    const cardGrid = `
+        <div class="manual-class-card-actions">
+            <div class="manual-class-card-helper">Elegi un grupo para ver sus armas. Cada entrada marca si la usamos como melee o a distancia dentro del manual.</div>
+            ${activeManualWeaponCategory ? `<button type="button" class="manual-back-btn" onclick="activeManualWeaponCategory=''; renderManualDetail();">Ver todas las categorias</button>` : ""}
+        </div>
+        <div class="manual-class-grid">
+            ${cardGroups.map(group => `
+                <button type="button" class="manual-class-card ${activeManualWeaponCategory === group.key ? "active" : ""}" onclick="activeManualWeaponCategory='${group.key}'; renderManualDetail();">
+                    <div class="manual-class-card-title">
+                        <strong>${group.title}</strong>
+                        <span class="manual-class-card-count">${group.count} armas</span>
+                    </div>
+                    <div class="manual-class-card-desc">${group.desc}</div>
+                </button>
+            `).join("")}
+        </div>
+    `;
+
+    const sections = visibleGroups.map(group => {
+        const weapons = group.key === "Magicas" ? [] : group.weapons.filter(weaponMatchesSearch);
+        return `
+            <div class="manual-item" style="padding:14px 14px 8px 14px;">
+                <div class="manual-class-card-title" style="margin-bottom:10px;">
+                    <strong>${group.title}</strong>
+                    <span class="manual-class-card-count">${weapons.length} armas</span>
+                </div>
+                <div class="manual-class-card-desc" style="margin-bottom:12px;">${group.desc}</div>
+                ${weapons.length ? weapons.map(weapon => `
+                    <div class="manual-item" style="margin-bottom:10px;">
+                        <div class="manual-item-head">
+                            <div>
+                                <span class="manual-tag" style="background:${tagColor[weapon.manualType] || "#334155"};">ARMA ${weapon.manualType.toUpperCase()}</span>
+                                <span class="manual-tag" style="background:${weapon.rangeTag === "A distancia" ? "#0ea5e9" : "#475569"};">${weapon.rangeTag.toUpperCase()}</span>
+                                <b>${weapon.name}</b>
+                            </div>
+                            <div class="manual-item-actions">
+                                <button type="button" class="manual-equip-btn" data-item="${escapeAttr(weapon.name)}" onclick="openWeaponEquipPrompt(this.dataset.item)">Equipar</button>
+                            </div>
+                        </div>
+                        <small style="display:block; margin-top:4px;">
+                            Daño: <b>${weapon.dmg}</b> · Crit: <b>${weapon.crit} / ${weapon.mult}</b>
+                            ${weapon.notes ? `· <span style="color:#f59e0b;">${weapon.notes}</span>` : ""}
+                        </small>
+                    </div>
+                `).join("") : `<div class="companion-empty" style="padding-top:0;">Todavía no hay armas cargadas en esta categoría.</div>`}
+            </div>
+        `;
+    }).join("");
+
+    return cardGrid + sections;
 }
 
 const MANUAL_BESTIARY = [
@@ -5718,6 +5900,7 @@ const MANUAL_RULES = [
 ];
 
 let activeManualSection = null;
+let activeManualWeaponCategory = "";
 
 function getManualSectionMeta(section) {
     return MANUAL_MENU.find(item => item.key === section) || null;
@@ -5750,6 +5933,10 @@ function getManualClassFeatureFilterValue() {
 function resetManualClassFeatureFilters() {
     const classFilter = document.getElementById('manual-class-feature-filter');
     if (classFilter) classFilter.value = "";
+}
+
+function resetManualWeaponCategoryFilter() {
+    activeManualWeaponCategory = "";
 }
 
 function parseBestiaryCrValue(value) {
@@ -10646,6 +10833,88 @@ function getManualCatalog(section) {
     return catalogs[section] || [];
 }
 
+function getManualMenuCellRects() {
+    return Array.from(document.querySelectorAll('#manual-home .manual-menu-cell[data-manual-key]')).map(cell => ({
+        key: cell.dataset.manualKey,
+        rect: cell.getBoundingClientRect()
+    }));
+}
+
+function animateManualMenuGrid(renderFn) {
+    const before = getManualMenuCellRects();
+    const detail = document.getElementById('manual-detail');
+    const panel = document.getElementById('p3');
+    if (detail && panel && detail.parentElement && detail.parentElement.id === 'manual-inline-host') {
+        panel.appendChild(detail);
+    }
+    renderFn();
+    const afterCells = Array.from(document.querySelectorAll('#manual-home .manual-menu-cell[data-manual-key]'));
+    if (!before.length || !afterCells.length) return;
+    const beforeMap = new Map(before.map(entry => [entry.key, entry.rect]));
+    afterCells.forEach(cell => {
+        const prev = beforeMap.get(cell.dataset.manualKey);
+        if (!prev) return;
+        const next = cell.getBoundingClientRect();
+        const dx = prev.left - next.left;
+        const dy = prev.top - next.top;
+        if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return;
+        cell.style.transition = 'none';
+        cell.style.transform = `translate(${dx}px, ${dy}px)`;
+        requestAnimationFrame(() => {
+            cell.style.transition = 'transform 0.24s ease, opacity 0.24s ease';
+            cell.style.transform = '';
+        });
+    });
+}
+
+function renderManualMenuGrid() {
+    const home = document.getElementById('manual-home');
+    if (!home) return;
+    home.innerHTML = MANUAL_MENU.map(item => `
+        <div class="manual-menu-cell ${activeManualSection === item.key ? 'active' : ''}" data-manual-key="${item.key}">
+            <button type="button" class="manual-menu-card ${activeManualSection === item.key ? 'active' : ''}" data-manual-action="${activeManualSection === item.key ? 'close' : 'open'}" data-manual-target="${item.key}">
+                <div class="manual-menu-card-inner">
+                    <span class="manual-menu-label">${item.title}</span>
+                    ${activeManualSection === item.key ? `<span class="manual-menu-desc">${item.desc}</span>` : ``}
+                    ${activeManualSection === item.key ? `<span class="manual-menu-active-badge">Seccion abierta</span>` : ``}
+                </div>
+            </button>
+            ${activeManualSection === item.key ? `<div class="manual-inline-host" id="manual-inline-host"></div>` : ``}
+        </div>
+    `).join("");
+}
+
+function attachManualDetailToActiveCard() {
+    const home = document.getElementById('manual-home');
+    const detail = document.getElementById('manual-detail');
+    const host = document.getElementById('manual-inline-host');
+    const panel = document.getElementById('p3');
+    if (!detail) return;
+    if (host) {
+        host.appendChild(detail);
+        detail.style.display = "block";
+        requestAnimationFrame(() => host.classList.add('ready'));
+    } else {
+        if (panel) panel.appendChild(detail);
+        detail.style.display = "none";
+    }
+    if (home) scheduleVisibleMojibakeCleanup();
+}
+
+function initManualMenuInteractions() {
+    const home = document.getElementById('manual-home');
+    if (!home || home.dataset.manualBound === "yes") return;
+    home.dataset.manualBound = "yes";
+    home.addEventListener('click', (event) => {
+        const button = event.target.closest('.manual-menu-card');
+        if (!button || !home.contains(button)) return;
+        const action = button.dataset.manualAction;
+        const target = button.dataset.manualTarget || "";
+        if (action === "close") closeManualSection();
+        else if (action === "open" && target) openManualSection(target);
+    });
+}
+
 function renderManualHome() {
     const home = document.getElementById('manual-home');
     const detail = document.getElementById('manual-detail');
@@ -10655,6 +10924,7 @@ function renderManualHome() {
     const bestiaryFilters = document.getElementById('manual-bestiary-filters');
     if (!home || !detail || !search) return;
 
+    initManualMenuInteractions();
     activeManualSection = null;
     search.value = "";
     search.style.display = "none";
@@ -10663,15 +10933,11 @@ function renderManualHome() {
     if (bestiaryFilters) bestiaryFilters.style.display = "none";
     resetManualSpellFilters();
     resetManualClassFeatureFilters();
+    resetManualWeaponCategoryFilter();
     resetManualBestiaryFilters();
-    detail.style.display = "none";
-    home.style.display = "flex";
-    home.innerHTML = MANUAL_MENU.map(item => `
-        <button class="manual-menu-card" onclick="openManualSection('${item.key}')">
-            <span class="manual-menu-label">${item.title}</span>
-            <span class="manual-menu-desc">${item.desc}</span>
-        </button>
-    `).join("");
+    home.style.display = "grid";
+    animateManualMenuGrid(() => renderManualMenuGrid());
+    attachManualDetailToActiveCard();
 }
 
 function openManualSection(section) {
@@ -10681,9 +10947,11 @@ function openManualSection(section) {
     const search = document.getElementById('manual-search');
     if (!meta || !home || !detail || !search) return;
 
+    initManualMenuInteractions();
     activeManualSection = section;
-    home.style.display = "none";
-    detail.style.display = "block";
+    home.style.display = "grid";
+    animateManualMenuGrid(() => renderManualMenuGrid());
+    attachManualDetailToActiveCard();
     document.getElementById('manual-detail-title').innerText = meta.title;
     document.getElementById('manual-detail-subtitle').innerText = meta.desc;
     search.value = "";
@@ -10694,6 +10962,7 @@ function openManualSection(section) {
     search.style.display = "block";
     resetManualSpellFilters();
     resetManualClassFeatureFilters();
+    resetManualWeaponCategoryFilter();
     resetManualBestiaryFilters();
     syncManualSpellFilters();
     syncManualClassFeatureFilters();
@@ -10851,27 +11120,78 @@ function renderManualDetail() {
                 `;
             }).join("");
     } else if (activeManualSection === "classFeatures") {
-        html = getManualCatalog("classFeatures")
-            .filter(feature =>
-                (!classFeatureFilter || feature.className === classFeatureFilter) &&
-                (
-                    feature.name.toLowerCase().includes(q) ||
-                    feature.desc.toLowerCase().includes(q) ||
-                    feature.className.toLowerCase().includes(q) ||
-                    formatManualFeatureLevels(feature.levels).toLowerCase().includes(q)
-                )
-            )
-            .map(feature => `
-                <div class="manual-item">
-                    <span class="manual-tag" style="background:${tagColor.FEATURE};">TALENTO</span>
-                    <b>${feature.name}</b>
-                    <div style="margin:4px 0 6px 0;">
-                        <span class="spell-summary-tag" style="font-size:0.7em; background:#334155; margin-right:4px;">${feature.className}</span>
-                        <span class="spell-summary-tag" style="font-size:0.7em; background:#1e293b;">${formatManualFeatureLevels(feature.levels)}</span>
+        const groups = getManualClassFeatureGroups();
+        const groupMatchesSearch = group => {
+            if (!q) return true;
+            const haystack = [
+                group.className,
+                group.desc,
+                ...group.features.flatMap(feature => [
+                    feature.name,
+                    feature.desc,
+                    formatManualFeatureLevels(feature.levels)
+                ])
+            ].join(" ").toLowerCase();
+            return haystack.includes(q);
+        };
+        const cardGroups = groups.filter(group => groupMatchesSearch(group) || group.className === classFeatureFilter);
+        const filteredGroups = groups.filter(group => {
+            if (classFeatureFilter && group.className !== classFeatureFilter) return false;
+            return groupMatchesSearch(group);
+        });
+
+        const cardGrid = `
+            <div class="manual-class-card-actions">
+                <div class="manual-class-card-helper">Elegi una clase para ver su lista completa de rasgos, poderes y progresion SRD.</div>
+                ${classFeatureFilter ? `<button type="button" class="manual-back-btn" onclick="document.getElementById('manual-class-feature-filter').value=''; renderManualDetail();">Ver todas las clases</button>` : ""}
+            </div>
+            <div class="manual-class-grid">
+                ${cardGroups.map(group => `
+                    <button type="button" class="manual-class-card ${classFeatureFilter === group.className ? "active" : ""}" onclick="document.getElementById('manual-class-feature-filter').value='${escapeAttr(group.className)}'; renderManualDetail();">
+                        <div class="manual-class-card-title">
+                            <strong>${group.className}</strong>
+                            <span class="manual-class-card-count">${group.count} rasgos</span>
+                        </div>
+                        <div class="manual-class-card-desc">${group.desc}</div>
+                    </button>
+                `).join("")}
+            </div>
+        `;
+
+        const featureSections = filteredGroups.map(group => {
+            if (!classFeatureFilter && !q) return "";
+            const visibleFeatures = group.features.filter(feature =>
+                !q || [
+                    feature.name,
+                    feature.desc,
+                    feature.className,
+                    formatManualFeatureLevels(feature.levels)
+                ].join(" ").toLowerCase().includes(q)
+            );
+            if (!visibleFeatures.length) return "";
+            return `
+                <div class="manual-item" style="padding:14px 14px 8px 14px;">
+                    <div class="manual-class-card-title" style="margin-bottom:10px;">
+                        <strong>${group.className}</strong>
+                        <span class="manual-class-card-count">${visibleFeatures.length} rasgos</span>
                     </div>
-                    <small style="display:block; margin-top:4px;">${feature.desc}</small>
+                    <div class="manual-class-card-desc" style="margin-bottom:12px;">${group.desc}</div>
+                    ${visibleFeatures.map(feature => `
+                        <div class="manual-item" style="margin-bottom:10px;">
+                            <span class="manual-tag" style="background:${tagColor.FEATURE};">TALENTO</span>
+                            <b>${feature.name}</b>
+                            <div style="margin:4px 0 6px 0;">
+                                <span class="spell-summary-tag" style="font-size:0.7em; background:#334155; margin-right:4px;">${feature.className}</span>
+                                <span class="spell-summary-tag" style="font-size:0.7em; background:#1e293b;">${formatManualFeatureLevels(feature.levels)}</span>
+                            </div>
+                            <small style="display:block; margin-top:4px;">${feature.desc}</small>
+                        </div>
+                    `).join("")}
                 </div>
-            `).join("");
+            `;
+        }).join("");
+
+        html = cardGrid + (featureSections || (!filteredGroups.length ? "" : ""));
     } else if (activeManualSection === "bestiary") {
         html = getManualCatalog("bestiary")
             .filter(entry =>
@@ -10908,6 +11228,35 @@ function renderManualDetail() {
                     <div class="manual-bestiary-meta">Rol ${escapeHtml(formatBestiaryRole(entry.tacticalRole))} Â· Ambiente ${escapeHtml(formatBestiaryList(entry.environments))}</div>
                 </button>
             `).join("");
+        const bestiaryRows = getManualCatalog("bestiary")
+            .filter(entry =>
+                (!bestiaryFilters.cr || entry.cr === bestiaryFilters.cr) &&
+                (!bestiaryFilters.alignment || entry.alignment === bestiaryFilters.alignment) &&
+                (!bestiaryFilters.type || entry.type === bestiaryFilters.type) &&
+                (!bestiaryFilters.environment || (entry.environments || []).includes(bestiaryFilters.environment)) &&
+                (!bestiaryFilters.role || entry.tacticalRole === bestiaryFilters.role) &&
+                (
+                    entry.name.toLowerCase().includes(q) ||
+                    entry.sizeType.toLowerCase().includes(q) ||
+                    entry.hd.toLowerCase().includes(q) ||
+                    entry.ac.toLowerCase().includes(q) ||
+                    entry.abilities.toLowerCase().includes(q) ||
+                    entry.fullAttack.toLowerCase().includes(q) ||
+                    String(entry.specialAttacks || "").toLowerCase().includes(q) ||
+                    String(entry.specialQualities || "").toLowerCase().includes(q) ||
+                    (entry.environments || []).join(" ").toLowerCase().includes(q) ||
+                    String(entry.tacticalRole || "").toLowerCase().includes(q) ||
+                    (entry.encounterTags || []).join(" ").toLowerCase().includes(q) ||
+                    (entry.synergies || []).join(" ").toLowerCase().includes(q)
+                )
+            )
+            .map(entry => `
+                <button type="button" class="manual-bestiary-list-item" data-bestiary-name="${escapeAttr(entry.name)}" onclick="openBestiaryEntry(this.dataset.bestiaryName)">
+                    <span class="manual-bestiary-list-name">${entry.name}</span>
+                    <span class="manual-bestiary-list-meta">CD ${escapeHtml(entry.cr)} - ${escapeHtml(entry.type)}</span>
+                </button>
+            `).join("");
+        html = `<div class="manual-bestiary-list">${bestiaryRows}</div>`;
     } else if (activeManualSection === "weapons") {
         html = getManualCatalog("weapons")
             .filter(weapon =>
@@ -11688,7 +12037,7 @@ function renderSpellsTab(lvl, clsName) {
             let sel = document.createElement('select');
             sel.className = "spell-selector";
             sel.onchange = updateSpellSummary;
-            sel.add(new Option("-- Vacio --", ""));
+            sel.add(buildNormalizedOption("-- Vacío --", ""));
             spellsOfLvl.forEach(sp => sel.add(new Option(sp.name, sp.name)));
             if (currentSelections[spellIdx]) sel.value = currentSelections[spellIdx];
             spellIdx++;
@@ -11916,7 +12265,7 @@ renderSpellsTab = function(lvl, clsName) {
             sel.dataset.spellLevel = String(i);
             sel.dataset.slotKind = "base";
             sel.dataset.slotIndex = String(s);
-            sel.add(new Option("-- Vacio --", ""));
+            sel.add(buildNormalizedOption("-- Vacío --", ""));
             spellsOfLvl.forEach(sp => sel.add(new Option(sp.name, sp.name)));
             const preserved = currentSelections[String(i)]?.[String(s)];
             if (preserved) sel.value = preserved;
@@ -12655,8 +13004,46 @@ updateAll = function(save = true) {
     syncCompanionCardState('animal');
     syncCompanionCardState('familiar');
     updateAllCollapsibleCardSummaries();
+    scheduleVisibleMojibakeCleanup();
 
     if (save) autoSave();
+};
+
+function syncCompanionToggleMeta(kind, clsName, lvl) {
+    if (kind === "animal") {
+        const meta = document.getElementById('animal-companion-toggle-meta');
+        const selection = document.getElementById('animal-companion-select')?.value || "";
+        if (!meta) return;
+        const effectiveLevel = getAnimalCompanionEffectiveLevel(clsName, lvl);
+        const base = clsName === "Druid"
+            ? `Druida nivel ${lvl} · nivel efectivo de companion ${effectiveLevel}.`
+            : `Ranger nivel ${lvl} · companion como druida nivel ${effectiveLevel}.`;
+        meta.innerText = selection ? `${base} Elegido: ${selection}.` : `${base} Sin compañero elegido.`;
+        return;
+    }
+    const meta = document.getElementById('familiar-toggle-meta');
+    const selection = document.getElementById('familiar-select')?.value || "";
+    if (!meta) return;
+    const base = `${clsName} nivel ${lvl} · progresion completa de familiar SRD.`;
+    meta.innerText = selection ? `${base} Elegido: ${selection}.` : `${base} Sin familiar elegido.`;
+}
+
+const _baseRenderAnimalCompanionCardSelectedMeta = renderAnimalCompanionCard;
+renderAnimalCompanionCard = function(clsName, lvl) {
+    _baseRenderAnimalCompanionCardSelectedMeta(clsName, lvl);
+    const card = document.getElementById('animal-companion-card');
+    if (card?.style.display !== "none" && (clsName === "Druid" || clsName === "Ranger")) {
+        syncCompanionToggleMeta("animal", clsName, lvl);
+    }
+};
+
+const _baseRenderFamiliarCardSelectedMeta = renderFamiliarCard;
+renderFamiliarCard = function(clsName, lvl) {
+    _baseRenderFamiliarCardSelectedMeta(clsName, lvl);
+    const card = document.getElementById('familiar-card');
+    if (card?.style.display !== "none" && (clsName === "Wizard" || clsName === "Sorcerer")) {
+        syncCompanionToggleMeta("familiar", clsName, lvl);
+    }
 };
 
 const _baseCollectSaveDataDmTools = collectSaveData;
@@ -12729,6 +13116,291 @@ collectSaveData = function() {
         uiState: { ...DM_UI_STATE }
     };
     return data;
+};
+
+const CP1252_EXTRA_BYTES = {
+    0x20AC: 0x80, 0x201A: 0x82, 0x0192: 0x83, 0x201E: 0x84, 0x2026: 0x85,
+    0x2020: 0x86, 0x2021: 0x87, 0x02C6: 0x88, 0x2030: 0x89, 0x0160: 0x8A,
+    0x2039: 0x8B, 0x0152: 0x8C, 0x017D: 0x8E, 0x2018: 0x91, 0x2019: 0x92,
+    0x201C: 0x93, 0x201D: 0x94, 0x2022: 0x95, 0x2013: 0x96, 0x2014: 0x97,
+    0x02DC: 0x98, 0x2122: 0x99, 0x0161: 0x9A, 0x203A: 0x9B, 0x0153: 0x9C,
+    0x017E: 0x9E, 0x0178: 0x9F
+};
+
+function decodeCp1252Utf8Mojibake(text) {
+    if (typeof text !== "string" || !text || !/[ÃÂâ]/.test(text)) return text;
+    const bytes = [];
+    for (const ch of text) {
+        const code = ch.charCodeAt(0);
+        if (code <= 0xFF) {
+            bytes.push(code);
+            continue;
+        }
+        if (CP1252_EXTRA_BYTES[code] != null) {
+            bytes.push(CP1252_EXTRA_BYTES[code]);
+            continue;
+        }
+        return text;
+    }
+    try {
+        return new TextDecoder("utf-8", { fatal: true }).decode(Uint8Array.from(bytes));
+    } catch (_) {
+        return text;
+    }
+}
+
+function normalizeVisibleMojibake(text) {
+    if (typeof text !== "string" || !text) return text;
+    let fixed = text;
+    for (let i = 0; i < 3; i += 1) {
+        const decoded = decodeCp1252Utf8Mojibake(fixed);
+        if (decoded === fixed) break;
+        fixed = decoded;
+    }
+    return fixed
+        .replace(/\u00C2\u00B7/g, "\u00B7")
+        .replace(/\u00C2/g, "")
+        .replace(/Todavia/g, "Todavía")
+        .replace(/todavia/g, "todavía")
+        .replace(/dano/g, "daño");
+}
+
+function cleanVisibleMojibake(root = document.body) {
+    if (!root) return;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    let node = walker.nextNode();
+    while (node) {
+        const current = node.nodeValue;
+        const fixed = normalizeVisibleMojibake(current);
+        if (fixed !== current) node.nodeValue = fixed;
+        node = walker.nextNode();
+    }
+    const attrNames = ["placeholder", "title", "aria-label", "data-label"];
+    root.querySelectorAll("*").forEach(el => {
+        attrNames.forEach(attr => {
+            const value = el.getAttribute(attr);
+            if (!value) return;
+            const fixed = normalizeVisibleMojibake(value);
+            if (fixed !== value) el.setAttribute(attr, fixed);
+        });
+        if (el instanceof HTMLInputElement && (el.type === "button" || el.type === "submit")) {
+            const fixed = normalizeVisibleMojibake(el.value || "");
+            if (fixed !== el.value) el.value = fixed;
+        }
+    });
+}
+
+let visibleMojibakeCleanupScheduled = false;
+function scheduleVisibleMojibakeCleanup() {
+    if (visibleMojibakeCleanupScheduled) return;
+    visibleMojibakeCleanupScheduled = true;
+    requestAnimationFrame(() => {
+        visibleMojibakeCleanupScheduled = false;
+        cleanVisibleMojibake(document.body);
+        normalizeSelectOptionLabels(document);
+    });
+}
+
+const _baseSyncDmToolsUiMojibake = syncDmToolsUi;
+syncDmToolsUi = function() {
+    _baseSyncDmToolsUiMojibake();
+    scheduleVisibleMojibakeCleanup();
+};
+
+const _baseRenderManualHomeMojibake = renderManualHome;
+renderManualHome = function() {
+    _baseRenderManualHomeMojibake();
+    scheduleVisibleMojibakeCleanup();
+};
+
+const _baseRenderManualDetailMojibake = renderManualDetail;
+renderManualDetail = function() {
+    _baseRenderManualDetailMojibake();
+    scheduleVisibleMojibakeCleanup();
+};
+
+const _baseShowDiceModalMojibake = showDiceModal;
+showDiceModal = function(title, subtitle, html, options = {}) {
+    _baseShowDiceModalMojibake(
+        normalizeVisibleMojibake(title),
+        normalizeVisibleMojibake(subtitle),
+        normalizeVisibleMojibake(html),
+        options
+    );
+    scheduleVisibleMojibakeCleanup();
+};
+
+const _nativeAlertMojibake = window.alert.bind(window);
+window.alert = function(message) {
+    _nativeAlertMojibake(normalizeVisibleMojibake(String(message ?? "")));
+};
+
+const _nativeConfirmMojibake = window.confirm.bind(window);
+window.confirm = function(message) {
+    return _nativeConfirmMojibake(normalizeVisibleMojibake(String(message ?? "")));
+};
+
+decodeCp1252Utf8Mojibake = function(text) {
+    if (typeof text !== "string" || !text || !/[\u00C3\u00C2\u00E2]/.test(text)) return text;
+    const bytes = [];
+    for (const ch of text) {
+        const code = ch.charCodeAt(0);
+        if (code <= 0xFF) {
+            bytes.push(code);
+            continue;
+        }
+        if (CP1252_EXTRA_BYTES[code] != null) {
+            bytes.push(CP1252_EXTRA_BYTES[code]);
+            continue;
+        }
+        return text;
+    }
+    try {
+        return new TextDecoder("utf-8", { fatal: true }).decode(Uint8Array.from(bytes));
+    } catch (_) {
+        return text;
+    }
+};
+
+normalizeVisibleMojibake = function(text) {
+    if (typeof text !== "string" || !text) return text;
+    let fixed = text;
+    for (let i = 0; i < 3; i += 1) {
+        const decoded = decodeCp1252Utf8Mojibake(fixed);
+        if (decoded === fixed) break;
+        fixed = decoded;
+    }
+    return fixed
+        .replace(/\u00C2\u00B7/g, "\u00B7")
+        .replace(/\u00C2/g, "")
+        .replace(/Todavia/g, "Todav\u00EDa")
+        .replace(/todavia/g, "todav\u00EDa")
+        .replace(/dano/g, "da\u00F1o");
+};
+
+function normalizeSelectOptionLabels(root = document) {
+    if (!root?.querySelectorAll) return;
+    root.querySelectorAll("select").forEach(select => {
+        Array.from(select.options || []).forEach(option => {
+            const fixedText = normalizeVisibleMojibake(option.text || "");
+            if (fixedText !== option.text) option.text = fixedText;
+        });
+        Array.from(select.children || []).forEach(child => {
+            if (child.tagName === "OPTGROUP") {
+                const fixedLabel = normalizeVisibleMojibake(child.label || "");
+                if (fixedLabel !== child.label) child.label = fixedLabel;
+            }
+        });
+    });
+}
+
+const _baseRenderManualDetailWeaponsSubcards = renderManualDetail;
+renderManualDetail = function() {
+    _baseRenderManualDetailWeaponsSubcards();
+    if (activeManualSection !== "weapons") return;
+    const container = document.getElementById('manual-detail-content');
+    if (!container) return;
+    const q = getManualSearchValue();
+    const tagColor = {
+        "Simple": "#16a34a",
+        "Marcial": "#1d4ed8",
+        "Exotica": "#7c3aed",
+        "Exótica": "#7c3aed"
+    };
+    container.innerHTML = renderManualWeaponsSubcards(q, tagColor);
+    scheduleVisibleMojibakeCleanup();
+};
+
+const _baseInitEquipmentNormalizedLabels = initEquipment;
+initEquipment = function() {
+    _baseInitEquipmentNormalizedLabels();
+    scheduleVisibleMojibakeCleanup();
+};
+
+const _baseRenderGeneralSlotsNormalizedLabels = renderGeneralSlots;
+renderGeneralSlots = function() {
+    _baseRenderGeneralSlotsNormalizedLabels();
+    scheduleVisibleMojibakeCleanup();
+};
+
+const _baseRebuildCustomListsNormalizedLabels = rebuildCustomLists;
+rebuildCustomLists = function() {
+    _baseRebuildCustomListsNormalizedLabels();
+    scheduleVisibleMojibakeCleanup();
+};
+
+function newCharacterBaseReset() {
+    document.getElementById('charName').value = 'Nuevo Personaje';
+    document.getElementById('level').value = 1;
+    document.getElementById('hp-damage').value = 0;
+    document.getElementById('notes-session').value = '';
+    document.getElementById('notes-combat').value = '';
+    document.getElementById('notes-backstory').value = '';
+    document.getElementById('kc-humanoids').value = 0;
+    document.getElementById('kc-animals').value = 0;
+    document.getElementById('kc-magical').value = 0;
+    ["STR","DEX","CON","INT","WIS","CHA"].forEach(s => {
+        document.getElementById(`base-${s}`).value = 10;
+    });
+    Object.keys(SRD.skills).forEach(sk => {
+        const el = document.getElementById(`sk-rnk-${sk}`);
+        if (el) el.value = 0;
+    });
+    ['eq-weapon1','eq-weapon2','eq-weapon3'].forEach(id => {
+        const el = document.getElementById(id); if (el) el.value = '';
+    });
+    ['eq-weapon1-bonus','eq-weapon2-bonus','eq-weapon3-bonus'].forEach(id => {
+        const el = document.getElementById(id); if (el) el.value = '';
+    });
+    document.getElementById('eq-armor').value  = '';
+    document.getElementById('eq-shield').value = '';
+    document.getElementById('eq-general-slots').innerHTML = '';
+    document.getElementById('items-slots').innerHTML = '';
+    renderGeneralSlots();
+    renderItemSlots();
+    CUSTOM.weapons = []; CUSTOM.armors = []; CUSTOM.general = []; CUSTOM.feats = [];
+    renderCustomLists();
+}
+
+const _baseToggleCharDrawerMojibake = toggleCharDrawer;
+toggleCharDrawer = function() {
+    _baseToggleCharDrawerMojibake();
+    scheduleVisibleMojibakeCleanup();
+};
+
+renderCharList = function() {
+    const container = document.getElementById('char-list-container');
+    const meta = getCharMeta();
+    const btnNew = document.getElementById('btn-new-char');
+    if (!container) return;
+    if (btnNew) btnNew.style.display = meta.length >= MAX_CHARS ? 'none' : 'block';
+    if (meta.length === 0) {
+        container.innerHTML = `<p style="font-size:0.85em; color:#64748b; text-align:center; margin-top:20px;">No hay personajes guardados.</p>`;
+        scheduleVisibleMojibakeCleanup();
+        return;
+    }
+    container.innerHTML = meta.map((char, idx) => `
+        <div style="padding:10px 12px; margin-bottom:8px; border-radius:6px; cursor:pointer;
+                    background:${idx === activeCharIdx ? 'rgba(56,189,248,0.15)' : 'rgba(0,0,0,0.2)'};
+                    border:1px solid ${idx === activeCharIdx ? 'var(--accent)' : 'var(--border)'};">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                <div onclick="switchCharacter(${idx})" style="flex:1;">
+                    <div style="font-weight:bold; font-size:0.9em; color:${idx === activeCharIdx ? 'var(--accent)' : 'var(--text)'};">
+                        ${normalizeVisibleMojibake(char.name || 'Sin nombre')}
+                        ${idx === activeCharIdx ? '<span style="font-size:0.7em; color:var(--accent); margin-left:6px;">&#9679; activo</span>' : ''}
+                    </div>
+                    <div style="font-size:0.75em; color:#94a3b8; margin-top:2px;">${normalizeVisibleMojibake(char.cls || '—')} · Nivel ${char.level || 1}</div>
+                </div>
+                <div style="display:flex; gap:4px; margin-left:8px;">
+                    <button onclick="duplicateCharacter(${idx})" title="Duplicar"
+                            style="background:none; border:1px solid var(--border); color:#94a3b8; border-radius:4px; padding:3px 7px; cursor:pointer; font-size:0.8em;">&#x2398;</button>
+                    ${idx !== activeCharIdx ? `<button onclick="deleteCharacter(${idx})" title="Eliminar"
+                            style="background:none; border:1px solid var(--border); color:#94a3b8; border-radius:4px; padding:3px 7px; cursor:pointer; font-size:0.8em;">&times;</button>` : ''}
+                </div>
+            </div>
+        </div>
+    `).join("");
+    scheduleVisibleMojibakeCleanup();
 };
 
 const _baseApplySaveDataDmTools = applySaveData;
@@ -12876,7 +13548,8 @@ window.addEventListener('DOMContentLoaded', () => {
     is_loading = true; // Nos aseguramos que el freno estÃ© puesto
 
     // 1. Inicializamos la interfaz y listeners
-    init(); 
+    init();
+    scheduleVisibleMojibakeCleanup();
 
     // 2. LÃ³gica de carga de personajes
     initTabSwipe();
@@ -12923,6 +13596,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // Usamos un pequeÃ±o delay para asegurarnos que los eventos de la carga terminaron
     setTimeout(() => {
         is_loading = false;
+        scheduleVisibleMojibakeCleanup();
         console.log("App lista. Guardado automÃ¡tico habilitado.");
     }, 100);
 });
