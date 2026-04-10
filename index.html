@@ -765,6 +765,29 @@
                             <label style="font-size:0.72em; color:#94a3b8;">Dominio II</label>
                             <select id="cleric-domain2" onchange="updateAll()" style="width:100%; box-sizing:border-box;"></select>
                         </div>
+                        <div style="display:flex; flex-direction:column; gap:3px;">
+                            <label style="font-size:0.72em; color:#94a3b8;">Licantropo</label>
+                            <label style="display:flex; align-items:center; gap:8px; min-height:36px; cursor:pointer; color:var(--text);">
+                                <input type="checkbox" id="lycan-toggle" onchange="updateAll()" style="width:16px; height:16px; cursor:pointer;">
+                                <span style="font-size:0.85em; font-weight:600;">Activar overlay</span>
+                            </label>
+                        </div>
+                        <div id="lycan-animal-container" style="display:none; flex-direction:column; gap:3px;">
+                            <label style="font-size:0.72em; color:#94a3b8;">Animal</label>
+                            <select id="lycan-animal" onchange="updateAll()" style="width:100%; box-sizing:border-box;">
+                                <option value="Wolf">Lobo</option>
+                                <option value="Bear">Oso</option>
+                                <option value="Tiger">Tigre</option>
+                            </select>
+                        </div>
+                        <div id="lycan-form-container" style="display:none; flex-direction:column; gap:3px;">
+                            <label style="font-size:0.72em; color:#94a3b8;">Forma actual</label>
+                            <select id="lycan-form" onchange="updateAll()" style="width:100%; box-sizing:border-box;">
+                                <option value="Humanoid">Humanoid</option>
+                                <option value="Hybrid">Hybrid</option>
+                                <option value="Animal">Animal</option>
+                            </select>
+                        </div>
                     </div>
                     <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--border);">
                         <div style="font-size:0.7em; color:#ef4444; font-weight:bold; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px;">Kill Count</div>
@@ -14713,6 +14736,726 @@ newCharacterBaseReset = function() {
         const select = document.getElementById(getWeaponAbilitySelectId(slotNum));
         if (select) select.value = "";
     });
+};
+
+const LYCAN_FORM_LABELS = {
+    Humanoid: "Humanoide",
+    Hybrid: "Hibrida",
+    Animal: "Animal"
+};
+
+const LYCAN_PROFILES = {
+    Wolf: {
+        name: "Lobo",
+        hybridAnimalMods: { STR: 2, DEX: 4, CON: 4, WIS: 2 },
+        naturalArmor: 4,
+        sizeAttackMod: 0,
+        animalSpeed: 50,
+        hybridSpeed: 30,
+        naturalAttacks: {
+            Hybrid: [
+                { label: "Licantropo Garra A", attackType: "primary", damage: "1d4", crit: "20", mult: "x2" },
+                { label: "Licantropo Garra B", attackType: "primary", damage: "1d4", crit: "20", mult: "x2" },
+                { label: "Licantropo Mordida", attackType: "secondary", damage: "1d6", crit: "20", mult: "x2", note: "Trip" }
+            ],
+            Animal: [
+                { label: "Licantropo Mordida", attackType: "primary", damage: "1d6", crit: "20", mult: "x2", note: "Trip" }
+            ]
+        },
+        features: [
+            "Alternate Form",
+            "Low-Light Vision",
+            "Scent",
+            "Damage Reduction 10/silver",
+            "Curse of Lycanthropy",
+            "Wolf Empathy",
+            "Wolf Form: Trip"
+        ]
+    },
+    Bear: {
+        name: "Oso",
+        hybridAnimalMods: { STR: 16, DEX: 2, CON: 8, WIS: 2 },
+        naturalArmor: 7,
+        sizeAttackMod: -1,
+        animalSpeed: 40,
+        hybridSpeed: 30,
+        naturalAttacks: {
+            Hybrid: [
+                { label: "Licantropo Garra A", attackType: "primary", damage: "1d6", crit: "20", mult: "x2" },
+                { label: "Licantropo Garra B", attackType: "primary", damage: "1d6", crit: "20", mult: "x2" },
+                { label: "Licantropo Mordida", attackType: "secondary", damage: "1d8", crit: "20", mult: "x2" }
+            ],
+            Animal: [
+                { label: "Licantropo Garra A", attackType: "primary", damage: "1d8", crit: "20", mult: "x2" },
+                { label: "Licantropo Garra B", attackType: "primary", damage: "1d8", crit: "20", mult: "x2" },
+                { label: "Licantropo Mordida", attackType: "secondary", damage: "2d6", crit: "20", mult: "x2" }
+            ]
+        },
+        features: [
+            "Alternate Form",
+            "Low-Light Vision",
+            "Scent",
+            "Damage Reduction 10/silver",
+            "Curse of Lycanthropy",
+            "Bear Empathy",
+            "Bear Form: Improved Grab"
+        ]
+    },
+    Tiger: {
+        name: "Tigre",
+        hybridAnimalMods: { STR: 12, DEX: 4, CON: 4, WIS: 2 },
+        naturalArmor: 5,
+        sizeAttackMod: -1,
+        animalSpeed: 40,
+        hybridSpeed: 30,
+        naturalAttacks: {
+            Hybrid: [
+                { label: "Licantropo Garra A", attackType: "primary", damage: "1d8", crit: "20", mult: "x2" },
+                { label: "Licantropo Garra B", attackType: "primary", damage: "1d8", crit: "20", mult: "x2" },
+                { label: "Licantropo Mordida", attackType: "secondary", damage: "2d6", crit: "20", mult: "x2" }
+            ],
+            Animal: [
+                { label: "Licantropo Garra A", attackType: "primary", damage: "1d8", crit: "20", mult: "x2", note: "Pounce / Rake" },
+                { label: "Licantropo Garra B", attackType: "primary", damage: "1d8", crit: "20", mult: "x2", note: "Pounce / Rake" },
+                { label: "Licantropo Mordida", attackType: "secondary", damage: "2d6", crit: "20", mult: "x2", note: "Improved Grab" }
+            ]
+        },
+        features: [
+            "Alternate Form",
+            "Low-Light Vision",
+            "Scent",
+            "Damage Reduction 10/silver",
+            "Curse of Lycanthropy",
+            "Tiger Empathy",
+            "Tiger Form: Improved Grab",
+            "Tiger Form: Pounce and Rake"
+        ]
+    }
+};
+
+const LYCAN_MANUAL_FEATURES = [
+    {
+        name: "Alternate Form",
+        className: "Lycanthropy",
+        levels: [1],
+        desc: "Puede asumir forma humanoide, hibrida o animal del licantropo elegido, conservando inteligencia y rasgos sobrenaturales."
+    },
+    {
+        name: "Low-Light Vision",
+        className: "Lycanthropy",
+        levels: [1],
+        desc: "Ve el doble de lejos que un humano con luz tenue o lunar, igual que el animal base."
+    },
+    {
+        name: "Scent",
+        className: "Lycanthropy",
+        levels: [1],
+        desc: "Puede detectar criaturas por olor, rastrear por aroma y notar presencia cercana incluso sin vision clara."
+    },
+    {
+        name: "Damage Reduction 10/silver",
+        className: "Lycanthropy",
+        levels: [1],
+        desc: "En forma hibrida o animal reduce 10 puntos de dano de la mayoria de los ataques fisicos, salvo armas de plata."
+    },
+    {
+        name: "Curse of Lycanthropy",
+        className: "Lycanthropy",
+        levels: [1],
+        desc: "La mordida de la forma animal o hibrida puede transmitir la maldicion licantropa a humanoides y gigantes vulnerables."
+    },
+    {
+        name: "Wolf Empathy",
+        className: "Lycanthropy",
+        levels: [1],
+        desc: "Se comunica y maneja mejor a lobos y dire wolves, con una afinidad sobrenatural por la manada."
+    },
+    {
+        name: "Wolf Form: Trip",
+        className: "Lycanthropy",
+        levels: [1],
+        desc: "En forma de lobo, una mordida exitosa puede derribar al objetivo como accion gratuita sin provocar ataques de oportunidad."
+    },
+    {
+        name: "Bear Empathy",
+        className: "Lycanthropy",
+        levels: [1],
+        desc: "Se comunica y calma osos y dire bears con una facilidad instintiva propia del linaje ursino."
+    },
+    {
+        name: "Bear Form: Improved Grab",
+        className: "Lycanthropy",
+        levels: [1],
+        desc: "En forma de oso, una garra acertada permite iniciar grapple de inmediato, explotando la fuerza brutal del licantropo."
+    },
+    {
+        name: "Tiger Empathy",
+        className: "Lycanthropy",
+        levels: [1],
+        desc: "Se comunica con tigres y dire tigers y transmite la presencia depredadora de un gran felino."
+    },
+    {
+        name: "Tiger Form: Improved Grab",
+        className: "Lycanthropy",
+        levels: [1],
+        desc: "En forma de tigre, una garra o mordida puede sujetar al objetivo y dejarlo listo para un remate salvaje."
+    },
+    {
+        name: "Tiger Form: Pounce and Rake",
+        className: "Lycanthropy",
+        levels: [1],
+        desc: "En carga animal, el licantropo tigre puede desatar un full attack y desgarrar con rake al enemigo atrapado."
+    }
+];
+
+function ensureLycanStyles() {
+    if (document.getElementById('lycan-style-block')) return;
+    const style = document.createElement('style');
+    style.id = 'lycan-style-block';
+    style.textContent = `
+        .lycan-stat-note {
+            display:block;
+            margin-top:4px;
+            font-size:0.65em;
+            color:rgba(196,181,253,0.92);
+            letter-spacing:0.03em;
+            text-align:center;
+        }
+        .lycan-natural-row {
+            border-left-color:#c084fc !important;
+            background:linear-gradient(180deg, rgba(76,29,149,0.28), rgba(15,23,42,0.42));
+        }
+        .lycan-natural-row .lycan-natural-tag {
+            color:#d8b4fe;
+            font-weight:700;
+            text-transform:uppercase;
+            letter-spacing:0.08em;
+            font-size:0.72em;
+        }
+        .lycan-summary-chip {
+            display:inline-flex;
+            align-items:center;
+            gap:6px;
+            margin-top:8px;
+            padding:4px 10px;
+            border:1px solid rgba(168,85,247,0.45);
+            border-radius:10px;
+            background:rgba(76,29,149,0.2);
+            color:#e9d5ff;
+            font-size:0.73em;
+            font-weight:700;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+function getLycanState() {
+    const active = !!document.getElementById('lycan-toggle')?.checked;
+    const animalKey = document.getElementById('lycan-animal')?.value || "Wolf";
+    const form = document.getElementById('lycan-form')?.value || "Humanoid";
+    const profile = LYCAN_PROFILES[animalKey] || LYCAN_PROFILES.Wolf;
+    return {
+        active,
+        animalKey,
+        animalName: profile.name,
+        form,
+        formLabel: LYCAN_FORM_LABELS[form] || form,
+        profile
+    };
+}
+
+function syncLycanControls() {
+    const state = getLycanState();
+    const animalContainer = document.getElementById('lycan-animal-container');
+    const formContainer = document.getElementById('lycan-form-container');
+    if (animalContainer) animalContainer.style.display = state.active ? "flex" : "none";
+    if (formContainer) formContainer.style.display = state.active ? "flex" : "none";
+}
+
+function getLycanBaseScoresRaw() {
+    const clsName = document.getElementById('class')?.value || "";
+    const raceName = document.getElementById('race')?.value || "";
+    const rData = SRD.races.find(r => r.name === raceName) || { modifiers: {} };
+    const raging = clsName === "Barbarian" && document.getElementById('rage-toggle')?.checked;
+    const scores = {};
+    STATS.forEach(stat => {
+        const base = parseInt(document.getElementById(`base-${stat}`)?.value, 10) || 10;
+        scores[stat] = base + (rData.modifiers?.[stat.toLowerCase()] || 0);
+    });
+    if (raging) {
+        scores.STR += 4;
+        scores.CON += 4;
+    }
+    return scores;
+}
+
+function toAbilityMods(scores) {
+    return Object.fromEntries(
+        Object.entries(scores).map(([stat, score]) => [stat, Math.floor((score - 10) / 2)])
+    );
+}
+
+function buildLycanScores(state) {
+    const scores = getLycanBaseScoresRaw();
+    if (!state.active) {
+        return {
+            baseScores: scores,
+            adjustedScores: { ...scores },
+            baseMods: toAbilityMods(scores),
+            adjustedMods: toAbilityMods(scores),
+            activeConditions: typeof getActiveConditions === "function" ? getActiveConditions() : {}
+        };
+    }
+
+    scores.WIS += 2;
+    if (state.form !== "Humanoid") {
+        Object.entries(state.profile.hybridAnimalMods || {}).forEach(([stat, value]) => {
+            if (stat === "WIS") return;
+            scores[stat] += value;
+        });
+    }
+
+    const activeConditions = typeof getActiveConditions === "function" ? getActiveConditions() : {};
+    const adjustedScores = { ...scores };
+    if (activeConditions.grappled) adjustedScores.DEX -= 2;
+    if (activeConditions.fatigued) {
+        adjustedScores.STR -= 4;
+        adjustedScores.DEX -= 4;
+    }
+    if (activeConditions.helpless) adjustedScores.DEX = 0;
+
+    return {
+        baseScores: scores,
+        adjustedScores,
+        baseMods: toAbilityMods(scores),
+        adjustedMods: toAbilityMods(adjustedScores),
+        activeConditions
+    };
+}
+
+function getLycanNaturalArmorBonus(state) {
+    return state.active && state.form !== "Humanoid" ? (state.profile.naturalArmor || 0) : 0;
+}
+
+function getLycanSizeAttackMod(state) {
+    return state.active && state.form !== "Humanoid" ? (state.profile.sizeAttackMod || 0) : 0;
+}
+
+function getBaseSpeedWithoutConditions() {
+    const raceName = document.getElementById('race')?.value || "";
+    const clsName = document.getElementById('class')?.value || "";
+    const lvl = parseInt(document.getElementById('level')?.value, 10) || 1;
+    const rData = SRD.races.find(r => r.name === raceName) || { speed: 30 };
+    const armorName = document.getElementById('eq-armor')?.value || "";
+    const armorEquipped = EQUIPMENT.armors.find(a => a.name === armorName);
+
+    let speed = rData.speed || 30;
+    if (clsName === "Monk") {
+        if (lvl >= 12) speed += 40;
+        else if (lvl >= 9) speed += 30;
+        else if (lvl >= 6) speed += 20;
+        else if (lvl >= 3) speed += 10;
+    }
+    if (clsName === "Barbarian") speed += 10;
+    if (armorEquipped && (armorEquipped.type === "Media" || armorEquipped.type === "Pesada")) {
+        speed = (rData.speed >= 30) ? Math.max(20, speed - 10) : Math.max(15, speed - 5);
+    }
+    return speed;
+}
+
+function getLycanSpeed(state, activeConditions) {
+    let speed = getBaseSpeedWithoutConditions();
+    if (state.active) {
+        if (state.form === "Animal") speed = state.profile.animalSpeed || speed;
+        else if (state.form === "Hybrid") speed = state.profile.hybridSpeed || speed;
+    }
+    if (activeConditions?.fatigued) speed = Math.max(5, Math.floor(speed / 2));
+    return speed;
+}
+
+function getLycanFeatureNames(state) {
+    if (!state.active) return [];
+    const features = ["Alternate Form", "Low-Light Vision", "Scent"];
+    if (state.animalKey === "Wolf") features.push("Wolf Empathy");
+    if (state.animalKey === "Bear") features.push("Bear Empathy");
+    if (state.animalKey === "Tiger") features.push("Tiger Empathy");
+    if (state.form !== "Humanoid") {
+        features.push("Damage Reduction 10/silver", "Curse of Lycanthropy");
+    }
+    if (state.animalKey === "Wolf" && state.form === "Animal") features.push("Wolf Form: Trip");
+    if (state.animalKey === "Bear" && state.form === "Animal") features.push("Bear Form: Improved Grab");
+    if (state.animalKey === "Tiger" && state.form === "Animal") {
+        features.push("Tiger Form: Improved Grab", "Tiger Form: Pounce and Rake");
+    }
+    return features;
+}
+
+function ensureLycanFeatureTags(state) {
+    const container = document.getElementById('class-features');
+    if (!container) return;
+    container.querySelectorAll('[data-lycan-feature="true"]').forEach(node => node.remove());
+    if (!state.active) return;
+    const features = getLycanFeatureNames(state);
+    if (!features.length) return;
+    if (!container.innerHTML.trim()) {
+        container.innerHTML = "";
+    }
+    const frag = document.createDocumentFragment();
+    features.forEach(name => {
+        const chip = document.createElement('span');
+        chip.className = 'manual-jump';
+        chip.dataset.lycanFeature = "true";
+        chip.style.cssText = "display:inline-block; background:#4c1d95; border:1px solid rgba(216,180,254,0.55); color:var(--text); padding:3px 8px; border-radius:4px; font-size:0.75em; margin:2px;";
+        chip.title = `${state.animalName} ${state.formLabel}`;
+        chip.textContent = name;
+        chip.onclick = () => openClassFeatureReference(name, "Lycanthropy");
+        frag.appendChild(chip);
+    });
+    container.appendChild(frag);
+}
+
+function ensureLycanStatNotes(lycanScores) {
+    ensureLycanStyles();
+    STATS.forEach(stat => {
+        const baseInput = document.getElementById(`base-${stat}`);
+        if (!baseInput) return;
+        const parent = baseInput.parentElement;
+        if (!parent) return;
+        let note = parent.querySelector('.lycan-stat-note');
+        if (!note) {
+            note = document.createElement('div');
+            note.className = 'lycan-stat-note';
+            parent.appendChild(note);
+        }
+        const isChanged = lycanScores.baseScores[stat] !== getLycanBaseScoresRaw()[stat];
+        note.textContent = isChanged ? `Ef. ${lycanScores.baseScores[stat]}` : "";
+        note.style.display = isChanged ? "block" : "none";
+    });
+}
+
+function adjustDamageFormulaByDelta(formula, delta) {
+    if (!delta || !formula) return formula;
+    return String(formula).split('/').map(part => {
+        const trimmed = part.trim();
+        const match = trimmed.match(/^(\d+d\d+)([+-]\d+)?$/i);
+        if (!match) return trimmed;
+        const base = match[1];
+        const mod = parseInt(match[2] || "0", 10);
+        const total = mod + delta;
+        return `${base}${total > 0 ? `+${total}` : total < 0 ? `${total}` : ""}`;
+    }).join('/');
+}
+
+function patchLycanWeaponAttackRows(currentAdjustedMods, nextAdjustedMods, state) {
+    const rows = Array.from(document.querySelectorAll('#attack-summary .attack-summary-row')).filter(row => !row.dataset.lycanNatural);
+    const featSels = getSelectedFeats();
+    const hasFinesse = featSels.includes("Weapon Finesse");
+    rows.forEach((row, index) => {
+        const slotNum = index + 1;
+        const weaponName = document.getElementById(`eq-weapon${slotNum}`)?.value || "";
+        const weapon = EQUIPMENT.weapons.find(entry => entry.name === weaponName);
+        if (!weapon) return;
+
+        if (state.active && state.form === "Animal") {
+            row.style.display = "none";
+            return;
+        }
+        row.style.display = "";
+
+        const usesDex = hasFinesse && weapon.light;
+        const attackDelta = (usesDex ? nextAdjustedMods.DEX - currentAdjustedMods.DEX : nextAdjustedMods.STR - currentAdjustedMods.STR) + getLycanSizeAttackMod(state);
+        const damageDelta = nextAdjustedMods.STR - currentAdjustedMods.STR;
+
+        const attackSeq = String(row.dataset.rollAttackSeq || "").split('/').filter(Boolean).map(part => {
+            return formatSignedNumber(parseLastSignedNumber(part) + attackDelta);
+        }).join('/');
+        row.dataset.rollAttackSeq = attackSeq;
+
+        const attackCell = row.children[2];
+        if (attackCell) attackCell.textContent = attackSeq;
+
+        row.dataset.rollDamage = adjustDamageFormulaByDelta(row.dataset.rollDamage || "", damageDelta);
+        const damageCell = row.children[3];
+        if (damageCell) {
+            const detailNode = damageCell.querySelector('span[style*="font-size:0.85em;"]');
+            const detailHtml = detailNode ? detailNode.outerHTML : "";
+            const extraNodes = Array.from(damageCell.childNodes).filter(node => !(node.nodeType === 1 && node.outerHTML === detailHtml));
+            const currentTextNode = extraNodes.find(node => node.nodeType === 3);
+            if (currentTextNode) currentTextNode.nodeValue = row.dataset.rollDamage;
+            else damageCell.insertBefore(document.createTextNode(row.dataset.rollDamage), damageCell.firstChild);
+            if (detailNode) detailNode.outerHTML = detailHtml;
+        }
+    });
+}
+
+function appendLycanNaturalAttackRows(lycanScores, state) {
+    const container = document.getElementById('attack-summary');
+    if (!container) return;
+    container.querySelectorAll('[data-lycan-natural="true"]').forEach(node => node.remove());
+    if (!state.active || state.form === "Humanoid") return;
+
+    const lvl = parseInt(document.getElementById('level')?.value, 10) || 1;
+    const clsName = document.getElementById('class')?.value || "";
+    const cData = SRD.classes.find(c => c.name === clsName);
+    const bab = cData ? (cData.bab === "f" ? lvl : cData.bab === "m" ? Math.floor(lvl * 0.75) : Math.floor(lvl * 0.5)) : 0;
+    const strMod = lycanScores.adjustedMods.STR;
+    const sizeAttackMod = getLycanSizeAttackMod(state);
+    const naturalAttacks = state.profile.naturalAttacks?.[state.form] || [];
+    naturalAttacks.forEach(attack => {
+        const attackBonus = bab + strMod + sizeAttackMod + (attack.attackType === "secondary" ? -5 : 0);
+        const damageBonus = attack.attackType === "secondary" ? Math.floor(strMod / 2) : strMod;
+        const damageFormula = adjustDamageFormulaByDelta(attack.damage, damageBonus);
+        const row = document.createElement('div');
+        row.className = 'attack-summary-row lycan-natural-row';
+        row.dataset.lycanNatural = "true";
+        row.dataset.rollKind = "attack";
+        row.dataset.rollLabel = attack.label;
+        row.dataset.rollAttackSeq = formatSignedNumber(attackBonus);
+        row.dataset.rollDamage = damageFormula;
+        row.dataset.rollCrit = attack.crit;
+        row.dataset.rollMult = attack.mult;
+        row.dataset.rollExtra = "";
+        row.style.cssText = "display:grid; grid-template-columns: 70px 1fr 1fr 1fr 40px; align-items:center; gap:4px; padding:4px 6px; margin-bottom:3px; border-radius:4px; font-size:0.8em;";
+        row.innerHTML = `
+            <span class="lycan-natural-tag">${state.animalName}</span>
+            <span style="font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${escapeHtml(attack.label)}">${escapeHtml(attack.label)}</span>
+            <span style="color:var(--accent); font-weight:bold; text-align:center;">${formatSignedNumber(attackBonus)}</span>
+            <span style="text-align:right;">${escapeHtml(damageFormula)}${attack.note ? ` <span style="color:#c4b5fd;">${escapeHtml(attack.note)}</span>` : ""}<span style="color:#64748b; font-size:0.85em;">${escapeHtml(attack.crit)}/${escapeHtml(attack.mult)}</span></span>
+            <button type="button" class="roll-trigger attack" onclick="rollAttackFromRow(this.closest('[data-roll-kind=&quot;attack&quot;]'))">d20</button>
+        `;
+        container.appendChild(row);
+    });
+}
+
+function applyLycanOverlayToSheet() {
+    const state = getLycanState();
+    syncLycanControls();
+    const currentState = typeof getConditionAdjustedState === "function" ? getConditionAdjustedState() : buildLycanScores({ active: false, form: "Humanoid", profile: { hybridAnimalMods: {} } });
+    const lycanScores = buildLycanScores(state);
+    ensureLycanStatNotes(lycanScores);
+
+    STATS.forEach(stat => {
+        const modEl = document.getElementById(`mod-${stat}`);
+        if (modEl) modEl.innerText = formatSignedNumber(lycanScores.adjustedMods[stat]);
+    });
+
+    const currentConditions = lycanScores.activeConditions || {};
+    const acEl = document.getElementById('ac-total');
+    if (acEl) {
+        const currentAc = parseLastSignedNumber(acEl.innerText);
+        const currentDexAc = typeof getAcDexContribution === "function" ? getAcDexContribution(currentState.adjustedMods.DEX, currentConditions) : currentState.adjustedMods.DEX;
+        const lycanDexAc = typeof getAcDexContribution === "function" ? getAcDexContribution(lycanScores.adjustedMods.DEX, currentConditions) : lycanScores.adjustedMods.DEX;
+        const acDelta = (lycanDexAc - currentDexAc) + getLycanNaturalArmorBonus(state) + getLycanSizeAttackMod(state);
+        acEl.innerText = currentAc + acDelta;
+    }
+
+    const fortEl = document.getElementById('save-fort');
+    if (fortEl) fortEl.innerText = formatSignedNumber(parseLastSignedNumber(fortEl.innerText) + (lycanScores.baseMods.CON - currentState.baseMods.CON));
+
+    const refEl = document.getElementById('save-ref');
+    if (refEl) {
+        const refTag = refEl.querySelector('span')?.outerHTML || "";
+        const refVal = parseLastSignedNumber(refEl.textContent) + (lycanScores.adjustedMods.DEX - currentState.adjustedMods.DEX);
+        refEl.innerHTML = `${refTag ? `${refTag} ` : ""}${formatSignedNumber(refVal)}`;
+    }
+
+    const willEl = document.getElementById('save-will');
+    if (willEl) willEl.innerText = formatSignedNumber(parseLastSignedNumber(willEl.innerText) + (lycanScores.baseMods.WIS - currentState.baseMods.WIS));
+
+    const speedEl = document.getElementById('speed-val');
+    if (speedEl) speedEl.innerText = `${getLycanSpeed(state, currentConditions)} ft`;
+
+    const hpEl = document.getElementById('hp-val');
+    if (hpEl) {
+        const hpDelta = (parseInt(document.getElementById('level')?.value, 10) || 1) * (lycanScores.baseMods.CON - currentState.baseMods.CON);
+        const hpCurrent = parseLastSignedNumber(hpEl.innerText) + hpDelta;
+        hpEl.innerText = hpCurrent;
+        const lvl = parseInt(document.getElementById('level')?.value, 10) || 1;
+        const clsName = document.getElementById('class')?.value || "";
+        const cData = SRD.classes.find(c => c.name === clsName);
+        const hasToughness = getSelectedFeats().includes("Toughness");
+        const hpMax = cData ? cData.hitDie + lycanScores.baseMods.CON + (lvl - 1) * (cData.hitDie / 2 + 1 + lycanScores.baseMods.CON) + (hasToughness ? 3 : 0) : hpCurrent;
+        hpEl.style.color = hpCurrent <= 0 ? "#ef4444" : hpCurrent <= hpMax * 0.25 ? "#f59e0b" : "var(--accent)";
+    }
+
+    const currentSpeed = (() => {
+        let speed = getBaseSpeedWithoutConditions();
+        if (currentConditions.fatigued) speed = Math.max(5, Math.floor(speed / 2));
+        return speed;
+    })();
+    const lycanSpeed = getLycanSpeed(state, currentConditions);
+    const jumpDelta = (typeof getJumpBonusFromSpeed === "function" ? getJumpBonusFromSpeed(lycanSpeed) - getJumpBonusFromSpeed(currentSpeed) : 0);
+
+    Object.entries(SRD.skills).forEach(([name, stat]) => {
+        const totalEl = document.getElementById(`sk-tot-${name}`);
+        const modEl = document.getElementById(`sk-mod-${name}`);
+        if (!totalEl || !modEl) return;
+        let delta = 0;
+        if (["STR", "DEX", "WIS"].includes(stat)) {
+            const nextMod = lycanScores.adjustedMods[stat];
+            const prevMod = currentState.adjustedMods[stat];
+            modEl.innerText = formatSignedNumber(nextMod);
+            delta += nextMod - prevMod;
+        }
+        if (name === "Jump") delta += jumpDelta;
+        totalEl.innerText = parseLastSignedNumber(totalEl.innerText) + delta;
+    });
+
+    const flurryEl = document.getElementById('flurry-val');
+    if (flurryEl && flurryEl.innerText) {
+        const flurryDelta = (lycanScores.adjustedMods.STR - currentState.adjustedMods.STR) + getLycanSizeAttackMod(state);
+        flurryEl.innerText = flurryEl.innerText.split('/').map(part => formatSignedNumber(parseLastSignedNumber(part) + flurryDelta)).join('/');
+    }
+
+    patchLycanWeaponAttackRows(currentState.adjustedMods, lycanScores.adjustedMods, state);
+    appendLycanNaturalAttackRows(lycanScores, state);
+    ensureLycanFeatureTags(state);
+
+    const classFeatures = document.getElementById('class-features');
+    if (state.active && classFeatures && !document.getElementById('lycan-summary-chip')) {
+        const chip = document.createElement('div');
+        chip.id = 'lycan-summary-chip';
+        chip.className = 'lycan-summary-chip';
+        classFeatures.parentElement?.insertBefore(chip, classFeatures);
+    }
+    const summaryChip = document.getElementById('lycan-summary-chip');
+    if (summaryChip) {
+        if (state.active) {
+            summaryChip.textContent = `${state.animalName} · ${state.formLabel} · CA natural +${getLycanNaturalArmorBonus(state)}${getLycanSizeAttackMod(state) ? " · Tamano grande" : ""}`;
+            summaryChip.style.display = "inline-flex";
+        } else {
+            summaryChip.style.display = "none";
+        }
+    }
+}
+
+if (!MANUAL_CLASS_FEATURE_ORDER.includes("Lycanthropy")) {
+    MANUAL_CLASS_FEATURE_ORDER.push("Lycanthropy");
+}
+CLASS_MANUAL_OVERVIEWS.Lycanthropy = "La licantropia funciona aqui como un overlay de hoja: cambia forma, atributos, ataques naturales y sentidos especiales segun el animal elegido.";
+
+const _baseGetClassFeatureManualCatalogLycan = getClassFeatureManualCatalog;
+getClassFeatureManualCatalog = function() {
+    const entries = _baseGetClassFeatureManualCatalogLycan();
+    const existing = new Set(entries.map(entry => `${entry.className}::${entry.name}`));
+    LYCAN_MANUAL_FEATURES.forEach(entry => {
+        const key = `${entry.className}::${entry.name}`;
+        if (!existing.has(key)) entries.push({ ...entry });
+    });
+    return entries.sort((a, b) => {
+        const classDiff = MANUAL_CLASS_FEATURE_ORDER.indexOf(a.className) - MANUAL_CLASS_FEATURE_ORDER.indexOf(b.className);
+        if (classDiff !== 0) return classDiff;
+        return a.name.localeCompare(b.name);
+    });
+};
+
+const _baseBuildIdentityCardSummaryLycan = buildIdentityCardSummary;
+buildIdentityCardSummary = function() {
+    const base = _baseBuildIdentityCardSummaryLycan();
+    const state = getLycanState();
+    return state.active ? `${base} - Licantropo ${state.animalName} (${state.formLabel})` : base;
+};
+
+const _baseBuildAttributesCardSummaryLycan = buildAttributesCardSummary;
+buildAttributesCardSummary = function() {
+    const state = getLycanState();
+    if (!state.active) return _baseBuildAttributesCardSummaryLycan();
+    const lycanScores = buildLycanScores(state);
+    const speed = getLycanSpeed(state, lycanScores.activeConditions);
+    const parts = STATS.map(stat => `${stat} ${lycanScores.baseScores[stat]} (${formatSignedNumber(lycanScores.adjustedMods[stat])})`);
+    return `${parts.join(', ')} - Vel. ${speed} ft`;
+};
+
+const _baseUpdateHPLycan = updateHP;
+updateHP = function() {
+    _baseUpdateHPLycan();
+    const state = getLycanState();
+    if (!state.active) return;
+    applyLycanOverlayToSheet();
+    autoSave();
+};
+
+const _baseCollectSaveDataLycan = collectSaveData;
+collectSaveData = function() {
+    const data = _baseCollectSaveDataLycan();
+    data.lycanthropy = {
+        active: !!document.getElementById('lycan-toggle')?.checked,
+        animal: document.getElementById('lycan-animal')?.value || "Wolf",
+        form: document.getElementById('lycan-form')?.value || "Humanoid"
+    };
+    return data;
+};
+
+const _baseApplySaveDataLycan = applySaveData;
+applySaveData = function(data) {
+    _baseApplySaveDataLycan(data);
+    const lycan = data?.lycanthropy || {};
+    const toggle = document.getElementById('lycan-toggle');
+    const animal = document.getElementById('lycan-animal');
+    const form = document.getElementById('lycan-form');
+    if (toggle) toggle.checked = !!lycan.active;
+    if (animal) animal.value = lycan.animal || "Wolf";
+    if (form) form.value = lycan.form || "Humanoid";
+    syncLycanControls();
+};
+
+const _baseNewCharacterBaseResetLycan = newCharacterBaseReset;
+newCharacterBaseReset = function() {
+    _baseNewCharacterBaseResetLycan();
+    const toggle = document.getElementById('lycan-toggle');
+    const animal = document.getElementById('lycan-animal');
+    const form = document.getElementById('lycan-form');
+    if (toggle) toggle.checked = false;
+    if (animal) animal.value = "Wolf";
+    if (form) form.value = "Humanoid";
+    syncLycanControls();
+};
+
+const _baseUpdateAllLycan = updateAll;
+updateAll = function(save = true) {
+    _baseUpdateAllLycan(false);
+    syncLycanControls();
+    applyLycanOverlayToSheet();
+    updateAllCollapsibleCardSummaries();
+    scheduleVisibleMojibakeCleanup();
+    if (save) autoSave();
+};
+
+function refreshLycanSummaryChipText() {
+    const chip = document.getElementById('lycan-summary-chip');
+    const state = getLycanState();
+    if (!chip) return;
+    if (!state.active) {
+        chip.style.display = "none";
+        return;
+    }
+    chip.textContent = [state.animalName, state.formLabel, `CA natural +${getLycanNaturalArmorBonus(state)}${getLycanSizeAttackMod(state) ? " · Tamano grande" : ""}`].join(" · ");
+    chip.style.display = "inline-flex";
+}
+
+const _baseUpdateAllLycanSummaryFix = updateAll;
+updateAll = function(save = true) {
+    _baseUpdateAllLycanSummaryFix(false);
+    refreshLycanSummaryChipText();
+    if (save) autoSave();
+};
+
+const _baseUpdateHPLycanSummaryFix = updateHP;
+updateHP = function() {
+    _baseUpdateHPLycanSummaryFix();
+    refreshLycanSummaryChipText();
+};
+
+refreshLycanSummaryChipText = function() {
+    const chip = document.getElementById('lycan-summary-chip');
+    const state = getLycanState();
+    if (!chip) return;
+    if (!state.active) {
+        chip.style.display = "none";
+        return;
+    }
+    chip.textContent = `${state.animalName} - ${state.formLabel} - CA natural +${getLycanNaturalArmorBonus(state)}${getLycanSizeAttackMod(state) ? " - Tamano grande" : ""}`;
+    chip.style.display = "inline-flex";
 };
 </script>
 <script>
