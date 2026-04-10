@@ -391,6 +391,17 @@
     .dm-session-board-item-title { color: #f8fafc; font-weight: bold; font-size: 0.9em; }
     .dm-session-board-item-meta { color: #9fb6cb; font-size: 0.72em; line-height: 1.4; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.6px; font-weight: 800; }
     .dm-session-board-item-summary { color: #d7e4f2; font-size: 0.82em; line-height: 1.5; margin-top: 7px; }
+    .dm-campaign-links { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--soft-line); }
+    .dm-campaign-links-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+    .dm-campaign-links-label { color: #9fb6cb; font-size: 0.72em; font-weight: 800; letter-spacing: 0.55px; text-transform: uppercase; }
+    .dm-campaign-links-list { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+    .dm-campaign-link-card { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(15,23,42,0.76)); border: 1px solid rgba(148,163,184,0.22); border-left: 3px solid rgba(56,189,248,0.36); border-radius: 10px; padding: 10px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.04); }
+    .dm-campaign-link-open { flex: 1; min-width: 0; border: none; background: transparent; color: inherit; text-align: left; padding: 0; cursor: pointer; }
+    .dm-campaign-link-open:hover .dm-campaign-link-title { color: var(--accent); }
+    .dm-campaign-link-title { color: #f8fafc; font-weight: 800; font-size: 0.86em; line-height: 1.35; transition: color 0.18s ease; }
+    .dm-campaign-link-meta { color: #9fb6cb; font-size: 0.7em; line-height: 1.35; margin-top: 3px; text-transform: uppercase; letter-spacing: 0.55px; font-weight: 800; }
+    .dm-campaign-link-summary { color: #d7e4f2; font-size: 0.8em; line-height: 1.45; margin-top: 5px; }
+    .dm-campaign-link-empty { color: #94a3b8; font-size: 0.8em; line-height: 1.45; margin-top: 8px; }
     .dm-combat-list { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
     .dm-combat-card { background: rgba(15,23,42,0.68); border: 1px solid var(--border); border-left: 3px solid #ef4444; border-radius: 10px; padding: 12px; }
     .dm-combat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-top: 10px; }
@@ -1430,6 +1441,166 @@
             </div>
         </div>
 
+        <div class="dm-section-card" data-dm-section="campaign">
+            <button type="button" class="companion-toggle" onclick="toggleDmSection('campaign')">
+                <div class="companion-toggle-main">
+                    <span class="manual-tag" style="background:#9333ea;">DM</span>
+                    <div>
+                        <div class="companion-toggle-title">Campaign Board</div>
+                        <div class="companion-toggle-meta">Arcos, facciones, objetivos, clocks, pistas y secretos para ordenar la campana como un tablero vivo.</div>
+                    </div>
+                </div>
+                <span class="companion-chevron" id="dm-chevron-campaign">&#9662;</span>
+            </button>
+            <div class="dm-subcards" id="dm-body-campaign">
+                <div id="dm-campaign-summary" class="dm-encounter-summary" style="margin-bottom:12px;"></div>
+
+                <div class="dm-subcard">
+                    <button type="button" class="companion-toggle" onclick="toggleDmSection('campaign-arcs')">
+                        <div class="companion-toggle-main">
+                            <div>
+                                <div class="companion-toggle-title">Arcos</div>
+                                <div class="companion-toggle-meta">Tramas principales, secundarias o pausadas que estructuran la campana.</div>
+                            </div>
+                        </div>
+                        <span class="companion-chevron" id="dm-chevron-campaign-arcs">&#9662;</span>
+                    </button>
+                    <div class="dm-subcards" id="dm-body-campaign-arcs">
+                        <div class="dm-encounter-controls">
+                            <label>Titulo<input type="text" id="dm-campaign-arc-title" placeholder="Ej: Guerra de las Cenizas"></label>
+                            <label>Estado<select id="dm-campaign-arc-status"><option value="active">Activo</option><option value="paused">Pausado</option><option value="resolved">Resuelto</option></select></label>
+                            <label>Tono<input type="text" id="dm-campaign-arc-tone" placeholder="Oscuro, epico, politico..."></label>
+                        </div>
+                        <textarea id="dm-campaign-arc-summary" class="dm-textarea" style="min-height:92px;" placeholder="Resumen corto del arco, conflicto central y foco actual..."></textarea>
+                        <div class="companion-actions" style="margin-top:8px;">
+                            <button type="button" class="manual-back-btn" onclick="addCampaignArc()">+ Agregar arco</button>
+                        </div>
+                        <div id="dm-campaign-arcs-list"></div>
+                    </div>
+                </div>
+
+                <div class="dm-subcard">
+                    <button type="button" class="companion-toggle" onclick="toggleDmSection('campaign-factions')">
+                        <div class="companion-toggle-main">
+                            <div>
+                                <div class="companion-toggle-title">Facciones</div>
+                                <div class="companion-toggle-meta">Quien mueve la campana, que quiere y como mira a la party.</div>
+                            </div>
+                        </div>
+                        <span class="companion-chevron" id="dm-chevron-campaign-factions">&#9662;</span>
+                    </button>
+                    <div class="dm-subcards" id="dm-body-campaign-factions">
+                        <div class="dm-encounter-controls">
+                            <label>Nombre<input type="text" id="dm-campaign-faction-name" placeholder="Ej: Circulo de Hierro"></label>
+                            <label>Actitud<select id="dm-campaign-faction-attitude"><option value="allied">Aliada</option><option value="neutral">Neutral</option><option value="hostile">Hostil</option><option value="fractured">Fragmentada</option></select></label>
+                            <label>Recursos<input type="text" id="dm-campaign-faction-resources" placeholder="Guardias, oro, magia, contactos..."></label>
+                        </div>
+                        <textarea id="dm-campaign-faction-goal" class="dm-textarea" style="min-height:92px;" placeholder="Objetivo principal, metodo o amenaza que representa..."></textarea>
+                        <div class="companion-actions" style="margin-top:8px;">
+                            <button type="button" class="manual-back-btn" onclick="addCampaignFaction()">+ Agregar faccion</button>
+                        </div>
+                        <div id="dm-campaign-factions-list"></div>
+                    </div>
+                </div>
+
+                <div class="dm-subcard">
+                    <button type="button" class="companion-toggle" onclick="toggleDmSection('campaign-objectives')">
+                        <div class="companion-toggle-main">
+                            <div>
+                                <div class="companion-toggle-title">Objetivos</div>
+                                <div class="companion-toggle-meta">Que busca la party, que busca un arco o que falta cerrar.</div>
+                            </div>
+                        </div>
+                        <span class="companion-chevron" id="dm-chevron-campaign-objectives">&#9662;</span>
+                    </button>
+                    <div class="dm-subcards" id="dm-body-campaign-objectives">
+                        <div class="dm-encounter-controls">
+                            <label>Objetivo<input type="text" id="dm-campaign-objective-title" placeholder="Ej: Encontrar la llave del faro"></label>
+                            <label>Prioridad<select id="dm-campaign-objective-priority"><option value="high">Alta</option><option value="medium">Media</option><option value="low">Baja</option></select></label>
+                            <label>Estado<select id="dm-campaign-objective-status"><option value="active">Activo</option><option value="blocked">Bloqueado</option><option value="done">Resuelto</option></select></label>
+                        </div>
+                        <textarea id="dm-campaign-objective-note" class="dm-textarea" style="min-height:92px;" placeholder="Que implica, por que importa o con que arco se relaciona..."></textarea>
+                        <div class="companion-actions" style="margin-top:8px;">
+                            <button type="button" class="manual-back-btn" onclick="addCampaignObjective()">+ Agregar objetivo</button>
+                        </div>
+                        <div id="dm-campaign-objectives-list"></div>
+                    </div>
+                </div>
+
+                <div class="dm-subcard">
+                    <button type="button" class="companion-toggle" onclick="toggleDmSection('campaign-clocks')">
+                        <div class="companion-toggle-main">
+                            <div>
+                                <div class="companion-toggle-title">Clocks</div>
+                                <div class="companion-toggle-meta">Presion, progreso enemigo o eventos que avanzan con el tiempo.</div>
+                            </div>
+                        </div>
+                        <span class="companion-chevron" id="dm-chevron-campaign-clocks">&#9662;</span>
+                    </button>
+                    <div class="dm-subcards" id="dm-body-campaign-clocks">
+                        <div class="dm-encounter-controls">
+                            <label>Clock<input type="text" id="dm-campaign-clock-title" placeholder="Ej: Ritual de apertura"></label>
+                            <label>Segmentos<input type="number" id="dm-campaign-clock-segments" min="2" max="12" step="1" value="4"></label>
+                            <label>Progreso<input type="number" id="dm-campaign-clock-progress" min="0" max="12" step="1" value="0"></label>
+                        </div>
+                        <textarea id="dm-campaign-clock-trigger" class="dm-textarea" style="min-height:92px;" placeholder="Que pasa al completarse y que lo hace avanzar..."></textarea>
+                        <div class="companion-actions" style="margin-top:8px;">
+                            <button type="button" class="manual-back-btn" onclick="addCampaignClock()">+ Agregar clock</button>
+                        </div>
+                        <div id="dm-campaign-clocks-list"></div>
+                    </div>
+                </div>
+
+                <div class="dm-subcard">
+                    <button type="button" class="companion-toggle" onclick="toggleDmSection('campaign-clues')">
+                        <div class="companion-toggle-main">
+                            <div>
+                                <div class="companion-toggle-title">Pistas</div>
+                                <div class="companion-toggle-meta">Datos descubiertos, malinterpretados o aun no conectados.</div>
+                            </div>
+                        </div>
+                        <span class="companion-chevron" id="dm-chevron-campaign-clues">&#9662;</span>
+                    </button>
+                    <div class="dm-subcards" id="dm-body-campaign-clues">
+                        <div class="dm-encounter-controls">
+                            <label>Pista<input type="text" id="dm-campaign-clue-title" placeholder="Ej: El sello de cera negra"></label>
+                            <label>Fuente<input type="text" id="dm-campaign-clue-source" placeholder="NPC, escena, loot, carta..."></label>
+                            <label>Estado<select id="dm-campaign-clue-status"><option value="discovered">Descubierta</option><option value="interpreted">Interpretada</option><option value="misread">Malinterpretada</option></select></label>
+                        </div>
+                        <textarea id="dm-campaign-clue-note" class="dm-textarea" style="min-height:92px;" placeholder="A que apunta, que revela o porque es importante..."></textarea>
+                        <div class="companion-actions" style="margin-top:8px;">
+                            <button type="button" class="manual-back-btn" onclick="addCampaignClue()">+ Agregar pista</button>
+                        </div>
+                        <div id="dm-campaign-clues-list"></div>
+                    </div>
+                </div>
+
+                <div class="dm-subcard">
+                    <button type="button" class="companion-toggle" onclick="toggleDmSection('campaign-secrets')">
+                        <div class="companion-toggle-main">
+                            <div>
+                                <div class="companion-toggle-title">Secretos</div>
+                                <div class="companion-toggle-meta">Verdades ocultas, mentiras activas y revelaciones pendientes.</div>
+                            </div>
+                        </div>
+                        <span class="companion-chevron" id="dm-chevron-campaign-secrets">&#9662;</span>
+                    </button>
+                    <div class="dm-subcards" id="dm-body-campaign-secrets">
+                        <div class="dm-encounter-controls">
+                            <label>Secreto<input type="text" id="dm-campaign-secret-title" placeholder="Ej: El obispo sirve a la secta"></label>
+                            <label>Quien lo sabe<input type="text" id="dm-campaign-secret-holder" placeholder="NPC, faccion o nadie"></label>
+                            <label>Estado<select id="dm-campaign-secret-status"><option value="hidden">Oculto</option><option value="hinted">Insinuado</option><option value="revealed">Revelado</option></select></label>
+                        </div>
+                        <textarea id="dm-campaign-secret-note" class="dm-textarea" style="min-height:92px;" placeholder="Como podria revelarse o que cambia si sale a la luz..."></textarea>
+                        <div class="companion-actions" style="margin-top:8px;">
+                            <button type="button" class="manual-back-btn" onclick="addCampaignSecret()">+ Agregar secreto</button>
+                        </div>
+                        <div id="dm-campaign-secrets-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="dm-section-card" data-dm-section="party">
             <button type="button" class="companion-toggle" onclick="toggleDmSection('party')">
                 <div class="companion-toggle-main">
@@ -1910,6 +2081,32 @@
         <div id="dm-session-picker-empty" class="companion-empty" style="display:none;">No hay sesiones creadas todavÃ­a.</div>
         <div class="companion-actions" style="justify-content:flex-end; margin-top:14px;">
             <button type="button" class="manual-back-btn" id="dm-session-picker-confirm" onclick="confirmAddToSession()">Agregar a sesiÃ³n</button>
+        </div>
+    </div>
+</div>
+
+<div id="dm-campaign-link-modal" class="dm-modal" onclick="handleCampaignLinkPickerModalBackdrop(event)">
+    <div class="dm-modal-card">
+        <div class="dice-modal-head">
+            <div>
+                <h3 class="dice-modal-title" style="margin-bottom:4px;">Vincular recurso</h3>
+                <div class="dice-modal-subtitle" id="dm-campaign-link-subtitle">Elegi un recurso disponible para conectarlo con esta entrada del campaign board.</div>
+            </div>
+            <button type="button" class="dice-close" onclick="closeCampaignLinkPickerModal()">Cerrar</button>
+        </div>
+        <div class="dm-modal-grid">
+            <label class="full" style="display:flex; flex-direction:column; gap:6px; color:#cbd5e1; font-size:0.82em;">
+                Tipo de recurso
+                <select id="dm-campaign-link-type" onchange="updateCampaignLinkPickerType(this.value)"></select>
+            </label>
+            <label class="full" style="display:flex; flex-direction:column; gap:6px; color:#cbd5e1; font-size:0.82em;">
+                Elemento
+                <select id="dm-campaign-link-item"></select>
+            </label>
+        </div>
+        <div id="dm-campaign-link-empty" class="companion-empty" style="display:none; margin-top:12px;">No hay recursos disponibles para vincular todavia.</div>
+        <div class="companion-actions" style="justify-content:flex-end; margin-top:14px;">
+            <button type="button" class="manual-back-btn" id="dm-campaign-link-confirm" onclick="confirmAddCampaignLink()">Vincular recurso</button>
         </div>
     </div>
 </div>
@@ -7096,6 +7293,14 @@ const DM_TOOLS = {
     sessionHub: {
         sessions: []
     },
+    campaignBoard: {
+        arcs: [],
+        factions: [],
+        objectives: [],
+        clocks: [],
+        clues: [],
+        secrets: []
+    },
     history: {
         backstory: "",
         notes: "",
@@ -7161,6 +7366,13 @@ const DM_TOOLS = {
 
 const DM_UI_STATE = {
     sessionHub: false,
+    campaign: false,
+    "campaign-arcs": false,
+    "campaign-factions": false,
+    "campaign-objectives": false,
+    "campaign-clocks": false,
+    "campaign-clues": false,
+    "campaign-secrets": false,
     history: false,
     "history-backstory": false,
     "history-sessions": false,
@@ -7174,7 +7386,7 @@ const DM_UI_STATE = {
     encounter: false
 };
 
-const DM_TOP_LEVEL_SECTIONS = ["sessionHub", "history", "party", "npc", "encounter", "event", "sidequest", "loot", "files"];
+const DM_TOP_LEVEL_SECTIONS = ["sessionHub", "campaign", "history", "party", "npc", "encounter", "event", "sidequest", "loot", "files"];
 
 function getDmSectionCardRects() {
     return Array.from(document.querySelectorAll('#p5 .dm-section-card[data-dm-section]')).map(card => ({
@@ -7216,6 +7428,24 @@ function normalizeDmTopLevelOpenState() {
 
 const DM_SESSION_PICKER_STATE = {
     payload: null
+};
+
+const DM_CAMPAIGN_LINK_PICKER_STATE = {
+    entryKind: "",
+    entryIndex: -1,
+    resourceType: "",
+    library: {}
+};
+
+const CAMPAIGN_RESOURCE_TYPE_META = {
+    sessionBoard: { label: "Sesiones" },
+    historySession: { label: "History" },
+    npc: { label: "NPCs" },
+    encounter: { label: "Encounters" },
+    event: { label: "Eventos" },
+    sidequest: { label: "Sidequests" },
+    loot: { label: "Loot" },
+    file: { label: "Mis archivos" }
 };
 
 const ENCOUNTER_DIFFICULTY_CONFIG = {
@@ -8135,6 +8365,7 @@ function removeSavedNpc(index) {
     const npc = DM_TOOLS.npcGenerator.saved[index];
     DM_TOOLS.npcGenerator.saved.splice(index, 1);
     removeSessionHubItemsBySource("npc", npc?.id || "");
+    removeCampaignLinksBySource("npc", npc?.id || "");
     renderSavedNpcList();
     autoSave();
 }
@@ -8316,6 +8547,7 @@ function removeSavedEvent(index) {
     const event = DM_TOOLS.eventGenerator.saved[index];
     DM_TOOLS.eventGenerator.saved.splice(index, 1);
     removeSessionHubItemsBySource("event", event?.id || "");
+    removeCampaignLinksBySource("event", event?.id || "");
     renderSavedEventList();
     autoSave();
 }
@@ -8509,6 +8741,7 @@ function removeSavedSidequest(index) {
     const sidequest = DM_TOOLS.sidequestGenerator.saved[index];
     DM_TOOLS.sidequestGenerator.saved.splice(index, 1);
     removeSessionHubItemsBySource("sidequest", sidequest?.id || "");
+    removeCampaignLinksBySource("sidequest", sidequest?.id || "");
     renderSavedSidequestList();
     autoSave();
 }
@@ -8913,6 +9146,7 @@ function removeSavedLootPackage(index) {
     const loot = DM_TOOLS.lootGenerator.saved[index];
     DM_TOOLS.lootGenerator.saved.splice(index, 1);
     removeSessionHubItemsBySource("loot", loot?.id || "");
+    removeCampaignLinksBySource("loot", loot?.id || "");
     renderSavedLootPackages();
     autoSave();
 }
@@ -9080,6 +9314,7 @@ function editDmFileLink(id) {
 function removeDmFileLink(id) {
     DM_TOOLS.files.items = (DM_TOOLS.files.items || []).filter(item => item.id !== id);
     if (DM_TOOLS.files.editingId === id) clearDmFileForm();
+    removeCampaignLinksBySource("file", id);
     renderDmFilesList();
     autoSave();
 }
@@ -9208,6 +9443,7 @@ function updateSessionBoardName(sessionId, value) {
 }
 
 function removeSessionBoard(sessionId) {
+    removeCampaignLinksBySource("sessionBoard", sessionId);
     DM_TOOLS.sessionHub.sessions = (DM_TOOLS.sessionHub.sessions || []).filter(session => session.id !== sessionId);
     renderSessionHub();
     renderSessionPickerControls();
@@ -9383,13 +9619,42 @@ function openHistorySessionById(historyId) {
     }, 50);
 }
 
-function openSessionHubItem(sessionId, itemId) {
+function openSessionBoardById(sessionId) {
     const session = (DM_TOOLS.sessionHub.sessions || []).find(entry => entry.id === sessionId);
-    const item = session?.items?.find(entry => entry.id === itemId);
+    if (!session) return;
+    if (session.collapsed) {
+        session.collapsed = false;
+        renderSessionHub();
+    }
+    openDmToolsArea(["sessionHub"], "dm-session-board-list");
+    setTimeout(() => {
+        const target = document.querySelector(`[data-session-board-id="${sessionId}"]`);
+        if (target && typeof target.scrollIntoView === "function") {
+            target.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+    }, 60);
+}
+
+function openDmFileById(fileId) {
+    openDmToolsArea(["files"], "dm-files-list");
+    setTimeout(() => {
+        const target = document.querySelector(`[data-dm-file-id="${fileId}"]`);
+        if (target && typeof target.scrollIntoView === "function") {
+            target.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+    }, 60);
+}
+
+function openDmLinkedItem(item) {
     if (!item) return;
 
+    if (item.kind === "sessionBoard") {
+        openSessionBoardById(item.payload?.sessionId || item.sourceId);
+        return;
+    }
+
     if (item.kind === "historySession") {
-        openHistorySessionById(item.payload?.historyId);
+        openHistorySessionById(item.payload?.historyId || item.sourceId);
         return;
     }
 
@@ -9435,6 +9700,18 @@ function openSessionHubItem(sessionId, itemId) {
         syncEncounterBuilderMode();
         return;
     }
+
+    if (item.kind === "file") {
+        openDmFileById(item.payload?.fileId || item.sourceId || item.payload?.id || "");
+        return;
+    }
+}
+
+function openSessionHubItem(sessionId, itemId) {
+    const session = (DM_TOOLS.sessionHub.sessions || []).find(entry => entry.id === sessionId);
+    const item = session?.items?.find(entry => entry.id === itemId);
+    if (!item) return;
+    openDmLinkedItem(item);
 }
 
 function getHistorySessionTitle(session, index = 0) {
@@ -9588,6 +9865,596 @@ function addEncounterToBoard() {
     openSessionPickerModal(payload, "AgregÃ¡ este encounter a una sesiÃ³n.");
 }
 
+function normalizeCampaignBoardEntry(entry = {}, kind = "generic") {
+    return {
+        id: entry.id || makeId(`campaign-${kind}`),
+        ...entry,
+        links: Array.isArray(entry?.links) ? entry.links.map(normalizeSessionHubItem) : []
+    };
+}
+
+function getCampaignStatusLabel(kind, value) {
+    const maps = {
+        arc: { active: "Activo", paused: "Pausado", resolved: "Resuelto" },
+        faction: { allied: "Aliada", neutral: "Neutral", hostile: "Hostil", fractured: "Fragmentada" },
+        objective: { active: "Activo", blocked: "Bloqueado", done: "Resuelto" },
+        clue: { discovered: "Descubierta", interpreted: "Interpretada", misread: "Malinterpretada" },
+        secret: { hidden: "Oculto", hinted: "Insinuado", revealed: "Revelado" }
+    };
+    return maps[kind]?.[value] || value || "-";
+}
+
+function getCampaignPriorityLabel(value) {
+    return ({ high: "Alta", medium: "Media", low: "Baja" }[value] || value || "-");
+}
+
+function normalizeCampaignBoardState() {
+    DM_TOOLS.campaignBoard = DM_TOOLS.campaignBoard || {};
+    DM_TOOLS.campaignBoard.arcs = Array.isArray(DM_TOOLS.campaignBoard.arcs) ? DM_TOOLS.campaignBoard.arcs.map(entry => normalizeCampaignBoardEntry(entry, "arc")) : [];
+    DM_TOOLS.campaignBoard.factions = Array.isArray(DM_TOOLS.campaignBoard.factions) ? DM_TOOLS.campaignBoard.factions.map(entry => normalizeCampaignBoardEntry(entry, "faction")) : [];
+    DM_TOOLS.campaignBoard.objectives = Array.isArray(DM_TOOLS.campaignBoard.objectives) ? DM_TOOLS.campaignBoard.objectives.map(entry => normalizeCampaignBoardEntry(entry, "objective")) : [];
+    DM_TOOLS.campaignBoard.clocks = Array.isArray(DM_TOOLS.campaignBoard.clocks) ? DM_TOOLS.campaignBoard.clocks.map(entry => normalizeCampaignBoardEntry(entry, "clock")) : [];
+    DM_TOOLS.campaignBoard.clues = Array.isArray(DM_TOOLS.campaignBoard.clues) ? DM_TOOLS.campaignBoard.clues.map(entry => normalizeCampaignBoardEntry(entry, "clue")) : [];
+    DM_TOOLS.campaignBoard.secrets = Array.isArray(DM_TOOLS.campaignBoard.secrets) ? DM_TOOLS.campaignBoard.secrets.map(entry => normalizeCampaignBoardEntry(entry, "secret")) : [];
+}
+
+function getCampaignBoardCollection(kind) {
+    normalizeCampaignBoardState();
+    return Array.isArray(DM_TOOLS.campaignBoard?.[kind]) ? DM_TOOLS.campaignBoard[kind] : [];
+}
+
+function getCampaignBoardEntryTitle(kind, entry, index = 0) {
+    if (kind === "factions") return entry?.name || `Faccion ${index + 1}`;
+    return entry?.title || `Entrada ${index + 1}`;
+}
+
+function buildSessionBoardCampaignPayload(index) {
+    const session = normalizeSessionHubSession((DM_TOOLS.sessionHub.sessions || [])[index], index);
+    if (!session) return null;
+    return buildSessionPickerPayload(
+        "sessionBoard",
+        session.name || `Sesion ${index + 1}`,
+        summarizeText(`${session.items.length} elemento(s) cargados en esta sesion.`, "Sesion del organizador."),
+        { sessionId: session.id },
+        "Sesiones",
+        session.id
+    );
+}
+
+function buildFileCampaignPayload(index) {
+    const item = normalizeDmFileItem((DM_TOOLS.files.items || [])[index], index);
+    if (!item?.url) return null;
+    return buildSessionPickerPayload(
+        "file",
+        item.name || `Archivo ${index + 1}`,
+        summarizeText(`${item.tag || getDmFileKind(item.url)} - ${item.url}`, "Archivo externo vinculado."),
+        { fileId: item.id, url: item.url, name: item.name },
+        "Mis archivos",
+        item.id
+    );
+}
+
+function buildCurrentNpcCampaignPayload() {
+    const npc = DM_TOOLS.npcGenerator.current;
+    if (!npc) return null;
+    return buildSessionPickerPayload(
+        "npc",
+        npc.name || "NPC actual",
+        summarizeText(`${npc.race || ""} - ${npc.className || ""} ${npc.level || ""} - ${npc.trait || npc.hook || ""}`, "NPC actual listo para usar."),
+        JSON.parse(JSON.stringify(npc)),
+        "NPC actual",
+        npc.id || ""
+    );
+}
+
+function buildCurrentEventCampaignPayload() {
+    const event = DM_TOOLS.eventGenerator.current;
+    if (!event) return null;
+    return buildSessionPickerPayload(
+        "event",
+        event.eventType || "Evento actual",
+        summarizeText(event.event || event.complication || "", "Evento actual listo para usar."),
+        JSON.parse(JSON.stringify(event)),
+        "Evento actual",
+        event.id || ""
+    );
+}
+
+function buildCurrentSidequestCampaignPayload() {
+    const sidequest = DM_TOOLS.sidequestGenerator.current;
+    if (!sidequest) return null;
+    return buildSessionPickerPayload(
+        "sidequest",
+        sidequest.title || "Sidequest actual",
+        summarizeText(`${sidequest.objective || ""} ${sidequest.complication || ""}`, "Sidequest actual lista para usar."),
+        JSON.parse(JSON.stringify(sidequest)),
+        "Sidequest actual",
+        sidequest.id || ""
+    );
+}
+
+function buildCurrentLootCampaignPayload() {
+    const loot = DM_TOOLS.lootGenerator.current;
+    if (!loot) return null;
+    const typeText = Array.isArray(loot.enemyTypes) && loot.enemyTypes.length ? loot.enemyTypes.join(", ") : "Mixto";
+    return buildSessionPickerPayload(
+        "loot",
+        `Loot EL ${formatEncounterElValue(loot.encounterLevel || 1)}`,
+        summarizeText(`${typeText} - ${loot.utilityLine || loot.lairLine || loot.narrativeLine || ""}`, "Loot actual contextual."),
+        JSON.parse(JSON.stringify(loot)),
+        "Loot actual",
+        loot.id || ""
+    );
+}
+
+function buildCurrentEncounterCampaignPayload() {
+    const encounter = DM_TOOLS.encounterBuilder.lastEncounter;
+    if (!encounter || !Array.isArray(encounter.creatures) || !encounter.creatures.length) return null;
+    return buildEncounterSessionPayload(encounter);
+}
+
+function dedupeCampaignPayloads(payloads = []) {
+    const seen = new Set();
+    return payloads.filter(payload => {
+        if (!payload) return false;
+        const key = `${payload.kind}:${payload.sourceId || payload.title || payload.id || ""}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+    });
+}
+
+function getCampaignLinkResourceLibrary() {
+    return {
+        sessionBoard: dedupeCampaignPayloads((DM_TOOLS.sessionHub.sessions || []).map((session, index) => buildSessionBoardCampaignPayload(index))),
+        historySession: dedupeCampaignPayloads((DM_TOOLS.history.sessions || []).map((session, index) => buildHistorySessionBoardPayload(index))),
+        npc: dedupeCampaignPayloads([buildCurrentNpcCampaignPayload(), ...(DM_TOOLS.npcGenerator.saved || []).map((npc, index) => buildNpcSessionPayload(index))]),
+        encounter: dedupeCampaignPayloads([buildCurrentEncounterCampaignPayload(), ...(DM_TOOLS.encounterBuilder.saved || []).map((encounter, index) => buildEncounterSessionPayload(encounter))]),
+        event: dedupeCampaignPayloads([buildCurrentEventCampaignPayload(), ...(DM_TOOLS.eventGenerator.saved || []).map((event, index) => buildEventSessionPayload(index))]),
+        sidequest: dedupeCampaignPayloads([buildCurrentSidequestCampaignPayload(), ...(DM_TOOLS.sidequestGenerator.saved || []).map((sidequest, index) => buildSidequestSessionPayload(index))]),
+        loot: dedupeCampaignPayloads([buildCurrentLootCampaignPayload(), ...(DM_TOOLS.lootGenerator.saved || []).map((loot, index) => buildLootSessionPayload(index))]),
+        file: dedupeCampaignPayloads((DM_TOOLS.files.items || []).map((item, index) => buildFileCampaignPayload(index)))
+    };
+}
+
+function getCampaignResourceTypesWithItems(library = DM_CAMPAIGN_LINK_PICKER_STATE.library) {
+    const order = ["sessionBoard", "historySession", "npc", "encounter", "event", "sidequest", "loot", "file"];
+    return order.filter(type => Array.isArray(library?.[type]) && library[type].length);
+}
+
+function syncCampaignLinkPickerControls() {
+    const typeEl = document.getElementById('dm-campaign-link-type');
+    const itemEl = document.getElementById('dm-campaign-link-item');
+    const emptyEl = document.getElementById('dm-campaign-link-empty');
+    const confirmBtn = document.getElementById('dm-campaign-link-confirm');
+    const availableTypes = getCampaignResourceTypesWithItems(DM_CAMPAIGN_LINK_PICKER_STATE.library);
+    if (!typeEl || !itemEl || !emptyEl || !confirmBtn) return;
+
+    if (!availableTypes.length) {
+        typeEl.innerHTML = "";
+        itemEl.innerHTML = "";
+        typeEl.disabled = true;
+        itemEl.disabled = true;
+        emptyEl.style.display = "";
+        confirmBtn.disabled = true;
+        confirmBtn.style.opacity = "0.5";
+        return;
+    }
+
+    if (!availableTypes.includes(DM_CAMPAIGN_LINK_PICKER_STATE.resourceType)) {
+        DM_CAMPAIGN_LINK_PICKER_STATE.resourceType = availableTypes[0];
+    }
+
+    typeEl.disabled = false;
+    itemEl.disabled = false;
+    emptyEl.style.display = "none";
+    typeEl.innerHTML = availableTypes.map(type => {
+        const label = normalizeVisibleMojibake(CAMPAIGN_RESOURCE_TYPE_META[type]?.label || type);
+        const count = (DM_CAMPAIGN_LINK_PICKER_STATE.library[type] || []).length;
+        return `<option value="${escapeAttr(type)}">${escapeHtml(label)} (${count})</option>`;
+    }).join("");
+    typeEl.value = DM_CAMPAIGN_LINK_PICKER_STATE.resourceType;
+
+    const options = DM_CAMPAIGN_LINK_PICKER_STATE.library[DM_CAMPAIGN_LINK_PICKER_STATE.resourceType] || [];
+    itemEl.innerHTML = options.map((payload, index) => {
+        const rawLabel = summarizeText(`${payload.title} - ${payload.summary}`, payload.title || "Elemento");
+        const label = normalizeVisibleMojibake(rawLabel);
+        return `<option value="${index}">${escapeHtml(label)}</option>`;
+    }).join("");
+    confirmBtn.disabled = !options.length;
+    confirmBtn.style.opacity = options.length ? "1" : "0.5";
+}
+
+function openCampaignLinkPicker(kind, index) {
+    const entry = getCampaignBoardCollection(kind)[index];
+    if (!entry) return;
+    DM_CAMPAIGN_LINK_PICKER_STATE.entryKind = kind;
+    DM_CAMPAIGN_LINK_PICKER_STATE.entryIndex = index;
+    DM_CAMPAIGN_LINK_PICKER_STATE.library = getCampaignLinkResourceLibrary();
+    DM_CAMPAIGN_LINK_PICKER_STATE.resourceType = getCampaignResourceTypesWithItems(DM_CAMPAIGN_LINK_PICKER_STATE.library)[0] || "";
+    const subtitleEl = document.getElementById('dm-campaign-link-subtitle');
+    if (subtitleEl) {
+        subtitleEl.innerText = `Vincula recursos disponibles a ${getCampaignBoardEntryTitle(kind, entry, index)}.`;
+    }
+    syncCampaignLinkPickerControls();
+    document.getElementById('dm-campaign-link-modal')?.classList.add('open');
+}
+
+function closeCampaignLinkPickerModal() {
+    document.getElementById('dm-campaign-link-modal')?.classList.remove('open');
+    DM_CAMPAIGN_LINK_PICKER_STATE.entryKind = "";
+    DM_CAMPAIGN_LINK_PICKER_STATE.entryIndex = -1;
+    DM_CAMPAIGN_LINK_PICKER_STATE.resourceType = "";
+    DM_CAMPAIGN_LINK_PICKER_STATE.library = {};
+}
+
+function handleCampaignLinkPickerModalBackdrop(event) {
+    if (event.target?.id === 'dm-campaign-link-modal') closeCampaignLinkPickerModal();
+}
+
+function updateCampaignLinkPickerType(value) {
+    DM_CAMPAIGN_LINK_PICKER_STATE.resourceType = value || "";
+    syncCampaignLinkPickerControls();
+}
+
+function confirmAddCampaignLink() {
+    const kind = DM_CAMPAIGN_LINK_PICKER_STATE.entryKind;
+    const index = DM_CAMPAIGN_LINK_PICKER_STATE.entryIndex;
+    const entry = getCampaignBoardCollection(kind)[index];
+    const itemEl = document.getElementById('dm-campaign-link-item');
+    if (!entry || !itemEl) return;
+    const options = DM_CAMPAIGN_LINK_PICKER_STATE.library[DM_CAMPAIGN_LINK_PICKER_STATE.resourceType] || [];
+    const payload = options[parseInt(itemEl.value, 10) || 0];
+    if (!payload) return;
+    const normalized = normalizeSessionHubItem(payload);
+    const exists = (entry.links || []).some(link => link.kind === normalized.kind && (
+        (normalized.sourceId && link.sourceId === normalized.sourceId) ||
+        link.id === normalized.id
+    ));
+    if (!exists) {
+        entry.links = [...(entry.links || []), normalized];
+        renderCampaignBoard();
+        autoSave();
+    }
+    closeCampaignLinkPickerModal();
+}
+
+function removeCampaignLink(kind, index, linkId) {
+    const entry = getCampaignBoardCollection(kind)[index];
+    if (!entry) return;
+    entry.links = (entry.links || []).filter(link => link.id !== linkId);
+    renderCampaignBoard();
+    autoSave();
+}
+
+function openCampaignLinkedItem(kind, index, linkId) {
+    const entry = getCampaignBoardCollection(kind)[index];
+    const link = entry?.links?.find(item => item.id === linkId);
+    if (!link) return;
+    openDmLinkedItem(link);
+}
+
+function removeCampaignLinksBySource(kind, sourceId) {
+    if (!kind || !sourceId) return;
+    let changed = false;
+    ["arcs", "factions", "objectives", "clocks", "clues", "secrets"].forEach(collectionKey => {
+        const items = getCampaignBoardCollection(collectionKey);
+        items.forEach(entry => {
+            const nextLinks = (entry.links || []).filter(link => {
+                const matches = link.kind === kind && (
+                    link.sourceId === sourceId ||
+                    link.payload?.id === sourceId ||
+                    link.payload?.historyId === sourceId ||
+                    link.payload?.sessionId === sourceId ||
+                    link.payload?.fileId === sourceId
+                );
+                if (matches) changed = true;
+                return !matches;
+            });
+            entry.links = nextLinks;
+        });
+    });
+    if (changed) {
+        renderCampaignBoard();
+        autoSave();
+    }
+}
+
+function renderCampaignLinksHtml(kind, index, entry) {
+    const links = Array.isArray(entry?.links) ? entry.links.map(normalizeSessionHubItem) : [];
+    return `
+        <div class="dm-campaign-links">
+            <div class="dm-campaign-links-head">
+                <span class="dm-campaign-links-label">Vinculos</span>
+                <button type="button" class="dm-mini-btn" onclick="openCampaignLinkPicker('${escapeAttr(kind)}', ${index})">Vincular recurso</button>
+            </div>
+            ${links.length ? `
+                <div class="dm-campaign-links-list">
+                    ${links.map(link => `
+                        <div class="dm-campaign-link-card">
+                            <button type="button" class="dm-campaign-link-open" onclick="openCampaignLinkedItem('${escapeAttr(kind)}', ${index}, '${escapeAttr(link.id)}')">
+                                <div class="dm-campaign-link-title">${escapeHtml(link.title || "Entrada")}</div>
+                                <div class="dm-campaign-link-meta">${escapeHtml(link.sourceLabel || "DM")}</div>
+                                <div class="dm-campaign-link-summary">${escapeHtml(link.summary || "Sin resumen.")}</div>
+                            </button>
+                            <button type="button" class="dm-mini-btn" onclick="removeCampaignLink('${escapeAttr(kind)}', ${index}, '${escapeAttr(link.id)}')">Quitar</button>
+                        </div>
+                    `).join("")}
+                </div>
+            ` : `<div class="dm-campaign-link-empty">Todavia no hay vinculos cargados.</div>`}
+        </div>
+    `;
+}
+
+function getCampaignBoardSummary() {
+    normalizeCampaignBoardState();
+    return {
+        arcsActive: DM_TOOLS.campaignBoard.arcs.filter(entry => entry.status === "active").length,
+        objectivesOpen: DM_TOOLS.campaignBoard.objectives.filter(entry => entry.status !== "done").length,
+        riskyClocks: DM_TOOLS.campaignBoard.clocks.filter(entry => {
+            const segments = Math.max(1, parseInt(entry.segments, 10) || 1);
+            const progress = Math.max(0, parseInt(entry.progress, 10) || 0);
+            return progress >= Math.max(1, segments - 1);
+        }).length,
+        hostileFactions: DM_TOOLS.campaignBoard.factions.filter(entry => entry.attitude === "hostile").length,
+        cluesOpen: DM_TOOLS.campaignBoard.clues.filter(entry => entry.status !== "interpreted").length,
+        secretsPending: DM_TOOLS.campaignBoard.secrets.filter(entry => entry.status !== "revealed").length
+    };
+}
+
+function renderCampaignBoardSummary() {
+    const container = document.getElementById('dm-campaign-summary');
+    if (!container) return;
+    const summary = getCampaignBoardSummary();
+    container.innerHTML = `
+        <div class="dm-encounter-metric"><span class="dm-encounter-metric-label">Arcos activos</span><div class="dm-encounter-metric-value">${summary.arcsActive}</div></div>
+        <div class="dm-encounter-metric"><span class="dm-encounter-metric-label">Objetivos abiertos</span><div class="dm-encounter-metric-value">${summary.objectivesOpen}</div></div>
+        <div class="dm-encounter-metric"><span class="dm-encounter-metric-label">Clocks en riesgo</span><div class="dm-encounter-metric-value">${summary.riskyClocks}</div></div>
+        <div class="dm-encounter-metric"><span class="dm-encounter-metric-label">Facciones hostiles</span><div class="dm-encounter-metric-value">${summary.hostileFactions}</div></div>
+        <div class="dm-encounter-metric"><span class="dm-encounter-metric-label">Pistas abiertas</span><div class="dm-encounter-metric-value">${summary.cluesOpen}</div></div>
+        <div class="dm-encounter-metric"><span class="dm-encounter-metric-label">Secretos pendientes</span><div class="dm-encounter-metric-value">${summary.secretsPending}</div></div>
+    `;
+}
+
+function renderCampaignGenericList(kind, containerId, emptyText, metaBuilder, textField, removeFnName, updateFnName) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const items = DM_TOOLS.campaignBoard[kind] || [];
+    if (!items.length) {
+        container.innerHTML = `<div class="companion-empty">${emptyText}</div>`;
+        return;
+    }
+    container.innerHTML = items.map((entry, index) => `
+        <div class="dm-session-item">
+            <div class="dm-session-head">
+                <div class="dm-session-title">${escapeHtml(getCampaignBoardEntryTitle(kind, entry, index))}</div>
+                <div class="dm-encounter-actions" style="margin-top:0;">
+                    <button type="button" class="dm-mini-btn" onclick="${removeFnName}(${index})">Quitar</button>
+                </div>
+            </div>
+            <div class="dm-encounter-tags">${metaBuilder(entry).join("")}</div>
+            <textarea class="dm-textarea" style="min-height:90px;" oninput="${updateFnName}(${index}, '${textField}', this.value)">${escapeHtml(entry[textField] || "")}</textarea>
+            ${renderCampaignLinksHtml(kind, index, entry)}
+        </div>
+    `).join("");
+}
+
+function renderCampaignClocks() {
+    const container = document.getElementById('dm-campaign-clocks-list');
+    if (!container) return;
+    const items = DM_TOOLS.campaignBoard.clocks || [];
+    if (!items.length) {
+        container.innerHTML = `<div class="companion-empty">Todavia no hay clocks cargados.</div>`;
+        return;
+    }
+    container.innerHTML = items.map((entry, index) => {
+        const segments = Math.max(1, parseInt(entry.segments, 10) || 1);
+        const progress = Math.max(0, Math.min(segments, parseInt(entry.progress, 10) || 0));
+        const ticks = Array.from({ length: segments }, (_, tickIndex) => `<span class="dm-encounter-tag" style="${tickIndex < progress ? 'background:rgba(168,85,247,0.28); border-color:rgba(216,180,254,0.65); color:#f5d0fe;' : ''}">${tickIndex + 1}</span>`).join("");
+        return `
+            <div class="dm-session-item">
+                <div class="dm-session-head">
+                    <div class="dm-session-title">${escapeHtml(entry.title || `Clock ${index + 1}`)}</div>
+                    <div class="dm-encounter-actions" style="margin-top:0;">
+                        <button type="button" class="dm-mini-btn" onclick="stepCampaignClock(${index}, -1)">-1</button>
+                        <button type="button" class="dm-mini-btn" onclick="stepCampaignClock(${index}, 1)">+1</button>
+                        <button type="button" class="dm-mini-btn" onclick="removeCampaignClock(${index})">Quitar</button>
+                    </div>
+                </div>
+                <div class="dm-encounter-tags">${ticks}</div>
+                <div class="companion-note" style="margin-top:6px;">${escapeHtml(entry.trigger || "Sin disparador cargado.")}</div>
+                ${renderCampaignLinksHtml("clocks", index, entry)}
+            </div>
+        `;
+    }).join("");
+}
+
+function renderCampaignBoard() {
+    normalizeCampaignBoardState();
+    renderCampaignBoardSummary();
+    renderCampaignGenericList("arcs", "dm-campaign-arcs-list", "Todavia no hay arcos cargados.", entry => [
+        `<span class="dm-encounter-tag">${escapeHtml(getCampaignStatusLabel("arc", entry.status))}</span>`,
+        entry.tone ? `<span class="dm-encounter-tag">${escapeHtml(entry.tone)}</span>` : ""
+    ], "summary", "removeCampaignArc", "updateCampaignArc");
+    renderCampaignGenericList("factions", "dm-campaign-factions-list", "Todavia no hay facciones cargadas.", entry => [
+        `<span class="dm-encounter-tag">${escapeHtml(getCampaignStatusLabel("faction", entry.attitude))}</span>`,
+        entry.resources ? `<span class="dm-encounter-tag">${escapeHtml(entry.resources)}</span>` : ""
+    ], "goal", "removeCampaignFaction", "updateCampaignFaction");
+    renderCampaignGenericList("objectives", "dm-campaign-objectives-list", "Todavia no hay objetivos cargados.", entry => [
+        `<span class="dm-encounter-tag">${escapeHtml(getCampaignPriorityLabel(entry.priority))}</span>`,
+        `<span class="dm-encounter-tag">${escapeHtml(getCampaignStatusLabel("objective", entry.status))}</span>`
+    ], "note", "removeCampaignObjective", "updateCampaignObjective");
+    renderCampaignClocks();
+    renderCampaignGenericList("clues", "dm-campaign-clues-list", "Todavia no hay pistas cargadas.", entry => [
+        `<span class="dm-encounter-tag">${escapeHtml(getCampaignStatusLabel("clue", entry.status))}</span>`,
+        entry.source ? `<span class="dm-encounter-tag">${escapeHtml(entry.source)}</span>` : ""
+    ], "note", "removeCampaignClue", "updateCampaignClue");
+    renderCampaignGenericList("secrets", "dm-campaign-secrets-list", "Todavia no hay secretos cargados.", entry => [
+        `<span class="dm-encounter-tag">${escapeHtml(getCampaignStatusLabel("secret", entry.status))}</span>`,
+        entry.holder ? `<span class="dm-encounter-tag">${escapeHtml(entry.holder)}</span>` : ""
+    ], "note", "removeCampaignSecret", "updateCampaignSecret");
+}
+
+function addCampaignArc() {
+    const title = document.getElementById('dm-campaign-arc-title')?.value.trim();
+    const status = document.getElementById('dm-campaign-arc-status')?.value || "active";
+    const tone = document.getElementById('dm-campaign-arc-tone')?.value.trim() || "";
+    const summary = document.getElementById('dm-campaign-arc-summary')?.value.trim() || "";
+    if (!title && !summary) return;
+    DM_TOOLS.campaignBoard.arcs.push(normalizeCampaignBoardEntry({ title: title || "Arco sin titulo", status, tone, summary }, "arc"));
+    ["dm-campaign-arc-title","dm-campaign-arc-tone","dm-campaign-arc-summary"].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
+    const statusEl = document.getElementById('dm-campaign-arc-status'); if (statusEl) statusEl.value = "active";
+    renderCampaignBoard();
+    autoSave();
+}
+
+function updateCampaignArc(index, field, value) {
+    if (!DM_TOOLS.campaignBoard.arcs[index]) return;
+    DM_TOOLS.campaignBoard.arcs[index][field] = value;
+    renderCampaignBoardSummary();
+    autoSave();
+}
+
+function removeCampaignArc(index) {
+    DM_TOOLS.campaignBoard.arcs.splice(index, 1);
+    renderCampaignBoard();
+    autoSave();
+}
+
+function addCampaignFaction() {
+    const name = document.getElementById('dm-campaign-faction-name')?.value.trim();
+    const attitude = document.getElementById('dm-campaign-faction-attitude')?.value || "neutral";
+    const resources = document.getElementById('dm-campaign-faction-resources')?.value.trim() || "";
+    const goal = document.getElementById('dm-campaign-faction-goal')?.value.trim() || "";
+    if (!name && !goal) return;
+    DM_TOOLS.campaignBoard.factions.push(normalizeCampaignBoardEntry({ name: name || "Faccion sin nombre", attitude, resources, goal }, "faction"));
+    ["dm-campaign-faction-name","dm-campaign-faction-resources","dm-campaign-faction-goal"].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
+    const attEl = document.getElementById('dm-campaign-faction-attitude'); if (attEl) attEl.value = "neutral";
+    renderCampaignBoard();
+    autoSave();
+}
+
+function updateCampaignFaction(index, field, value) {
+    if (!DM_TOOLS.campaignBoard.factions[index]) return;
+    DM_TOOLS.campaignBoard.factions[index][field] = value;
+    renderCampaignBoardSummary();
+    autoSave();
+}
+
+function removeCampaignFaction(index) {
+    DM_TOOLS.campaignBoard.factions.splice(index, 1);
+    renderCampaignBoard();
+    autoSave();
+}
+
+function addCampaignObjective() {
+    const title = document.getElementById('dm-campaign-objective-title')?.value.trim();
+    const priority = document.getElementById('dm-campaign-objective-priority')?.value || "medium";
+    const status = document.getElementById('dm-campaign-objective-status')?.value || "active";
+    const note = document.getElementById('dm-campaign-objective-note')?.value.trim() || "";
+    if (!title && !note) return;
+    DM_TOOLS.campaignBoard.objectives.push(normalizeCampaignBoardEntry({ title: title || "Objetivo sin titulo", priority, status, note }, "objective"));
+    ["dm-campaign-objective-title","dm-campaign-objective-note"].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
+    const priorityEl = document.getElementById('dm-campaign-objective-priority'); if (priorityEl) priorityEl.value = "medium";
+    const statusEl = document.getElementById('dm-campaign-objective-status'); if (statusEl) statusEl.value = "active";
+    renderCampaignBoard();
+    autoSave();
+}
+
+function updateCampaignObjective(index, field, value) {
+    if (!DM_TOOLS.campaignBoard.objectives[index]) return;
+    DM_TOOLS.campaignBoard.objectives[index][field] = value;
+    renderCampaignBoardSummary();
+    autoSave();
+}
+
+function removeCampaignObjective(index) {
+    DM_TOOLS.campaignBoard.objectives.splice(index, 1);
+    renderCampaignBoard();
+    autoSave();
+}
+
+function addCampaignClock() {
+    const title = document.getElementById('dm-campaign-clock-title')?.value.trim();
+    const segments = Math.max(2, Math.min(12, parseInt(document.getElementById('dm-campaign-clock-segments')?.value, 10) || 4));
+    const progress = Math.max(0, Math.min(segments, parseInt(document.getElementById('dm-campaign-clock-progress')?.value, 10) || 0));
+    const trigger = document.getElementById('dm-campaign-clock-trigger')?.value.trim() || "";
+    if (!title && !trigger) return;
+    DM_TOOLS.campaignBoard.clocks.push(normalizeCampaignBoardEntry({ title: title || "Clock sin titulo", segments, progress, trigger }, "clock"));
+    ["dm-campaign-clock-title","dm-campaign-clock-trigger"].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
+    const segEl = document.getElementById('dm-campaign-clock-segments'); if (segEl) segEl.value = "4";
+    const progEl = document.getElementById('dm-campaign-clock-progress'); if (progEl) progEl.value = "0";
+    renderCampaignBoard();
+    autoSave();
+}
+
+function stepCampaignClock(index, delta) {
+    const item = DM_TOOLS.campaignBoard.clocks[index];
+    if (!item) return;
+    const segments = Math.max(1, parseInt(item.segments, 10) || 1);
+    item.progress = Math.max(0, Math.min(segments, (parseInt(item.progress, 10) || 0) + delta));
+    renderCampaignBoard();
+    autoSave();
+}
+
+function removeCampaignClock(index) {
+    DM_TOOLS.campaignBoard.clocks.splice(index, 1);
+    renderCampaignBoard();
+    autoSave();
+}
+
+function addCampaignClue() {
+    const title = document.getElementById('dm-campaign-clue-title')?.value.trim();
+    const source = document.getElementById('dm-campaign-clue-source')?.value.trim() || "";
+    const status = document.getElementById('dm-campaign-clue-status')?.value || "discovered";
+    const note = document.getElementById('dm-campaign-clue-note')?.value.trim() || "";
+    if (!title && !note) return;
+    DM_TOOLS.campaignBoard.clues.push(normalizeCampaignBoardEntry({ title: title || "Pista sin titulo", source, status, note }, "clue"));
+    ["dm-campaign-clue-title","dm-campaign-clue-source","dm-campaign-clue-note"].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
+    const statusEl = document.getElementById('dm-campaign-clue-status'); if (statusEl) statusEl.value = "discovered";
+    renderCampaignBoard();
+    autoSave();
+}
+
+function updateCampaignClue(index, field, value) {
+    if (!DM_TOOLS.campaignBoard.clues[index]) return;
+    DM_TOOLS.campaignBoard.clues[index][field] = value;
+    renderCampaignBoardSummary();
+    autoSave();
+}
+
+function removeCampaignClue(index) {
+    DM_TOOLS.campaignBoard.clues.splice(index, 1);
+    renderCampaignBoard();
+    autoSave();
+}
+
+function addCampaignSecret() {
+    const title = document.getElementById('dm-campaign-secret-title')?.value.trim();
+    const holder = document.getElementById('dm-campaign-secret-holder')?.value.trim() || "";
+    const status = document.getElementById('dm-campaign-secret-status')?.value || "hidden";
+    const note = document.getElementById('dm-campaign-secret-note')?.value.trim() || "";
+    if (!title && !note) return;
+    DM_TOOLS.campaignBoard.secrets.push(normalizeCampaignBoardEntry({ title: title || "Secreto sin titulo", holder, status, note }, "secret"));
+    ["dm-campaign-secret-title","dm-campaign-secret-holder","dm-campaign-secret-note"].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
+    const statusEl = document.getElementById('dm-campaign-secret-status'); if (statusEl) statusEl.value = "hidden";
+    renderCampaignBoard();
+    autoSave();
+}
+
+function updateCampaignSecret(index, field, value) {
+    if (!DM_TOOLS.campaignBoard.secrets[index]) return;
+    DM_TOOLS.campaignBoard.secrets[index][field] = value;
+    renderCampaignBoardSummary();
+    autoSave();
+}
+
+function removeCampaignSecret(index) {
+    DM_TOOLS.campaignBoard.secrets.splice(index, 1);
+    renderCampaignBoard();
+    autoSave();
+}
+
 function renderDmSessions() {
     const list = document.getElementById('dm-sessions-list');
     if (!list) return;
@@ -9638,6 +10505,7 @@ function removeDmSession(index) {
     const session = normalizeDmHistorySession(DM_TOOLS.history.sessions[index], index);
     DM_TOOLS.history.sessions.splice(index, 1);
     removeSessionHubItemsBySource("historySession", session?.id || "");
+    removeCampaignLinksBySource("historySession", session?.id || "");
     renderDmSessions();
     autoSave();
 }
@@ -10677,6 +11545,7 @@ function removeSavedEncounter(index) {
     const encounter = DM_TOOLS.encounterBuilder.saved[index];
     DM_TOOLS.encounterBuilder.saved.splice(index, 1);
     removeSessionHubItemsBySource("encounter", encounter?.id || "");
+    removeCampaignLinksBySource("encounter", encounter?.id || "");
     renderSavedEncounters();
     autoSave();
 }
@@ -11034,6 +11903,7 @@ function syncDmToolsUi() {
     if (backstory) backstory.value = DM_TOOLS.history.backstory || "";
     if (notes) notes.value = DM_TOOLS.history.notes || "";
     renderSessionHub();
+    renderCampaignBoard();
     renderSessionPickerControls();
     renderDmSessions();
     renderPartyList();
@@ -13376,6 +14246,14 @@ collectSaveData = function() {
                 ? JSON.parse(JSON.stringify(DM_TOOLS.sessionHub.sessions.map((session, index) => normalizeSessionHubSession(session, index))))
                 : []
         },
+        campaignBoard: {
+            arcs: Array.isArray(DM_TOOLS.campaignBoard?.arcs) ? JSON.parse(JSON.stringify(DM_TOOLS.campaignBoard.arcs.map(entry => normalizeCampaignBoardEntry(entry, "arc")))) : [],
+            factions: Array.isArray(DM_TOOLS.campaignBoard?.factions) ? JSON.parse(JSON.stringify(DM_TOOLS.campaignBoard.factions.map(entry => normalizeCampaignBoardEntry(entry, "faction")))) : [],
+            objectives: Array.isArray(DM_TOOLS.campaignBoard?.objectives) ? JSON.parse(JSON.stringify(DM_TOOLS.campaignBoard.objectives.map(entry => normalizeCampaignBoardEntry(entry, "objective")))) : [],
+            clocks: Array.isArray(DM_TOOLS.campaignBoard?.clocks) ? JSON.parse(JSON.stringify(DM_TOOLS.campaignBoard.clocks.map(entry => normalizeCampaignBoardEntry(entry, "clock")))) : [],
+            clues: Array.isArray(DM_TOOLS.campaignBoard?.clues) ? JSON.parse(JSON.stringify(DM_TOOLS.campaignBoard.clues.map(entry => normalizeCampaignBoardEntry(entry, "clue")))) : [],
+            secrets: Array.isArray(DM_TOOLS.campaignBoard?.secrets) ? JSON.parse(JSON.stringify(DM_TOOLS.campaignBoard.secrets.map(entry => normalizeCampaignBoardEntry(entry, "secret")))) : []
+        },
         history: {
             backstory: DM_TOOLS.history.backstory || "",
             notes: DM_TOOLS.history.notes || "",
@@ -13752,6 +14630,24 @@ applySaveData = function(data) {
     DM_TOOLS.sessionHub.sessions = Array.isArray(data?.dmTools?.sessionHub?.sessions)
         ? data.dmTools.sessionHub.sessions.map((session, index) => normalizeSessionHubSession(session, index))
         : [];
+    DM_TOOLS.campaignBoard.arcs = Array.isArray(data?.dmTools?.campaignBoard?.arcs)
+        ? data.dmTools.campaignBoard.arcs.map(entry => normalizeCampaignBoardEntry(entry, "arc"))
+        : [];
+    DM_TOOLS.campaignBoard.factions = Array.isArray(data?.dmTools?.campaignBoard?.factions)
+        ? data.dmTools.campaignBoard.factions.map(entry => normalizeCampaignBoardEntry(entry, "faction"))
+        : [];
+    DM_TOOLS.campaignBoard.objectives = Array.isArray(data?.dmTools?.campaignBoard?.objectives)
+        ? data.dmTools.campaignBoard.objectives.map(entry => normalizeCampaignBoardEntry(entry, "objective"))
+        : [];
+    DM_TOOLS.campaignBoard.clocks = Array.isArray(data?.dmTools?.campaignBoard?.clocks)
+        ? data.dmTools.campaignBoard.clocks.map(entry => normalizeCampaignBoardEntry(entry, "clock"))
+        : [];
+    DM_TOOLS.campaignBoard.clues = Array.isArray(data?.dmTools?.campaignBoard?.clues)
+        ? data.dmTools.campaignBoard.clues.map(entry => normalizeCampaignBoardEntry(entry, "clue"))
+        : [];
+    DM_TOOLS.campaignBoard.secrets = Array.isArray(data?.dmTools?.campaignBoard?.secrets)
+        ? data.dmTools.campaignBoard.secrets.map(entry => normalizeCampaignBoardEntry(entry, "secret"))
+        : [];
     DM_TOOLS.history.backstory = data?.dmTools?.history?.backstory || "";
     DM_TOOLS.history.notes = data?.dmTools?.history?.notes || "";
     DM_TOOLS.history.sessions = Array.isArray(data?.dmTools?.history?.sessions)
@@ -13835,6 +14731,12 @@ const _baseNewCharacterDmTools = newCharacter;
 newCharacter = function() {
     _baseNewCharacterDmTools();
     DM_TOOLS.sessionHub.sessions = [];
+    DM_TOOLS.campaignBoard.arcs = [];
+    DM_TOOLS.campaignBoard.factions = [];
+    DM_TOOLS.campaignBoard.objectives = [];
+    DM_TOOLS.campaignBoard.clocks = [];
+    DM_TOOLS.campaignBoard.clues = [];
+    DM_TOOLS.campaignBoard.secrets = [];
     DM_TOOLS.history.backstory = "";
     DM_TOOLS.history.notes = "";
     DM_TOOLS.history.sessions = [];
@@ -14210,7 +15112,7 @@ renderSessionHub = function() {
         return;
     }
     container.innerHTML = DM_TOOLS.sessionHub.sessions.map(session => `
-        <div class="dm-session-board-card">
+        <div class="dm-session-board-card" data-session-board-id="${escapeAttr(session.id)}">
             <div class="dm-session-board-head">
                 <div class="dm-session-board-title-wrap">
                     <input
