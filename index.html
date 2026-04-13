@@ -402,6 +402,68 @@
     .dm-campaign-link-meta { color: #9fb6cb; font-size: 0.7em; line-height: 1.35; margin-top: 3px; text-transform: uppercase; letter-spacing: 0.55px; font-weight: 800; }
     .dm-campaign-link-summary { color: #d7e4f2; font-size: 0.8em; line-height: 1.45; margin-top: 5px; }
     .dm-campaign-link-empty { color: #94a3b8; font-size: 0.8em; line-height: 1.45; margin-top: 8px; }
+    .dm-map-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+    .dm-map-view-switch { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .dm-map-toolbar-extras { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .dm-map-visual-wrap { display: none; margin-top: 12px; }
+    .dm-map-visual-wrap.active { display: block; }
+    .dm-map-editor-wrap { display: none; margin-top: 12px; }
+    .dm-map-editor-wrap.active { display: block; }
+    .dm-map-legend { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0 0 8px; }
+    .dm-map-legend-label { color: #9fb6cb; font-size: 0.72em; font-weight: 800; letter-spacing: 0.45px; text-transform: uppercase; }
+    .dm-map-canvas { position: relative; min-height: 220px; overflow: auto; border: 1px solid var(--border); border-radius: 14px; padding: 12px; background:
+        radial-gradient(circle at top right, rgba(56,189,248,0.08), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(168,85,247,0.08), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,0.04), transparent 26%),
+        linear-gradient(180deg, rgba(15,23,42,0.92), rgba(15,23,42,0.82));
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 12px 24px rgba(2,6,23,0.14); }
+    .dm-map-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+    .dm-map-node {
+        position: absolute;
+        width: 220px;
+        min-height: 96px;
+        border-radius: 14px;
+        border: 1px solid rgba(148,163,184,0.26);
+        background:
+            linear-gradient(180deg, rgba(255,255,255,0.05), transparent 26%),
+            linear-gradient(180deg, rgba(15,23,42,0.92), rgba(15,23,42,0.78));
+        color: inherit;
+        text-align: left;
+        padding: 12px;
+        cursor: pointer;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 14px 24px rgba(2,6,23,0.16);
+        transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+    .dm-map-node:hover {
+        transform: translateY(-2px);
+        border-color: rgba(56,189,248,0.5);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 18px 30px rgba(2,6,23,0.22), 0 0 0 1px rgba(56,189,248,0.16);
+    }
+    .dm-map-node.selected {
+        border-color: rgba(167,139,250,0.72);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 18px 32px rgba(2,6,23,0.24), 0 0 0 2px rgba(167,139,250,0.18);
+        transform: translateY(-1px);
+    }
+    .dm-map-node-title { color: #f8fafc; font-weight: 900; font-size: 0.92em; line-height: 1.3; }
+    .dm-map-node-meta { color: #a5b9cc; font-size: 0.76em; margin-top: 6px; line-height: 1.45; }
+    .dm-map-node-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .dm-map-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 8px;
+        border-radius: 10px;
+        font-size: 0.68em;
+        font-weight: 800;
+        letter-spacing: 0.15px;
+        border: 1px solid rgba(148,163,184,0.22);
+        background: rgba(15,23,42,0.58);
+        color: #d7e4f2;
+    }
+    .dm-map-chip.next { border-color: rgba(56,189,248,0.28); color: #93c5fd; }
+    .dm-map-chip.success { border-color: rgba(34,197,94,0.28); color: #86efac; }
+    .dm-map-chip.failure { border-color: rgba(248,113,113,0.28); color: #fca5a5; }
+    .dm-session-item.campaign-map-selected { border-color: rgba(167,139,250,0.56); box-shadow: 0 0 0 1px rgba(167,139,250,0.16), 0 18px 30px rgba(2,6,23,0.18); }
     .dm-combat-list { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
     .dm-combat-card { background: rgba(15,23,42,0.68); border: 1px solid var(--border); border-left: 3px solid #ef4444; border-radius: 10px; padding: 12px; }
     .dm-combat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-top: 10px; }
@@ -1596,6 +1658,49 @@
                             <button type="button" class="manual-back-btn" onclick="addCampaignSecret()">+ Agregar secreto</button>
                         </div>
                         <div id="dm-campaign-secrets-list"></div>
+                    </div>
+                </div>
+
+                <div class="dm-subcard">
+                    <button type="button" class="companion-toggle" onclick="toggleDmSection('campaign-nodes')">
+                        <div class="companion-toggle-main">
+                            <div>
+                                <div class="companion-toggle-title">Mapa de campaña</div>
+                                <div class="companion-toggle-meta">Cards compactas con recursos vinculados y ramas simples de continuidad, exito o fallo.</div>
+                            </div>
+                        </div>
+                        <span class="companion-chevron" id="dm-chevron-campaign-nodes">&#9662;</span>
+                    </button>
+                    <div class="dm-subcards" id="dm-body-campaign-nodes">
+                        <div class="dm-encounter-helper" id="dm-campaign-sessionmap-helper">Crea cards, cargales elementos del campaign board o de DM Tools y conectalas entre si.</div>
+                        <div class="dm-map-toolbar">
+                            <div class="dm-map-view-switch">
+                                <button type="button" class="dm-mini-btn" id="dm-map-view-visual" onclick="toggleCampaignMapMode('visual')">Vista visual</button>
+                                <button type="button" class="dm-mini-btn" id="dm-map-view-editor" onclick="toggleCampaignMapMode('editor')">Editor</button>
+                            </div>
+                            <div class="dm-map-toolbar-extras">
+                                <button type="button" class="dm-mini-btn" onclick="centerCampaignMapView()">Centrar mapa</button>
+                            </div>
+                            <div class="companion-actions" style="margin-top:0;">
+                                <button type="button" class="manual-back-btn" onclick="addCampaignMapNode()">+ Agregar card</button>
+                                <button type="button" class="dm-mini-btn" onclick="openDmToolsArea(['sessionHub'], 'dm-session-board-list')">Ir a sesiones</button>
+                            </div>
+                        </div>
+                        <div id="dm-campaign-map-visual-wrap" class="dm-map-visual-wrap">
+                            <div class="dm-map-legend">
+                                <span class="dm-map-legend-label">Ramas</span>
+                                <span class="dm-map-chip next">&#8594; Siguiente</span>
+                                <span class="dm-map-chip success">&#10003; Exito</span>
+                                <span class="dm-map-chip failure">&#10007; Fallo</span>
+                            </div>
+                            <div id="dm-campaign-map-visual" class="dm-map-canvas"></div>
+                        </div>
+                        <div id="dm-campaign-map-editor-wrap" class="dm-map-editor-wrap">
+                            <div class="companion-actions" style="margin-top:8px;">
+                                <button type="button" class="manual-back-btn" onclick="addCampaignMapNode()">+ Agregar card</button>
+                            </div>
+                            <div id="dm-campaign-nodes-list"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -7299,7 +7404,10 @@ const DM_TOOLS = {
         objectives: [],
         clocks: [],
         clues: [],
-        secrets: []
+        secrets: [],
+        nodes: [],
+        mapMode: "visual",
+        mapSelectedNodeId: ""
     },
     history: {
         backstory: "",
@@ -7373,6 +7481,7 @@ const DM_UI_STATE = {
     "campaign-clocks": false,
     "campaign-clues": false,
     "campaign-secrets": false,
+    "campaign-nodes": false,
     history: false,
     "history-backstory": false,
     "history-sessions": false,
@@ -7440,6 +7549,12 @@ const DM_CAMPAIGN_LINK_PICKER_STATE = {
 const CAMPAIGN_RESOURCE_TYPE_META = {
     sessionBoard: { label: "Sesiones" },
     historySession: { label: "History" },
+    campaignArc: { label: "Arcos" },
+    campaignFaction: { label: "Facciones" },
+    campaignObjective: { label: "Objetivos" },
+    campaignClock: { label: "Clocks" },
+    campaignClue: { label: "Pistas" },
+    campaignSecret: { label: "Secretos" },
     npc: { label: "NPCs" },
     encounter: { label: "Encounters" },
     event: { label: "Eventos" },
@@ -9406,11 +9521,16 @@ function normalizeSessionHubItem(item) {
 }
 
 function normalizeSessionHubSession(session, index = 0) {
+    const id = session?.id || makeId(`session-${index + 1}`);
     return {
-        id: session?.id || makeId(`session-${index + 1}`),
+        id,
         name: session?.name || `Sesion ${index + 1}`,
         collapsed: !!session?.collapsed,
-        items: Array.isArray(session?.items) ? session.items.map(normalizeSessionHubItem) : []
+        items: Array.isArray(session?.items) ? session.items.map(normalizeSessionHubItem) : [],
+        nextSessionId: session?.nextSessionId && session.nextSessionId !== id ? session.nextSessionId : "",
+        successSessionId: session?.successSessionId && session.successSessionId !== id ? session.successSessionId : "",
+        failureSessionId: session?.failureSessionId && session.failureSessionId !== id ? session.failureSessionId : "",
+        campaignNote: session?.campaignNote || ""
     };
 }
 
@@ -9439,14 +9559,22 @@ function updateSessionBoardName(sessionId, value) {
     if (!session) return;
     session.name = value.trim() || getDefaultSessionName();
     renderSessionPickerControls();
+    renderCampaignNodes();
     autoSave();
 }
 
 function removeSessionBoard(sessionId) {
     removeCampaignLinksBySource("sessionBoard", sessionId);
     DM_TOOLS.sessionHub.sessions = (DM_TOOLS.sessionHub.sessions || []).filter(session => session.id !== sessionId);
+    (DM_TOOLS.sessionHub.sessions || []).forEach(session => {
+        if (session.nextSessionId === sessionId) session.nextSessionId = "";
+        if (session.successSessionId === sessionId) session.successSessionId = "";
+        if (session.failureSessionId === sessionId) session.failureSessionId = "";
+    });
     renderSessionHub();
     renderSessionPickerControls();
+    renderCampaignBoardSummary();
+    renderCampaignNodes();
     autoSave();
 }
 
@@ -9536,6 +9664,7 @@ function removeSessionHubItemsBySource(kind, sourceId) {
     if (changed) {
         renderSessionHub();
         renderSessionPickerControls();
+        renderCampaignNodes();
         autoSave();
     }
 }
@@ -9581,6 +9710,7 @@ function confirmAddToSession() {
     session.items.push(normalizeSessionHubItem(payload));
     closeSessionPickerModal();
     renderSessionHub();
+    renderCampaignNodes();
     autoSave();
 }
 
@@ -9639,6 +9769,35 @@ function openDmFileById(fileId) {
     openDmToolsArea(["files"], "dm-files-list");
     setTimeout(() => {
         const target = document.querySelector(`[data-dm-file-id="${fileId}"]`);
+        if (target && typeof target.scrollIntoView === "function") {
+            target.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+    }, 60);
+}
+
+function openCampaignBoardEntryById(collectionKey, entryId) {
+    const sectionMap = {
+        arcs: "campaign-arcs",
+        factions: "campaign-factions",
+        objectives: "campaign-objectives",
+        clocks: "campaign-clocks",
+        clues: "campaign-clues",
+        secrets: "campaign-secrets"
+    };
+    const dataMap = {
+        arcs: "campaign-arc-id",
+        factions: "campaign-faction-id",
+        objectives: "campaign-objective-id",
+        clocks: "campaign-clock-id",
+        clues: "campaign-clue-id",
+        secrets: "campaign-secret-id"
+    };
+    const sectionKey = sectionMap[collectionKey];
+    const dataKey = dataMap[collectionKey];
+    if (!sectionKey || !dataKey || !entryId) return;
+    openDmToolsArea(["campaign", sectionKey], `dm-body-${sectionKey}`);
+    setTimeout(() => {
+        const target = document.querySelector(`[data-${dataKey}="${entryId}"]`);
         if (target && typeof target.scrollIntoView === "function") {
             target.scrollIntoView({ behavior: "smooth", block: "center" });
         }
@@ -9704,6 +9863,35 @@ function openDmLinkedItem(item) {
     if (item.kind === "file") {
         openDmFileById(item.payload?.fileId || item.sourceId || item.payload?.id || "");
         return;
+    }
+
+    if (item.kind === "campaignArc") {
+        openCampaignBoardEntryById("arcs", item.payload?.campaignEntryId || item.sourceId);
+        return;
+    }
+
+    if (item.kind === "campaignFaction") {
+        openCampaignBoardEntryById("factions", item.payload?.campaignEntryId || item.sourceId);
+        return;
+    }
+
+    if (item.kind === "campaignObjective") {
+        openCampaignBoardEntryById("objectives", item.payload?.campaignEntryId || item.sourceId);
+        return;
+    }
+
+    if (item.kind === "campaignClock") {
+        openCampaignBoardEntryById("clocks", item.payload?.campaignEntryId || item.sourceId);
+        return;
+    }
+
+    if (item.kind === "campaignClue") {
+        openCampaignBoardEntryById("clues", item.payload?.campaignEntryId || item.sourceId);
+        return;
+    }
+
+    if (item.kind === "campaignSecret") {
+        openCampaignBoardEntryById("secrets", item.payload?.campaignEntryId || item.sourceId);
     }
 }
 
@@ -9878,6 +10066,7 @@ function getCampaignStatusLabel(kind, value) {
         arc: { active: "Activo", paused: "Pausado", resolved: "Resuelto" },
         faction: { allied: "Aliada", neutral: "Neutral", hostile: "Hostil", fractured: "Fragmentada" },
         objective: { active: "Activo", blocked: "Bloqueado", done: "Resuelto" },
+        node: { pending: "Pendiente", active: "Activo", resolved: "Resuelto", failed: "Fallido" },
         clue: { discovered: "Descubierta", interpreted: "Interpretada", misread: "Malinterpretada" },
         secret: { hidden: "Oculto", hinted: "Insinuado", revealed: "Revelado" }
     };
@@ -9890,12 +10079,16 @@ function getCampaignPriorityLabel(value) {
 
 function normalizeCampaignBoardState() {
     DM_TOOLS.campaignBoard = DM_TOOLS.campaignBoard || {};
+    DM_TOOLS.campaignBoard.mapMode = DM_TOOLS.campaignBoard.mapMode === "editor" ? "editor" : "visual";
     DM_TOOLS.campaignBoard.arcs = Array.isArray(DM_TOOLS.campaignBoard.arcs) ? DM_TOOLS.campaignBoard.arcs.map(entry => normalizeCampaignBoardEntry(entry, "arc")) : [];
     DM_TOOLS.campaignBoard.factions = Array.isArray(DM_TOOLS.campaignBoard.factions) ? DM_TOOLS.campaignBoard.factions.map(entry => normalizeCampaignBoardEntry(entry, "faction")) : [];
     DM_TOOLS.campaignBoard.objectives = Array.isArray(DM_TOOLS.campaignBoard.objectives) ? DM_TOOLS.campaignBoard.objectives.map(entry => normalizeCampaignBoardEntry(entry, "objective")) : [];
     DM_TOOLS.campaignBoard.clocks = Array.isArray(DM_TOOLS.campaignBoard.clocks) ? DM_TOOLS.campaignBoard.clocks.map(entry => normalizeCampaignBoardEntry(entry, "clock")) : [];
     DM_TOOLS.campaignBoard.clues = Array.isArray(DM_TOOLS.campaignBoard.clues) ? DM_TOOLS.campaignBoard.clues.map(entry => normalizeCampaignBoardEntry(entry, "clue")) : [];
     DM_TOOLS.campaignBoard.secrets = Array.isArray(DM_TOOLS.campaignBoard.secrets) ? DM_TOOLS.campaignBoard.secrets.map(entry => normalizeCampaignBoardEntry(entry, "secret")) : [];
+    DM_TOOLS.campaignBoard.nodes = Array.isArray(DM_TOOLS.campaignBoard.nodes) ? DM_TOOLS.campaignBoard.nodes.map(entry => normalizeCampaignBoardEntry(entry, "node")) : [];
+    const selectedId = DM_TOOLS.campaignBoard.mapSelectedNodeId || "";
+    DM_TOOLS.campaignBoard.mapSelectedNodeId = DM_TOOLS.campaignBoard.nodes.some(entry => entry.id === selectedId) ? selectedId : (DM_TOOLS.campaignBoard.nodes[0]?.id || "");
 }
 
 function getCampaignBoardCollection(kind) {
@@ -9931,6 +10124,29 @@ function buildFileCampaignPayload(index) {
         { fileId: item.id, url: item.url, name: item.name },
         "Mis archivos",
         item.id
+    );
+}
+
+function buildCampaignEntryPayload(collectionKey, itemKind, sourceLabel, index) {
+    const entry = (DM_TOOLS.campaignBoard?.[collectionKey] || [])[index];
+    if (!entry) return null;
+    return buildSessionPickerPayload(
+        itemKind,
+        getCampaignBoardEntryTitle(collectionKey, entry, index),
+        summarizeText(
+            entry.summary ||
+            entry.goal ||
+            entry.note ||
+            entry.trigger ||
+            entry.resources ||
+            entry.source ||
+            entry.holder ||
+            "Entrada del campaign board.",
+            "Entrada del campaign board."
+        ),
+        { campaignEntryId: entry.id, campaignCollection: collectionKey },
+        sourceLabel,
+        entry.id
     );
 }
 
@@ -10008,6 +10224,12 @@ function getCampaignLinkResourceLibrary() {
     return {
         sessionBoard: dedupeCampaignPayloads((DM_TOOLS.sessionHub.sessions || []).map((session, index) => buildSessionBoardCampaignPayload(index))),
         historySession: dedupeCampaignPayloads((DM_TOOLS.history.sessions || []).map((session, index) => buildHistorySessionBoardPayload(index))),
+        campaignArc: dedupeCampaignPayloads((DM_TOOLS.campaignBoard.arcs || []).map((entry, index) => buildCampaignEntryPayload("arcs", "campaignArc", "Arcos", index))),
+        campaignFaction: dedupeCampaignPayloads((DM_TOOLS.campaignBoard.factions || []).map((entry, index) => buildCampaignEntryPayload("factions", "campaignFaction", "Facciones", index))),
+        campaignObjective: dedupeCampaignPayloads((DM_TOOLS.campaignBoard.objectives || []).map((entry, index) => buildCampaignEntryPayload("objectives", "campaignObjective", "Objetivos", index))),
+        campaignClock: dedupeCampaignPayloads((DM_TOOLS.campaignBoard.clocks || []).map((entry, index) => buildCampaignEntryPayload("clocks", "campaignClock", "Clocks", index))),
+        campaignClue: dedupeCampaignPayloads((DM_TOOLS.campaignBoard.clues || []).map((entry, index) => buildCampaignEntryPayload("clues", "campaignClue", "Pistas", index))),
+        campaignSecret: dedupeCampaignPayloads((DM_TOOLS.campaignBoard.secrets || []).map((entry, index) => buildCampaignEntryPayload("secrets", "campaignSecret", "Secretos", index))),
         npc: dedupeCampaignPayloads([buildCurrentNpcCampaignPayload(), ...(DM_TOOLS.npcGenerator.saved || []).map((npc, index) => buildNpcSessionPayload(index))]),
         encounter: dedupeCampaignPayloads([buildCurrentEncounterCampaignPayload(), ...(DM_TOOLS.encounterBuilder.saved || []).map((encounter, index) => buildEncounterSessionPayload(encounter))]),
         event: dedupeCampaignPayloads([buildCurrentEventCampaignPayload(), ...(DM_TOOLS.eventGenerator.saved || []).map((event, index) => buildEventSessionPayload(index))]),
@@ -10018,7 +10240,7 @@ function getCampaignLinkResourceLibrary() {
 }
 
 function getCampaignResourceTypesWithItems(library = DM_CAMPAIGN_LINK_PICKER_STATE.library) {
-    const order = ["sessionBoard", "historySession", "npc", "encounter", "event", "sidequest", "loot", "file"];
+    const order = ["sessionBoard", "historySession", "campaignArc", "campaignFaction", "campaignObjective", "campaignClock", "campaignClue", "campaignSecret", "npc", "encounter", "event", "sidequest", "loot", "file"];
     return order.filter(type => Array.isArray(library?.[type]) && library[type].length);
 }
 
@@ -10137,7 +10359,7 @@ function openCampaignLinkedItem(kind, index, linkId) {
 function removeCampaignLinksBySource(kind, sourceId) {
     if (!kind || !sourceId) return;
     let changed = false;
-    ["arcs", "factions", "objectives", "clocks", "clues", "secrets"].forEach(collectionKey => {
+    ["arcs", "factions", "objectives", "clocks", "clues", "secrets", "nodes"].forEach(collectionKey => {
         const items = getCampaignBoardCollection(collectionKey);
         items.forEach(entry => {
             const nextLinks = (entry.links || []).filter(link => {
@@ -10191,6 +10413,7 @@ function getCampaignBoardSummary() {
     return {
         arcsActive: DM_TOOLS.campaignBoard.arcs.filter(entry => entry.status === "active").length,
         objectivesOpen: DM_TOOLS.campaignBoard.objectives.filter(entry => entry.status !== "done").length,
+        connectedMapCards: (DM_TOOLS.campaignBoard.nodes || []).filter(entry => entry.nextNodeId || entry.successNodeId || entry.failureNodeId).length,
         riskyClocks: DM_TOOLS.campaignBoard.clocks.filter(entry => {
             const segments = Math.max(1, parseInt(entry.segments, 10) || 1);
             const progress = Math.max(0, parseInt(entry.progress, 10) || 0);
@@ -10209,11 +10432,136 @@ function renderCampaignBoardSummary() {
     container.innerHTML = `
         <div class="dm-encounter-metric"><span class="dm-encounter-metric-label">Arcos activos</span><div class="dm-encounter-metric-value">${summary.arcsActive}</div></div>
         <div class="dm-encounter-metric"><span class="dm-encounter-metric-label">Objetivos abiertos</span><div class="dm-encounter-metric-value">${summary.objectivesOpen}</div></div>
+        <div class="dm-encounter-metric"><span class="dm-encounter-metric-label">Cards conectadas</span><div class="dm-encounter-metric-value">${summary.connectedMapCards}</div></div>
         <div class="dm-encounter-metric"><span class="dm-encounter-metric-label">Clocks en riesgo</span><div class="dm-encounter-metric-value">${summary.riskyClocks}</div></div>
         <div class="dm-encounter-metric"><span class="dm-encounter-metric-label">Facciones hostiles</span><div class="dm-encounter-metric-value">${summary.hostileFactions}</div></div>
         <div class="dm-encounter-metric"><span class="dm-encounter-metric-label">Pistas abiertas</span><div class="dm-encounter-metric-value">${summary.cluesOpen}</div></div>
         <div class="dm-encounter-metric"><span class="dm-encounter-metric-label">Secretos pendientes</span><div class="dm-encounter-metric-value">${summary.secretsPending}</div></div>
     `;
+}
+
+function getCampaignArcTitleById(arcId) {
+    const arc = (DM_TOOLS.campaignBoard.arcs || []).find(entry => entry.id === arcId);
+    return arc?.title || "";
+}
+
+function buildCampaignArcOptionsHtml(selectedId = "") {
+    const options = ['<option value="">Sin arco</option>']
+        .concat((DM_TOOLS.campaignBoard.arcs || []).map((entry, index) => {
+            const title = getCampaignBoardEntryTitle("arcs", entry, index);
+            return `<option value="${escapeAttr(entry.id)}" ${entry.id === selectedId ? "selected" : ""}>${escapeHtml(title)}</option>`;
+        }));
+    return options.join("");
+}
+
+function buildCampaignNodeOptionsHtml(currentNodeId = "", selectedId = "", emptyLabel = "Ninguno") {
+    const options = [`<option value="">${escapeHtml(emptyLabel)}</option>`]
+        .concat((DM_TOOLS.campaignBoard.nodes || [])
+            .filter(entry => entry.id !== currentNodeId)
+            .map((entry, index) => `<option value="${escapeAttr(entry.id)}" ${entry.id === selectedId ? "selected" : ""}>${escapeHtml(getCampaignBoardEntryTitle("nodes", entry, index))}</option>`));
+    const html = options.join("");
+    return html;
+}
+
+function buildSessionFlowOptionsHtml(currentSessionId = "", selectedId = "", emptyLabel = "Sin conexion") {
+    const sessions = (DM_TOOLS.sessionHub.sessions || []).map((session, index) => normalizeSessionHubSession(session, index));
+    return [`<option value="">${escapeHtml(emptyLabel)}</option>`]
+        .concat(sessions
+            .filter(session => session.id !== currentSessionId)
+            .map(session => `<option value="${escapeAttr(session.id)}" ${session.id === selectedId ? "selected" : ""}>${escapeHtml(session.name)}</option>`))
+        .join("");
+}
+
+function addSessionBoardFromCampaignFlow() {
+    const session = normalizeSessionHubSession({
+        name: getDefaultSessionName(),
+        items: []
+    }, (DM_TOOLS.sessionHub.sessions || []).length);
+    DM_TOOLS.sessionHub.sessions.push(session);
+    renderSessionHub();
+    renderSessionPickerControls();
+    renderCampaignNodes();
+    autoSave();
+    openSessionBoardById(session.id);
+}
+
+function updateCampaignSessionFlow(sessionId, field, value) {
+    const session = (DM_TOOLS.sessionHub.sessions || []).find(entry => entry.id === sessionId);
+    if (!session) return;
+    if (["nextSessionId", "successSessionId", "failureSessionId"].includes(field)) {
+        session[field] = value === sessionId ? "" : (value || "");
+        renderCampaignNodes();
+        renderCampaignBoardSummary();
+    } else if (field === "campaignNote") {
+        session.campaignNote = value || "";
+    }
+    autoSave();
+}
+
+function openCampaignNodeById(nodeId) {
+    if (!nodeId) return;
+    DM_TOOLS.campaignBoard.mapSelectedNodeId = nodeId;
+    openDmToolsArea(["campaign", "campaign-nodes"], "dm-body-campaign-nodes");
+    requestAnimationFrame(() => {
+        const target = document.querySelector(`[data-campaign-node-id="${CSS.escape(nodeId)}"]`);
+        if (!target) return;
+        target.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+}
+
+function renderCampaignNodes() {
+    const listEl = document.getElementById('dm-campaign-nodes-list');
+    if (!listEl) return;
+    DM_TOOLS.sessionHub.sessions = (DM_TOOLS.sessionHub.sessions || []).map((session, index) => normalizeSessionHubSession(session, index));
+    const sessions = DM_TOOLS.sessionHub.sessions || [];
+    if (!sessions.length) {
+        listEl.innerHTML = `<div class="companion-empty">Todavia no hay sesiones creadas. Crea una y despues conectala desde aca.</div>`;
+        return;
+    }
+    listEl.innerHTML = sessions.map((session, index) => {
+        const nextSession = sessions.find(entry => entry.id === session.nextSessionId);
+        const successSession = sessions.find(entry => entry.id === session.successSessionId);
+        const failureSession = sessions.find(entry => entry.id === session.failureSessionId);
+        const linkedKinds = [...new Set((session.items || []).map(item => item.sourceLabel).filter(Boolean))].slice(0, 4);
+        return `
+            <div class="dm-session-item" data-campaign-session-id="${escapeAttr(session.id)}">
+                <div class="dm-session-head">
+                    <div class="dm-session-title">${escapeHtml(session.name)}</div>
+                    <div class="dm-encounter-actions" style="margin-top:0;">
+                        <button type="button" class="dm-mini-btn" onclick="openSessionBoardById('${escapeAttr(session.id)}')">Abrir sesion</button>
+                    </div>
+                </div>
+                <div class="dm-encounter-tags">
+                    <span class="dm-encounter-tag">${session.items.length} elemento(s)</span>
+                    ${linkedKinds.map(label => `<span class="dm-encounter-tag">${escapeHtml(label)}</span>`).join("")}
+                </div>
+                <div class="dm-encounter-controls" style="margin-top:10px;">
+                    <label>Siguiente
+                        <select onchange="updateCampaignSessionFlow('${escapeAttr(session.id)}', 'nextSessionId', this.value)">
+                            ${buildSessionFlowOptionsHtml(session.id, session.nextSessionId || "", "Sin siguiente fija")}
+                        </select>
+                    </label>
+                    <label>Si sale bien
+                        <select onchange="updateCampaignSessionFlow('${escapeAttr(session.id)}', 'successSessionId', this.value)">
+                            ${buildSessionFlowOptionsHtml(session.id, session.successSessionId || "", "Sin rama de exito")}
+                        </select>
+                    </label>
+                    <label>Si falla
+                        <select onchange="updateCampaignSessionFlow('${escapeAttr(session.id)}', 'failureSessionId', this.value)">
+                            ${buildSessionFlowOptionsHtml(session.id, session.failureSessionId || "", "Sin rama de fallo")}
+                        </select>
+                    </label>
+                </div>
+                <textarea class="dm-textarea" style="min-height:72px; margin-top:10px;" oninput="updateCampaignSessionFlow('${escapeAttr(session.id)}', 'campaignNote', this.value)">${escapeHtml(session.campaignNote || "")}</textarea>
+                <div class="companion-note" style="margin-top:8px;">
+                    ${nextSession ? `Siguiente: <button type="button" class="dm-mini-btn" onclick="openSessionBoardById('${escapeAttr(nextSession.id)}')">${escapeHtml(nextSession.name)}</button>` : `Sin continuidad fija.`}
+                    ${successSession ? ` Exito -> <button type="button" class="dm-mini-btn" onclick="openSessionBoardById('${escapeAttr(successSession.id)}')">${escapeHtml(successSession.name)}</button>` : ``}
+                    ${failureSession ? ` Fallo -> <button type="button" class="dm-mini-btn" onclick="openSessionBoardById('${escapeAttr(failureSession.id)}')">${escapeHtml(failureSession.name)}</button>` : ``}
+                </div>
+                <div class="dm-encounter-helper" style="margin-top:8px;">${escapeHtml(session.campaignNote || "Sin nota de campana para esta sesion.")}</div>
+            </div>
+        `;
+    }).join("");
 }
 
 function renderCampaignGenericList(kind, containerId, emptyText, metaBuilder, textField, removeFnName, updateFnName) {
@@ -10224,8 +10572,16 @@ function renderCampaignGenericList(kind, containerId, emptyText, metaBuilder, te
         container.innerHTML = `<div class="companion-empty">${emptyText}</div>`;
         return;
     }
+    const dataAttrMap = {
+        arcs: "campaign-arc-id",
+        factions: "campaign-faction-id",
+        objectives: "campaign-objective-id",
+        clues: "campaign-clue-id",
+        secrets: "campaign-secret-id"
+    };
+    const dataAttr = dataAttrMap[kind] || "";
     container.innerHTML = items.map((entry, index) => `
-        <div class="dm-session-item">
+        <div class="dm-session-item" ${dataAttr ? `data-${dataAttr}="${escapeAttr(entry.id)}"` : ""}>
             <div class="dm-session-head">
                 <div class="dm-session-title">${escapeHtml(getCampaignBoardEntryTitle(kind, entry, index))}</div>
                 <div class="dm-encounter-actions" style="margin-top:0;">
@@ -10252,7 +10608,7 @@ function renderCampaignClocks() {
         const progress = Math.max(0, Math.min(segments, parseInt(entry.progress, 10) || 0));
         const ticks = Array.from({ length: segments }, (_, tickIndex) => `<span class="dm-encounter-tag" style="${tickIndex < progress ? 'background:rgba(168,85,247,0.28); border-color:rgba(216,180,254,0.65); color:#f5d0fe;' : ''}">${tickIndex + 1}</span>`).join("");
         return `
-            <div class="dm-session-item">
+            <div class="dm-session-item" data-campaign-clock-id="${escapeAttr(entry.id)}">
                 <div class="dm-session-head">
                     <div class="dm-session-title">${escapeHtml(entry.title || `Clock ${index + 1}`)}</div>
                     <div class="dm-encounter-actions" style="margin-top:0;">
@@ -10293,6 +10649,7 @@ function renderCampaignBoard() {
         `<span class="dm-encounter-tag">${escapeHtml(getCampaignStatusLabel("secret", entry.status))}</span>`,
         entry.holder ? `<span class="dm-encounter-tag">${escapeHtml(entry.holder)}</span>` : ""
     ], "note", "removeCampaignSecret", "updateCampaignSecret");
+    renderCampaignNodes();
 }
 
 function addCampaignArc() {
@@ -10316,7 +10673,13 @@ function updateCampaignArc(index, field, value) {
 }
 
 function removeCampaignArc(index) {
+    const removed = DM_TOOLS.campaignBoard.arcs[index];
     DM_TOOLS.campaignBoard.arcs.splice(index, 1);
+    if (removed?.id) {
+        (DM_TOOLS.campaignBoard.nodes || []).forEach(entry => {
+            if (entry.arcId === removed.id) entry.arcId = "";
+        });
+    }
     renderCampaignBoard();
     autoSave();
 }
@@ -10454,6 +10817,326 @@ function removeCampaignSecret(index) {
     renderCampaignBoard();
     autoSave();
 }
+
+function addCampaignNode() {
+    const title = document.getElementById('dm-campaign-node-title')?.value.trim();
+    const sceneType = document.getElementById('dm-campaign-node-type')?.value || "social";
+    const status = document.getElementById('dm-campaign-node-status')?.value || "pending";
+    const arcId = document.getElementById('dm-campaign-node-arc')?.value || "";
+    const summary = document.getElementById('dm-campaign-node-summary')?.value.trim() || "";
+    const note = document.getElementById('dm-campaign-node-note')?.value.trim() || "";
+    if (!title && !summary && !note) return;
+    DM_TOOLS.campaignBoard.nodes.push(normalizeCampaignBoardEntry({
+        title: title || "Nodo sin titulo",
+        sceneType,
+        status,
+        arcId,
+        summary,
+        note,
+        dependsOnId: "",
+        successNodeId: "",
+        failureNodeId: ""
+    }, "node"));
+    ["dm-campaign-node-title", "dm-campaign-node-summary", "dm-campaign-node-note"].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+    });
+    const typeEl = document.getElementById('dm-campaign-node-type');
+    if (typeEl) typeEl.value = "social";
+    const statusEl = document.getElementById('dm-campaign-node-status');
+    if (statusEl) statusEl.value = "pending";
+    const arcEl = document.getElementById('dm-campaign-node-arc');
+    if (arcEl) arcEl.value = "";
+    renderCampaignBoard();
+    autoSave();
+}
+
+function updateCampaignNodeField(index, field, value) {
+    const entry = DM_TOOLS.campaignBoard.nodes[index];
+    if (!entry) return;
+    entry[field] = value;
+    if (["title", "status", "sceneType", "arcId", "dependsOnId", "successNodeId", "failureNodeId", "nextNodeId"].includes(field)) {
+        renderCampaignBoard();
+    } else {
+        renderCampaignBoardSummary();
+    }
+    autoSave();
+}
+
+function removeCampaignNode(index) {
+    const removed = DM_TOOLS.campaignBoard.nodes[index];
+    if (!removed) return;
+    DM_TOOLS.campaignBoard.nodes.splice(index, 1);
+    if (DM_TOOLS.campaignBoard.mapSelectedNodeId === removed.id) {
+        DM_TOOLS.campaignBoard.mapSelectedNodeId = DM_TOOLS.campaignBoard.nodes[0]?.id || "";
+    }
+    DM_TOOLS.campaignBoard.nodes.forEach(entry => {
+        if (entry.dependsOnId === removed.id) entry.dependsOnId = "";
+        if (entry.successNodeId === removed.id) entry.successNodeId = "";
+        if (entry.failureNodeId === removed.id) entry.failureNodeId = "";
+        if (entry.nextNodeId === removed.id) entry.nextNodeId = "";
+    });
+    renderCampaignBoard();
+    autoSave();
+}
+
+function addCampaignMapNode() {
+    const title = `Card ${((DM_TOOLS.campaignBoard.nodes || []).length || 0) + 1}`;
+    const entry = normalizeCampaignBoardEntry({
+        title,
+        nextNodeId: "",
+        successNodeId: "",
+        failureNodeId: "",
+        links: []
+    }, "node");
+    DM_TOOLS.campaignBoard.nodes.push(entry);
+    DM_TOOLS.campaignBoard.mapSelectedNodeId = entry.id;
+    renderCampaignBoard();
+    autoSave();
+}
+
+function toggleCampaignMapMode(mode) {
+    DM_TOOLS.campaignBoard.mapMode = mode === "editor" ? "editor" : "visual";
+    renderCampaignNodes();
+    autoSave();
+}
+
+function centerCampaignMapView(nodeId = "") {
+    const visualEl = document.getElementById('dm-campaign-map-visual');
+    if (!visualEl) return;
+    const resolvedId = nodeId || DM_TOOLS.campaignBoard.mapSelectedNodeId || (DM_TOOLS.campaignBoard.nodes || [])[0]?.id || "";
+    const target = resolvedId ? visualEl.querySelector(`.dm-map-node[data-node-id="${CSS.escape(resolvedId)}"]`) : visualEl.querySelector('.dm-map-node');
+    if (!target) return;
+    const targetLeft = Math.max(0, target.offsetLeft - Math.max(16, (visualEl.clientWidth - target.offsetWidth) / 2));
+    const targetTop = Math.max(0, target.offsetTop - Math.max(16, (visualEl.clientHeight - target.offsetHeight) / 2));
+    visualEl.scrollTo({ left: targetLeft, top: targetTop, behavior: "smooth" });
+}
+
+function focusCampaignMapNode(nodeId) {
+    if (!nodeId) return;
+    DM_TOOLS.campaignBoard.mapSelectedNodeId = nodeId;
+    DM_TOOLS.campaignBoard.mapMode = "editor";
+    renderCampaignNodes();
+    openCampaignNodeById(nodeId);
+    autoSave();
+}
+
+function renderCampaignMapVisual(items) {
+    const visualEl = document.getElementById('dm-campaign-map-visual');
+    if (!visualEl) return;
+    if (!items.length) {
+        visualEl.innerHTML = `<div class="companion-empty">Todavia no hay cards para mostrar en el mapa visual.</div>`;
+        return;
+    }
+
+    const selectedId = DM_TOOLS.campaignBoard.mapSelectedNodeId || items[0]?.id || "";
+    const nodeWidth = 220;
+    const nodeHeight = 110;
+    const colGap = 90;
+    const rowGap = 42;
+    const padX = 28;
+    const padY = 24;
+
+    const depthMap = new Map(items.map(item => [item.id, 0]));
+    for (let pass = 0; pass < items.length; pass += 1) {
+        items.forEach(item => {
+            const baseDepth = depthMap.get(item.id) || 0;
+            [item.nextNodeId, item.successNodeId, item.failureNodeId].forEach(targetId => {
+                if (!targetId || !depthMap.has(targetId)) return;
+                const nextDepth = Math.max(depthMap.get(targetId) || 0, baseDepth + 1);
+                depthMap.set(targetId, nextDepth);
+            });
+        });
+    }
+
+    const columns = [];
+    items.forEach(item => {
+        const depth = depthMap.get(item.id) || 0;
+        if (!columns[depth]) columns[depth] = [];
+        columns[depth].push(item);
+    });
+
+    const positions = new Map();
+    let maxRows = 0;
+    columns.forEach((column, depth) => {
+        if (!column?.length) return;
+        maxRows = Math.max(maxRows, column.length);
+        column.forEach((item, rowIndex) => {
+            positions.set(item.id, {
+                x: padX + depth * (nodeWidth + colGap),
+                y: padY + rowIndex * (nodeHeight + rowGap)
+            });
+        });
+    });
+
+    const totalCols = Math.max(1, columns.filter(Boolean).length);
+    const width = padX * 2 + totalCols * nodeWidth + Math.max(0, totalCols - 1) * colGap;
+    const height = padY * 2 + Math.max(1, maxRows) * nodeHeight + Math.max(0, maxRows - 1) * rowGap;
+    const lineDefs = `
+        <defs>
+            <marker id="campaign-arrow-next" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#7dd3fc"></path>
+            </marker>
+            <marker id="campaign-arrow-success" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#86efac"></path>
+            </marker>
+            <marker id="campaign-arrow-failure" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#fca5a5"></path>
+            </marker>
+        </defs>
+    `;
+    const lines = items.flatMap(item => {
+        const from = positions.get(item.id);
+        if (!from) return [];
+        const edges = [
+            { targetId: item.nextNodeId, color: "#7dd3fc", marker: "campaign-arrow-next" },
+            { targetId: item.successNodeId, color: "#86efac", marker: "campaign-arrow-success" },
+            { targetId: item.failureNodeId, color: "#fca5a5", marker: "campaign-arrow-failure" }
+        ];
+        return edges.map(edge => {
+            const to = positions.get(edge.targetId);
+            if (!to) return "";
+            const x1 = from.x + nodeWidth;
+            const y1 = from.y + nodeHeight / 2;
+            const x2 = to.x;
+            const y2 = to.y + nodeHeight / 2;
+            const cx1 = x1 + Math.max(24, (x2 - x1) * 0.35);
+            const cx2 = x2 - Math.max(24, (x2 - x1) * 0.35);
+            return `<path d="M ${x1} ${y1} C ${cx1} ${y1}, ${cx2} ${y2}, ${x2} ${y2}" fill="none" stroke="${edge.color}" stroke-width="3" stroke-linecap="round" marker-end="url(#${edge.marker})" opacity="0.9"></path>`;
+        }).filter(Boolean);
+    }).join("");
+
+    const nodesHtml = items.map(item => {
+        const pos = positions.get(item.id);
+        const labels = [...new Set((item.links || []).map(link => link.sourceLabel).filter(Boolean))].slice(0, 3);
+        const linkCount = (item.links || []).length;
+        const chips = [
+            `<span class="dm-map-chip">${linkCount} elemento(s)</span>`,
+            ...labels.map(label => `<span class="dm-map-chip">${escapeHtml(label)}</span>`)
+        ].join("");
+        const relationChips = [
+            item.nextNodeId ? `<span class="dm-map-chip next">&#8594; Siguiente</span>` : "",
+            item.successNodeId ? `<span class="dm-map-chip success">&#10003; Exito</span>` : "",
+            item.failureNodeId ? `<span class="dm-map-chip failure">&#10007; Fallo</span>` : ""
+        ].join("");
+        return `
+            <button
+                type="button"
+                class="dm-map-node${item.id === selectedId ? " selected" : ""}"
+                data-node-id="${escapeAttr(item.id)}"
+                style="left:${pos.x}px; top:${pos.y}px;"
+                onclick="focusCampaignMapNode('${escapeAttr(item.id)}')"
+                title="Abrir card en el editor"
+            >
+                <div class="dm-map-node-title">${escapeHtml(item.title || "Card")}</div>
+                <div class="dm-map-node-meta">${linkCount ? escapeHtml(summarizeText((item.links || []).map(link => link.title).join(", "), "Sin elementos.")) : "Sin elementos vinculados."}</div>
+                <div class="dm-map-node-tags">${chips}${relationChips}</div>
+            </button>
+        `;
+    }).join("");
+
+    visualEl.innerHTML = `
+        <div style="position:relative; width:${width}px; height:${height}px;">
+            <svg class="dm-map-svg" viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMinYMin meet" aria-hidden="true">
+                ${lineDefs}
+                ${lines}
+            </svg>
+            ${nodesHtml}
+        </div>
+    `;
+}
+
+renderCampaignNodes = function() {
+    const listEl = document.getElementById('dm-campaign-nodes-list');
+    const helperEl = document.getElementById('dm-campaign-sessionmap-helper');
+    const visualWrap = document.getElementById('dm-campaign-map-visual-wrap');
+    const editorWrap = document.getElementById('dm-campaign-map-editor-wrap');
+    const visualBtn = document.getElementById('dm-map-view-visual');
+    const editorBtn = document.getElementById('dm-map-view-editor');
+    if (helperEl) {
+        helperEl.innerText = "Cada card representa un beat de campana. Agregale elementos del board o de DM Tools y conectala con otras cards.";
+    }
+    if (!listEl) return;
+    const items = DM_TOOLS.campaignBoard.nodes || [];
+    const visualMode = DM_TOOLS.campaignBoard.mapMode !== "editor";
+    if (visualWrap) visualWrap.classList.toggle('active', visualMode);
+    if (editorWrap) editorWrap.classList.toggle('active', !visualMode);
+    if (visualBtn) {
+        visualBtn.style.borderColor = visualMode ? "var(--accent)" : "rgba(148,163,184,0.28)";
+        visualBtn.style.color = visualMode ? "var(--accent)" : "#cbd5e1";
+    }
+    if (editorBtn) {
+        editorBtn.style.borderColor = !visualMode ? "var(--accent)" : "rgba(148,163,184,0.28)";
+        editorBtn.style.color = !visualMode ? "var(--accent)" : "#cbd5e1";
+    }
+    renderCampaignMapVisual(items);
+    if (visualMode && items.length) {
+        requestAnimationFrame(() => centerCampaignMapView());
+    }
+    if (!items.length) {
+        listEl.innerHTML = `<div class="companion-empty">Todavia no hay cards en el mapa. Crea una y empeza a vincular elementos.</div>`;
+        return;
+    }
+    listEl.innerHTML = `
+        <div style="display:grid; gap:12px;">
+            ${items.map((entry, index) => {
+                const nextNode = items.find(node => node.id === entry.nextNodeId);
+                const successNode = items.find(node => node.id === entry.successNodeId);
+                const failureNode = items.find(node => node.id === entry.failureNodeId);
+                return `
+                    <div class="dm-session-item${entry.id === DM_TOOLS.campaignBoard.mapSelectedNodeId ? " campaign-map-selected" : ""}" data-campaign-node-id="${escapeAttr(entry.id)}">
+                        <div class="dm-session-head">
+                            <input
+                                type="text"
+                                value="${escapeAttr(entry.title || `Card ${index + 1}`)}"
+                                onchange="updateCampaignNodeField(${index}, 'title', this.value)"
+                                style="width:100%; max-width:320px; box-sizing:border-box; background:#0f172a; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:8px 10px; font-weight:700;"
+                            >
+                            <div class="dm-encounter-actions" style="margin-top:0;">
+                                <button type="button" class="dm-mini-btn" onclick="openCampaignLinkPicker('nodes', ${index})">Agregar elemento</button>
+                                <button type="button" class="dm-mini-btn" onclick="removeCampaignNode(${index})">Quitar</button>
+                            </div>
+                        </div>
+                        ${entry.links?.length ? `
+                            <div class="dm-encounter-tags" style="margin-top:10px;">
+                                ${entry.links.map(link => `
+                                    <span style="display:inline-flex; align-items:center; gap:6px;">
+                                        <button type="button" class="dm-encounter-tag" style="cursor:pointer;" onclick="openCampaignLinkedItem('nodes', ${index}, '${escapeAttr(link.id)}')">
+                                            ${escapeHtml(link.sourceLabel || link.kind || "Recurso")}: ${escapeHtml(link.title || "Entrada")}
+                                        </button>
+                                        <button type="button" class="dm-mini-btn" onclick="removeCampaignLink('nodes', ${index}, '${escapeAttr(link.id)}')">Quitar</button>
+                                    </span>
+                                `).join("")}
+                            </div>
+                        ` : `<div class="companion-note" style="margin-top:10px;">Sin elementos cargados todavia.</div>`}
+                        <div class="dm-encounter-controls" style="margin-top:10px;">
+                            <label>Siguiente
+                                <select onchange="updateCampaignNodeField(${index}, 'nextNodeId', this.value)">
+                                    ${buildCampaignNodeOptionsHtml(entry.id, entry.nextNodeId || "", "Sin siguiente")}
+                                </select>
+                            </label>
+                            <label>Exito
+                                <select onchange="updateCampaignNodeField(${index}, 'successNodeId', this.value)">
+                                    ${buildCampaignNodeOptionsHtml(entry.id, entry.successNodeId || "", "Sin rama de exito")}
+                                </select>
+                            </label>
+                            <label>Fallo
+                                <select onchange="updateCampaignNodeField(${index}, 'failureNodeId', this.value)">
+                                    ${buildCampaignNodeOptionsHtml(entry.id, entry.failureNodeId || "", "Sin rama de fallo")}
+                                </select>
+                            </label>
+                        </div>
+                        <div class="companion-note" style="margin-top:8px;">
+                            ${nextNode ? `&#8594; <button type="button" class="dm-mini-btn" onclick="openCampaignNodeById('${escapeAttr(nextNode.id)}')">${escapeHtml(nextNode.title || "Card")}</button>` : `Sin siguiente.`}
+                            ${successNode ? ` &#10003; <button type="button" class="dm-mini-btn" onclick="openCampaignNodeById('${escapeAttr(successNode.id)}')">${escapeHtml(successNode.title || "Card")}</button>` : ``}
+                            ${failureNode ? ` &#10007; <button type="button" class="dm-mini-btn" onclick="openCampaignNodeById('${escapeAttr(failureNode.id)}')">${escapeHtml(failureNode.title || "Card")}</button>` : ``}
+                        </div>
+                    </div>
+                `;
+            }).join("")}
+        </div>
+    `;
+};
 
 function renderDmSessions() {
     const list = document.getElementById('dm-sessions-list');
@@ -14247,12 +14930,15 @@ collectSaveData = function() {
                 : []
         },
         campaignBoard: {
+            mapMode: DM_TOOLS.campaignBoard?.mapMode === "editor" ? "editor" : "visual",
+            mapSelectedNodeId: DM_TOOLS.campaignBoard?.mapSelectedNodeId || "",
             arcs: Array.isArray(DM_TOOLS.campaignBoard?.arcs) ? JSON.parse(JSON.stringify(DM_TOOLS.campaignBoard.arcs.map(entry => normalizeCampaignBoardEntry(entry, "arc")))) : [],
             factions: Array.isArray(DM_TOOLS.campaignBoard?.factions) ? JSON.parse(JSON.stringify(DM_TOOLS.campaignBoard.factions.map(entry => normalizeCampaignBoardEntry(entry, "faction")))) : [],
             objectives: Array.isArray(DM_TOOLS.campaignBoard?.objectives) ? JSON.parse(JSON.stringify(DM_TOOLS.campaignBoard.objectives.map(entry => normalizeCampaignBoardEntry(entry, "objective")))) : [],
             clocks: Array.isArray(DM_TOOLS.campaignBoard?.clocks) ? JSON.parse(JSON.stringify(DM_TOOLS.campaignBoard.clocks.map(entry => normalizeCampaignBoardEntry(entry, "clock")))) : [],
             clues: Array.isArray(DM_TOOLS.campaignBoard?.clues) ? JSON.parse(JSON.stringify(DM_TOOLS.campaignBoard.clues.map(entry => normalizeCampaignBoardEntry(entry, "clue")))) : [],
-            secrets: Array.isArray(DM_TOOLS.campaignBoard?.secrets) ? JSON.parse(JSON.stringify(DM_TOOLS.campaignBoard.secrets.map(entry => normalizeCampaignBoardEntry(entry, "secret")))) : []
+            secrets: Array.isArray(DM_TOOLS.campaignBoard?.secrets) ? JSON.parse(JSON.stringify(DM_TOOLS.campaignBoard.secrets.map(entry => normalizeCampaignBoardEntry(entry, "secret")))) : [],
+            nodes: Array.isArray(DM_TOOLS.campaignBoard?.nodes) ? JSON.parse(JSON.stringify(DM_TOOLS.campaignBoard.nodes.map(entry => normalizeCampaignBoardEntry(entry, "node")))) : []
         },
         history: {
             backstory: DM_TOOLS.history.backstory || "",
@@ -14630,6 +15316,8 @@ applySaveData = function(data) {
     DM_TOOLS.sessionHub.sessions = Array.isArray(data?.dmTools?.sessionHub?.sessions)
         ? data.dmTools.sessionHub.sessions.map((session, index) => normalizeSessionHubSession(session, index))
         : [];
+    DM_TOOLS.campaignBoard.mapMode = data?.dmTools?.campaignBoard?.mapMode === "editor" ? "editor" : "visual";
+    DM_TOOLS.campaignBoard.mapSelectedNodeId = data?.dmTools?.campaignBoard?.mapSelectedNodeId || "";
     DM_TOOLS.campaignBoard.arcs = Array.isArray(data?.dmTools?.campaignBoard?.arcs)
         ? data.dmTools.campaignBoard.arcs.map(entry => normalizeCampaignBoardEntry(entry, "arc"))
         : [];
@@ -14647,6 +15335,9 @@ applySaveData = function(data) {
         : [];
     DM_TOOLS.campaignBoard.secrets = Array.isArray(data?.dmTools?.campaignBoard?.secrets)
         ? data.dmTools.campaignBoard.secrets.map(entry => normalizeCampaignBoardEntry(entry, "secret"))
+        : [];
+    DM_TOOLS.campaignBoard.nodes = Array.isArray(data?.dmTools?.campaignBoard?.nodes)
+        ? data.dmTools.campaignBoard.nodes.map(entry => normalizeCampaignBoardEntry(entry, "node"))
         : [];
     DM_TOOLS.history.backstory = data?.dmTools?.history?.backstory || "";
     DM_TOOLS.history.notes = data?.dmTools?.history?.notes || "";
@@ -14731,12 +15422,15 @@ const _baseNewCharacterDmTools = newCharacter;
 newCharacter = function() {
     _baseNewCharacterDmTools();
     DM_TOOLS.sessionHub.sessions = [];
+    DM_TOOLS.campaignBoard.mapMode = "visual";
+    DM_TOOLS.campaignBoard.mapSelectedNodeId = "";
     DM_TOOLS.campaignBoard.arcs = [];
     DM_TOOLS.campaignBoard.factions = [];
     DM_TOOLS.campaignBoard.objectives = [];
     DM_TOOLS.campaignBoard.clocks = [];
     DM_TOOLS.campaignBoard.clues = [];
     DM_TOOLS.campaignBoard.secrets = [];
+    DM_TOOLS.campaignBoard.nodes = [];
     DM_TOOLS.history.backstory = "";
     DM_TOOLS.history.notes = "";
     DM_TOOLS.history.sessions = [];
