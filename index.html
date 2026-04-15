@@ -500,8 +500,13 @@
     .dice-modal-card.is-generic-roll { width: min(560px, 100%); }
 
     /* EstÃ©tica Spells Tab */
-    .spell-level-section { border-left: 3px solid var(--accent); padding-left: 15px; margin-bottom: 25px; }
+    .spell-level-section { border-left: 3px solid var(--accent); padding-left: 15px; margin-bottom: 25px; width: 100%; min-width: 0; }
     .spell-slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+    .spell-level-slots-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; width: 100%; min-width: 0; }
+    .spell-level-slots-grid > * { min-width: 0; }
+    .spell-selector { width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; }
+    #spells-per-level-container,
+    #spells-per-level-container > .spell-level-section { min-width: 0; max-width: 100%; }
 
     b.val,
     #hp-val,
@@ -608,8 +613,8 @@
         #save-indicator { display: none; }
 
         /* Spell slots: 2 columnas */
-        #spells-per-level-container > div > div { 
-            grid-template-columns: 1fr 1fr !important; 
+        #spells-per-level-container .spell-level-slots-grid { 
+            grid-template-columns: minmax(0, 1fr) !important; 
         }
 
         /* Attack summary mÃ¡s compacto */
@@ -664,11 +669,39 @@
         #p2 .grid-main { grid-template-columns: 1fr 1fr !important; }
         #p4 > div { grid-template-columns: 1fr 1fr !important; }
         #conditions-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
-        #spells-per-level-container > div > div { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+        #spells-per-level-container .spell-level-slots-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
         .attack-summary-row {
             grid-template-columns: 60px 1fr 84px 1fr 42px !important;
             font-size: 0.76em !important;
         }
+    }
+    body.mobile-landscape .tabs { overflow-x: auto; overflow-y: hidden; }
+    body.mobile-landscape .tab  { padding: 8px 14px; font-size: 0.74em; white-space: nowrap; }
+    body.mobile-landscape .panel { padding: 10px 14px; }
+    body.mobile-landscape .card { padding: 11px; margin-bottom: 10px; }
+    body.mobile-landscape .grid-main { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
+    body.mobile-landscape .stats-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+    body.mobile-landscape .skill-grid { grid-template-columns: 16px 1fr 42px 38px 36px !important; }
+    body.mobile-landscape .manual-menu { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    body.mobile-landscape .manual-menu-card { min-height: 64px; padding: 10px; }
+    body.mobile-landscape .manual-menu-label { font-size: 0.78em; }
+    body.mobile-landscape .manual-inline-host .manual-detail-shell { padding: 12px; }
+    body.mobile-landscape .mobile-tab-sheet-panel { max-height: 88vh; }
+    body.mobile-landscape .mobile-tab-sheet-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    body.mobile-landscape .mobile-tab-sheet-btn { min-height: 70px; padding: 10px; font-size: 0.76em; }
+    body.mobile-landscape .dice-modal { align-items: stretch; padding: 8px 10px; }
+    body.mobile-landscape .dice-modal-card { width: min(960px, 100%); max-height: calc(100vh - 16px); padding: 16px; border-radius: 14px; }
+    body.mobile-landscape .dm-panel-shell { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    body.mobile-landscape .dm-section-card { padding: 12px; }
+    body.mobile-landscape .dm-map-canvas { min-height: 320px; }
+    body.mobile-landscape #p2 .grid-main { grid-template-columns: 1fr 1fr !important; }
+    body.mobile-landscape #p4 > div { grid-template-columns: 1fr 1fr !important; }
+    body.mobile-landscape #conditions-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+    body.mobile-landscape #spells-per-level-container .spell-level-slots-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+    body.mobile-landscape.mobile-landscape-wide #spells-per-level-container .spell-level-slots-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+    body.mobile-landscape .attack-summary-row {
+        grid-template-columns: 60px 1fr 84px 1fr 42px !important;
+        font-size: 0.76em !important;
     }
 
     /* ------------------------------------------------------------ */
@@ -4645,7 +4678,7 @@ function renderSpellsTab(lvl, clsName) {
         section.style.paddingLeft = "10px";
         section.style.marginBottom = "15px";
         section.innerHTML = `<h3>Nivel ${i} <span style="font-size:0.7em; color:#94a3b8; font-weight:normal;">(${numSlots} slot${numSlots > 1 ? 's' : ''})</span></h3>
-                             <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:5px;"></div>`;
+                             <div class="spell-level-slots-grid"></div>`;
         container.appendChild(section);
         const grid = section.querySelector('div');
 
@@ -13773,6 +13806,24 @@ function isMobileTabSheetEnabled() {
     return window.matchMedia('(max-width: 768px)').matches;
 }
 
+function isMobileLandscapeViewport() {
+    const coarsePointer = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    const landscape = window.innerWidth > window.innerHeight;
+    const compactViewport = Math.min(window.innerWidth, window.innerHeight) <= 640 || Math.max(window.innerWidth, window.innerHeight) <= 1100;
+    return coarsePointer && landscape && compactViewport;
+}
+
+function syncMobileViewportMode() {
+    const body = document.body;
+    if (!body) return;
+    const active = isMobileLandscapeViewport();
+    body.classList.toggle('mobile-landscape', active);
+    body.classList.toggle('mobile-landscape-wide', active && window.innerWidth >= 900);
+}
+
+window.addEventListener('resize', syncMobileViewportMode);
+window.addEventListener('orientationchange', () => window.setTimeout(syncMobileViewportMode, 120));
+
 function getMobileTabSheet() {
     return document.getElementById('mobile-tab-sheet');
 }
@@ -14289,7 +14340,7 @@ function renderSpellsTab(lvl, clsName) {
         section.style.paddingLeft = "10px";
         section.style.marginBottom = "15px";
         section.innerHTML = `<h3>Nivel ${i} <span style="font-size:0.7em; color:#94a3b8; font-weight:normal;">(${numSlots} slot${numSlots > 1 ? 's' : ''})</span></h3>
-                             <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:5px;"></div>`;
+                             <div class="spell-level-slots-grid"></div>`;
         container.appendChild(section);
         const grid = section.querySelector('div');
 
@@ -14510,11 +14561,9 @@ renderSpellsTab = function(lvl, clsName) {
         if (spellsOfLvl.length === 0 && domainSpells.length === 0) continue;
 
         let section = document.createElement('div');
-        section.style.borderLeft = "3px solid var(--accent)";
-        section.style.paddingLeft = "10px";
-        section.style.marginBottom = "15px";
+        section.className = "spell-level-section";
         section.innerHTML = `<h3>Nivel ${i} <span style="font-size:0.7em; color:#94a3b8; font-weight:normal;">(${numSlots} slot${numSlots > 1 ? 's' : ''}${domainSpells.length ? ` + ${domainSpells.length} dominio` : ''})</span></h3>
-                             <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:5px;"></div>`;
+                             <div class="spell-level-slots-grid"></div>`;
         container.appendChild(section);
         const grid = section.querySelector('div');
 
@@ -15874,6 +15923,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // 1. Inicializamos la interfaz y listeners
     init();
+    syncMobileViewportMode();
     scheduleVisibleMojibakeCleanup();
 
     // 2. LÃ³gica de carga de personajes
