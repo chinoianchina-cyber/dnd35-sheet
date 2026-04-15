@@ -1456,6 +1456,25 @@
 
 <div class="panel" id="p5">
     <div class="dm-panel-shell">
+        <div class="dm-section-card" data-dm-section="library">
+            <button type="button" class="companion-toggle" onclick="toggleDmSection('library')">
+                <div class="companion-toggle-main">
+                    <span class="manual-tag" style="background:#2563eb;">DM</span>
+                    <div>
+                        <div class="companion-toggle-title">Biblioteca de campañas</div>
+                        <div class="companion-toggle-meta">Carga campañas premade desde la libreria local del proyecto.</div>
+                    </div>
+                </div>
+                <span class="companion-chevron" id="dm-chevron-library">&#9662;</span>
+            </button>
+            <div class="dm-subcards" id="dm-body-library">
+                <div class="dm-encounter-helper">Cada pack reemplaza el personaje actual con una ficha DM Shell completa y todo su contenido de DM Tools.</div>
+                <div id="dm-campaign-library-list" class="dm-files-list">
+                    <div class="companion-empty">Todavia no hay campañas cargadas en la biblioteca.</div>
+                </div>
+            </div>
+        </div>
+
         <div class="dm-section-card" data-dm-section="sessionHub">
             <button type="button" class="companion-toggle" onclick="toggleDmSection('sessionHub')">
                 <div class="companion-toggle-main">
@@ -1553,8 +1572,6 @@
                 <span class="companion-chevron" id="dm-chevron-campaign">&#9662;</span>
             </button>
             <div class="dm-subcards" id="dm-body-campaign">
-                <div id="dm-campaign-summary" class="dm-encounter-summary" style="margin-bottom:12px;"></div>
-
                 <div class="dm-subcard">
                     <button type="button" class="companion-toggle" onclick="toggleDmSection('campaign-arcs')">
                         <div class="companion-toggle-main">
@@ -4868,6 +4885,12 @@ function exportCharacter() {
     URL.revokeObjectURL(url);
 }
 
+function importCharacterData(data) {
+    applySaveData(data);
+    updateAll();
+    autoSave();
+}
+
 function importCharacter(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -4875,9 +4898,7 @@ function importCharacter(event) {
     reader.onload = e => {
         try {
             const data = JSON.parse(e.target.result);
-            applySaveData(data);
-            updateAll();
-            autoSave();
+            importCharacterData(data);
         } catch(err) { alert("Error al leer el archivo JSON."); }
     };
     reader.readAsText(file);
@@ -7511,7 +7532,67 @@ const DM_TOOLS = {
     }
 };
 
+const CAMPAIGN_LIBRARY_PACKS = [
+    {
+        id: "greyhaven",
+        title: "Las Mareas Negras de Greyhaven",
+        path: "campaign-library/demo-campana-greyhaven.json",
+        pitch: "Misterio costero, culto marino y politica portuaria.",
+        summary: "Campana urbana y costera de 10 sesiones, ideal para intriga, archivos, culto y muelles peligrosos.",
+        recommendedLevel: "Nivel 5-6"
+    },
+    {
+        id: "valle-colmillos",
+        title: "El Valle de los Colmillos Blancos",
+        path: "campaign-library/demo-campana-valle-colmillos-blancos.json",
+        pitch: "Supervivencia helada, clanes y un barrow bajo el glaciar.",
+        summary: "Campana de valle nevado con dire animals, gigantes, santuarios rotos y una tumba antigua.",
+        recommendedLevel: "Nivel 5-6"
+    },
+    {
+        id: "ruta-sal-hierro",
+        title: "La Ruta de la Sal y el Hierro",
+        path: "campaign-library/demo-campana-ruta-sal-hierro.json",
+        pitch: "Caravanas, facciones comerciales y escolta bajo presion.",
+        summary: "Campana de viaje con convoy, sabotaje, rutas alternativas y decisiones de faccion al final.",
+        recommendedLevel: "Nivel 5-6"
+    },
+    {
+        id: "puentes-quebrados",
+        title: "La Ciudad de los Puentes Quebrados",
+        path: "campaign-library/demo-campana-puentes-quebrados.json",
+        pitch: "Asesinatos rituales, gremios urbanos y canales oscuros.",
+        summary: "Campana urbana de 10 sesiones con investigacion, mafia, puentes y un final ritual muy visual.",
+        recommendedLevel: "Nivel 5-6"
+    },
+    {
+        id: "bosque-tres-lunas",
+        title: "El Bosque de las Tres Lunas",
+        path: "campaign-library/demo-campana-bosque-tres-lunas.json",
+        pitch: "Fey, licantropia y pactos lunares en tension.",
+        summary: "Campana de bosque encantado con aldea asustada, corte feerica y ramas de licantropia.",
+        recommendedLevel: "Nivel 5-6"
+    },
+    {
+        id: "archivo-nombres",
+        title: "El Archivo de los Nombres Muertos",
+        path: "campaign-library/demo-campana-archivo-nombres-muertos.json",
+        pitch: "Investigacion arcana, vaults sellados y nombres prohibidos.",
+        summary: "Campana de archivo, catedral y mercado clandestino alrededor de una lista de nombres peligrosos.",
+        recommendedLevel: "Nivel 5-6"
+    },
+    {
+        id: "thornwatch",
+        title: "El Ultimo Estandarte de Thornwatch",
+        path: "campaign-library/demo-campana-thornwatch.json",
+        pitch: "Frontera militar, abandono del reino y ultima defensa.",
+        summary: "Campana de fortaleza sitiada con sabotaje interno, patrullas y una decision final de lealtad.",
+        recommendedLevel: "Nivel 5-6"
+    }
+];
+
 const DM_UI_STATE = {
+    library: false,
     sessionHub: false,
     campaign: false,
     "campaign-arcs": false,
@@ -7534,7 +7615,7 @@ const DM_UI_STATE = {
     encounter: false
 };
 
-const DM_TOP_LEVEL_SECTIONS = ["sessionHub", "campaign", "history", "party", "npc", "encounter", "event", "sidequest", "loot", "files"];
+const DM_TOP_LEVEL_SECTIONS = ["library", "sessionHub", "campaign", "history", "party", "npc", "encounter", "event", "sidequest", "loot", "files"];
 
 function getDmSectionCardRects() {
     return Array.from(document.querySelectorAll('#p5 .dm-section-card[data-dm-section]')).map(card => ({
@@ -10469,18 +10550,7 @@ function getCampaignBoardSummary() {
 }
 
 function renderCampaignBoardSummary() {
-    const container = document.getElementById('dm-campaign-summary');
-    if (!container) return;
-    const summary = getCampaignBoardSummary();
-    container.innerHTML = `
-        <div class="dm-encounter-metric"><span class="dm-encounter-metric-label">Arcos activos</span><div class="dm-encounter-metric-value">${summary.arcsActive}</div></div>
-        <div class="dm-encounter-metric"><span class="dm-encounter-metric-label">Objetivos abiertos</span><div class="dm-encounter-metric-value">${summary.objectivesOpen}</div></div>
-        <div class="dm-encounter-metric"><span class="dm-encounter-metric-label">Cards conectadas</span><div class="dm-encounter-metric-value">${summary.connectedMapCards}</div></div>
-        <div class="dm-encounter-metric"><span class="dm-encounter-metric-label">Clocks en riesgo</span><div class="dm-encounter-metric-value">${summary.riskyClocks}</div></div>
-        <div class="dm-encounter-metric"><span class="dm-encounter-metric-label">Facciones hostiles</span><div class="dm-encounter-metric-value">${summary.hostileFactions}</div></div>
-        <div class="dm-encounter-metric"><span class="dm-encounter-metric-label">Pistas abiertas</span><div class="dm-encounter-metric-value">${summary.cluesOpen}</div></div>
-        <div class="dm-encounter-metric"><span class="dm-encounter-metric-label">Secretos pendientes</span><div class="dm-encounter-metric-value">${summary.secretsPending}</div></div>
-    `;
+    return;
 }
 
 function getCampaignArcTitleById(arcId) {
@@ -12839,12 +12909,68 @@ function clearEncounterBuilderResult() {
     autoSave();
 }
 
+function renderCampaignLibraryList() {
+    const container = document.getElementById('dm-campaign-library-list');
+    if (!container) return;
+    if (!CAMPAIGN_LIBRARY_PACKS.length) {
+        container.innerHTML = `<div class="companion-empty">Todavia no hay campañas cargadas en la biblioteca.</div>`;
+        return;
+    }
+    container.innerHTML = CAMPAIGN_LIBRARY_PACKS.map(pack => `
+        <div class="dm-file-item">
+            <div class="dm-file-main">
+                <div class="dm-file-title-wrap">
+                    <div class="dm-file-title">${escapeHtml(pack.title)}</div>
+                    <div class="dm-file-tag">${escapeHtml(pack.recommendedLevel || "Pack")}</div>
+                </div>
+                <div class="dm-file-url">${escapeHtml(pack.pitch || "")}</div>
+                <div class="dm-file-url" style="opacity:0.95;">${escapeHtml(pack.summary || "")}</div>
+            </div>
+            <div class="dm-file-actions">
+                <button type="button" class="dm-mini-btn" onclick="previewCampaignLibraryPack('${escapeAttr(pack.id)}')">Ver archivo</button>
+                <button type="button" class="manual-back-btn" onclick="loadCampaignLibraryPack('${escapeAttr(pack.id)}')">Cargar campaña</button>
+            </div>
+        </div>
+    `).join("");
+}
+
+function getCampaignLibraryPack(packId) {
+    return CAMPAIGN_LIBRARY_PACKS.find(pack => pack.id === packId) || null;
+}
+
+function previewCampaignLibraryPack(packId) {
+    const pack = getCampaignLibraryPack(packId);
+    if (!pack) return;
+    window.open(pack.path, '_blank', 'noopener');
+}
+
+async function loadCampaignLibraryPack(packId) {
+    const pack = getCampaignLibraryPack(packId);
+    if (!pack) {
+        alert('No se encontro esa campaña en la biblioteca.');
+        return;
+    }
+    const ok = confirm(`Esto reemplaza el personaje actual por la campaña "${pack.title}". ¿Querés seguir?`);
+    if (!ok) return;
+    try {
+        const response = await fetch(pack.path, { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        importCharacterData(data);
+        openDmToolsArea(['library'], 'dm-campaign-library-list');
+    } catch (err) {
+        console.warn('Campaign library load failed:', err);
+        alert('No pude cargar la campaña desde la biblioteca local. Si abriste la app como archivo suelto, usa Importar manual o ejecutala desde la version servida/PWA.');
+    }
+}
+
 function syncDmToolsUi() {
     normalizeDmTopLevelOpenState();
     const backstory = document.getElementById('dm-history-backstory');
     const notes = document.getElementById('dm-history-notes');
     if (backstory) backstory.value = DM_TOOLS.history.backstory || "";
     if (notes) notes.value = DM_TOOLS.history.notes || "";
+    renderCampaignLibraryList();
     renderSessionHub();
     renderCampaignBoard();
     renderSessionPickerControls();

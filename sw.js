@@ -1,4 +1,4 @@
-const CACHE = 'dnd35-v2';
+const CACHE = 'dnd35-v3';
 
 self.addEventListener('install', e => {
     e.waitUntil(
@@ -6,7 +6,14 @@ self.addEventListener('install', e => {
             '/dnd35-sheet/',
             '/dnd35-sheet/index.html',
             '/dnd35-sheet/manifest.json',
-            '/dnd35-sheet/icon.svg'
+            '/dnd35-sheet/icon.svg',
+            '/dnd35-sheet/campaign-library/demo-campana-greyhaven.json',
+            '/dnd35-sheet/campaign-library/demo-campana-valle-colmillos-blancos.json',
+            '/dnd35-sheet/campaign-library/demo-campana-ruta-sal-hierro.json',
+            '/dnd35-sheet/campaign-library/demo-campana-puentes-quebrados.json',
+            '/dnd35-sheet/campaign-library/demo-campana-bosque-tres-lunas.json',
+            '/dnd35-sheet/campaign-library/demo-campana-archivo-nombres-muertos.json',
+            '/dnd35-sheet/campaign-library/demo-campana-thornwatch.json'
         ]))
     );
     self.skipWaiting();
