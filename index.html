@@ -419,6 +419,81 @@
         box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 12px 24px rgba(2,6,23,0.14);
         touch-action: pan-x pan-y; }
     .dm-map-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+    .adventure-shell { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.92fr); gap: 16px; align-items: start; }
+    .adventure-main,
+    .adventure-side { min-width: 0; }
+    .adventure-hero { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+    .adventure-title-wrap { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+    .adventure-kicker { font-size: 0.72em; letter-spacing: 1.2px; text-transform: uppercase; color: var(--accent); font-weight: 800; }
+    .adventure-scene-title { margin: 0; font-size: 1.18em; color: var(--text); }
+    .adventure-meta { color: var(--text-muted); font-size: 0.84em; line-height: 1.45; }
+    .adventure-status-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .adventure-stat-chip { padding: 10px 12px; border-radius: 12px; border: 1px solid var(--soft-line); background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(15,23,42,0.58)); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04); }
+    .adventure-stat-chip strong { display: block; color: var(--accent); font-size: 0.74em; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 5px; }
+    .adventure-stat-chip span { color: var(--text); font-size: 0.9em; line-height: 1.45; }
+    .adventure-copy { display: grid; gap: 12px; line-height: 1.7; color: var(--text); font-size: 0.95em; }
+    .adventure-copy p { margin: 0; }
+    .adventure-outcome { margin-top: 14px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--accent-edge); background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(15,23,42,0.72)); box-shadow: 0 10px 20px rgba(2,6,23,0.12); }
+    .adventure-outcome.success { border-color: rgba(74,222,128,0.4); }
+    .adventure-outcome.failure { border-color: rgba(248,113,113,0.38); }
+    .adventure-outcome.neutral { border-color: rgba(148,163,184,0.26); }
+    .adventure-outcome-title { font-size: 0.74em; text-transform: uppercase; letter-spacing: 0.9px; color: var(--accent); font-weight: 800; margin-bottom: 6px; }
+    .adventure-choice-list { display: grid; gap: 10px; margin-top: 16px; }
+    .adventure-choice-btn { width: 100%; text-align: left; border-radius: 14px; border: 1px solid var(--soft-line); background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(15,23,42,0.82)); color: var(--text); padding: 12px 14px; cursor: pointer; transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease; box-shadow: 0 10px 20px rgba(2,6,23,0.1), inset 0 1px 0 rgba(255,255,255,0.04); }
+    .adventure-choice-btn:hover { transform: translateY(-1px); border-color: var(--accent-edge); box-shadow: 0 14px 24px rgba(2,6,23,0.16), 0 0 0 1px rgba(255,255,255,0.03) inset; }
+    .adventure-choice-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .adventure-choice-label { font-weight: 700; color: var(--text); }
+    .adventure-choice-desc { margin-top: 5px; font-size: 0.84em; color: var(--text-muted); line-height: 1.55; }
+    .adventure-choice-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+    .adventure-tag { display: inline-flex; align-items: center; justify-content: center; padding: 4px 9px; border-radius: 10px; border: 1px solid var(--soft-line); background: rgba(15,23,42,0.72); color: var(--accent); font-size: 0.7em; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; white-space: nowrap; }
+    .adventure-tag.check { border-color: var(--accent-edge); }
+    .adventure-tag.risk { border-color: rgba(248,113,113,0.34); color: #fecaca; }
+    .adventure-tag.reward { border-color: rgba(74,222,128,0.3); color: #dcfce7; }
+    .adventure-side-card { display: grid; gap: 10px; }
+    .adventure-objective { padding: 12px 14px; border-radius: 12px; background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(15,23,42,0.66)); border: 1px solid var(--soft-line); }
+    .adventure-objective strong { display: block; color: var(--accent); font-size: 0.74em; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 5px; }
+    .adventure-resource-list { display: grid; gap: 8px; margin-top: 10px; }
+    .adventure-resource-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 11px; border-radius: 11px; border: 1px solid var(--soft-line); background: rgba(15,23,42,0.46); }
+    .adventure-resource-key { color: var(--text); font-size: 0.82em; font-weight: 700; }
+    .adventure-resource-value { color: var(--text-muted); font-size: 0.8em; text-align: right; line-height: 1.45; }
+    .adventure-chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .adventure-soft-chip { display: inline-flex; align-items: center; padding: 4px 9px; border-radius: 10px; border: 1px solid var(--soft-line); background: rgba(15,23,42,0.46); color: var(--text-muted); font-size: 0.72em; font-weight: 700; letter-spacing: 0.25px; }
+    .adventure-toolkit-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .adventure-toolkit-btn { width: 100%; justify-content: center; }
+    .adventure-consumable-list { display: grid; gap: 8px; margin-top: 8px; }
+    .adventure-consumable-card { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--soft-line); background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(15,23,42,0.56)); }
+    .adventure-consumable-meta { min-width: 0; }
+    .adventure-consumable-name { color: var(--text); font-size: 0.84em; font-weight: 700; line-height: 1.35; }
+    .adventure-consumable-detail { color: var(--text-muted); font-size: 0.76em; line-height: 1.45; margin-top: 3px; }
+    .adventure-combat-quick { display: grid; gap: 8px; margin-top: 10px; }
+    .adventure-combat-status { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--soft-line); background: rgba(15,23,42,0.46); }
+    .adventure-combat-status strong { color: var(--text); font-size: 0.84em; }
+    .adventure-combat-status span { color: var(--text-muted); font-size: 0.78em; line-height: 1.45; }
+    .adventure-spell-list { display: grid; gap: 8px; margin-top: 8px; }
+    .adventure-spell-card { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--soft-line); background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(15,23,42,0.56)); }
+    .adventure-spell-meta { min-width: 0; }
+    .adventure-spell-name { color: var(--text); font-size: 0.84em; font-weight: 700; line-height: 1.35; }
+    .adventure-spell-detail { color: var(--text-muted); font-size: 0.76em; line-height: 1.45; margin-top: 3px; }
+    .adventure-combat-modal-grid { display: grid; grid-template-columns: 1fr 120px 120px; gap: 10px; }
+    .adventure-combat-modal-grid .full { grid-column: 1 / -1; }
+    .adventure-combat-log { display: grid; gap: 8px; max-height: min(32vh, 320px); overflow: auto; padding-right: 2px; margin-top: 12px; }
+    .adventure-combat-log-entry { padding: 10px 12px; border-radius: 12px; border: 1px solid var(--soft-line); background: rgba(15,23,42,0.5); }
+    .adventure-combat-log-entry strong { display: block; color: var(--text); font-size: 0.82em; margin-bottom: 4px; }
+    .adventure-combat-log-entry span { display: block; color: var(--text-muted); font-size: 0.78em; line-height: 1.45; }
+    .adventure-combat-modal-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+    .adventure-combat-banner { margin-top: 10px; padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(56,189,248,0.24); background: rgba(15,23,42,0.48); color: var(--text-muted); font-size: 0.8em; line-height: 1.5; }
+    #adventure-combat-modal .dm-modal-card { width: min(760px, 100%); max-height: 88vh; overflow-y: auto; }
+    .adventure-journal-list { display: grid; gap: 8px; }
+    .adventure-journal-entry { padding: 10px 12px; border-radius: 12px; border: 1px solid var(--soft-line); background: rgba(15,23,42,0.44); }
+    .adventure-journal-entry strong { display: block; margin-bottom: 4px; color: var(--text); font-size: 0.86em; }
+    .adventure-journal-entry span { display: block; color: var(--text-muted); font-size: 0.8em; line-height: 1.5; }
+    .adventure-empty { padding: 16px; border-radius: 12px; border: 1px dashed var(--soft-line); color: var(--text-muted); text-align: center; line-height: 1.6; }
+    .adventure-launch-card .companion-actions { justify-content: flex-start; }
+    .adventure-reset-btn { background: rgba(239,68,68,0.14) !important; color: #fecaca !important; border: 1px solid rgba(248,113,113,0.28) !important; }
+    .adventure-editor-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .adventure-complete-banner { padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(74,222,128,0.35); background: linear-gradient(180deg, rgba(34,197,94,0.08), rgba(15,23,42,0.7)); color: #dcfce7; }
+    .adventure-complete-banner.partial { border-color: rgba(250,204,21,0.34); color: #fef3c7; background: linear-gradient(180deg, rgba(250,204,21,0.08), rgba(15,23,42,0.7)); }
+    .adventure-complete-banner.fail { border-color: rgba(248,113,113,0.34); color: #fecaca; background: linear-gradient(180deg, rgba(239,68,68,0.1), rgba(15,23,42,0.7)); }
     .dm-map-node {
         position: absolute;
         width: 220px;
@@ -616,6 +691,13 @@
         #spells-per-level-container .spell-level-slots-grid { 
             grid-template-columns: minmax(0, 1fr) !important; 
         }
+        .adventure-shell { grid-template-columns: 1fr !important; }
+        .adventure-status-grid { grid-template-columns: 1fr 1fr; }
+        .adventure-choice-head { flex-direction: column; align-items: flex-start; }
+        .adventure-choice-tags { justify-content: flex-start; }
+        .adventure-toolkit-actions { grid-template-columns: 1fr; }
+        .adventure-combat-modal-grid,
+        .adventure-combat-modal-actions { grid-template-columns: 1fr; }
 
         /* Attack summary mÃ¡s compacto */
         .attack-summary-row { 
@@ -696,13 +778,14 @@
     body.mobile-landscape .dm-map-canvas { min-height: 320px; }
     body.mobile-landscape #p2 .grid-main { grid-template-columns: 1fr 1fr !important; }
     body.mobile-landscape #p4 > div { grid-template-columns: 1fr 1fr !important; }
-    body.mobile-landscape #conditions-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
-    body.mobile-landscape #spells-per-level-container .spell-level-slots-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
-    body.mobile-landscape.mobile-landscape-wide #spells-per-level-container .spell-level-slots-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
-    body.mobile-landscape .attack-summary-row {
-        grid-template-columns: 60px 1fr 84px 1fr 42px !important;
-        font-size: 0.76em !important;
-    }
+        body.mobile-landscape #conditions-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+        body.mobile-landscape #spells-per-level-container .spell-level-slots-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+        body.mobile-landscape.mobile-landscape-wide #spells-per-level-container .spell-level-slots-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+        body.mobile-landscape .adventure-shell { grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.9fr) !important; }
+        body.mobile-landscape .attack-summary-row {
+            grid-template-columns: 60px 1fr 84px 1fr 42px !important;
+            font-size: 0.76em !important;
+        }
 
     /* ------------------------------------------------------------ */
     .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
@@ -790,6 +873,7 @@
   <div class="tab" onclick="showTab(4)">CUSTOM</div>
   <div class="tab" onclick="showTab(5)">NOTAS</div>
   <div class="tab" onclick="showTab(6)">DM TOOLS</div>
+  <div class="tab" onclick="showTab(7)">AVENTURA</div>
   <div style="margin-left:auto; display:flex; align-items:center; gap:8px; padding-right:12px;">
     <span id="save-indicator" style="font-size:0.7em; color:#64748b;"></span>
     <select id="theme-selector" onchange="applyTheme(this.value)" title="Tema de color"
@@ -822,6 +906,7 @@
       <button type="button" class="mobile-tab-sheet-btn" data-tab-index="4" onclick="selectMobileTab(4)">Custom</button>
       <button type="button" class="mobile-tab-sheet-btn" data-tab-index="5" onclick="selectMobileTab(5)">Notas</button>
       <button type="button" class="mobile-tab-sheet-btn" data-tab-index="6" onclick="selectMobileTab(6)">DM Tools</button>
+      <button type="button" class="mobile-tab-sheet-btn" data-tab-index="7" onclick="selectMobileTab(7)">Aventura</button>
     </div>
   </div>
 </div>
@@ -1036,6 +1121,14 @@
                             <button type="button" class="roll-trigger" onclick="rollSaveCheck('Voluntad', 'save-will')">d20</button>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="card adventure-launch-card">
+                <h2>Modo Aventura</h2>
+                <div id="adventure-launch-summary" class="dm-encounter-helper" style="margin-top:0;">Converti esta ficha en el protagonista de una campaña guiada, con escenas, tiradas y decisiones persistentes.</div>
+                <div class="companion-actions" style="margin-top:12px;">
+                    <button type="button" class="manual-back-btn" onclick="openAdventureMode()">Abrir aventura</button>
                 </div>
             </div>
 
@@ -2188,6 +2281,41 @@
     </div>
 </div>
 
+<div class="panel" id="p6">
+    <div class="adventure-shell">
+        <div class="adventure-main">
+            <div class="card">
+                <div class="adventure-hero">
+                    <div class="adventure-title-wrap">
+                        <span class="adventure-kicker">Modo Aventura</span>
+                        <h2 class="adventure-scene-title" style="border-bottom:none; padding-bottom:0;">Campañas guiadas con tu personaje actual</h2>
+                        <div class="adventure-meta">Leé, decidí, tirá y dejá que la historia reaccione a tu build, tus skills y tus elecciones.</div>
+                    </div>
+                    <div class="adventure-editor-actions" id="adventure-hero-actions"></div>
+                </div>
+                <div id="adventure-campaign-picker"></div>
+            </div>
+            <div class="card" id="adventure-scene-card">
+                <div id="adventure-scene-content" class="adventure-empty">Todavia no empezaste ninguna aventura.</div>
+            </div>
+        </div>
+        <div class="adventure-side">
+            <div class="card adventure-side-card">
+                <h2>Estado</h2>
+                <div id="adventure-status-content" class="adventure-empty">Cargá una campaña para ver objetivo, HP, recursos y progreso.</div>
+            </div>
+            <div class="card adventure-side-card">
+                <h2>Herramientas</h2>
+                <div id="adventure-toolkit-content" class="adventure-empty">Cuando empiece la aventura vas a tener accesos rapidos a ficha, hechizos, equipo, dados y consumibles.</div>
+            </div>
+            <div class="card adventure-side-card">
+                <h2>Bitacora</h2>
+                <div id="adventure-journal-content" class="adventure-empty">Las decisiones importantes y los hallazgos van a ir quedando registrados aca.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="dice-roller-modal" class="dice-modal" onclick="handleDiceModalBackdrop(event)">
     <div class="dice-modal-card">
         <div class="dice-modal-head">
@@ -2201,6 +2329,19 @@
             <button type="button" class="dice-close" onclick="closeDiceModal()">Cerrar</button>
         </div>
         <div id="dice-modal-content"></div>
+    </div>
+</div>
+
+<div id="adventure-combat-modal" class="dm-modal" onclick="handleAdventureCombatModalBackdrop(event)">
+    <div class="dm-modal-card" style="width:min(760px, 100%);">
+        <div class="dice-modal-head">
+            <div>
+                <h3 class="dice-modal-title" style="margin-bottom:4px;">Combate de aventura</h3>
+                <div class="dice-modal-subtitle" id="adventure-combat-subtitle">Ajusta los datos del combate, elige acción y resuélvelo sin salir de la escena.</div>
+            </div>
+            <button type="button" class="dice-close" onclick="closeAdventureCombatModal()">Cerrar</button>
+        </div>
+        <div id="adventure-combat-modal-content"></div>
     </div>
 </div>
 
@@ -5182,7 +5323,7 @@ function updateAttackSummary(bab, mods) {
         const safeExtra  = sneaking ? `${sneakDice}d6` : "";
 
         html += `
-            <div class="attack-summary-row" data-roll-kind="attack" data-roll-label="${safeName}" data-roll-attack-seq="${safeAtk}" data-roll-damage="${safeDmg}" data-roll-crit="${safeCrit}" data-roll-mult="${safeMult}" data-roll-extra="${escapeAttr(safeExtra)}" style="display:grid; grid-template-columns: 70px 1fr 1fr 1fr 40px; 
+            <div class="attack-summary-row" data-roll-kind="attack" data-roll-label="${safeName}" data-roll-weapon-slot="${id}" data-roll-attack-seq="${safeAtk}" data-roll-damage="${safeDmg}" data-roll-crit="${safeCrit}" data-roll-mult="${safeMult}" data-roll-extra="${escapeAttr(safeExtra)}" style="display:grid; grid-template-columns: 70px 1fr 1fr 1fr 40px; 
                          align-items:center; gap:4px; padding:4px 6px; margin-bottom:3px;
                          background:rgba(0,0,0,0.25); border-radius:4px; 
                          border-left:2px solid var(--accent); font-size:0.8em;">
@@ -13791,7 +13932,7 @@ function toggleAttributesCard(forceOpen, event) {
 function updateAttributesCardSummary() {
     updateCollapsibleCardSummary('attributes');
 }
-const TAB_PANEL_IDS = ['p0','p1','p2','p3','p3b','p4','p5'];
+const TAB_PANEL_IDS = ['p0','p1','p2','p3','p3b','p4','p5','p6'];
 
 function showTab(i) {
     document.querySelectorAll('.tab').forEach((t, idx) => t.classList.toggle('active', idx === i));
@@ -17488,6 +17629,3292 @@ refreshLycanSummaryChipText = function() {
     }
     chip.textContent = `${state.animalName} - ${state.formLabel} - CA natural +${getLycanNaturalArmorBonus(state)}${getLycanSizeAttackMod(state) ? " - Tamano grande" : ""}`;
     chip.style.display = "inline-flex";
+};
+
+const ADVENTURE_LIBRARY = [
+    {
+        id: "irivith",
+        title: "Irivith: Las Mareas del Hierro",
+        recommended: "Nivel 1-4",
+        blurb: "Una aldea costera, dos campesinos desaparecidos y el regreso silencioso de una banda semiorca dedicada al rapto y la esclavitud.",
+        startSceneId: "arrival_docks",
+        startObjective: "Encontrar el rastro de Teren y Lysa antes de que los saquen de Irivith por mar.",
+        scenes: {
+            arrival_docks: {
+                title: "Desembarco en Irivith",
+                location: "Muelle de Irivith",
+                text: () => {
+                    const name = document.getElementById('charName')?.value?.trim() || "aventurero";
+                    return [
+                        `${name} baja del ultimo bote del dia mientras la niebla salada se enreda entre pilotes oscuros y redes que gotean sobre la madera vieja del muelle.`,
+                        `Irivith parece una aldea pequena y cansada, pero el aire tiene esa quietud rara de los lugares donde alguien dejo de volver a casa.`
+                    ];
+                },
+                choices: [
+                    {
+                        label: "Ir al corazon de la aldea y buscar a la reeve",
+                        desc: "Lo mas directo es hablar con quien este a cargo antes de seguir cualquier pista.",
+                        next: "village_green",
+                        journal: "Apenas desembarcas, decidis empezar por la autoridad local."
+                    },
+                    {
+                        label: "Entrar en la taberna La Boya Quebrada",
+                        desc: "Los puertos siempre hablan primero en las mesas, no en las oficinas.",
+                        next: "tavern",
+                        journal: "Preferis escuchar a los marineros y vecinos antes de presentarte."
+                    },
+                    {
+                        label: "Seguir de inmediato las marcas hacia los campos de sal",
+                        desc: "Todavia queda algo de luz; quizas el rastro no aguante mucho mas.",
+                        check: { type: "skill", target: "Survival", dc: 12, label: "Survival" },
+                        success: { next: "cliff_tracks", text: "Lees el barro y las marcas de arrastre con bastante claridad antes de que el viento las borre del todo." },
+                        failure: { next: "mudflats", text: "La marea y la sal te engañan; terminas demasiado bajo, entre charcos fangosos y rocas cortantes.", effects: { damage: 2 } },
+                        journal: "Antes de hablar con nadie, perseguis el rastro fresco de los desaparecidos."
+                    }
+                ]
+            },
+            village_green: {
+                title: "La plaza barrida por el viento",
+                location: "Centro de Irivith",
+                text: [
+                    "La reeve Maelis te recibe con ojeras viejas y una dignidad que apenas sostiene el cansancio de toda la aldea.",
+                    "Te cuenta que Teren, un peon de las salinas, y Lysa, una muchacha del embarcadero, desaparecieron en noches consecutivas. Los viejos del lugar susurran algo que nadie queria volver a nombrar: semiorcos en la costa."
+                ],
+                choices: [
+                    {
+                        label: "Aceptar el encargo y pedir todos los detalles",
+                        desc: "Maelis te marca tres lugares clave: las salinas, el santuario del acantilado y la vieja torre de vigia.",
+                        next: "search_routes",
+                        effects: { setFlags: ["questAccepted"], objective: "Reunir pistas en Irivith y dar con el campamento donde retienen a Teren y Lysa." },
+                        journal: "Maelis te pone al frente de la busqueda. Toda la aldea espera noticias."
+                    },
+                    {
+                        label: "Preguntar primero en la taberna",
+                        desc: "Antes de comprometerte, queres oir la version de los vecinos y marineros.",
+                        next: "tavern",
+                        effects: { setFlags: ["questAccepted"] },
+                        journal: "Aceptas ayudar, pero preferis empezar por las voces del puerto."
+                    }
+                ]
+            },
+            search_routes: {
+                title: "Tres caminos en una aldea inquieta",
+                location: "Irivith",
+                text: [
+                    "Con el problema ya sobre la mesa, Irivith deja de parecer solo un puerto triste: cada sendero, cada rumor y cada silencio podria llevarte hacia los cautivos o directamente a los raptores.",
+                    "La aldea te ofrece tres puntas firmes para empezar a tensar del hilo."
+                ],
+                choices: [
+                    { label: "Inspeccionar los campos de sal", desc: "Teren trabajaba alli y fue el primero en desaparecer.", next: "salt_fields" },
+                    { label: "Visitar el pequeño santuario del acantilado", desc: "Lysa llevaba comida a la hermana Neris cuando todavia estaba aqui.", next: "sea_shrine" },
+                    { label: "Subir a la vieja torre costera", desc: "Desde ahi deberias ver media costa y cualquier humo sospechoso.", next: "watchtower" },
+                    { label: "Volver a la taberna", desc: "A veces la segunda ronda de rumores trae algo mas util que la primera.", next: "tavern" }
+                ]
+            },
+            tavern: {
+                title: "La Boya Quebrada",
+                location: "Taberna del puerto",
+                text: [
+                    "La taberna huele a brea, cerveza aguada y pescado seco. Cuando preguntas por desaparecidos, el ruido baja apenas lo justo para que te des cuenta de que todos estaban esperando a que alguien lo hiciera.",
+                    "Un pescador llamado Oren admite haber visto luces cubiertas y sombras grandes moviendose por encima de las cuevas de marea."
+                ],
+                choices: [
+                    {
+                        label: "Convencer a Oren de que te preste una linterna de barco",
+                        desc: "Una luz fiable puede cambiar mucho bajo la niebla o bajo tierra.",
+                        check: { type: "skill", target: "Diplomacy", dc: 12, label: "Diplomacy" },
+                        success: { next: "search_routes", text: "Oren te entrega una linterna de laton mellado. 'Traela si volves', gruñe.", effects: { addItems: ["Linterna de laton de Oren"], setFlags: ["hasLantern"] } },
+                        failure: { next: "search_routes", text: "Oren no te la presta, pero igual te cuenta que las luces venian del lado de la vieja torre." },
+                        journal: "En la taberna descubris que hubo luces raras en la costa durante las desapariciones."
+                    },
+                    {
+                        label: "Escuchar a los pescadores del fondo",
+                        desc: "Quizas no quieran hablarte, pero si te quedas quieto algo siempre se escapa.",
+                        check: { type: "skill", target: "Listen", dc: 12, label: "Listen" },
+                        success: { next: "search_routes", text: "Escuchas una frase repetida dos veces: 'los llevan vivos a la cala del hierro'.", effects: { setFlags: ["heardIronCove"] } },
+                        failure: { next: "search_routes", text: "Solo sacas supersticiones y juramentos cortados por el miedo." }
+                    },
+                    { label: "Volver con Maelis y ordenar tus opciones", desc: "Ya tenes bastante para empezar a moverte.", next: "search_routes" }
+                ]
+            },
+            sea_shrine: {
+                title: "El santuario del acantilado",
+                location: "Santuario de la marea",
+                text: [
+                    "El santuario es poco mas que una galeria de piedra salpicada por espuma, con velas apagadas y campanillas de concha que repiquetean solas cada vez que el viento entra del mar.",
+                    "La hermana Neris esta asustada, pero no rota. Dice que Lysa dejo de llegar con pan y agua la misma noche en que encontro huellas pesadas junto al altar exterior."
+                ],
+                choices: [
+                    {
+                        label: "Pedir una bendicion para la busqueda",
+                        desc: "Tal vez la fe de Irivith aun tenga algo que decir en este asunto.",
+                        requires: { classAny: ["Cleric", "Paladin", "Druid"] },
+                        next: "search_routes",
+                        effects: { addItems: ["Concha bendita de Neris"], setFlags: ["shrineBlessed"], objective: "Seguir el rastro de los cautivos y usar cualquier ventaja posible antes de que los saquen de la costa." },
+                        journal: "Neris reconoce algo en vos y te entrega una concha bendita para enfrentar lo que sube desde la costa."
+                    },
+                    {
+                        label: "Convencer a Neris de prestarte una reliquia menor",
+                        desc: "No tenes su vocacion, pero si una urgencia real.",
+                        check: { type: "skill", target: "Diplomacy", dc: 13, label: "Diplomacy" },
+                        success: { next: "search_routes", text: "Neris te presta una concha consagrada y murmura una plegaria contra la esclavitud.", effects: { addItems: ["Concha bendita de Neris"], setFlags: ["shrineBlessed"] } },
+                        failure: { next: "search_routes", text: "La hermana no suelta la reliquia, aunque te describe unas huellas que se iban hacia la torre." }
+                    },
+                    {
+                        label: "Examinar las huellas alrededor del altar",
+                        desc: "La piedra guarda menos marcas que el barro, pero no ninguna.",
+                        check: { type: "skill", target: "Search", dc: 12, label: "Search" },
+                        success: { next: "cliff_tracks", text: "Descubris donde varios pies resbalaron hacia un sendero apenas visible entre pastos duros.", effects: { setFlags: ["shrineTracks"] } },
+                        failure: { next: "search_routes", text: "El viento ya hizo demasiada limpieza sobre la piedra mojada." }
+                    }
+                ]
+            },
+            salt_fields: {
+                title: "Las salinas calladas",
+                location: "Campos de sal",
+                text: [
+                    "Los estanques de evaporacion brillan como espejos sucios. Todo parece plano y abierto, pero esa misma desnudez vuelve mas inquietantes las marcas de arrastre, los charcos pateados y una cinta azul atrapada entre costras de sal.",
+                    "Teren no se fue por voluntad propia; eso queda claro apenas pisas la primera pasarela."
+                ],
+                choices: [
+                    {
+                        label: "Examinar las marcas arrastradas",
+                        desc: "Alguien fue llevado a la fuerza y el rastro todavia alcanza para decirte hacia donde.",
+                        check: { type: "skill", target: "Search", dc: 13, label: "Search" },
+                        success: { next: "cliff_tracks", text: "Seguis las marcas hasta un sendero de piedra negra que sube hacia los acantilados.", effects: { setFlags: ["clueRibbon"] } },
+                        failure: { next: "mudflats", text: "Perdes la linea buena y terminas demasiado cerca de la marea baja.", effects: { damage: 1 } }
+                    },
+                    {
+                        label: "Leer el terreno antes de que cambie el viento",
+                        desc: "No necesitas ver el rapto; te basta con reconstruirlo.",
+                        check: { type: "skill", target: "Survival", dc: 13, label: "Survival" },
+                        success: { next: "cliff_tracks", text: "Reconstruis la ruta de dos cautivos escoltados por algo mas grande y pesado." },
+                        failure: { next: "mudflats", text: "La sal y el barro te juegan en contra; bajas por donde no debias.", effects: { damage: 1 } }
+                    },
+                    { label: "Volver a la plaza y replantear la busqueda", desc: "Ya tenes suficiente para no caminar a ciegas.", next: "search_routes" }
+                ]
+            },
+            mudflats: {
+                title: "Bajo los acantilados",
+                location: "Bajios y barro",
+                text: [
+                    "El barro te traga hasta los tobillos y las rocas cubiertas de percebes castigan cada paso. Entre el siseo de la marea ois un gruñido corto y despues otro.",
+                    "Te equivocaste de camino, pero no del peligro."
+                ],
+                choices: [
+                    { label: "Avanzar hacia los gruñidos", desc: "Si hay vigias, tambien hay campamento cerca.", next: "scout_ambush", effects: { setFlags: ["alertedCamp"] } },
+                    { label: "Retirarte a la torre para ganar perspectiva", desc: "Mejor altura que barro si queres ordenar la persecucion.", next: "watchtower" }
+                ]
+            },
+            watchtower: {
+                title: "La vieja torre de vigia",
+                location: "Acantilado norte",
+                text: [
+                    "La torre esta quebrada y comida por la sal, pero aun domina la linea de costa. Desde aca se ve la espuma reventando contra cuevas bajas y una ensenada oscura que no figura en ningun mapa del puerto.",
+                    "No es una fortaleza. Es un ojo ruinoso, y aun asi todavia mira mejor que cualquiera en Irivith."
+                ],
+                choices: [
+                    {
+                        label: "Trepar hasta el anillo derruido y observar la costa",
+                        desc: "Si nadie quiere que vean la cala, primero hay que verla.",
+                        check: { type: "skill", target: "Climb", dc: 12, label: "Climb" },
+                        success: { next: "camp_outskirts", text: "Desde arriba ves jaulas, fogones tapados y una pasarela rota entre rocas. Ya sabes donde estan.", effects: { setFlags: ["scoutedCamp"] } },
+                        failure: { next: "mudflats", text: "Una piedra cede bajo tu peso y terminas bajando por donde no pensabas.", effects: { damage: 1 } }
+                    },
+                    {
+                        label: "Reavivar el viejo brasero",
+                        desc: "Un fuego visible desde la costa podria servir como distraccion o como señal.",
+                        requires: { flagsAny: ["hasLantern"] },
+                        next: "camp_outskirts",
+                        effects: { setFlags: ["watchfireReady"], journal: "Preparas el viejo brasero de la torre. Si hace falta, puede convertirse en una señal o una trampa." }
+                    },
+                    {
+                        label: "Explorar la base de la torre donde golpea la marea",
+                        desc: "Toda torre vieja tiene un pie escondido.",
+                        next: "flooded_tunnel"
+                    },
+                    { label: "Bajar y volver al centro de la aldea", desc: "Tal vez convenga entrar por otro lado.", next: "search_routes" }
+                ]
+            },
+            cliff_tracks: {
+                title: "El sendero negro del acantilado",
+                location: "Cornisa sobre el mar",
+                text: [
+                    "Las huellas se vuelven claras: varias botas anchas, dos pares de pies arrastrados y marcas de armas curvas golpeando contra piedra. El sendero gira entre pastos duros y cae hacia una cala que el pueblo apenas nombra.",
+                    "Por primera vez sentis que estas respirando el mismo aire que los raptores."
+                ],
+                choices: [
+                    {
+                        label: "Seguir a distancia a la patrulla",
+                        desc: "Si llegas sin que te huelan, podes elegir la pelea en vez de recibirla.",
+                        check: { type: "skill", target: "Move Silently", dc: 14, label: "Move Silently" },
+                        success: { next: "camp_outskirts", text: "Los seguis hasta la periferia del campamento sin que nadie se vuelva.", effects: { setFlags: ["shadowedPatrol"] } },
+                        failure: { next: "scout_ambush", text: "Una piedra rueda cuesta abajo. Los vigias levantan la cabeza al mismo tiempo.", effects: { setFlags: ["alertedCamp"] } }
+                    },
+                    {
+                        label: "Cargar antes de que desaparezcan entre la niebla",
+                        desc: "A veces la mejor emboscada es la que das primero.",
+                        check: { type: "attack", dc: 14, label: "Ataque principal" },
+                        success: { next: "camp_outskirts", text: "Tu primer golpe rompe la formacion enemiga y obliga a los demas a retroceder hacia la cala." },
+                        failure: { next: "scout_ambush", text: "El terreno te roba impulso y los vigias te esperan con ganchos y cuchillos.", effects: { damage: 2, setFlags: ["alertedCamp"] } }
+                    },
+                    { label: "Retroceder y subir a la torre", desc: "Con el rastro claro, ahora podrias preparar una mejor entrada.", next: "watchtower" }
+                ]
+            },
+            scout_ambush: {
+                title: "Vigias en la marea baja",
+                location: "Borde de la cala",
+                text: [
+                    "Dos semiorcos con cueros salpicados de alquitrán te salen al cruce entre rocas negras. No gritan: se mueven como hombres acostumbrados a cazar gente viva.",
+                    "Uno lleva un cuchillo con gancho de abordaje. El otro, una ristra de llaves, huesos y dedos secos."
+                ],
+                choices: [
+                    {
+                        label: "Abrirte paso a golpes",
+                        desc: "Una pelea corta ahora puede ahorrarte una mas larga despues.",
+                        check: { type: "attack", dc: 15, label: "Ataque principal" },
+                        success: { next: "camp_outskirts", text: "Derribas al primero y el segundo huye herido hacia la cala, dejando caer un cuchillo ganchudo y una bolsa de paga empapada.", effects: { addItems: ["Cuchillo ganchudo semiorco"], addCurrency: 9, setFlags: ["defeatedScouts"] } },
+                        failure: { next: "camp_outskirts", text: "Ganas espacio, pero no limpio. Te dejan un recuerdo en costillas y hombro.", effects: { damage: 4, setFlags: ["alertedCamp"] } }
+                    },
+                    {
+                        label: "Escabullirte por una grieta inundada",
+                        desc: "No es noble, pero tampoco lo es morir en una cornisa.",
+                        check: { type: "save", target: "ref", dc: 12, label: "Reflejos" },
+                        success: { next: "flooded_tunnel", text: "Te dejas caer justo a tiempo y la marea tapa tu paso." },
+                        failure: { next: "camp_outskirts", text: "Te tragas media ola y media piedra antes de conseguir esconderte bajo la roca.", effects: { damage: 3, setFlags: ["alertedCamp"] } }
+                    },
+                    {
+                        label: "Fingir ser un mercenario de la costa",
+                        desc: "Si estos esclavistas contratan cuchillos, quizas crean que sos uno mas.",
+                        check: { type: "skill", target: "Bluff", dc: 14, label: "Bluff" },
+                        success: { next: "camp_outskirts", text: "No te compran del todo, pero dudan lo suficiente como para dejarte pasar unos pasos mas.", effects: { setFlags: ["bluffWorked"] } },
+                        failure: { next: "camp_outskirts", text: "Uno sonrie apenas. El otro intenta clavarte el gancho mientras seguis hablando.", effects: { damage: 2, setFlags: ["alertedCamp"] } }
+                    }
+                ]
+            },
+            camp_outskirts: {
+                title: "La cala del hierro",
+                location: "Periferia del campamento",
+                text: state => [
+                    `La ensenada oculta confirma lo peor: jaulas, sogas, fogones cubiertos y varias estacas donde cuelgan cadenas listas para viajar. ${state.flags.alertedCamp ? "La banda esta inquieta; algo en tu llegada ya los puso en alerta." : "Por ahora, los semiorcos siguen convencidos de que la noche les pertenece."}`,
+                    "No son meros merodeadores. Es un punto de paso para traficar cautivos."
+                ],
+                choices: [
+                    {
+                        label: "Acercarte a las jaulas de esclavos",
+                        desc: "Si Teren sigue vivo, va a estar ahi o muy cerca.",
+                        check: { type: "skill", target: "Hide", dc: 14, label: "Hide" },
+                        success: { next: "slave_pens", text: "Te metes entre redes, cajas y olor a salmuera sin llamar la atencion." },
+                        failure: { next: "orc_quarrel", text: "Tenes que cambiar de ruta sobre la marcha y terminas oyendo una discusion feroz entre mandos del campamento.", effects: { setFlags: ["alertedCamp"] } }
+                    },
+                    {
+                        label: "Escuchar la discusion entre el jefe y el chaman",
+                        desc: "Si la banda tiene una grieta, conviene encontrarla antes de pelear.",
+                        next: "orc_quarrel"
+                    },
+                    {
+                        label: "Retroceder a la torre con lo que viste",
+                        desc: "Ya sabes bastante como para preparar una segunda entrada.",
+                        next: "watchtower"
+                    }
+                ]
+            },
+            flooded_tunnel: {
+                title: "Tunel de marea",
+                location: "Bajo la torre y la cala",
+                text: [
+                    "El tunel huele a hierro mojado, algas podridas y humo viejo. Las paredes muestran marcas de cajas arrastradas y botas pesadas; alguien usa este paso con regularidad.",
+                    "Cada ola que entra te recuerda que no fue pensado para gente cansada."
+                ],
+                choices: [
+                    {
+                        label: "Forzar la reja oxidada",
+                        desc: "La entrada discreta termina en un obstaculo tan viejo como util.",
+                        check: { type: "ability", target: "STR", dc: 14, label: "Fuerza" },
+                        success: { next: "slave_pens", text: "La bisagra cede con un crujido apagado y ves las jaulas del otro lado." },
+                        failure: { next: "slave_pens", text: "La reja termina abriendo, pero te deja media energia en el intento.", effects: { damage: 2 } }
+                    },
+                    {
+                        label: "Buscar algo util entre cajas mojadas y restos",
+                        desc: "Los campamentos de esclavistas siempre pierden llaves, mapas o venenos.",
+                        check: { type: "skill", target: "Search", dc: 12, label: "Search" },
+                        success: { next: "slave_pens", text: "Encuentras una llave oxidada, un saquito con sal gruesa para encender fogones y unas monedas mal escondidas entre sogas mojadas.", effects: { addItems: ["Llave oxidada del cepo"], addCurrency: 14, setFlags: ["hasRustyKey"] } },
+                        failure: { next: "slave_pens", text: "No sacas mas que astillas, pero el camino sigue abierto." }
+                    },
+                    {
+                        label: "Seguir de frente y confiar en la oscuridad",
+                        desc: "No siempre hace falta limpiar una entrada para usarla.",
+                        next: "slave_pens",
+                        effects: { damage: 1 }
+                    }
+                ]
+            },
+            slave_pens: {
+                title: "Las jaulas junto a la roca",
+                location: "Corrales de cautivos",
+                text: state => {
+                    const rescued = !!state.flags.rescuedTeren;
+                    return rescued
+                        ? [
+                            "Teren ya no esta tras los barrotes. Lo dejaste escondido entre cajas viejas con una manta y una promesa: volver con Lysa o no volver.",
+                            "Desde la cueva interior llegan ecos de agua, voces roncas y un canto roto que no suena humano."
+                        ]
+                        : [
+                            "Encontras a Teren en una jaula baja, magullado pero consciente. Apenas te ve, mira de inmediato hacia la cueva mayor: Lysa fue llevada alli para 'el amo del hierro', segun escucho.",
+                            "No hay mucho tiempo. Las cadenas son malas, pero el silencio del campamento lo es aun menos."
+                        ];
+                },
+                choices: [
+                    {
+                        label: "Liberar a Teren con la llave oxidada",
+                        desc: "La salida mas limpia es la que no hace ruido.",
+                        requires: { notFlags: ["rescuedTeren"], flagsAny: ["hasRustyKey"] },
+                        next: "slave_pens",
+                        effects: { setFlags: ["rescuedTeren"], objective: "Encontrar a Lysa en la cueva interior y sacar a los cautivos antes del amanecer." },
+                        journal: "Teren queda libre y te suplica que no abandones a Lysa."
+                    },
+                    {
+                        label: "Forzar el candado con pura fuerza",
+                        desc: "Si no tenes llave, te queda el metodo bruto.",
+                        requires: { notFlags: ["rescuedTeren"] },
+                        check: { type: "ability", target: "STR", dc: 13, label: "Fuerza" },
+                        success: { next: "slave_pens", text: "Partis el cierre y Teren cae de rodillas, pero vivo.", effects: { setFlags: ["rescuedTeren"], objective: "Encontrar a Lysa en la cueva interior y sacar a los cautivos antes del amanecer." } },
+                        failure: { next: "ritual_cave", text: "El metal resuena demasiado. Ya no queda margen para seguir perdiendo tiempo.", effects: { damage: 2 } }
+                    },
+                    {
+                        label: "Prometerle a Teren que volves por el",
+                        desc: "No siempre se puede salvar a todos en el mismo orden.",
+                        requires: { notFlags: ["rescuedTeren"] },
+                        next: "ritual_cave",
+                        journal: "Dejas a Teren atras por unos minutos mas y avanzas hacia la cueva del ritual."
+                    },
+                    {
+                        label: "Pedirle a Teren que esconda a quien pueda y esperar tu señal",
+                        desc: "Un cautivo quieto vale mas que un cautivo heroico.",
+                        requires: { flagsAll: ["rescuedTeren"] },
+                        next: "ritual_cave",
+                        effects: { setFlags: ["terenHidden"] }
+                    },
+                    {
+                        label: "Seguir el eco del ritual hacia la cueva interior",
+                        desc: "Lysa sigue viva solo mientras sirva para algo.",
+                        next: "ritual_cave"
+                    }
+                ]
+            },
+            orc_quarrel: {
+                title: "Grieta en la cadena de mando",
+                location: "Fogon central",
+                text: [
+                    "Entre pieles colgadas y cajas de hierro ois al jefe Dargul insultando al chaman Varka. El primero quiere marcharse antes del alba; el segundo insiste en quebrar a una cautiva mas antes de partir.",
+                    "No son una unidad. Son una banda unida a la fuerza, y esa fuerza tiene fisuras."
+                ],
+                choices: [
+                    {
+                        label: "Alimentar la desconfianza entre ambos",
+                        desc: "Una palabra bien puesta puede hacer mas que una espada bien llevada.",
+                        check: { type: "skill", target: "Bluff", dc: 15, label: "Bluff" },
+                        success: { next: "ritual_cave", text: "Tu maniobra en la sombra funciona: media docena de semiorcos se aparta para mirar hacia otro lado.", effects: { setFlags: ["splitOrcs"] } },
+                        failure: { next: "ritual_cave", text: "No compran el engaño, pero el caos de la discusion aun te da una abertura estrecha." }
+                    },
+                    {
+                        label: "Robar el totem del chaman",
+                        desc: "Si Varka pierde su amuleto, pierde parte del control del campamento.",
+                        check: { type: "skill", target: "Sleight of Hand", dc: 14, label: "Sleight of Hand" },
+                        success: { next: "ritual_cave", text: "Le arrancas el totem sin que lo note al instante.", effects: { addItems: ["Totem astillado de Varka"], setFlags: ["stoleTotem"] } },
+                        failure: { next: "ritual_cave", text: "El amuleto resbala de tus dedos y casi te descubren. Salvas la situacion, no la elegancia.", effects: { damage: 1 } }
+                    },
+                    {
+                        label: "Atacar en medio del caos",
+                        desc: "Si van a romperse, que sea con tu ayuda.",
+                        check: { type: "attack", dc: 15, label: "Ataque principal" },
+                        success: { next: "ritual_cave", text: "Los obligas a dispersarse y llegas a la cueva interior antes de que recompongan la defensa.", effects: { setFlags: ["woundedChief"] } },
+                        failure: { next: "ritual_cave", text: "No logras derribarlos, pero si abrirte paso a costa de un golpe feo.", effects: { damage: 4, setFlags: ["alertedCamp"] } }
+                    }
+                ]
+            },
+            ritual_cave: {
+                title: "La cueva del hierro vivo",
+                location: "Camara interior",
+                text: state => [
+                    `Lysa esta atada a una silla de mimbre endurecido frente a una placa de hierro negro clavada en la roca. Varka canta en una lengua rota mientras la marea golpea el fondo de la cueva.${state.flags.splitOrcs ? " Fuera de la camara, los hombres de Dargul ya no parecen tan dispuestos a obedecer al chaman." : ""}`,
+                    "Si esperas demasiado, el ritual termina y los cautivos saldran de Irivith antes del amanecer."
+                ],
+                choices: [
+                    {
+                        label: "Romper el rito con la concha bendita",
+                        desc: "La reliquia de Neris vibra apenas; tal vez sea justo lo que este lugar no quiere oir.",
+                        requires: { flagsAny: ["shrineBlessed"] },
+                        next: "escape_path",
+                        effects: { setFlags: ["rescuedLysa", "ritualBroken"], objective: "Salir de la cala con los cautivos y decidir si rompes o no la banda esclavista en su propio campamento." },
+                        journal: "La bendicion de Neris quiebra el ritmo del canto y te da un instante perfecto para sacar a Lysa."
+                    },
+                    {
+                        label: "Lanzarte sobre Varka antes de que termine",
+                        desc: "Todo se reduce a velocidad, golpe y nervio.",
+                        check: { type: "attack", dc: 15, label: "Ataque principal" },
+                        success: { next: "escape_path", text: "Golpeas a Varka antes del ultimo verso y Lysa cae libre junto con el amarre del ritual.", effects: { setFlags: ["rescuedLysa", "ritualBroken"] } },
+                        failure: { next: "chieftain_showdown", text: "Llegas tarde al canto, pero no a la pelea. Lysa sigue viva y eso todavia alcanza.", effects: { damage: 5, setFlags: ["rescuedLysa", "alertedCamp"] } }
+                    },
+                    {
+                        label: "Cortar las ligaduras desde las sombras",
+                        desc: "No todo rescate necesita una entrada gloriosa.",
+                        check: { type: "skill", target: "Move Silently", dc: 15, label: "Move Silently" },
+                        success: { next: "escape_path", text: "La hoja pasa por cuerda y nudo sin llamar la atencion hasta que Lysa ya esta de pie a tu lado.", effects: { setFlags: ["rescuedLysa", "stealthRescue"] } },
+                        failure: { next: "chieftain_showdown", text: "Lysa queda libre, pero el ultimo nudo chasquea demasiado fuerte y toda la cala responde.", effects: { damage: 2, setFlags: ["rescuedLysa", "alertedCamp"] } }
+                    },
+                    {
+                        label: "Aprovechar la fractura del campamento y huir ya",
+                        desc: "Con los mandos divididos, tal vez no haga falta pelear hasta el final.",
+                        requires: { flagsAny: ["splitOrcs"] },
+                        next: "escape_path",
+                        effects: { setFlags: ["rescuedLysa", "chiefFaltered"] }
+                    }
+                ]
+            },
+            escape_path: {
+                title: "El pasaje de retirada",
+                location: "Salida de marea",
+                text: state => [
+                    `Volves a respirar aire libre con Lysa temblando a tu lado.${state.flags.rescuedTeren ? " Teren te espera agazapado donde le dijiste, con dos cautivos mas listos para correr." : " Teren sigue atras, y eso pesa incluso antes de decidir si volver o no."}`,
+                    "La banda semiorca no esta rota del todo. Tenes una salida, pero tambien una oportunidad."
+                ],
+                choices: [
+                    {
+                        label: "Retirarte con los cautivos ahora mismo",
+                        desc: "La victoria segura no siempre es la mas gloriosa, pero si la mas humana.",
+                        next: "ending_rescue",
+                        effects: { addCurrency: 18 }
+                    },
+                    {
+                        label: "Volver por Dargul y quebrar la banda en su propia cala",
+                        desc: "Si escapan esta noche, habra otra Irivith mañana.",
+                        next: "chieftain_showdown"
+                    }
+                ]
+            },
+            chieftain_showdown: {
+                title: "Dargul del gancho rojo",
+                location: "Cala del hierro",
+                text: state => [
+                    `Dargul te espera entre cadenas colgantes y rocas negras, mas bestia de abordaje que capitan. ${state.flags.woundedChief ? "Ya viene herido y furioso." : ""} ${state.flags.watchfireReady ? "A la distancia, el viejo brasero de la torre aun puede entrar en juego." : ""}`,
+                    "Matarlo no borrara lo hecho, pero puede cortar la ruta esclavista antes de que vuelva a abrirse."
+                ],
+                choices: [
+                    {
+                        label: "Desafiarlo de frente",
+                        desc: "Acero, sangre y una oportunidad para cerrar esto con tu propio nombre.",
+                        check: { type: "attack", dc: 16, label: "Ataque principal" },
+                        success: { next: "ending_rescue", text: "Dargul cae entre hierro, espuma y sal. Lo que queda de la banda se rompe al verlo.", effects: { setFlags: ["chiefDefeated"], addItems: ["Anillo de hierro de Dargul"], addCurrency: 28 } },
+                        failure: { next: "ending_partial", text: "Lo heris, pero no lo suficiente. Sacar vivos a los tuyos pasa a ser la unica prioridad.", effects: { damage: 6 } }
+                    },
+                    {
+                        label: "Usar el terreno y derrumbarle el andamio encima",
+                        desc: "La costa puede pelear de tu lado si sabes donde tocar.",
+                        requires: { flagsAny: ["watchfireReady", "scoutedCamp"] },
+                        check: { type: "skill", target: "Search", dc: 14, label: "Search" },
+                        success: { next: "ending_rescue", text: "Golpeas el punto justo y media estructura se viene abajo sobre Dargul.", effects: { setFlags: ["chiefDefeated"], addItems: ["Anillo de hierro de Dargul"], addCurrency: 22 } },
+                        failure: { next: "ending_partial", text: "La madera cede tarde y mal; compras unos segundos, no una victoria total.", effects: { damage: 3 } }
+                    },
+                    {
+                        label: "Salir con los cautivos y conformarte con haber roto el ritual",
+                        desc: "No toda deuda se paga en una sola noche.",
+                        next: "ending_partial"
+                    }
+                ]
+            },
+            ending_rescue: {
+                title: "Regreso al amanecer",
+                location: "Irivith",
+                text: state => {
+                    const both = !!state.flags.rescuedTeren && !!state.flags.rescuedLysa;
+                    const chief = !!state.flags.chiefDefeated;
+                    if (both && chief) {
+                        return [
+                            "Irivith te ve volver con Teren, Lysa y los demas cautivos justo cuando el cielo empieza a aclarar sobre el mar gris.",
+                            "Con Dargul muerto y el rito roto, la banda semiorca pierde su agarre sobre la costa. No acabaste con todo el mal del mundo, pero si con esta ruta de esclavos."
+                        ];
+                    }
+                    if (both) {
+                        return [
+                            "Volves con los dos desaparecidos y eso basta para que Irivith vuelva a respirar. Dargul escapa, pero sin ritual, sin cautivos y sin el silencio que lo protegia.",
+                            "La aldea gana una mañana; vos, una promesa de cuentas pendientes."
+                        ];
+                    }
+                    return [
+                        "El amanecer te encuentra de vuelta en Irivith con al menos una vida arrancada de la cala del hierro.",
+                        "No es una victoria limpia, pero la aldea ya sabe contra que debe prepararse."
+                    ];
+                },
+                complete: true,
+                endingTone: state => (state.flags.rescuedTeren && state.flags.rescuedLysa && state.flags.chiefDefeated) ? "success" : "partial",
+                objective: "Aventura resuelta."
+            },
+            ending_partial: {
+                title: "Victoria incompleta",
+                location: "Costa de Irivith",
+                text: state => {
+                    const rescued = [state.flags.rescuedTeren, state.flags.rescuedLysa].filter(Boolean).length;
+                    if (rescued >= 2) {
+                        return [
+                            "Logras sacar a los cautivos principales de la cala, pero Dargul o parte de su banda alcanza a retirarse antes del golpe final.",
+                            "Irivith te debe la vida de los suyos. La costa, en cambio, todavia te debe otra noche."
+                        ];
+                    }
+                    if (rescued === 1) {
+                        return [
+                            "Solo una de las dos vidas desaparecidas vuelve con vos. La otra queda atras, convertida en una deuda abierta que Irivith no va a olvidar.",
+                            "La aldea sobrevive, pero la historia no cierra. No todavia."
+                        ];
+                    }
+                    return [
+                        "Escapas vivo de la cala del hierro, pero sin haber desarmado la maquina del todo ni recuperado a quienes buscabas.",
+                        "Irivith recibe una advertencia, no una solucion."
+                    ];
+                },
+                complete: true,
+                endingTone: () => "partial",
+                objective: "Aventura cerrada con resultado parcial."
+            },
+            ending_defeat: {
+                title: "La marea te devuelve",
+                location: "Costa rota",
+                text: [
+                    "La oscuridad te gana antes de que la noche termine. Cuando recuperas algo de conciencia, la marea te dejo lejos de la cala, vivo por poco y sin fuerza para volver.",
+                    "Irivith sigue esperando a Teren y a Lysa. La historia no termina, pero esta version si."
+                ],
+                complete: true,
+                endingTone: () => "fail",
+                objective: "Aventura fallida."
+            }
+        }
+    }
+];
+
+let ADVENTURE_COMBAT_MODAL_OPEN = false;
+
+function buildDefaultAdventureCombatState() {
+    return {
+        active: false,
+        round: 1,
+        selectedWeaponSlot: "eq-weapon1",
+        attackMode: "single",
+        selectedTargetId: "",
+        enemyName: "",
+        enemyAc: "",
+        enemyHp: "",
+        enemyMaxHp: "",
+        enemyAttackBonus: "",
+        enemyDamage: "",
+        enemyMorale: "fight",
+        fleeOutcome: "success",
+        enemies: [],
+        allies: [],
+        log: [],
+        pendingChoice: null
+    };
+}
+
+let ADVENTURE_STATE = { campaignId: "", sceneId: "", flags: {}, metrics: {}, journal: [], objective: "", lastOutcome: null, completed: false, endingTone: "", grantedItems: [], day: 1, wealthGp: 0, resources: { spellUsage: {}, combat: buildDefaultAdventureCombatState() } };
+
+const ADVENTURE_TIME_SEGMENTS = ["alba", "dia", "atardecer", "noche"];
+const ADVENTURE_TIME_SEGMENT_LABELS = {
+    alba: "Alba",
+    dia: "Dia",
+    atardecer: "Atardecer",
+    noche: "Noche"
+};
+
+function buildDefaultAdventureState() {
+    return { campaignId: "", sceneId: "", flags: {}, metrics: {}, journal: [], objective: "", lastOutcome: null, completed: false, endingTone: "", grantedItems: [], day: 1, timeIndex: 0, wealthGp: 0, resources: { spellUsage: {}, combat: buildDefaultAdventureCombatState() } };
+}
+
+function normalizeAdventureState(state) {
+    const next = buildDefaultAdventureState();
+    if (!state || typeof state !== "object") return next;
+    next.campaignId = state.campaignId || "";
+    next.sceneId = state.sceneId || "";
+    next.flags = state.flags && typeof state.flags === "object" ? { ...state.flags } : {};
+    next.metrics = state.metrics && typeof state.metrics === "object"
+        ? Object.fromEntries(Object.entries(state.metrics).map(([key, value]) => [String(key), Number(value || 0)]))
+        : {};
+    next.journal = Array.isArray(state.journal) ? state.journal.map(entry => ({
+        title: String(entry?.title || "Registro"),
+        text: String(entry?.text || "")
+    })) : [];
+    next.objective = String(state.objective || "");
+    next.lastOutcome = state.lastOutcome ? {
+        tone: String(state.lastOutcome.tone || "neutral"),
+        title: String(state.lastOutcome.title || ""),
+        text: String(state.lastOutcome.text || ""),
+        checkLabel: String(state.lastOutcome.checkLabel || ""),
+        roll: Number(state.lastOutcome.roll || 0),
+        bonus: Number(state.lastOutcome.bonus || 0),
+        total: Number(state.lastOutcome.total || 0),
+        dc: Number(state.lastOutcome.dc || 0)
+    } : null;
+    next.completed = !!state.completed;
+    next.endingTone = String(state.endingTone || "");
+    next.grantedItems = Array.isArray(state.grantedItems) ? state.grantedItems.map(String) : [];
+    next.day = Math.max(1, Number(state.day || 1));
+    next.timeIndex = Math.min(ADVENTURE_TIME_SEGMENTS.length - 1, Math.max(0, Number(state.timeIndex || 0)));
+    next.wealthGp = Math.max(0, Number(state.wealthGp || 0));
+    const spellUsage = state.resources?.spellUsage && typeof state.resources.spellUsage === "object" ? state.resources.spellUsage : {};
+    next.resources.spellUsage = Object.fromEntries(
+        Object.entries(spellUsage).map(([level, used]) => [String(level), Math.max(0, Number(used || 0))])
+    );
+    const combat = state.resources?.combat && typeof state.resources.combat === "object" ? state.resources.combat : {};
+    const legacyEnemy = {
+        name: String(combat.enemyName || ""),
+        ac: String(combat.enemyAc || ""),
+        hp: String(combat.enemyHp || ""),
+        maxHp: String(combat.enemyMaxHp || ""),
+        attackBonus: String(combat.enemyAttackBonus || ""),
+        damage: String(combat.enemyDamage || ""),
+        morale: ["fight", "flee50", "flee25", "check25"].includes(combat.enemyMorale) ? combat.enemyMorale : "fight",
+        fleeOutcome: combat.fleeOutcome === "failure" ? "failure" : "success"
+    };
+    const normalizeCombatants = (list, side) => {
+        if (!Array.isArray(list) || !list.length) return [];
+        return list.map((entry, index) => ({
+            id: String(entry?.id || `${side}-${index + 1}`),
+            side,
+            name: String(entry?.name || (side === "enemy" ? `Enemigo ${index + 1}` : `Aliado ${index + 1}`)),
+            ac: String(entry?.ac || ""),
+            hp: String(entry?.hp || ""),
+            maxHp: String(entry?.maxHp || entry?.hp || ""),
+            attackBonus: String(entry?.attackBonus || ""),
+            damage: String(entry?.damage || ""),
+            morale: ["fight", "flee50", "flee25", "check25"].includes(entry?.morale) ? entry.morale : "fight",
+            fleeOutcome: entry?.fleeOutcome === "failure" ? "failure" : "success",
+            targetId: String(entry?.targetId || ""),
+            status: ["active", "defeated", "fled"].includes(entry?.status) ? entry.status : "active"
+        }));
+    };
+    const normalizedEnemies = normalizeCombatants(combat.enemies, "enemy");
+    if (!normalizedEnemies.length && (legacyEnemy.name || legacyEnemy.ac || legacyEnemy.hp || legacyEnemy.maxHp || legacyEnemy.attackBonus || legacyEnemy.damage)) {
+        normalizedEnemies.push({
+            id: "enemy-1",
+            side: "enemy",
+            name: legacyEnemy.name || "Adversario",
+            ac: legacyEnemy.ac,
+            hp: legacyEnemy.hp || legacyEnemy.maxHp,
+            maxHp: legacyEnemy.maxHp || legacyEnemy.hp,
+            attackBonus: legacyEnemy.attackBonus,
+            damage: legacyEnemy.damage,
+            morale: legacyEnemy.morale,
+            fleeOutcome: legacyEnemy.fleeOutcome,
+            targetId: "",
+            status: "active"
+        });
+    }
+    const normalizedAllies = normalizeCombatants(combat.allies, "ally");
+    const primaryEnemy = normalizedEnemies.find(entry => entry.status === "active") || normalizedEnemies[0] || null;
+    next.resources.combat = {
+        active: !!combat.active,
+        round: Math.max(1, Number(combat.round || 1)),
+        selectedWeaponSlot: String(combat.selectedWeaponSlot || "eq-weapon1"),
+        attackMode: ["single", "full", "flurry"].includes(combat.attackMode) ? combat.attackMode : "single",
+        selectedTargetId: String(combat.selectedTargetId || primaryEnemy?.id || ""),
+        enemyName: primaryEnemy?.name || legacyEnemy.name,
+        enemyAc: primaryEnemy?.ac || legacyEnemy.ac,
+        enemyHp: primaryEnemy?.hp || legacyEnemy.hp,
+        enemyMaxHp: primaryEnemy?.maxHp || legacyEnemy.maxHp,
+        enemyAttackBonus: primaryEnemy?.attackBonus || legacyEnemy.attackBonus,
+        enemyDamage: primaryEnemy?.damage || legacyEnemy.damage,
+        enemyMorale: primaryEnemy?.morale || legacyEnemy.morale,
+        fleeOutcome: primaryEnemy?.fleeOutcome || legacyEnemy.fleeOutcome,
+        enemies: normalizedEnemies,
+        allies: normalizedAllies,
+        log: Array.isArray(combat.log) ? combat.log.map(entry => ({
+            title: String(entry?.title || "Combate"),
+            text: String(entry?.text || "")
+        })) : [],
+        pendingChoice: combat.pendingChoice && typeof combat.pendingChoice === "object" ? {
+            label: String(combat.pendingChoice.label || ""),
+            desc: String(combat.pendingChoice.desc || ""),
+            next: String(combat.pendingChoice.next || ""),
+            objective: String(combat.pendingChoice.objective || ""),
+            dc: Number(combat.pendingChoice.dc || 0),
+            journal: String(combat.pendingChoice.journal || ""),
+            success: combat.pendingChoice.success || {},
+            failure: combat.pendingChoice.failure || {},
+            effects: combat.pendingChoice.effects || {}
+        } : null
+    };
+    return next;
+}
+
+function getAdventureCampaign(campaignId) {
+    return ADVENTURE_LIBRARY.find(campaign => campaign.id === campaignId) || null;
+}
+
+function getAdventureScene(state = ADVENTURE_STATE) {
+    const campaign = getAdventureCampaign(state.campaignId);
+    if (!campaign) return null;
+    return campaign.scenes[state.sceneId] || null;
+}
+
+function openAdventureMode() {
+    showTab(7);
+    renderAdventureMode();
+}
+
+function startAdventureCampaign(campaignId, forceRestart = false) {
+    const campaign = getAdventureCampaign(campaignId);
+    if (!campaign) return;
+    if (!forceRestart && ADVENTURE_STATE.campaignId === campaignId && ADVENTURE_STATE.sceneId) {
+        showTab(7);
+        renderAdventureMode();
+        return;
+    }
+    ADVENTURE_STATE = normalizeAdventureState({
+        campaignId,
+        sceneId: campaign.startSceneId,
+        flags: {},
+        journal: [
+            { title: campaign.title, text: "La aventura comienza en el muelle de Irivith, con olor a sal, niebla y una desaparicion demasiado reciente." }
+        ],
+        objective: campaign.startObjective,
+        lastOutcome: null,
+        completed: false,
+        endingTone: "",
+        grantedItems: [],
+        day: 1,
+        timeIndex: 2,
+        wealthGp: 0,
+        resources: {
+            spellUsage: {},
+            combat: buildDefaultAdventureCombatState()
+        }
+    });
+    const hpDamageInput = document.getElementById('hp-damage');
+    if (hpDamageInput) {
+        hpDamageInput.value = "0";
+        updateHP();
+    }
+    autoSave();
+    showTab(7);
+    renderAdventureMode();
+}
+
+function getAdventureCurrentHpState() {
+    const current = parseInt(document.getElementById('hp-val')?.textContent, 10) || 0;
+    const damage = parseInt(document.getElementById('hp-damage')?.value, 10) || 0;
+    return { current, max: current + damage };
+}
+
+function getAdventureSkillBonus(skillName) {
+    return parseLastSignedNumber(document.getElementById(`sk-tot-${skillName}`)?.textContent);
+}
+
+function getAdventureAbilityBonus(stat) {
+    return parseLastSignedNumber(document.getElementById(`mod-${stat}`)?.textContent);
+}
+
+function getAdventureSaveBonus(saveKey) {
+    const idMap = { fort: 'save-fort', ref: 'save-ref', will: 'save-will' };
+    return parseLastSignedNumber(document.getElementById(idMap[saveKey])?.textContent);
+}
+
+function getAdventurePrimaryAttackBonus() {
+    const firstRow = document.querySelector('#attack-summary [data-roll-kind="attack"]');
+    if (firstRow?.dataset?.rollAttackSeq) {
+        const parts = parseSignedSequence(firstRow.dataset.rollAttackSeq);
+        if (parts.length) return parts[0];
+    }
+    const babParts = parseSignedSequence(document.getElementById('bab-val')?.textContent || "");
+    const bab = babParts.length ? babParts[0] : 0;
+    const weaponName = document.getElementById('eq-weapon1')?.value || "";
+    const usesDex = /Arco|Bow|Ballesta|Crossbow|Honda|Sling|Jabalina|Javelin|Dardo|Dart/i.test(weaponName);
+    return bab + getAdventureAbilityBonus(usesDex ? "DEX" : "STR");
+}
+
+function getAdventureCheckDescriptor(check) {
+    if (!check) return "";
+    if (check.type === "skill") return `${check.label || check.target} CD ${check.dc}`;
+    if (check.type === "ability") return `${check.label || check.target} CD ${check.dc}`;
+    if (check.type === "save") return `${check.label || check.target} CD ${check.dc}`;
+    if (check.type === "attack") return `${check.label || "Ataque"} CD ${check.dc}`;
+    return `CD ${check.dc}`;
+}
+
+function resolveAdventureCheck(check) {
+    let bonus = 0;
+    let label = check.label || check.target || "Chequeo";
+    if (check.type === "skill") bonus = getAdventureSkillBonus(check.target);
+    else if (check.type === "ability") bonus = getAdventureAbilityBonus(check.target);
+    else if (check.type === "save") bonus = getAdventureSaveBonus(check.target);
+    else if (check.type === "attack") bonus = getAdventurePrimaryAttackBonus();
+    const roll = rollDie(20);
+    const total = roll + bonus;
+    return { label, bonus, roll, total, dc: check.dc, success: total >= check.dc };
+}
+
+function getAdventureInventoryValues() {
+    return Array.from(document.querySelectorAll('#items-slots input')).map(input => input.value.trim()).filter(Boolean);
+}
+
+function setAdventureInventoryValues(items) {
+    const container = document.getElementById('items-slots');
+    if (!container) return;
+    container.innerHTML = "";
+    const slots = [...items.filter(Boolean), ""];
+    slots.forEach((val) => {
+        const row = document.createElement('div');
+        row.style.cssText = "display:flex; align-items:center; gap:6px; margin-bottom:5px;";
+        const inp = document.createElement('input');
+        inp.type = "text";
+        inp.placeholder = "Item, objeto magico, tesoro...";
+        inp.value = val;
+        inp.style.cssText = "flex:1; width:100%;";
+        inp.onblur = () => { renderItemSlots(); updateItemSummary(); autoSave(); };
+        row.appendChild(inp);
+        container.appendChild(row);
+    });
+    updateItemSummary();
+}
+
+function addAdventureItemsToInventory(items) {
+    if (!Array.isArray(items) || !items.length) return;
+    const current = getAdventureInventoryValues();
+    let changed = false;
+    items.forEach(item => {
+        const clean = String(item || "").trim();
+        if (!clean) return;
+        if (!current.includes(clean)) {
+            current.push(clean);
+            changed = true;
+        }
+        if (!ADVENTURE_STATE.grantedItems.includes(clean)) ADVENTURE_STATE.grantedItems.push(clean);
+    });
+    if (changed) setAdventureInventoryValues(current);
+}
+
+function addAdventureCurrency(amount) {
+    const value = Number(amount || 0);
+    if (!value) return;
+    ADVENTURE_STATE.wealthGp = Math.max(0, Number(ADVENTURE_STATE.wealthGp || 0) + value);
+}
+
+function setAdventureMetrics(metrics = {}) {
+    Object.entries(metrics || {}).forEach(([key, value]) => {
+        ADVENTURE_STATE.metrics[String(key)] = Number(value || 0);
+    });
+}
+
+function adjustAdventureMetrics(adjustments = {}) {
+    Object.entries(adjustments || {}).forEach(([key, delta]) => {
+        const metricKey = String(key);
+        ADVENTURE_STATE.metrics[metricKey] = Number(ADVENTURE_STATE.metrics[metricKey] || 0) + Number(delta || 0);
+    });
+}
+
+function getAdventureLevelValue() {
+    return Math.max(1, parseInt(document.getElementById('level')?.value, 10) || 1);
+}
+
+function getAdventureTimeKey(index = ADVENTURE_STATE.timeIndex) {
+    return ADVENTURE_TIME_SEGMENTS[Math.min(ADVENTURE_TIME_SEGMENTS.length - 1, Math.max(0, Number(index || 0)))] || ADVENTURE_TIME_SEGMENTS[0];
+}
+
+function getAdventureTimeLabel(index = ADVENTURE_STATE.timeIndex) {
+    const key = getAdventureTimeKey(index);
+    return ADVENTURE_TIME_SEGMENT_LABELS[key] || key;
+}
+
+function getAdventureTimeStamp() {
+    return `Dia ${ADVENTURE_STATE.day} · ${getAdventureTimeLabel()}`;
+}
+
+function advanceAdventureTime(segments = 1, options = {}) {
+    const amount = Math.max(0, Number(segments || 0));
+    if (!amount) return { dayChanged: false, wrapped: 0, label: getAdventureTimeStamp() };
+    const startDay = ADVENTURE_STATE.day;
+    const total = Math.max(0, Number(ADVENTURE_STATE.timeIndex || 0)) + amount;
+    const wraps = Math.floor(total / ADVENTURE_TIME_SEGMENTS.length);
+    ADVENTURE_STATE.timeIndex = total % ADVENTURE_TIME_SEGMENTS.length;
+    ADVENTURE_STATE.day = Math.max(1, Number(ADVENTURE_STATE.day || 1) + wraps);
+    if (!options.silent) {
+        addAdventureJournalEntry("Tiempo", `Avanza el tiempo: ${getAdventureTimeStamp()}.`);
+    }
+    return {
+        dayChanged: ADVENTURE_STATE.day !== startDay,
+        wrapped: wraps,
+        label: getAdventureTimeStamp()
+    };
+}
+
+function setAdventureTimeIndex(nextIndex) {
+    ADVENTURE_STATE.timeIndex = Math.min(ADVENTURE_TIME_SEGMENTS.length - 1, Math.max(0, Number(nextIndex || 0)));
+}
+
+function healAdventureToFull() {
+    const input = document.getElementById('hp-damage');
+    if (!input) return 0;
+    const currentDamage = Math.max(0, parseInt(input.value, 10) || 0);
+    if (!currentDamage) return 0;
+    input.value = "0";
+    updateHP();
+    return currentDamage;
+}
+
+function applyAdventureHpDelta(delta) {
+    const input = document.getElementById('hp-damage');
+    if (!input || !delta) return;
+    const currentDamage = parseInt(input.value, 10) || 0;
+    input.value = String(Math.max(0, currentDamage + delta));
+    updateHP();
+}
+
+function resetAdventureDailyResources(options = {}) {
+    ADVENTURE_STATE.resources.spellUsage = {};
+    if (options.clearCombat !== false) {
+        ADVENTURE_STATE.resources.combat = buildDefaultAdventureCombatState();
+        closeAdventureCombatModal();
+    }
+    const rageToggle = document.getElementById('rage-toggle');
+    if (rageToggle) rageToggle.checked = false;
+    const smiteToggle = document.getElementById('smite-toggle');
+    if (smiteToggle) smiteToggle.checked = false;
+}
+
+function takeAdventureRest(restType = "long", options = {}) {
+    const hpBefore = getAdventureCurrentHpState();
+    let healed = 0;
+    let advancedDays = 0;
+    let resetSpells = false;
+    let label = "Descanso";
+    let detail = "";
+
+    if (restType === "field") {
+        label = "Atender heridas";
+        healed = Math.min(hpBefore.max - hpBefore.current, Math.max(1, getAdventureLevelValue()));
+        if (healed > 0) applyAdventureHpDelta(-healed);
+        const timeJump = Math.max(1, Number(options.advanceTime ?? 1));
+        advanceAdventureTime(timeJump, { silent: true });
+        if (options.resetSpells) {
+            resetAdventureDailyResources();
+            resetSpells = true;
+        } else if (options.clearCombat !== false) {
+            ADVENTURE_STATE.resources.combat = buildDefaultAdventureCombatState();
+            closeAdventureCombatModal();
+        }
+        detail = healed > 0 ? `Recuperas ${healed} HP y vuelves a ordenar tu equipo.` : "Te tomas un respiro, pero no logras recuperar HP.";
+    } else {
+        label = "Descanso largo";
+        healed = options.healFull ? healAdventureToFull() : 0;
+        if (!options.healFull) {
+            healed = Math.min(hpBefore.max - hpBefore.current, Math.max(1, getAdventureLevelValue()));
+            if (healed > 0) applyAdventureHpDelta(-healed);
+        }
+        advancedDays = Math.max(0, Number(options.advanceDays ?? 1));
+        ADVENTURE_STATE.day = Math.max(1, Number(ADVENTURE_STATE.day || 1) + advancedDays);
+        setAdventureTimeIndex(options.nextTimeIndex ?? 0);
+        resetAdventureDailyResources();
+        resetSpells = true;
+        detail = `${advancedDays ? `Pasa ${advancedDays === 1 ? "1 dia" : `${advancedDays} dias`}` : "La jornada cambia"} y vuelves a estar operativo.`;
+    }
+
+    ADVENTURE_STATE.lastOutcome = {
+        tone: "success",
+        title: label,
+        text: `${detail}${healed > 0 ? ` HP recuperado: ${healed}.` : ""}${resetSpells ? " Los slots de conjuro quedaron restaurados." : ""} Ahora es ${getAdventureTimeStamp()}.`,
+        checkLabel: "",
+        roll: 0,
+        bonus: 0,
+        total: 0,
+        dc: 0
+    };
+    addAdventureJournalEntry(label, `${detail}${healed > 0 ? ` Recuperas ${healed} HP.` : ""}${resetSpells ? " Recuperas tus recursos diarios principales." : ""} Ahora es ${getAdventureTimeStamp()}.`);
+    autoSave();
+    renderAdventureMode();
+}
+
+function addAdventureJournalEntry(title, text) {
+    if (!title && !text) return;
+    ADVENTURE_STATE.journal.push({
+        title: String(title || "Registro"),
+        text: String(text || "")
+    });
+}
+
+function applyAdventureEffects(effects = {}) {
+    const rewardNotes = [];
+    if (effects.setFlags) effects.setFlags.forEach(flag => { ADVENTURE_STATE.flags[flag] = true; });
+    if (effects.clearFlags) effects.clearFlags.forEach(flag => { delete ADVENTURE_STATE.flags[flag]; });
+    if (effects.setMetrics) setAdventureMetrics(effects.setMetrics);
+    if (effects.adjustMetrics) adjustAdventureMetrics(effects.adjustMetrics);
+    if (effects.objective) ADVENTURE_STATE.objective = effects.objective;
+    if (effects.addItems) {
+        addAdventureItemsToInventory(effects.addItems);
+        rewardNotes.push(`Objetos obtenidos: ${effects.addItems.join(", ")}.`);
+    }
+    if (effects.addCurrency) {
+        addAdventureCurrency(effects.addCurrency);
+        rewardNotes.push(`Tesoro obtenido: ${effects.addCurrency} gp eq.`);
+    }
+    if (effects.damage) applyAdventureHpDelta(Number(effects.damage) || 0);
+    if (effects.heal) applyAdventureHpDelta(-(Number(effects.heal) || 0));
+    if (effects.healFull) healAdventureToFull();
+    if (effects.advanceDays) ADVENTURE_STATE.day = Math.max(1, Number(ADVENTURE_STATE.day || 1) + Math.max(0, Number(effects.advanceDays || 0)));
+    if (effects.advanceTime) advanceAdventureTime(effects.advanceTime, { silent: true });
+    if (effects.setTimeIndex !== undefined) setAdventureTimeIndex(effects.setTimeIndex);
+    if (effects.resetSpells) resetAdventureDailyResources({ clearCombat: effects.clearCombat !== false });
+    if (effects.rest === "field") {
+        const hp = getAdventureCurrentHpState();
+        const healAmount = Math.min(hp.max - hp.current, Math.max(1, getAdventureLevelValue()));
+        if (healAmount > 0) applyAdventureHpDelta(-healAmount);
+        advanceAdventureTime(effects.advanceTime ?? 1, { silent: true });
+        if (effects.clearCombat !== false) {
+            ADVENTURE_STATE.resources.combat = buildDefaultAdventureCombatState();
+            closeAdventureCombatModal();
+        }
+    }
+    if (effects.rest === "long") {
+        healAdventureToFull();
+        ADVENTURE_STATE.day = Math.max(1, Number(ADVENTURE_STATE.day || 1) + Math.max(0, Number(effects.advanceDays ?? 1)));
+        setAdventureTimeIndex(effects.nextTimeIndex ?? 0);
+        resetAdventureDailyResources({ clearCombat: effects.clearCombat !== false });
+    }
+    if (effects.complete) ADVENTURE_STATE.completed = true;
+    if (effects.endingTone) ADVENTURE_STATE.endingTone = effects.endingTone;
+    if (effects.journal) addAdventureJournalEntry("Registro", effects.journal);
+    if (rewardNotes.length) addAdventureJournalEntry("Recompensa", rewardNotes.join(" "));
+    const hp = getAdventureCurrentHpState();
+    if (hp.current <= 0) {
+        ADVENTURE_STATE.sceneId = "ending_defeat";
+        ADVENTURE_STATE.completed = true;
+        ADVENTURE_STATE.endingTone = "fail";
+        ADVENTURE_STATE.objective = "Aventura fallida.";
+    }
+}
+
+const ADVENTURE_FLAG_LABELS = {
+    hasLantern: "Linterna de Oren",
+    shrineBlessed: "Concha bendita de Neris",
+    hasRustyKey: "Llave oxidada del cepo",
+    defeatedScouts: "Exploradores semiorcos derrotados",
+    scoutedCamp: "Campamento reconocido",
+    splitOrcs: "Division sembrada entre los semiorcos",
+    watchfireReady: "Fogata de distraccion preparada",
+    rescuedTeren: "Teren ya fue rescatado",
+    rescuedLysa: "Lysa ya fue rescatada",
+    stoleTotem: "Totem de Varka robado"
+};
+
+function getAdventureFlagLabel(flag) {
+    return ADVENTURE_FLAG_LABELS[flag] || String(flag || "").replace(/([A-Z])/g, " $1").trim() || "Condicion";
+}
+
+function getAdventureRequirementLabels(choice, state = ADVENTURE_STATE) {
+    const req = choice.requires || {};
+    const clsName = document.getElementById('class')?.value || "";
+    const labels = [];
+    const inventory = getAdventureInventoryValues().map(item => item.toLowerCase());
+    const currentTimeKey = getAdventureTimeKey(state.timeIndex);
+
+    if (Array.isArray(req.classAny) && req.classAny.length && !req.classAny.includes(clsName)) {
+        labels.push(`Solo para ${req.classAny.join(" / ")}`);
+    }
+    if (req.metricMin && typeof req.metricMin === "object") {
+        Object.entries(req.metricMin).forEach(([key, min]) => {
+            if (Number(state.metrics?.[key] || 0) < Number(min || 0)) labels.push(`Falta progreso en ${key}`);
+        });
+    }
+    if (req.metricMax && typeof req.metricMax === "object") {
+        Object.entries(req.metricMax).forEach(([key, max]) => {
+            if (Number(state.metrics?.[key] || 0) > Number(max || 0)) labels.push(`Ese curso de accion ya quedo atras en ${key}`);
+        });
+    }
+    if (req.minDay && Number(state.day || 1) < Number(req.minDay)) {
+        labels.push(`Disponible recien desde el dia ${req.minDay}`);
+    }
+    if (req.maxDay && Number(state.day || 1) > Number(req.maxDay)) {
+        labels.push(`Ya paso el margen del dia ${req.maxDay}`);
+    }
+    if (Array.isArray(req.timeAny) && req.timeAny.length && !req.timeAny.includes(currentTimeKey)) {
+        labels.push(`Solo disponible en ${req.timeAny.map(key => ADVENTURE_TIME_SEGMENT_LABELS[key] || key).join(" / ")}`);
+    }
+    if (Array.isArray(req.timeNot) && req.timeNot.includes(currentTimeKey)) {
+        labels.push(`No disponible durante ${ADVENTURE_TIME_SEGMENT_LABELS[currentTimeKey] || currentTimeKey}`);
+    }
+    if (req.minTimeIndex !== undefined && Number(state.timeIndex || 0) < Number(req.minTimeIndex)) {
+        labels.push(`Todavia es demasiado temprano`);
+    }
+    if (req.maxTimeIndex !== undefined && Number(state.timeIndex || 0) > Number(req.maxTimeIndex)) {
+        labels.push(`Ya no llegas a tiempo en este tramo`);
+    }
+    if (Array.isArray(req.flagsAll)) {
+        req.flagsAll.forEach(flag => {
+            if (!state.flags[flag]) labels.push(`Falta: ${getAdventureFlagLabel(flag)}`);
+        });
+    }
+    if (Array.isArray(req.flagsAny) && req.flagsAny.length && !req.flagsAny.some(flag => state.flags[flag])) {
+        labels.push(`Necesitas uno de estos: ${req.flagsAny.map(getAdventureFlagLabel).join(" o ")}`);
+    }
+    if (Array.isArray(req.notFlags)) {
+        req.notFlags.forEach(flag => {
+            if (state.flags[flag]) labels.push(`Ya no aplica: ${getAdventureFlagLabel(flag)}`);
+        });
+    }
+    if (Array.isArray(req.itemsAll)) {
+        req.itemsAll.forEach(item => {
+            if (!inventory.includes(String(item || "").toLowerCase())) labels.push(`Falta el objeto: ${item}`);
+        });
+    }
+    if (Array.isArray(req.itemsAny) && req.itemsAny.length) {
+        const hasAnyItem = req.itemsAny.some(item => inventory.includes(String(item || "").toLowerCase()));
+        if (!hasAnyItem) labels.push(`Necesitas uno de estos objetos: ${req.itemsAny.join(" o ")}`);
+    }
+    return labels;
+}
+
+function getAdventureSceneText(scene, state, campaign) {
+    if (!scene) return [];
+    if (typeof scene.text === "function") return scene.text(state, campaign) || [];
+    return Array.isArray(scene.text) ? scene.text : [String(scene.text || "")];
+}
+
+function getAdventureSceneChoices(scene, state, campaign) {
+    if (!scene) return [];
+    const raw = typeof scene.choices === "function" ? scene.choices(state, campaign) : (scene.choices || []);
+    return raw.map(choice => {
+        const requirementLabels = getAdventureRequirementLabels(choice, state);
+        return {
+            ...choice,
+            __enabled: requirementLabels.length === 0,
+            __requirementLabels: requirementLabels
+        };
+    }).filter(choice => choice.__enabled);
+}
+
+function getAdventureEndingTone(scene, state) {
+    if (!scene) return "";
+    if (typeof scene.endingTone === "function") return scene.endingTone(state) || "";
+    return scene.endingTone || "";
+}
+
+function resolveAdventurePendingChoice(choice, succeeded, overrideText = "") {
+    if (!choice) return;
+    let nextSceneId = choice.next || ADVENTURE_STATE.sceneId;
+    const branch = succeeded ? (choice.success || {}) : (choice.failure || {});
+    nextSceneId = branch.next || nextSceneId;
+    const outcomeText = overrideText || branch.text || choice.desc || "";
+    const tone = succeeded ? "success" : "failure";
+    const effects = {
+        ...(choice.effects || {}),
+        ...(branch.effects || {})
+    };
+
+    if (choice.journal) addAdventureJournalEntry(choice.label, choice.journal);
+    applyAdventureEffects(effects);
+    if (ADVENTURE_STATE.sceneId !== "ending_defeat") {
+        ADVENTURE_STATE.sceneId = nextSceneId;
+    }
+
+    const nextScene = getAdventureScene();
+    if (nextScene?.objective) ADVENTURE_STATE.objective = nextScene.objective;
+    if (nextScene?.complete) ADVENTURE_STATE.completed = true;
+    const endingTone = getAdventureEndingTone(nextScene, ADVENTURE_STATE);
+    if (endingTone) ADVENTURE_STATE.endingTone = endingTone;
+
+    ADVENTURE_STATE.lastOutcome = {
+        tone,
+        title: choice.label || "Combate",
+        text: outcomeText,
+        checkLabel: "",
+        roll: 0,
+        bonus: 0,
+        total: 0,
+        dc: Number(choice.dc || 0)
+    };
+}
+
+function executeAdventureChoice(choiceIndex) {
+    const campaign = getAdventureCampaign(ADVENTURE_STATE.campaignId);
+    const scene = getAdventureScene();
+    if (!campaign || !scene) return;
+    const choices = getAdventureSceneChoices(scene, ADVENTURE_STATE, campaign);
+    const choice = choices[choiceIndex];
+    if (!choice) return;
+    if (!choice.__enabled) return;
+
+    let nextSceneId = choice.next || ADVENTURE_STATE.sceneId;
+    let outcomeText = choice.desc || "";
+    let outcomeTitle = choice.label;
+    let tone = "neutral";
+    let checkResult = null;
+    let effects = { ...(choice.effects || {}) };
+
+    if (choice.check?.type === "attack") {
+        const estimatedHp = Math.max(6, (Number(choice.check.dc || 10) * 2));
+        const enemyDefaults = getAdventureEnemyCombatDefaults(choice.check.dc || 10, estimatedHp);
+        openAdventureCombatModal({
+            enemyName: choice.label || "Adversario",
+            enemyAc: String(choice.check.dc || 10),
+            enemyHp: String(estimatedHp),
+            enemyMaxHp: String(estimatedHp),
+            enemyAttackBonus: enemyDefaults.attackBonus,
+            enemyDamage: enemyDefaults.damage,
+            enemyMorale: choice.combat?.enemyMorale || "fight",
+            fleeOutcome: choice.combat?.fleeOutcome || "success",
+            ...(choice.combat || {}),
+            pendingChoice: {
+                label: choice.label || "Combate",
+                desc: choice.desc || "",
+                next: choice.next || "",
+                objective: "",
+                dc: Number(choice.check.dc || 0),
+                journal: choice.journal || "",
+                success: choice.success || {},
+                failure: choice.failure || {},
+                effects: choice.effects || {}
+            }
+        });
+        return;
+    }
+
+    if (choice.check) {
+        checkResult = resolveAdventureCheck(choice.check);
+        const branch = checkResult.success ? (choice.success || {}) : (choice.failure || {});
+        nextSceneId = branch.next || nextSceneId;
+        outcomeText = branch.text || outcomeText;
+        tone = checkResult.success ? "success" : "failure";
+        effects = {
+            ...(choice.effects || {}),
+            ...(branch.effects || {})
+        };
+        showDiceModal(
+            "Modo Aventura",
+            `${choice.label} · ${getAdventureCheckDescriptor(choice.check)}`,
+            buildSingleCheckHtml(
+                choice.check.label || choice.label,
+                checkResult.roll,
+                checkResult.bonus,
+                checkResult.total,
+                `<div class="dice-result-line">DC: <b>${checkResult.dc}</b></div><div class="dice-result-line"><span class="dice-banner ${checkResult.success ? 'crit' : 'fail'}">${checkResult.success ? 'EXITO' : 'FALLO'}</span></div>`
+            )
+        );
+    }
+
+    if (choice.journal) addAdventureJournalEntry(choice.label, choice.journal);
+    applyAdventureEffects(effects);
+
+    if (ADVENTURE_STATE.sceneId !== "ending_defeat") {
+        ADVENTURE_STATE.sceneId = nextSceneId;
+    }
+
+    const nextScene = getAdventureScene();
+    if (nextScene?.objective) ADVENTURE_STATE.objective = nextScene.objective;
+    if (nextScene?.complete) ADVENTURE_STATE.completed = true;
+    const endingTone = getAdventureEndingTone(nextScene, ADVENTURE_STATE);
+    if (endingTone) ADVENTURE_STATE.endingTone = endingTone;
+
+    ADVENTURE_STATE.lastOutcome = {
+        tone,
+        title: outcomeTitle,
+        text: outcomeText,
+        checkLabel: checkResult?.label || "",
+        roll: checkResult?.roll || 0,
+        bonus: checkResult?.bonus || 0,
+        total: checkResult?.total || 0,
+        dc: checkResult?.dc || 0
+    };
+
+    autoSave();
+    renderAdventureMode();
+}
+
+function buildAdventureChoiceHtml(choice, index) {
+    const tags = [];
+    if (choice.check) tags.push(`<span class="adventure-tag check">${escapeHtml(getAdventureCheckDescriptor(choice.check))}</span>`);
+    if (choice.effects?.damage || choice.failure?.effects?.damage) tags.push(`<span class="adventure-tag risk">Riesgo</span>`);
+    if (choice.effects?.addItems || choice.success?.effects?.addItems || choice.effects?.addCurrency || choice.success?.effects?.addCurrency) tags.push(`<span class="adventure-tag reward">Loot</span>`);
+    if (choice.effects?.rest || choice.success?.effects?.rest) tags.push(`<span class="adventure-tag reward">Descanso</span>`);
+    if (choice.effects?.advanceDays || choice.success?.effects?.advanceDays) tags.push(`<span class="adventure-tag reward">Tiempo</span>`);
+    if (choice.effects?.advanceTime || choice.success?.effects?.advanceTime) tags.push(`<span class="adventure-tag reward">Tramo</span>`);
+    return `
+        <button type="button" class="adventure-choice-btn" onclick="executeAdventureChoice(${index})">
+            <div class="adventure-choice-head">
+                <span class="adventure-choice-label">${escapeHtml(choice.label)}</span>
+                <span class="adventure-choice-tags">${tags.join("")}</span>
+            </div>
+            ${choice.desc ? `<div class="adventure-choice-desc">${escapeHtml(choice.desc)}</div>` : ``}
+        </button>
+    `;
+}
+
+function getAdventureConditionLabels() {
+    return Array.from(document.querySelectorAll('#conditions-grid input:checked'))
+        .map(input => input.closest('label')?.textContent?.replace(/\s+/g, ' ').trim() || "")
+        .filter(Boolean);
+}
+
+function getAdventureAttackRows() {
+    return Array.from(document.querySelectorAll('#attack-summary [data-roll-kind="attack"]')).map((row, index) => ({
+        index,
+        slot: row.dataset.rollWeaponSlot || "",
+        label: row.dataset.rollLabel || `Ataque ${index + 1}`,
+        attackSeq: row.dataset.rollAttackSeq || "",
+        damage: row.dataset.rollDamage || "",
+        crit: row.dataset.rollCrit || "",
+        mult: row.dataset.rollMult || "",
+        extra: row.dataset.rollExtra || "",
+        row
+    }));
+}
+
+function getAdventureCombatState() {
+    if (!ADVENTURE_STATE.resources) ADVENTURE_STATE.resources = {};
+    if (!ADVENTURE_STATE.resources.combat) {
+        ADVENTURE_STATE.resources.combat = buildDefaultAdventureCombatState();
+    }
+    return ADVENTURE_STATE.resources.combat;
+}
+
+function buildAdventureCombatant(side, entry = {}, fallbackId = "") {
+    const rawAc = entry.ac ?? entry.enemyAc ?? "";
+    const rawHp = entry.hp ?? entry.enemyHp ?? entry.maxHp ?? entry.enemyMaxHp ?? "";
+    const rawMaxHp = entry.maxHp ?? entry.enemyMaxHp ?? rawHp;
+    const defaults = getAdventureEnemyCombatDefaults(rawAc || 10, rawMaxHp || rawHp || 12);
+    const rawAttackBonus = entry.attackBonus ?? entry.enemyAttackBonus ?? "";
+    const rawDamage = entry.damage ?? entry.enemyDamage ?? "";
+    return {
+        id: String(entry.id || fallbackId || `${side}-${Math.random().toString(36).slice(2, 8)}`),
+        side,
+        name: String(entry.name || entry.enemyName || (side === "enemy" ? "Adversario" : "Aliado")),
+        ac: String(rawAc || ""),
+        hp: String(rawHp || ""),
+        maxHp: String(rawMaxHp || rawHp || ""),
+        attackBonus: String(String(rawAttackBonus || "").trim() || defaults.attackBonus),
+        damage: String(String(rawDamage || "").trim() || defaults.damage),
+        morale: ["fight", "flee50", "flee25", "check25"].includes(entry.morale) ? entry.morale : "fight",
+        fleeOutcome: entry.fleeOutcome === "failure" ? "failure" : "success",
+        targetId: String(entry.targetId || ""),
+        status: ["active", "defeated", "fled"].includes(entry.status) ? entry.status : "active"
+    };
+}
+
+function getAdventureCombatPrimaryEnemy(combat = getAdventureCombatState()) {
+    return combat.enemies?.find(entry => entry.status === "active") || combat.enemies?.[0] || null;
+}
+
+function getAdventureLivingCombatants(side, combat = getAdventureCombatState()) {
+    const list = side === "enemy" ? (combat.enemies || []) : (combat.allies || []);
+    return list.filter(entry => entry.status === "active" && Math.max(0, Number(entry.hp || entry.maxHp || 0)) > 0);
+}
+
+function syncAdventureCombatLegacyFields(combat = getAdventureCombatState()) {
+    const primaryEnemy = getAdventureCombatPrimaryEnemy(combat);
+    combat.enemyName = primaryEnemy?.name || "";
+    combat.enemyAc = primaryEnemy?.ac || "";
+    combat.enemyHp = primaryEnemy?.hp || "";
+    combat.enemyMaxHp = primaryEnemy?.maxHp || "";
+    combat.enemyAttackBonus = primaryEnemy?.attackBonus || "";
+    combat.enemyDamage = primaryEnemy?.damage || "";
+    combat.enemyMorale = primaryEnemy?.morale || "fight";
+    combat.fleeOutcome = primaryEnemy?.fleeOutcome || "success";
+    if (!combat.selectedTargetId || !getAdventureLivingCombatants("enemy", combat).some(entry => entry.id === combat.selectedTargetId)) {
+        combat.selectedTargetId = primaryEnemy?.id || "";
+    }
+}
+
+function ensureAdventureCombatParticipants(combat = getAdventureCombatState()) {
+    if (!Array.isArray(combat.enemies)) combat.enemies = [];
+    if (!Array.isArray(combat.allies)) combat.allies = [];
+    if (!combat.enemies.length && (combat.enemyName || combat.enemyAc || combat.enemyHp || combat.enemyMaxHp || combat.enemyAttackBonus || combat.enemyDamage)) {
+        combat.enemies.push(buildAdventureCombatant("enemy", {
+            id: "enemy-1",
+            name: combat.enemyName || "Adversario",
+            ac: combat.enemyAc,
+            hp: combat.enemyHp || combat.enemyMaxHp,
+            maxHp: combat.enemyMaxHp || combat.enemyHp,
+            attackBonus: combat.enemyAttackBonus,
+            damage: combat.enemyDamage,
+            morale: combat.enemyMorale,
+            fleeOutcome: combat.fleeOutcome
+        }, "enemy-1"));
+    }
+    combat.enemies = combat.enemies.map((entry, index) => buildAdventureCombatant("enemy", entry, entry?.id || `enemy-${index + 1}`));
+    combat.allies = combat.allies.map((entry, index) => buildAdventureCombatant("ally", entry, entry?.id || `ally-${index + 1}`));
+    syncAdventureCombatLegacyFields(combat);
+}
+
+function getAdventureCombatFriendlyTargets(combat = getAdventureCombatState()) {
+    const pcHp = getAdventureCurrentHpState();
+    const targets = [];
+    if (pcHp.current > 0) {
+        targets.push({
+            id: "pc",
+            side: "pc",
+            name: document.getElementById('charName')?.value || "PJ",
+            ac: String(parseLastSignedNumber(document.getElementById('ac-total')?.textContent)),
+            hp: String(pcHp.current),
+            maxHp: String(pcHp.max)
+        });
+    }
+    getAdventureLivingCombatants("ally", combat).forEach(ally => targets.push(ally));
+    return targets;
+}
+
+function getAdventureCombatTargetById(targetId, combat = getAdventureCombatState()) {
+    if (targetId === "pc") {
+        return getAdventureCombatFriendlyTargets(combat).find(entry => entry.id === "pc") || null;
+    }
+    return [...(combat.enemies || []), ...(combat.allies || [])].find(entry => entry.id === targetId) || null;
+}
+
+function getAdventureCombatTargetOptions(combat = getAdventureCombatState()) {
+    ensureAdventureCombatParticipants(combat);
+    return getAdventureLivingCombatants("enemy", combat).map(enemy => ({
+        id: enemy.id,
+        label: `${enemy.name} - HP ${enemy.hp || enemy.maxHp || "?"} - CA ${enemy.ac || "?"}`
+    }));
+}
+
+function getAdventureCombatResolvedTarget(attacker, preferredTargetId = "", combat = getAdventureCombatState()) {
+    if (preferredTargetId) {
+        const direct = getAdventureCombatTargetById(preferredTargetId, combat);
+        if (direct) {
+            if (direct.side === "pc" && Number(direct.hp || 0) > 0) return direct;
+            if (direct.status === "active" && Math.max(0, Number(direct.hp || direct.maxHp || 0)) > 0) return direct;
+        }
+    }
+    if (attacker.side === "ally" || attacker.side === "pc") {
+        return getAdventureLivingCombatants("enemy", combat)[0] || null;
+    }
+    return getAdventureCombatFriendlyTargets(combat)[0] || null;
+}
+
+function getAdventureCombatTargetLabel(target) {
+    if (!target) return "objetivo";
+    if (target.side === "pc") return document.getElementById('charName')?.value || "PJ";
+    return target.name || (target.side === "ally" ? "Aliado" : "Adversario");
+}
+
+function applyAdventureDamageToCombatTarget(target, damageTotal, combat = getAdventureCombatState()) {
+    const damage = Math.max(0, Number(damageTotal || 0));
+    if (!target || damage <= 0) return { defeated: false, currentHp: 0 };
+    if (target.id === "pc") {
+        applyAdventureHpDelta(damage);
+        const hpState = getAdventureCurrentHpState();
+        return { defeated: hpState.current <= 0, currentHp: hpState.current };
+    }
+    const roster = target.side === "enemy" ? combat.enemies : combat.allies;
+    const entry = roster.find(item => item.id === target.id);
+    if (!entry) return { defeated: false, currentHp: 0 };
+    const currentHp = Math.max(0, Number(entry.hp || entry.maxHp || 0) - damage);
+    entry.hp = String(currentHp);
+    if (!entry.maxHp) entry.maxHp = String(currentHp);
+    if (currentHp <= 0) entry.status = "defeated";
+    syncAdventureCombatLegacyFields(combat);
+    return { defeated: currentHp <= 0, currentHp };
+}
+
+function getAdventureCombatRosterSummary(side, combat = getAdventureCombatState()) {
+    const list = side === "enemy" ? (combat.enemies || []) : (combat.allies || []);
+    if (!list.length) return `<div class="adventure-empty">${side === "enemy" ? "Hostiles" : "Aliados"}: ninguno.</div>`;
+    return `
+        <div class="adventure-chip-row">
+            ${list.map(entry => {
+                const statusLabel = entry.status === "fled" ? "Huyo" : entry.status === "defeated" ? "Fuera" : `HP ${entry.hp || entry.maxHp || "?"}`;
+                return `<span class="adventure-soft-chip">${escapeHtml(entry.name)} - ${escapeHtml(statusLabel)} - CA ${escapeHtml(entry.ac || "?")}</span>`;
+            }).join("")}
+        </div>
+    `;
+}
+
+function updateAdventureCombatConfig(key, value) {
+    const combat = getAdventureCombatState();
+    ensureAdventureCombatParticipants(combat);
+    combat[key] = value;
+    if (["enemyName", "enemyAc", "enemyHp", "enemyMaxHp", "enemyAttackBonus", "enemyDamage", "enemyMorale", "fleeOutcome"].includes(key)) {
+        const primaryEnemy = getAdventureCombatPrimaryEnemy(combat);
+        if (primaryEnemy) {
+            const map = {
+                enemyName: "name",
+                enemyAc: "ac",
+                enemyHp: "hp",
+                enemyMaxHp: "maxHp",
+                enemyAttackBonus: "attackBonus",
+                enemyDamage: "damage",
+                enemyMorale: "morale",
+                fleeOutcome: "fleeOutcome"
+            };
+            primaryEnemy[map[key]] = String(value || "");
+            if (key === "enemyHp" && !primaryEnemy.maxHp) primaryEnemy.maxHp = String(value || "");
+        }
+    }
+    syncAdventureCombatLegacyFields(combat);
+    autoSave();
+    renderAdventureMode();
+    renderAdventureCombatModal();
+}
+
+function advanceAdventureRound() {
+    const combat = getAdventureCombatState();
+    combat.round = Math.max(1, Number(combat.round || 1) + 1);
+    addAdventureJournalEntry("Ronda", `Comienza la ronda ${combat.round}.`);
+    autoSave();
+    renderAdventureMode();
+    renderAdventureCombatModal();
+}
+
+function resetAdventureCombatState() {
+    ADVENTURE_STATE.resources.combat = buildDefaultAdventureCombatState();
+    addAdventureJournalEntry("Combate", "Se reinicio el seguimiento rapido de combate.");
+    autoSave();
+    renderAdventureMode();
+    renderAdventureCombatModal();
+}
+
+function softResetAdventureCombat() {
+    const current = getAdventureCombatState();
+    ADVENTURE_STATE.resources.combat = {
+        ...buildDefaultAdventureCombatState(),
+        active: true,
+        selectedWeaponSlot: current.selectedWeaponSlot || "eq-weapon1",
+        attackMode: current.attackMode || "single",
+        enemyName: current.enemyName || "",
+        enemyAc: current.enemyAc || "",
+        enemyHp: current.enemyMaxHp || current.enemyHp || "",
+        enemyMaxHp: current.enemyMaxHp || current.enemyHp || "",
+        enemyAttackBonus: current.enemyAttackBonus || "",
+        enemyDamage: current.enemyDamage || "",
+        enemyMorale: current.enemyMorale || "fight",
+        fleeOutcome: current.fleeOutcome || "success",
+        pendingChoice: current.pendingChoice || null
+    };
+    addAdventureCombatLog("Combate", "Se reinicio el seguimiento de rondas y daño del combate actual.");
+    autoSave();
+    renderAdventureMode();
+    renderAdventureCombatModal();
+}
+
+function addAdventureCombatLog(title, text) {
+    const combat = getAdventureCombatState();
+    if (!Array.isArray(combat.log)) combat.log = [];
+    combat.log.push({ title: String(title || "Combate"), text: String(text || "") });
+    if (combat.log.length > 12) combat.log = combat.log.slice(-12);
+}
+
+function getAdventureFlurrySequence() {
+    const className = document.getElementById('class')?.value || "";
+    if (className !== "Monk") return [];
+    const flurryText = document.getElementById('flurry-val')?.textContent || "";
+    return parseSignedSequence(flurryText);
+}
+
+function getAdventureCombatActionOptions() {
+    const options = [
+        { value: "single", label: "Ataque simple" },
+        { value: "full", label: "Ataque completo" }
+    ];
+    if (getAdventureFlurrySequence().length) options.push({ value: "flurry", label: "Flurry of Blows" });
+    return options;
+}
+
+function openAdventureCombatModal(config = {}) {
+    const modal = document.getElementById('adventure-combat-modal');
+    const combat = getAdventureCombatState();
+    const attackRows = getAdventureAttackRows();
+    const defaultSlot = attackRows[0]?.slot || "eq-weapon1";
+    if (config.reset) {
+        ADVENTURE_STATE.resources.combat = buildDefaultAdventureCombatState();
+    }
+    const nextCombat = getAdventureCombatState();
+    nextCombat.active = true;
+    nextCombat.selectedWeaponSlot = config.selectedWeaponSlot || nextCombat.selectedWeaponSlot || defaultSlot;
+    nextCombat.attackMode = ["single", "full", "flurry"].includes(config.attackMode) ? config.attackMode : nextCombat.attackMode || "single";
+    nextCombat.enemyName = config.enemyName ?? nextCombat.enemyName;
+    nextCombat.enemyAc = config.enemyAc ?? nextCombat.enemyAc;
+    nextCombat.enemyHp = config.enemyHp ?? nextCombat.enemyHp;
+    nextCombat.enemyMaxHp = config.enemyMaxHp ?? (nextCombat.enemyMaxHp || nextCombat.enemyHp);
+    nextCombat.enemyAttackBonus = config.enemyAttackBonus ?? nextCombat.enemyAttackBonus;
+    nextCombat.enemyDamage = config.enemyDamage ?? nextCombat.enemyDamage;
+    nextCombat.enemyMorale = config.enemyMorale ?? nextCombat.enemyMorale;
+    nextCombat.fleeOutcome = config.fleeOutcome ?? nextCombat.fleeOutcome;
+    nextCombat.pendingChoice = config.pendingChoice ?? nextCombat.pendingChoice;
+    if (Array.isArray(config.log)) nextCombat.log = config.log;
+    if (!nextCombat.enemyMaxHp && nextCombat.enemyHp) nextCombat.enemyMaxHp = nextCombat.enemyHp;
+    if (!String(nextCombat.enemyAttackBonus || "").trim() || !String(nextCombat.enemyDamage || "").trim()) {
+        const defaults = getAdventureEnemyCombatDefaults(nextCombat.enemyAc || 10, nextCombat.enemyMaxHp || nextCombat.enemyHp || 12);
+        if (!String(nextCombat.enemyAttackBonus || "").trim()) nextCombat.enemyAttackBonus = defaults.attackBonus;
+        if (!String(nextCombat.enemyDamage || "").trim()) nextCombat.enemyDamage = defaults.damage;
+    }
+    ADVENTURE_COMBAT_MODAL_OPEN = true;
+    if (modal) modal.classList.add('open');
+    renderAdventureCombatModal();
+    autoSave();
+}
+
+function closeAdventureCombatModal() {
+    ADVENTURE_COMBAT_MODAL_OPEN = false;
+    document.getElementById('adventure-combat-modal')?.classList.remove('open');
+}
+
+function handleAdventureCombatModalBackdrop(event) {
+    if (event.target?.id === 'adventure-combat-modal') closeAdventureCombatModal();
+}
+
+function getAdventureSpellSlotData() {
+    const className = document.getElementById('class')?.value || "";
+    const level = parseInt(document.getElementById('level')?.value, 10) || 1;
+    const cData = SRD.classes.find(c => c.name === className);
+    if (!cData?.caster || !SPELL_SLOTS[className]) return null;
+
+    const lvlIdx = Math.min(level, 20) - 1;
+    const slotsRow = SPELL_SLOTS[className][lvlIdx];
+    if (!Array.isArray(slotsRow) || !slotsRow.some(value => value > 0)) return null;
+
+    const statKey = cData.stat;
+    const baseVal = parseInt(document.getElementById(`base-${statKey}`)?.value, 10) || 10;
+    const raceName = document.getElementById('race')?.value || "";
+    const rData = SRD.races.find(r => r.name === raceName);
+    const raceMod = rData?.modifiers?.[statKey.toLowerCase()] || 0;
+    const statMod = Math.floor((baseVal + raceMod - 10) / 2);
+    const hasDomainSlot = className === "Cleric" && getSelectedClericDomains().length > 0;
+
+    const totals = {};
+    const used = ADVENTURE_STATE.resources?.spellUsage || {};
+    const remaining = {};
+
+    for (let spellLevel = 0; spellLevel <= 9; spellLevel++) {
+        const base = slotsRow[spellLevel] || 0;
+        let bonus = 0;
+        if (statMod > 0 && spellLevel >= 1 && statMod >= spellLevel) {
+            bonus = Math.floor((statMod - spellLevel) / 4) + 1;
+        }
+        const domainBonus = (hasDomainSlot && spellLevel >= 1 && base > 0) ? 1 : 0;
+        const total = base + Math.max(0, bonus) + domainBonus;
+        if (total <= 0) continue;
+        totals[spellLevel] = total;
+        const usedCount = Math.max(0, Number(used[String(spellLevel)] || 0));
+        remaining[spellLevel] = Math.max(0, total - usedCount);
+    }
+
+    return { className, level, totals, remaining };
+}
+
+function getAdventureSpellOverview() {
+    const className = document.getElementById('class')?.value || "";
+    if (!className) return null;
+    const slotData = getAdventureSpellSlotData();
+    if (!slotData) return null;
+
+    const preparedByLevel = {};
+    Array.from(document.querySelectorAll('.spell-selector')).forEach(select => {
+        const spellName = select.value;
+        if (!spellName) return;
+        const spell = SRD.spells.find(entry => entry.name === spellName);
+        const level = spell ? getSpellLevelForClass(spell, className) : null;
+        if (level === null || level === undefined) return;
+        preparedByLevel[level] = (preparedByLevel[level] || 0) + 1;
+    });
+
+    const slotRows = Object.keys(slotData.totals)
+        .map(level => Number(level))
+        .sort((a, b) => a - b)
+        .slice(0, 5)
+        .map(level => `Nivel ${level}: ${slotData.remaining[level]}/${slotData.totals[level]} disponibles`);
+
+    return {
+        preparedCount: Object.values(preparedByLevel).reduce((sum, value) => sum + value, 0),
+        preparedByLevel,
+        slotRows,
+        slotData
+    };
+}
+
+function getAdventurePreparedSpells() {
+    const className = document.getElementById('class')?.value || "";
+    const entries = [];
+    Array.from(document.querySelectorAll('.spell-selector')).forEach(select => {
+        const spellName = String(select.value || "").trim();
+        if (!spellName) return;
+        const spell = SRD.spells.find(entry => entry.name === spellName);
+        const level = spell ? getSpellLevelForClass(spell, className) : null;
+        if (level === null || level === undefined) return;
+        if (entries.some(entry => entry.name === spellName && entry.level === level)) return;
+        entries.push({
+            name: spellName,
+            level,
+            desc: String(spell?.desc || ""),
+            spell
+        });
+    });
+    return entries.sort((a, b) => a.level - b.level || a.name.localeCompare(b.name));
+}
+
+function getAdventureHealingFormula(spellName) {
+    const lower = String(spellName || "").toLowerCase();
+    const level = parseInt(document.getElementById('level')?.value, 10) || 1;
+    if (lower.includes("curar heridas menores")) return { formula: "1", label: "Curacion menor" };
+    if (lower.includes("curar heridas leves")) return { formula: `1d8+${Math.min(level, 5)}`, label: "Curacion" };
+    if (lower.includes("curar heridas moderadas")) return { formula: `2d8+${Math.min(level, 10)}`, label: "Curacion" };
+    if (lower.includes("curar heridas graves")) return { formula: `3d8+${Math.min(level, 15)}`, label: "Curacion" };
+    if (lower.includes("curar heridas criticas")) return { formula: `4d8+${Math.min(level, 20)}`, label: "Curacion" };
+    if (lower === "sanar" || lower.includes(" heal")) return { formula: `${level * 10}`, label: "Sanacion total" };
+    return null;
+}
+
+function castAdventureSpell(spellName) {
+    const prepared = getAdventurePreparedSpells().find(entry => entry.name === spellName);
+    if (!prepared) return;
+    const slotData = getAdventureSpellSlotData();
+    if (!slotData) return;
+    const levelKey = String(prepared.level);
+    const total = slotData.totals[prepared.level] || 0;
+    const used = Math.max(0, Number(ADVENTURE_STATE.resources.spellUsage[levelKey] || 0));
+    if (used >= total) {
+        showDiceModal(
+            "Modo Aventura",
+            spellName,
+            `<div class="dice-result-group"><div class="dice-result-line">No te quedan slots de nivel ${prepared.level} para lanzar este conjuro.</div></div>`
+        );
+        return;
+    }
+
+    ADVENTURE_STATE.resources.spellUsage[levelKey] = used + 1;
+    const healing = getAdventureHealingFormula(spellName);
+    let html = `
+        <div class="dice-result-group">
+            <div class="dice-result-title">${escapeHtml(spellName)}</div>
+            <div class="dice-result-line">Slot gastado: nivel <b>${prepared.level}</b></div>
+            <div class="dice-result-line">Quedan <b>${Math.max(0, total - used - 1)}</b> de <b>${total}</b></div>
+            ${prepared.desc ? `<div class="dice-result-line">${escapeHtml(prepared.desc)}</div>` : ``}
+        </div>
+    `;
+
+    let journalText = `${spellName} fue lanzado.`;
+    if (healing) {
+        const healRoll = rollDamageFormulaPart(healing.formula);
+        applyAdventureHpDelta(-healRoll.total);
+        html += `
+            <div class="dice-result-group">
+                <div class="dice-result-title">${escapeHtml(healing.label)}</div>
+                <div class="dice-result-line">${escapeHtml(healRoll.detail)} = <b>${healRoll.total}</b></div>
+            </div>
+        `;
+        journalText = `${spellName} recupero ${healRoll.total} HP.`;
+    }
+
+    addAdventureJournalEntry("Conjuro", journalText);
+    ADVENTURE_STATE.lastOutcome = {
+        tone: "neutral",
+        title: spellName,
+        text: journalText,
+        checkLabel: "",
+        roll: 0,
+        bonus: 0,
+        total: 0,
+        dc: 0
+    };
+    showDiceModal("Modo Aventura", spellName, html);
+    autoSave();
+    renderAdventureMode();
+}
+
+function resetAdventureSpellUsage() {
+    resetAdventureDailyResources({ clearCombat: false });
+    addAdventureJournalEntry("Descanso", "Recuperaste los slots de conjuro del seguimiento de aventura.");
+    autoSave();
+    renderAdventureMode();
+}
+
+function getAdventureFeatureResources() {
+    const className = document.getElementById('class')?.value || "";
+    const level = parseInt(document.getElementById('level')?.value, 10) || 1;
+    const resources = [];
+    if (className === "Barbarian") {
+        resources.push({
+            name: "Furia",
+            value: document.getElementById('rage-toggle')?.checked ? "Activa" : "Lista",
+            detail: "Se resuelve con la hoja real."
+        });
+    }
+    if (className === "Paladin") {
+        const smitesPerDay = level >= 20 ? 5 : level >= 15 ? 4 : level >= 10 ? 3 : level >= 5 ? 2 : 1;
+        resources.push({
+            name: "Smite Evil",
+            value: `${smitesPerDay}/dia`,
+            detail: document.getElementById('smite-toggle')?.checked ? "Marcado como activo." : "Disponible desde la hoja."
+        });
+    }
+    if (className === "Rogue") {
+        resources.push({
+            name: "Sneak Attack",
+            value: `+${Math.floor((level + 1) / 2)}d6`,
+            detail: document.getElementById('sneak-toggle')?.checked ? "Toggle activo." : "Activalo cuando aplique."
+        });
+    }
+    return resources;
+}
+
+function getAdventureConsumables() {
+    return getAdventureInventoryValues().map((name, index) => {
+        const lower = name.toLowerCase();
+        if (!/(pocion|potion|elixir|curacion|healing)/i.test(lower)) return null;
+        let diceCount = 0;
+        let diceSides = 0;
+        let bonus = 0;
+        let detail = "Consumible utilizable desde aventura.";
+        if (/(critica|critical)/i.test(lower)) {
+            diceCount = 4; diceSides = 8; bonus = 7; detail = "Cura 4d8+7.";
+        } else if (/(seria|serious)/i.test(lower)) {
+            diceCount = 3; diceSides = 8; bonus = 5; detail = "Cura 3d8+5.";
+        } else if (/(moderada|moderate)/i.test(lower)) {
+            diceCount = 2; diceSides = 8; bonus = 3; detail = "Cura 2d8+3.";
+        } else if (/(ligera|light|curacion|healing)/i.test(lower)) {
+            diceCount = 1; diceSides = 8; bonus = 1; detail = "Cura 1d8+1.";
+        }
+        if (!diceCount) return { index, name, detail, usable: false };
+        return { index, name, detail, usable: true, diceCount, diceSides, bonus };
+    }).filter(Boolean);
+}
+
+function consumeAdventureConsumable(itemIndex) {
+    const consumable = getAdventureConsumables().find(item => item.index === itemIndex);
+    if (!consumable || !consumable.usable) return;
+    const rolls = Array.from({ length: consumable.diceCount }, () => rollDie(consumable.diceSides));
+    const total = rolls.reduce((sum, value) => sum + value, 0) + consumable.bonus;
+    const items = getAdventureInventoryValues();
+    const removed = items.splice(itemIndex, 1);
+    setAdventureInventoryValues(items);
+    applyAdventureHpDelta(-total);
+    addAdventureJournalEntry("Consumible", `Usaste ${removed[0]} y recuperaste ${total} HP.`);
+    ADVENTURE_STATE.lastOutcome = {
+        tone: "success",
+        title: "Consumible usado",
+        text: `${removed[0]} te devuelve ${total} HP.`,
+        checkLabel: "",
+        roll: 0,
+        bonus: 0,
+        total: 0,
+        dc: 0
+    };
+    showDiceModal(
+        "Modo Aventura",
+        removed[0],
+        `
+            <div class="dice-result-group">
+                <div class="dice-result-title">Curacion aplicada</div>
+                <div class="dice-result-line">Dados: <b>${rolls.join(" + ")}</b> <span class="dice-inline-tag">+${consumable.bonus}</span></div>
+                <div class="dice-result-line">Total curado: <b>${total}</b></div>
+            </div>
+        `
+    );
+    autoSave();
+    renderAdventureMode();
+}
+
+function finishAdventureCombat(victory, note = "") {
+    const combat = getAdventureCombatState();
+    const pendingChoice = combat.pendingChoice;
+    const enemyName = combat.enemyName || "Adversario";
+    if (victory) {
+        addAdventureCombatLog("Combate resuelto", note || `${enemyName} cae en combate.`);
+        addAdventureJournalEntry("Combate", note || `${enemyName} fue derrotado.`);
+    } else {
+        addAdventureCombatLog("Combate interrumpido", note || `Te retiras del combate contra ${enemyName}.`);
+        addAdventureJournalEntry("Combate", note || `Te retiraste del combate contra ${enemyName}.`);
+    }
+    ADVENTURE_STATE.resources.combat = buildDefaultAdventureCombatState();
+    closeAdventureCombatModal();
+    if (pendingChoice) {
+        resolveAdventurePendingChoice(pendingChoice, victory, note);
+    }
+    autoSave();
+    renderAdventureMode();
+}
+
+function shouldAdventureEnemyFlee(currentHp, maxHp, morale) {
+    const hp = Math.max(0, Number(currentHp || 0));
+    const max = Math.max(1, Number(maxHp || 1));
+    const ratio = hp / max;
+    if (morale === "fight") return false;
+    if (morale === "flee50") return ratio <= 0.5;
+    if (morale === "flee25") return ratio <= 0.25;
+    if (morale === "check25" && ratio <= 0.25) return rollDie(100) <= 50;
+    return false;
+}
+
+function getAdventureEnemyCombatDefaults(enemyAc, enemyHp) {
+    const ac = Math.max(10, Number(enemyAc || 10));
+    const hp = Math.max(6, Number(enemyHp || 12));
+    const attackBonus = Math.max(2, Math.floor((ac - 8) / 2));
+    const flatBonus = Math.max(1, Math.min(8, Math.floor(hp / 8)));
+    const die = hp >= 28 ? "1d10" : hp >= 18 ? "1d8" : "1d6";
+    return {
+        attackBonus: `+${attackBonus}`,
+        damage: `${die}+${flatBonus}`
+    };
+}
+
+function performAdventureCombatAction() {
+    const combat = getAdventureCombatState();
+    const attacks = getAdventureAttackRows();
+    if (!attacks.length) return;
+    const selected = attacks.find(attack => attack.slot === combat.selectedWeaponSlot) || attacks[0];
+    const enemyAc = parseInt(combat.enemyAc, 10) || Number(combat.pendingChoice?.dc || 10) || 10;
+    let enemyHp = parseInt(combat.enemyHp, 10);
+    if (Number.isNaN(enemyHp)) enemyHp = parseInt(combat.enemyMaxHp, 10) || 0;
+    let attackSeq = [];
+    if (combat.attackMode === "flurry") attackSeq = getAdventureFlurrySequence();
+    else {
+        const seq = parseSignedSequence(selected.attackSeq || "");
+        attackSeq = combat.attackMode === "full" ? seq : seq.slice(0, 1);
+    }
+    if (!attackSeq.length) return;
+
+    const enemyName = String(combat.enemyName || "").trim() || "Adversario";
+    const critRange = parseCritRange(selected.crit);
+    const critMultiplier = parseCritMultiplier(selected.mult);
+    let totalDamage = 0;
+    const logLines = [];
+
+    attackSeq.forEach((bonus, index) => {
+        const attackRoll = rollDie(20);
+        const total = attackRoll + bonus;
+        const hits = attackRoll !== 1 && total >= enemyAc;
+        let line = `Ataque ${index + 1}: d20 ${attackRoll} ${formatSignedNumber(bonus)} = ${formatSignedNumber(total)} vs CA ${enemyAc}.`;
+        if (!hits) {
+            logLines.push(`${line} Falla.`);
+            return;
+        }
+
+        let criticalConfirmed = false;
+        if (critRange !== null && attackRoll >= critRange) {
+            const confirmRoll = rollDie(20);
+            const confirmTotal = confirmRoll + bonus;
+            criticalConfirmed = confirmRoll !== 1 && confirmTotal >= enemyAc;
+            line += ` Amenaza critico; confirmacion ${confirmRoll} ${formatSignedNumber(bonus)} = ${formatSignedNumber(confirmTotal)}.`;
+        }
+
+        const instances = criticalConfirmed ? critMultiplier : 1;
+        let damageSum = 0;
+        const damageDetails = [];
+        for (let i = 0; i < instances; i++) {
+            const baseRoll = rollDamageFormula(selected.damage || "");
+            const baseTotal = baseRoll.parts.reduce((sum, part) => sum + (part.valid ? part.total : 0), 0);
+            damageSum += baseTotal;
+            damageDetails.push(`base ${i + 1}: ${baseTotal}`);
+        }
+        if (selected.extra) {
+            const extraRoll = rollDamageFormula(selected.extra || "");
+            const extraTotal = extraRoll.parts.reduce((sum, part) => sum + (part.valid ? part.total : 0), 0);
+            damageSum += extraTotal;
+            damageDetails.push(`extra: ${extraTotal}`);
+        }
+        totalDamage += damageSum;
+        enemyHp = Math.max(0, enemyHp - damageSum);
+        logLines.push(`${line} Impacta por ${damageSum} daño${criticalConfirmed ? " (critico confirmado)" : ""}. ${damageDetails.join(" · ")}. HP enemigo: ${enemyHp}.`);
+    });
+
+    combat.enemyHp = String(Math.max(0, enemyHp));
+    if (!combat.enemyMaxHp) combat.enemyMaxHp = combat.enemyHp;
+    addAdventureCombatLog(`${selected.label} · Ronda ${combat.round}`, logLines.join(" "));
+    ADVENTURE_STATE.lastOutcome = {
+        tone: totalDamage > 0 ? "success" : "neutral",
+        title: "Accion resuelta",
+        text: `${selected.label} ${totalDamage > 0 ? `causa ${totalDamage} de daño` : "no logra herir al objetivo"} en ronda ${combat.round}.`,
+        checkLabel: "",
+        roll: 0,
+        bonus: 0,
+        total: 0,
+        dc: enemyAc
+    };
+
+    if (enemyHp <= 0) {
+        finishAdventureCombat(true, `${enemyName} cae tras ${selected.label}.`);
+        return;
+    }
+    if (shouldAdventureEnemyFlee(enemyHp, combat.enemyMaxHp || enemyHp, combat.enemyMorale)) {
+        const fleeAsVictory = combat.fleeOutcome !== "failure";
+        finishAdventureCombat(fleeAsVictory, `${enemyName} pierde el pulso del combate y huye.`);
+        return;
+    }
+
+    const attackBonus = parseInt(String(combat.enemyAttackBonus || "").replace("+", ""), 10);
+    const damageFormula = String(combat.enemyDamage || "").trim();
+    const ac = parseLastSignedNumber(document.getElementById('ac-total')?.textContent);
+    if (!Number.isNaN(attackBonus) && damageFormula) {
+        const attackRoll = rollDie(20);
+        const total = attackRoll + attackBonus;
+        const hits = attackRoll !== 1 && total >= ac;
+        if (!hits) {
+            addAdventureCombatLog(`${enemyName} · Ronda ${combat.round}`, `d20 ${attackRoll} ${formatSignedNumber(attackBonus)} = ${formatSignedNumber(total)} vs CA ${ac}. Falla.`);
+        } else {
+            const damageRoll = rollDamageFormula(damageFormula);
+            const damageTotal = damageRoll.parts.reduce((sum, part) => sum + (part.valid ? part.total : 0), 0);
+            applyAdventureHpDelta(damageTotal);
+            addAdventureCombatLog(`${enemyName} · Ronda ${combat.round}`, `d20 ${attackRoll} ${formatSignedNumber(attackBonus)} = ${formatSignedNumber(total)} vs CA ${ac}. Impacta por ${damageTotal} daño.`);
+            ADVENTURE_STATE.lastOutcome = {
+                tone: "failure",
+                title: "Intercambio de golpes",
+                text: `${selected.label} causa ${totalDamage} de daño, pero ${enemyName} responde por ${damageTotal}.`,
+                checkLabel: "",
+                roll: 0,
+                bonus: 0,
+                total: 0,
+                dc: enemyAc
+            };
+            if (getAdventureCurrentHpState().current <= 0) {
+                finishAdventureCombat(false, `${enemyName} te derriba antes de que puedas cerrar el combate.`);
+                return;
+            }
+        }
+    }
+
+    combat.round = Math.max(1, Number(combat.round || 1) + 1);
+    autoSave();
+    renderAdventureMode();
+    renderAdventureCombatModal();
+}
+
+function fleeAdventureCombat() {
+    const enemyName = getAdventureCombatState().enemyName || "el adversario";
+    finishAdventureCombat(false, `Huis del combate contra ${enemyName} antes de resolverlo.`);
+}
+
+function renderAdventureCombatModal() {
+    const container = document.getElementById('adventure-combat-modal-content');
+    const subtitle = document.getElementById('adventure-combat-subtitle');
+    const modal = document.getElementById('adventure-combat-modal');
+    if (!container || !subtitle || !modal) return;
+    const combat = getAdventureCombatState();
+    if (!ADVENTURE_COMBAT_MODAL_OPEN) {
+        modal.classList.remove('open');
+        return;
+    }
+    modal.classList.add('open');
+    const attackRows = getAdventureAttackRows();
+    const actionOptions = getAdventureCombatActionOptions();
+    const enemyName = combat.enemyName || "Adversario";
+    const enemyHp = combat.enemyHp || combat.enemyMaxHp || "";
+    const enemyMaxHp = combat.enemyMaxHp || combat.enemyHp || "";
+    const pendingLabel = combat.pendingChoice?.label || enemyName;
+    const pcHp = getAdventureCurrentHpState();
+    subtitle.textContent = `Confirma o rectifica el combate de "${pendingLabel}" y mantenlo abierto hasta victoria, derrota o huida.`;
+    container.innerHTML = `
+        <div class="adventure-combat-banner">
+            Esta ventana usa tus armas reales, tus bonuses reales y resuelve el intercambio completo de la ronda con un solo click en Atacar. Si el enemigo llega a 0 HP, la escena avanza por la rama de exito; si huyes o caes, avanza por la rama de fallo.
+        </div>
+        <div class="adventure-combat-modal-grid" style="margin-top:12px;">
+            <label class="full" style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
+                Arma activa
+                <select onchange="updateAdventureCombatConfig('selectedWeaponSlot', this.value)">
+                    ${attackRows.map(attack => `<option value="${escapeAttr(attack.slot)}" ${attack.slot === combat.selectedWeaponSlot ? 'selected' : ''}>${escapeHtml(attack.label)}</option>`).join("")}
+                </select>
+            </label>
+            <label class="full" style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
+                Accion del PJ
+                <select onchange="updateAdventureCombatConfig('attackMode', this.value)">
+                    ${actionOptions.map(option => `<option value="${option.value}" ${option.value === combat.attackMode ? 'selected' : ''}>${escapeHtml(option.label)}</option>`).join("")}
+                </select>
+            </label>
+            <label class="full" style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
+                Nombre enemigo
+                <input type="text" value="${escapeAttr(enemyName)}" onchange="updateAdventureCombatConfig('enemyName', this.value)">
+            </label>
+            <label style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
+                CA enemiga
+                <input type="number" value="${escapeAttr(String(combat.enemyAc || ''))}" onchange="updateAdventureCombatConfig('enemyAc', this.value)">
+            </label>
+            <label style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
+                HP actual
+                <input type="number" value="${escapeAttr(String(enemyHp))}" onchange="updateAdventureCombatConfig('enemyHp', this.value)">
+            </label>
+            <label style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
+                HP max
+                <input type="number" value="${escapeAttr(String(enemyMaxHp))}" onchange="updateAdventureCombatConfig('enemyMaxHp', this.value)">
+            </label>
+            <label style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
+                Ataque enemigo
+                <input type="text" value="${escapeAttr(combat.enemyAttackBonus || '')}" placeholder="+6" onchange="updateAdventureCombatConfig('enemyAttackBonus', this.value)">
+            </label>
+            <label class="full" style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
+                Daño enemigo
+                <input type="text" value="${escapeAttr(combat.enemyDamage || '')}" placeholder="1d8+3" onchange="updateAdventureCombatConfig('enemyDamage', this.value)">
+            </label>
+        </div>
+        <div class="adventure-combat-modal-actions">
+            <button type="button" class="manual-back-btn" onclick="performAdventureCombatAction()">Atacar</button>
+            <button type="button" class="manual-back-btn" onclick="fleeAdventureCombat()">Huir</button>
+        </div>
+        <div class="adventure-combat-banner">
+            Ronda actual: <b>${combat.round}</b>. PJ HP <b>${pcHp.current}</b> / <b>${pcHp.max}</b>. Enemigo: <b>${escapeHtml(enemyName)}</b> · HP <b>${escapeHtml(String(enemyHp || 0))}</b>${enemyMaxHp ? ` / ${escapeHtml(String(enemyMaxHp))}` : ``} · CA <b>${escapeHtml(String(combat.enemyAc || "-"))}</b>
+        </div>
+        <div class="adventure-combat-log">
+            ${combat.log?.length ? combat.log.slice().reverse().map(entry => `
+                <div class="adventure-combat-log-entry">
+                    <strong>${escapeHtml(entry.title)}</strong>
+                    <span>${escapeHtml(entry.text)}</span>
+                </div>
+            `).join("") : `<div class="adventure-empty">Todavia no hay acciones registradas en este combate.</div>`}
+        </div>
+    `;
+    modal.querySelector('.dm-modal-card')?.scrollTo({ top: 0, behavior: 'auto' });
+}
+
+function softResetAdventureCombat() {
+    const current = getAdventureCombatState();
+    ensureAdventureCombatParticipants(current);
+    ADVENTURE_STATE.resources.combat = {
+        ...buildDefaultAdventureCombatState(),
+        active: true,
+        selectedWeaponSlot: current.selectedWeaponSlot || "eq-weapon1",
+        attackMode: current.attackMode || "single",
+        selectedTargetId: current.selectedTargetId || "",
+        enemyName: current.enemyName || "",
+        enemyAc: current.enemyAc || "",
+        enemyHp: current.enemyMaxHp || current.enemyHp || "",
+        enemyMaxHp: current.enemyMaxHp || current.enemyHp || "",
+        enemyAttackBonus: current.enemyAttackBonus || "",
+        enemyDamage: current.enemyDamage || "",
+        enemyMorale: current.enemyMorale || "fight",
+        fleeOutcome: current.fleeOutcome || "success",
+        enemies: (current.enemies || []).map((entry, index) => ({
+            ...buildAdventureCombatant("enemy", entry, entry?.id || `enemy-${index + 1}`),
+            hp: String(entry.maxHp || entry.hp || ""),
+            maxHp: String(entry.maxHp || entry.hp || ""),
+            status: "active"
+        })),
+        allies: (current.allies || []).map((entry, index) => ({
+            ...buildAdventureCombatant("ally", entry, entry?.id || `ally-${index + 1}`),
+            hp: String(entry.maxHp || entry.hp || ""),
+            maxHp: String(entry.maxHp || entry.hp || ""),
+            status: "active"
+        })),
+        pendingChoice: current.pendingChoice || null
+    };
+    ensureAdventureCombatParticipants(ADVENTURE_STATE.resources.combat);
+    addAdventureCombatLog("Combate", "Se reinicio el seguimiento de rondas y dano del combate actual.");
+    autoSave();
+    renderAdventureMode();
+    renderAdventureCombatModal();
+}
+
+function openAdventureCombatModal(config = {}) {
+    const modal = document.getElementById('adventure-combat-modal');
+    const attackRows = getAdventureAttackRows();
+    const defaultSlot = attackRows[0]?.slot || "eq-weapon1";
+    if (config.reset) {
+        ADVENTURE_STATE.resources.combat = buildDefaultAdventureCombatState();
+    }
+    const nextCombat = getAdventureCombatState();
+    nextCombat.active = true;
+    nextCombat.selectedWeaponSlot = config.selectedWeaponSlot || nextCombat.selectedWeaponSlot || defaultSlot;
+    nextCombat.attackMode = ["single", "full", "flurry"].includes(config.attackMode) ? config.attackMode : nextCombat.attackMode || "single";
+    if (Array.isArray(config.combatants) || Array.isArray(config.enemies) || Array.isArray(config.allies)) {
+        const enemies = Array.isArray(config.combatants)
+            ? config.combatants.filter(entry => entry?.side === "enemy")
+            : (config.enemies || []);
+        const allies = Array.isArray(config.combatants)
+            ? config.combatants.filter(entry => entry?.side === "ally")
+            : (config.allies || []);
+        nextCombat.enemies = enemies.map((entry, index) => buildAdventureCombatant("enemy", entry, entry?.id || `enemy-${index + 1}`));
+        nextCombat.allies = allies.map((entry, index) => buildAdventureCombatant("ally", entry, entry?.id || `ally-${index + 1}`));
+    }
+    nextCombat.enemyName = config.enemyName ?? nextCombat.enemyName;
+    nextCombat.enemyAc = config.enemyAc ?? nextCombat.enemyAc;
+    nextCombat.enemyHp = config.enemyHp ?? nextCombat.enemyHp;
+    nextCombat.enemyMaxHp = config.enemyMaxHp ?? (nextCombat.enemyMaxHp || nextCombat.enemyHp);
+    nextCombat.enemyAttackBonus = config.enemyAttackBonus ?? nextCombat.enemyAttackBonus;
+    nextCombat.enemyDamage = config.enemyDamage ?? nextCombat.enemyDamage;
+    nextCombat.enemyMorale = config.enemyMorale ?? nextCombat.enemyMorale;
+    nextCombat.fleeOutcome = config.fleeOutcome ?? nextCombat.fleeOutcome;
+    nextCombat.pendingChoice = config.pendingChoice ?? nextCombat.pendingChoice;
+    if (config.selectedTargetId !== undefined) nextCombat.selectedTargetId = String(config.selectedTargetId || "");
+    if (Array.isArray(config.log)) nextCombat.log = config.log;
+    ensureAdventureCombatParticipants(nextCombat);
+    const primaryEnemy = getAdventureCombatPrimaryEnemy(nextCombat);
+    if (primaryEnemy) {
+        primaryEnemy.name = config.enemyName ?? primaryEnemy.name;
+        primaryEnemy.ac = String(config.enemyAc ?? primaryEnemy.ac);
+        primaryEnemy.hp = String(config.enemyHp ?? primaryEnemy.hp);
+        primaryEnemy.maxHp = String(config.enemyMaxHp ?? (primaryEnemy.maxHp || primaryEnemy.hp));
+        primaryEnemy.attackBonus = String(config.enemyAttackBonus ?? primaryEnemy.attackBonus);
+        primaryEnemy.damage = String(config.enemyDamage ?? primaryEnemy.damage);
+        primaryEnemy.morale = config.enemyMorale ?? primaryEnemy.morale;
+        primaryEnemy.fleeOutcome = config.fleeOutcome ?? primaryEnemy.fleeOutcome;
+    }
+    syncAdventureCombatLegacyFields(nextCombat);
+    ADVENTURE_COMBAT_MODAL_OPEN = true;
+    if (modal) modal.classList.add('open');
+    renderAdventureCombatModal();
+    autoSave();
+}
+
+function finishAdventureCombat(victory, note = "") {
+    const combat = getAdventureCombatState();
+    ensureAdventureCombatParticipants(combat);
+    const pendingChoice = combat.pendingChoice;
+    const enemyNames = getAdventureLivingCombatants("enemy", combat).map(entry => entry.name);
+    const enemyName = enemyNames.length ? enemyNames.join(", ") : (combat.enemyName || "Adversario");
+    if (victory) {
+        addAdventureCombatLog("Combate resuelto", note || `${enemyName} cae en combate.`);
+        addAdventureJournalEntry("Combate", note || `${enemyName} fue derrotado.`);
+    } else {
+        addAdventureCombatLog("Combate interrumpido", note || `Te retiras del combate contra ${enemyName}.`);
+        addAdventureJournalEntry("Combate", note || `Te retiraste del combate contra ${enemyName}.`);
+    }
+    ADVENTURE_STATE.resources.combat = buildDefaultAdventureCombatState();
+    closeAdventureCombatModal();
+    if (pendingChoice) {
+        resolveAdventurePendingChoice(pendingChoice, victory, note);
+    }
+    autoSave();
+    renderAdventureMode();
+}
+
+function performAdventureCombatAction() {
+    const combat = getAdventureCombatState();
+    ensureAdventureCombatParticipants(combat);
+    const attacks = getAdventureAttackRows();
+    if (!attacks.length) return;
+    const selected = attacks.find(attack => attack.slot === combat.selectedWeaponSlot) || attacks[0];
+    let attackSeq = [];
+    if (combat.attackMode === "flurry") attackSeq = getAdventureFlurrySequence();
+    else {
+        const seq = parseSignedSequence(selected.attackSeq || "");
+        attackSeq = combat.attackMode === "full" ? seq : seq.slice(0, 1);
+    }
+    if (!attackSeq.length) return;
+
+    const critRange = parseCritRange(selected.crit);
+    const critMultiplier = parseCritMultiplier(selected.mult);
+    let totalDamage = 0;
+    let lastPlayerTarget = null;
+    const logLines = [];
+
+    attackSeq.forEach((bonus, index) => {
+        const currentTarget = getAdventureCombatResolvedTarget({ side: "pc", name: "PJ" }, combat.selectedTargetId, combat);
+        if (!currentTarget) return;
+        lastPlayerTarget = currentTarget;
+        const targetAc = parseInt(currentTarget.ac, 10) || Number(combat.pendingChoice?.dc || 10) || 10;
+        const attackRoll = rollDie(20);
+        const total = attackRoll + bonus;
+        const hits = attackRoll !== 1 && total >= targetAc;
+        let line = `Ataque ${index + 1} a ${currentTarget.name}: d20 ${attackRoll} ${formatSignedNumber(bonus)} = ${formatSignedNumber(total)} vs CA ${targetAc}.`;
+        if (!hits) {
+            logLines.push(`${line} Falla.`);
+            return;
+        }
+
+        let criticalConfirmed = false;
+        if (critRange !== null && attackRoll >= critRange) {
+            const confirmRoll = rollDie(20);
+            const confirmTotal = confirmRoll + bonus;
+            criticalConfirmed = confirmRoll !== 1 && confirmTotal >= targetAc;
+            line += ` Amenaza critico; confirmacion ${confirmRoll} ${formatSignedNumber(bonus)} = ${formatSignedNumber(confirmTotal)}.`;
+        }
+
+        const instances = criticalConfirmed ? critMultiplier : 1;
+        let damageSum = 0;
+        const damageDetails = [];
+        for (let i = 0; i < instances; i++) {
+            const baseRoll = rollDamageFormula(selected.damage || "");
+            const baseTotal = baseRoll.parts.reduce((sum, part) => sum + (part.valid ? part.total : 0), 0);
+            damageSum += baseTotal;
+            damageDetails.push(`base ${i + 1}: ${baseTotal}`);
+        }
+        if (selected.extra) {
+            const extraRoll = rollDamageFormula(selected.extra || "");
+            const extraTotal = extraRoll.parts.reduce((sum, part) => sum + (part.valid ? part.total : 0), 0);
+            damageSum += extraTotal;
+            damageDetails.push(`extra: ${extraTotal}`);
+        }
+
+        totalDamage += damageSum;
+        const damageResult = applyAdventureDamageToCombatTarget(currentTarget, damageSum, combat);
+        logLines.push(`${line} Impacta por ${damageSum} dano${criticalConfirmed ? " (critico confirmado)" : ""}. ${damageDetails.join(" - ")}. HP ${currentTarget.name}: ${damageResult.currentHp}.`);
+    });
+
+    syncAdventureCombatLegacyFields(combat);
+    addAdventureCombatLog(`${selected.label} - Ronda ${combat.round}`, logLines.join(" "));
+    ADVENTURE_STATE.lastOutcome = {
+        tone: totalDamage > 0 ? "success" : "neutral",
+        title: "Accion resuelta",
+        text: `${selected.label} ${totalDamage > 0 ? `causa ${totalDamage} de dano` : "no logra herir al objetivo"} en ronda ${combat.round}.`,
+        checkLabel: "",
+        roll: 0,
+        bonus: 0,
+        total: 0,
+        dc: parseInt(lastPlayerTarget?.ac, 10) || Number(combat.pendingChoice?.dc || 10) || 10
+    };
+
+    const fleeingEnemies = [];
+    getAdventureLivingCombatants("enemy", combat).forEach(enemy => {
+        const currentHp = Number(enemy.hp || enemy.maxHp || 0);
+        const maxHp = Number(enemy.maxHp || enemy.hp || currentHp || 1);
+        if (shouldAdventureEnemyFlee(currentHp, maxHp, enemy.morale)) {
+            enemy.status = "fled";
+            fleeingEnemies.push(enemy);
+            addAdventureCombatLog(`${enemy.name} - Ronda ${combat.round}`, `${enemy.name} pierde el pulso del combate y huye.`);
+        }
+    });
+
+    if (!getAdventureLivingCombatants("enemy", combat).length) {
+        const retreatFailure = fleeingEnemies.some(enemy => enemy.fleeOutcome === "failure");
+        const victoryText = fleeingEnemies.length
+            ? `${fleeingEnemies.map(enemy => enemy.name).join(", ")} se repliega${fleeingEnemies.length > 1 ? "n" : ""} y abandona${fleeingEnemies.length > 1 ? "n" : ""} el combate.`
+            : `${lastPlayerTarget?.name || "El adversario"} cae tras ${selected.label}.`;
+        finishAdventureCombat(!retreatFailure, victoryText);
+        return;
+    }
+
+    getAdventureLivingCombatants("ally", combat).forEach(ally => {
+        const target = getAdventureCombatResolvedTarget(ally, ally.targetId || combat.selectedTargetId, combat);
+        if (!target) return;
+        const attackBonus = parseInt(String(ally.attackBonus || "").replace("+", ""), 10);
+        const targetAc = parseInt(target.ac, 10) || 10;
+        if (Number.isNaN(attackBonus) || !String(ally.damage || "").trim()) return;
+        const attackRoll = rollDie(20);
+        const total = attackRoll + attackBonus;
+        const hits = attackRoll !== 1 && total >= targetAc;
+        if (!hits) {
+            addAdventureCombatLog(`${ally.name} - Ronda ${combat.round}`, `d20 ${attackRoll} ${formatSignedNumber(attackBonus)} = ${formatSignedNumber(total)} vs CA ${targetAc}. Falla contra ${target.name}.`);
+            return;
+        }
+        const damageRoll = rollDamageFormula(ally.damage || "");
+        const damageTotal = damageRoll.parts.reduce((sum, part) => sum + (part.valid ? part.total : 0), 0);
+        const result = applyAdventureDamageToCombatTarget(target, damageTotal, combat);
+        addAdventureCombatLog(`${ally.name} - Ronda ${combat.round}`, `${ally.name} impacta a ${target.name} por ${damageTotal} dano. HP ${target.name}: ${result.currentHp}.`);
+    });
+
+    if (!getAdventureLivingCombatants("enemy", combat).length) {
+        finishAdventureCombat(true, `Tus aliados terminan de desarmar a los hostiles tras ${selected.label}.`);
+        return;
+    }
+
+    const pcName = document.getElementById('charName')?.value || "PJ";
+    for (const enemy of getAdventureLivingCombatants("enemy", combat)) {
+        const target = getAdventureCombatResolvedTarget(enemy, enemy.targetId, combat);
+        if (!target) continue;
+        const attackBonus = parseInt(String(enemy.attackBonus || "").replace("+", ""), 10);
+        const damageFormula = String(enemy.damage || "").trim();
+        const targetAc = parseInt(target.ac, 10) || 10;
+        if (Number.isNaN(attackBonus) || !damageFormula) continue;
+        const attackRoll = rollDie(20);
+        const total = attackRoll + attackBonus;
+        const hits = attackRoll !== 1 && total >= targetAc;
+        if (!hits) {
+            addAdventureCombatLog(`${enemy.name} - Ronda ${combat.round}`, `d20 ${attackRoll} ${formatSignedNumber(attackBonus)} = ${formatSignedNumber(total)} vs CA ${targetAc}. Falla contra ${getAdventureCombatTargetLabel(target)}.`);
+            continue;
+        }
+        const damageRoll = rollDamageFormula(damageFormula);
+        const damageTotal = damageRoll.parts.reduce((sum, part) => sum + (part.valid ? part.total : 0), 0);
+        const result = applyAdventureDamageToCombatTarget(target, damageTotal, combat);
+        addAdventureCombatLog(`${enemy.name} - Ronda ${combat.round}`, `d20 ${attackRoll} ${formatSignedNumber(attackBonus)} = ${formatSignedNumber(total)} vs CA ${targetAc}. Impacta a ${getAdventureCombatTargetLabel(target)} por ${damageTotal} dano.`);
+        if (target.id === "pc") {
+            ADVENTURE_STATE.lastOutcome = {
+                tone: "failure",
+                title: "Intercambio de golpes",
+                text: `${selected.label} causa ${totalDamage} de dano, pero ${enemy.name} responde sobre ${pcName} por ${damageTotal}.`,
+                checkLabel: "",
+                roll: 0,
+                bonus: 0,
+                total: 0,
+                dc: parseInt(lastPlayerTarget?.ac, 10) || Number(combat.pendingChoice?.dc || 10) || 10
+            };
+            if (result.defeated) {
+                finishAdventureCombat(false, `${enemy.name} te derriba antes de que puedas cerrar el combate.`);
+                return;
+            }
+        } else if (result.defeated) {
+            addAdventureCombatLog(`${target.name} - Ronda ${combat.round}`, `${target.name} queda fuera de combate.`);
+        }
+    }
+
+    combat.round = Math.max(1, Number(combat.round || 1) + 1);
+    syncAdventureCombatLegacyFields(combat);
+    autoSave();
+    renderAdventureMode();
+    renderAdventureCombatModal();
+}
+
+function fleeAdventureCombat() {
+    const combat = getAdventureCombatState();
+    ensureAdventureCombatParticipants(combat);
+    const enemyName = getAdventureLivingCombatants("enemy", combat).map(entry => entry.name).join(", ") || combat.enemyName || "el adversario";
+    finishAdventureCombat(false, `Huis del combate contra ${enemyName} antes de resolverlo.`);
+}
+
+function renderAdventureCombatModal() {
+    const container = document.getElementById('adventure-combat-modal-content');
+    const subtitle = document.getElementById('adventure-combat-subtitle');
+    const modal = document.getElementById('adventure-combat-modal');
+    if (!container || !subtitle || !modal) return;
+    const combat = getAdventureCombatState();
+    if (!ADVENTURE_COMBAT_MODAL_OPEN) {
+        modal.classList.remove('open');
+        return;
+    }
+    modal.classList.add('open');
+    ensureAdventureCombatParticipants(combat);
+    const attackRows = getAdventureAttackRows();
+    const actionOptions = getAdventureCombatActionOptions();
+    const targetOptions = getAdventureCombatTargetOptions(combat);
+    const enemyName = combat.enemyName || "Adversario";
+    const enemyHp = combat.enemyHp || combat.enemyMaxHp || "";
+    const enemyMaxHp = combat.enemyMaxHp || combat.enemyHp || "";
+    const pendingLabel = combat.pendingChoice?.label || enemyName;
+    const pcHp = getAdventureCurrentHpState();
+    const alliesSummary = getAdventureCombatRosterSummary("ally", combat);
+    const enemiesSummary = getAdventureCombatRosterSummary("enemy", combat);
+    subtitle.textContent = `Confirma o rectifica el combate de "${pendingLabel}" y mantenlo abierto hasta victoria, derrota o huida.`;
+    container.innerHTML = `
+        <div class="adventure-combat-banner">
+            Esta ventana usa tus armas reales, tus bonuses reales y resuelve el intercambio completo de la ronda con un solo click en Atacar. Si el enemigo llega a 0 HP, la escena avanza por la rama de exito; si huyes o caes, avanza por la rama de fallo.
+        </div>
+        <div class="adventure-combat-modal-grid" style="margin-top:12px;">
+            <label class="full" style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
+                Arma activa
+                <select onchange="updateAdventureCombatConfig('selectedWeaponSlot', this.value)">
+                    ${attackRows.map(attack => `<option value="${escapeAttr(attack.slot)}" ${attack.slot === combat.selectedWeaponSlot ? 'selected' : ''}>${escapeHtml(attack.label)}</option>`).join("")}
+                </select>
+            </label>
+            <label class="full" style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
+                Accion del PJ
+                <select onchange="updateAdventureCombatConfig('attackMode', this.value)">
+                    ${actionOptions.map(option => `<option value="${option.value}" ${option.value === combat.attackMode ? 'selected' : ''}>${escapeHtml(option.label)}</option>`).join("")}
+                </select>
+            </label>
+            ${targetOptions.length > 1 ? `
+                <label class="full" style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
+                    Objetivo actual
+                    <select onchange="updateAdventureCombatConfig('selectedTargetId', this.value)">
+                        ${targetOptions.map(option => `<option value="${escapeAttr(option.id)}" ${option.id === combat.selectedTargetId ? 'selected' : ''}>${escapeHtml(option.label)}</option>`).join("")}
+                    </select>
+                </label>
+            ` : ``}
+            <label class="full" style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
+                Nombre enemigo
+                <input type="text" value="${escapeAttr(enemyName)}" onchange="updateAdventureCombatConfig('enemyName', this.value)">
+            </label>
+            <label style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
+                CA enemiga
+                <input type="number" value="${escapeAttr(String(combat.enemyAc || ''))}" onchange="updateAdventureCombatConfig('enemyAc', this.value)">
+            </label>
+            <label style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
+                HP actual
+                <input type="number" value="${escapeAttr(String(enemyHp))}" onchange="updateAdventureCombatConfig('enemyHp', this.value)">
+            </label>
+            <label style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
+                HP max
+                <input type="number" value="${escapeAttr(String(enemyMaxHp))}" onchange="updateAdventureCombatConfig('enemyMaxHp', this.value)">
+            </label>
+            <label style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
+                Ataque enemigo
+                <input type="text" value="${escapeAttr(combat.enemyAttackBonus || '')}" placeholder="+6" onchange="updateAdventureCombatConfig('enemyAttackBonus', this.value)">
+            </label>
+            <label class="full" style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
+                Dano enemigo
+                <input type="text" value="${escapeAttr(combat.enemyDamage || '')}" placeholder="1d8+3" onchange="updateAdventureCombatConfig('enemyDamage', this.value)">
+            </label>
+        </div>
+        <div class="adventure-combat-modal-actions">
+            <button type="button" class="manual-back-btn" onclick="performAdventureCombatAction()">Atacar</button>
+            <button type="button" class="manual-back-btn" onclick="fleeAdventureCombat()">Huir</button>
+        </div>
+        <div class="adventure-combat-banner">
+            Ronda actual: <b>${combat.round}</b>. PJ HP <b>${pcHp.current}</b> / <b>${pcHp.max}</b>. Enemigo principal: <b>${escapeHtml(enemyName)}</b> - HP <b>${escapeHtml(String(enemyHp || 0))}</b>${enemyMaxHp ? ` / ${escapeHtml(String(enemyMaxHp))}` : ``} - CA <b>${escapeHtml(String(combat.enemyAc || "-"))}</b>
+        </div>
+        <div class="adventure-objective" style="margin-top:10px;">
+            <strong>Hostiles en escena</strong>
+            ${enemiesSummary}
+            ${combat.allies?.length ? `<div style="height:8px;"></div><strong>Aliados en escena</strong>${alliesSummary}` : ``}
+        </div>
+        <div class="adventure-combat-log">
+            ${combat.log?.length ? combat.log.slice().reverse().map(entry => `
+                <div class="adventure-combat-log-entry">
+                    <strong>${escapeHtml(entry.title)}</strong>
+                    <span>${escapeHtml(entry.text)}</span>
+                </div>
+            `).join("") : `<div class="adventure-empty">Todavia no hay acciones registradas en este combate.</div>`}
+        </div>
+    `;
+}
+
+function renderAdventureCampaignPicker() {
+    const container = document.getElementById('adventure-campaign-picker');
+    if (!container) return;
+    const activeCampaign = getAdventureCampaign(ADVENTURE_STATE.campaignId);
+    container.innerHTML = ADVENTURE_LIBRARY.map(campaign => {
+        const active = activeCampaign?.id === campaign.id;
+        return `
+            <div class="adventure-objective" style="${active ? 'border-color: var(--accent-edge); box-shadow: 0 12px 22px rgba(2,6,23,0.12);' : ''}">
+                <strong>${escapeHtml(campaign.title)}</strong>
+                <div style="color:var(--text); font-size:0.88em; line-height:1.55;">${escapeHtml(campaign.blurb)}</div>
+                <div style="margin-top:8px; color:var(--text-muted); font-size:0.76em;">Recomendado: ${escapeHtml(campaign.recommended)}</div>
+            </div>
+        `;
+    }).join("");
+}
+
+function renderAdventureStatus() {
+    const container = document.getElementById('adventure-status-content');
+    if (!container) return;
+    const campaign = getAdventureCampaign(ADVENTURE_STATE.campaignId);
+    const scene = getAdventureScene();
+    if (!campaign || !scene) {
+        container.className = "adventure-empty";
+        container.innerHTML = "Inicia la campaña de Irivith para ver el estado vivo de tu aventura.";
+        return;
+    }
+    container.className = "";
+    const hp = getAdventureCurrentHpState();
+    const cls = document.getElementById('class')?.value || "Aventurero";
+    const lvl = document.getElementById('level')?.value || "1";
+    const rescued = [ADVENTURE_STATE.flags.rescuedTeren, ADVENTURE_STATE.flags.rescuedLysa].filter(Boolean).length;
+    const attack = getAdventurePrimaryAttackBonus();
+    const ac = parseLastSignedNumber(document.getElementById('ac-total')?.textContent);
+    const fort = getAdventureSaveBonus('fort');
+    const ref = getAdventureSaveBonus('ref');
+    const will = getAdventureSaveBonus('will');
+    const conditions = getAdventureConditionLabels();
+    const features = getAdventureFeatureResources();
+    const spellOverview = getAdventureSpellOverview();
+    container.innerHTML = `
+        <div class="adventure-status-grid">
+            <div class="adventure-stat-chip"><strong>Personaje</strong><span>${escapeHtml(document.getElementById('charName')?.value || 'Sin nombre')} · ${escapeHtml(cls)} ${escapeHtml(String(lvl))}</span></div>
+            <div class="adventure-stat-chip"><strong>HP</strong><span>${hp.current} / ${hp.max}</span></div>
+            <div class="adventure-stat-chip"><strong>Escena</strong><span>${escapeHtml(scene.title)}</span></div>
+            <div class="adventure-stat-chip"><strong>Rescatados</strong><span>${rescued} / 2</span></div>
+        </div>
+        <div class="adventure-objective" style="margin-top:10px;">
+            <strong>Objetivo actual</strong>
+            <div style="color:var(--text); font-size:0.9em; line-height:1.55;">${escapeHtml(ADVENTURE_STATE.objective || campaign.startObjective)}</div>
+        </div>
+        <div class="adventure-resource-list">
+            <div class="adventure-resource-row">
+                <span class="adventure-resource-key">Combate base</span>
+                <span class="adventure-resource-value">Ataque ${formatSignedNumber(attack)} · CA ${ac}</span>
+            </div>
+            <div class="adventure-resource-row">
+                <span class="adventure-resource-key">Salvaciones</span>
+                <span class="adventure-resource-value">F ${formatSignedNumber(fort)} / R ${formatSignedNumber(ref)} / W ${formatSignedNumber(will)}</span>
+            </div>
+            ${spellOverview ? `
+                <div class="adventure-resource-row">
+                    <span class="adventure-resource-key">Hechizos cargados</span>
+                    <span class="adventure-resource-value">${spellOverview.preparedCount} seleccionados</span>
+                </div>
+            ` : ``}
+            ${features.map(feature => `
+                <div class="adventure-resource-row">
+                    <span class="adventure-resource-key">${escapeHtml(feature.name)}</span>
+                    <span class="adventure-resource-value">${escapeHtml(feature.value)}<br>${escapeHtml(feature.detail)}</span>
+                </div>
+            `).join("")}
+        </div>
+        ${conditions.length ? `
+            <div class="adventure-chip-row">
+                ${conditions.map(condition => `<span class="adventure-soft-chip">${escapeHtml(condition)}</span>`).join("")}
+            </div>
+        ` : ``}
+    `;
+}
+
+function renderAdventureToolkit() {
+    const container = document.getElementById('adventure-toolkit-content');
+    if (!container) return;
+    const campaign = getAdventureCampaign(ADVENTURE_STATE.campaignId);
+    const scene = getAdventureScene();
+    if (!campaign || !scene) {
+        container.className = "adventure-empty";
+        container.innerHTML = "Cuando abras una campana activa vas a ver tus accesos rapidos de aventura aca.";
+        return;
+    }
+    const spellOverview = getAdventureSpellOverview();
+    const combat = getAdventureCombatState();
+    const attackRows = getAdventureAttackRows();
+    if (!attackRows.some(attack => attack.slot === combat.selectedWeaponSlot) && attackRows[0]) {
+        combat.selectedWeaponSlot = attackRows[0].slot || "eq-weapon1";
+    }
+    const preparedSpells = getAdventurePreparedSpells();
+    const consumables = getAdventureConsumables().slice(0, 4);
+    container.className = "";
+    container.innerHTML = `
+        <div class="adventure-toolkit-actions">
+            <button type="button" class="manual-back-btn adventure-toolkit-btn" onclick="showTab(0)">Ficha</button>
+            <button type="button" class="manual-back-btn adventure-toolkit-btn" onclick="showTab(1)">Hechizos</button>
+            <button type="button" class="manual-back-btn adventure-toolkit-btn" onclick="showTab(2)">Equipo</button>
+            <button type="button" class="manual-back-btn adventure-toolkit-btn" onclick="openGenericDiceRoller()">Dados</button>
+        </div>
+        <div class="adventure-objective" style="margin-top:10px;">
+            <strong>Combate</strong>
+            ${attackRows.length ? `
+                <div class="adventure-combat-quick">
+                    ${combat.active ? `
+                        <div class="adventure-combat-status">
+                            <div>
+                                <strong>${escapeHtml(combat.enemyName || 'Combate activo')}</strong>
+                                <span>Ronda ${combat.round} · HP ${escapeHtml(String(combat.enemyHp || combat.enemyMaxHp || '?'))}${combat.enemyMaxHp ? `/${escapeHtml(String(combat.enemyMaxHp))}` : ''} · CA ${escapeHtml(String(combat.enemyAc || '-'))}</span>
+                            </div>
+                            <button type="button" class="manual-back-btn" onclick="openAdventureCombatModal()">Abrir combate</button>
+                        </div>
+                    ` : `
+                        <div class="adventure-combat-status">
+                            <div>
+                                <strong>Sin combate abierto</strong>
+                                <span>Las elecciones de ataque abren este popup automaticamente, pero tambien puedes lanzarlo manualmente.</span>
+                            </div>
+                            <button type="button" class="manual-back-btn" onclick="openAdventureCombatModal({ enemyName: 'Adversario', enemyAc: '14', enemyHp: '20', enemyMaxHp: '20' })">Abrir combate</button>
+                        </div>
+                    `}
+                </div>
+            ` : `
+                <div class="adventure-empty" style="margin-top:10px;">Equipate al menos un arma en la hoja para habilitar el combate modal.</div>
+            `}
+        </div>
+        ${spellOverview?.slotRows?.length ? `
+            <div class="adventure-objective" style="margin-top:10px;">
+                <strong>Resumen de slots</strong>
+                <div class="adventure-resource-list" style="margin-top:8px;">
+                    ${spellOverview.slotRows.map(row => `
+                        <div class="adventure-resource-row">
+                            <span class="adventure-resource-value" style="text-align:left;">${escapeHtml(row)}</span>
+                        </div>
+                    `).join("")}
+                </div>
+            </div>
+        ` : ``}
+        ${preparedSpells.length ? `
+            <div class="adventure-objective" style="margin-top:10px;">
+                <strong>Hechizos listos</strong>
+                <div class="adventure-spell-list">
+                    ${preparedSpells.map(spell => {
+                        const total = spellOverview?.slotData?.totals?.[spell.level] || 0;
+                        const remaining = spellOverview?.slotData?.remaining?.[spell.level] ?? total;
+                        return `
+                            <div class="adventure-spell-card">
+                                <div class="adventure-spell-meta">
+                                    <div class="adventure-spell-name">${escapeHtml(spell.name)}</div>
+                                    <div class="adventure-spell-detail">Nivel ${spell.level} · Slots ${remaining}/${total}</div>
+                                </div>
+                                <div style="display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end;">
+                                    <button type="button" class="manual-back-btn" data-spell="${escapeAttr(spell.name)}" onclick="castAdventureSpell(this.dataset.spell)">Lanzar</button>
+                                    <button type="button" class="manual-back-btn" data-spell="${escapeAttr(spell.name)}" onclick="openManualReference('spells', this.dataset.spell)">Ver</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join("")}
+                </div>
+                <div class="adventure-toolkit-actions" style="margin-top:10px;">
+                    <button type="button" class="manual-back-btn" onclick="resetAdventureSpellUsage()">Recuperar slots</button>
+                </div>
+            </div>
+        ` : ``}
+        ${consumables.length ? `
+            <div class="adventure-objective" style="margin-top:10px;">
+                <strong>Consumibles</strong>
+                <div class="adventure-consumable-list">
+                    ${consumables.map(item => `
+                        <div class="adventure-consumable-card">
+                            <div class="adventure-consumable-meta">
+                                <div class="adventure-consumable-name">${escapeHtml(item.name)}</div>
+                                <div class="adventure-consumable-detail">${escapeHtml(item.detail)}</div>
+                            </div>
+                            ${item.usable ? `<button type="button" class="manual-back-btn" onclick="consumeAdventureConsumable(${item.index})">Usar</button>` : `<span class="adventure-soft-chip">Manual</span>`}
+                        </div>
+                    `).join("")}
+                </div>
+            </div>
+        ` : `
+            <div class="adventure-empty" style="margin-top:10px;">No hay consumibles rapidos detectados en tu inventario.</div>
+        `}
+        ${(ADVENTURE_STATE.grantedItems.length || ADVENTURE_STATE.wealthGp) ? `
+            <div class="adventure-objective" style="margin-top:10px;">
+                <strong>Botin acumulado</strong>
+                <div class="adventure-resource-list" style="margin-top:8px;">
+                    <div class="adventure-resource-row">
+                        <span class="adventure-resource-key">Tesoro</span>
+                        <span class="adventure-resource-value">${escapeHtml(String(ADVENTURE_STATE.wealthGp || 0))} gp eq.</span>
+                    </div>
+                    ${ADVENTURE_STATE.grantedItems.slice(-4).map(item => `
+                        <div class="adventure-resource-row">
+                            <span class="adventure-resource-key">Objeto</span>
+                            <span class="adventure-resource-value">${escapeHtml(item)}</span>
+                        </div>
+                    `).join("")}
+                </div>
+            </div>
+        ` : ``}
+    `;
+}
+
+function renderAdventureJournal() {
+    const container = document.getElementById('adventure-journal-content');
+    if (!container) return;
+    if (!ADVENTURE_STATE.journal.length) {
+        container.className = "adventure-empty";
+        container.innerHTML = "Todavia no hay registros de aventura.";
+        return;
+    }
+    container.className = "adventure-journal-list";
+    container.innerHTML = ADVENTURE_STATE.journal.slice(-8).reverse().map(entry => `
+        <div class="adventure-journal-entry">
+            <strong>${escapeHtml(entry.title)}</strong>
+            <span>${escapeHtml(entry.text)}</span>
+        </div>
+    `).join("");
+}
+
+function renderAdventureScene() {
+    const container = document.getElementById('adventure-scene-content');
+    if (!container) return;
+    const campaign = getAdventureCampaign(ADVENTURE_STATE.campaignId);
+    const scene = getAdventureScene();
+    if (!campaign || !scene) {
+        container.className = "adventure-empty";
+        container.innerHTML = "Elegi iniciar la campaña de Irivith para empezar a jugar.";
+        return;
+    }
+    const textBlocks = getAdventureSceneText(scene, ADVENTURE_STATE, campaign);
+    const choices = ADVENTURE_STATE.completed ? [] : getAdventureSceneChoices(scene, ADVENTURE_STATE, campaign);
+    const outcome = ADVENTURE_STATE.lastOutcome;
+    const bannerTone = ADVENTURE_STATE.completed ? (ADVENTURE_STATE.endingTone || getAdventureEndingTone(scene, ADVENTURE_STATE) || "success") : "";
+    const completeBanner = ADVENTURE_STATE.completed ? `
+        <div class="adventure-complete-banner ${bannerTone === 'partial' ? 'partial' : bannerTone === 'fail' ? 'fail' : ''}" style="margin-bottom:14px;">
+            ${bannerTone === 'fail' ? 'La aventura termino en derrota.' : bannerTone === 'partial' ? 'La aventura cerro con un resultado parcial.' : 'La aventura termino con exito.'}
+        </div>
+    ` : "";
+    container.className = "";
+    container.innerHTML = `
+        ${completeBanner}
+        <div class="adventure-hero">
+            <div class="adventure-title-wrap">
+                <span class="adventure-kicker">${escapeHtml(campaign.title)}</span>
+                <h2 class="adventure-scene-title">${escapeHtml(scene.title)}</h2>
+                <div class="adventure-meta">${escapeHtml(scene.location || "Sin ubicacion")} - ${escapeHtml(getAdventureTimeStamp())}</div>
+            </div>
+        </div>
+        <div class="adventure-copy">
+            ${textBlocks.map(paragraph => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+        </div>
+        ${outcome ? `
+            <div class="adventure-outcome ${escapeHtml(outcome.tone || 'neutral')}">
+                <div class="adventure-outcome-title">${escapeHtml(outcome.title || 'Consecuencia')}</div>
+                <div>${escapeHtml(outcome.text || '')}</div>
+                ${outcome.checkLabel ? `<div style="margin-top:8px; color:var(--text-muted); font-size:0.8em;">${escapeHtml(outcome.checkLabel)}: d20 ${outcome.roll} ${formatSignedNumber(outcome.bonus)} = ${outcome.total} vs CD ${outcome.dc}</div>` : ``}
+            </div>
+        ` : ``}
+        ${choices.length ? `<div class="adventure-choice-list">${choices.map((choice, index) => buildAdventureChoiceHtml(choice, index)).join("")}</div>` : ``}
+        ${!choices.length && !ADVENTURE_STATE.completed ? `<div class="adventure-empty" style="margin-top:16px;">Esta escena no tiene elecciones disponibles todavia.</div>` : ``}
+    `;
+}
+
+function renderAdventureStatus() {
+    const container = document.getElementById('adventure-status-content');
+    if (!container) return;
+    const campaign = getAdventureCampaign(ADVENTURE_STATE.campaignId);
+    const scene = getAdventureScene();
+    if (!campaign || !scene) {
+        container.className = "adventure-empty";
+        container.innerHTML = "Inicia la campana de Irivith para ver el estado vivo de tu aventura.";
+        return;
+    }
+    container.className = "";
+    const hp = getAdventureCurrentHpState();
+    const cls = document.getElementById('class')?.value || "Aventurero";
+    const lvl = document.getElementById('level')?.value || "1";
+    const rescued = [ADVENTURE_STATE.flags.rescuedTeren, ADVENTURE_STATE.flags.rescuedLysa].filter(Boolean).length;
+    const attack = getAdventurePrimaryAttackBonus();
+    const ac = parseLastSignedNumber(document.getElementById('ac-total')?.textContent);
+    const fort = getAdventureSaveBonus('fort');
+    const ref = getAdventureSaveBonus('ref');
+    const will = getAdventureSaveBonus('will');
+    const conditions = getAdventureConditionLabels();
+    const features = getAdventureFeatureResources();
+    const spellOverview = getAdventureSpellOverview();
+    const inventoryCount = getAdventureInventoryValues().length;
+    const timeStamp = getAdventureTimeStamp();
+    container.innerHTML = `
+        <div class="adventure-status-grid">
+            <div class="adventure-stat-chip"><strong>Personaje</strong><span>${escapeHtml(document.getElementById('charName')?.value || 'Sin nombre')} - ${escapeHtml(cls)} ${escapeHtml(String(lvl))}</span></div>
+            <div class="adventure-stat-chip"><strong>HP</strong><span>${hp.current} / ${hp.max}</span></div>
+            <div class="adventure-stat-chip"><strong>Escena</strong><span>${escapeHtml(scene.title)}</span></div>
+            <div class="adventure-stat-chip"><strong>Rescatados</strong><span>${rescued} / 2</span></div>
+            <div class="adventure-stat-chip"><strong>Tiempo</strong><span>${escapeHtml(timeStamp)}</span></div>
+            <div class="adventure-stat-chip"><strong>Tesoro</strong><span>${escapeHtml(String(ADVENTURE_STATE.wealthGp || 0))} gp eq.</span></div>
+        </div>
+        <div class="adventure-objective" style="margin-top:10px;">
+            <strong>Objetivo actual</strong>
+            <div style="color:var(--text); font-size:0.9em; line-height:1.55;">${escapeHtml(ADVENTURE_STATE.objective || campaign.startObjective)}</div>
+        </div>
+        <div class="adventure-resource-list">
+            <div class="adventure-resource-row">
+                <span class="adventure-resource-key">Combate base</span>
+                <span class="adventure-resource-value">Ataque ${formatSignedNumber(attack)} - CA ${ac}</span>
+            </div>
+            <div class="adventure-resource-row">
+                <span class="adventure-resource-key">Salvaciones</span>
+                <span class="adventure-resource-value">F ${formatSignedNumber(fort)} / R ${formatSignedNumber(ref)} / W ${formatSignedNumber(will)}</span>
+            </div>
+            <div class="adventure-resource-row">
+                <span class="adventure-resource-key">Inventario de aventura</span>
+                <span class="adventure-resource-value">${inventoryCount} item(s) visibles - ${ADVENTURE_STATE.grantedItems.length} recompensa(s) obtenida(s)</span>
+            </div>
+            ${spellOverview ? `
+                <div class="adventure-resource-row">
+                    <span class="adventure-resource-key">Hechizos cargados</span>
+                    <span class="adventure-resource-value">${spellOverview.preparedCount} seleccionados - ${spellOverview.slotRows.length ? escapeHtml(spellOverview.slotRows[0]) : "sin slots"}</span>
+                </div>
+            ` : ``}
+            ${features.map(feature => `
+                <div class="adventure-resource-row">
+                    <span class="adventure-resource-key">${escapeHtml(feature.name)}</span>
+                    <span class="adventure-resource-value">${escapeHtml(feature.value)}<br>${escapeHtml(feature.detail)}</span>
+                </div>
+            `).join("")}
+        </div>
+        ${conditions.length ? `
+            <div class="adventure-chip-row">
+                ${conditions.map(condition => `<span class="adventure-soft-chip">${escapeHtml(condition)}</span>`).join("")}
+            </div>
+        ` : ``}
+    `;
+}
+
+function renderAdventureToolkit() {
+    const container = document.getElementById('adventure-toolkit-content');
+    if (!container) return;
+    const campaign = getAdventureCampaign(ADVENTURE_STATE.campaignId);
+    const scene = getAdventureScene();
+    if (!campaign || !scene) {
+        container.className = "adventure-empty";
+        container.innerHTML = "Cuando abras una campana activa vas a ver tus accesos rapidos de aventura aca.";
+        return;
+    }
+    const spellOverview = getAdventureSpellOverview();
+    const combat = getAdventureCombatState();
+    const attackRows = getAdventureAttackRows();
+    if (!attackRows.some(attack => attack.slot === combat.selectedWeaponSlot) && attackRows[0]) {
+        combat.selectedWeaponSlot = attackRows[0].slot || "eq-weapon1";
+    }
+    const preparedSpells = getAdventurePreparedSpells();
+    const consumables = getAdventureConsumables().slice(0, 4);
+    container.className = "";
+    container.innerHTML = `
+        <div class="adventure-toolkit-actions">
+            <button type="button" class="manual-back-btn adventure-toolkit-btn" onclick="showTab(0)">Ficha</button>
+            <button type="button" class="manual-back-btn adventure-toolkit-btn" onclick="showTab(1)">Hechizos</button>
+            <button type="button" class="manual-back-btn adventure-toolkit-btn" onclick="showTab(2)">Equipo</button>
+            <button type="button" class="manual-back-btn adventure-toolkit-btn" onclick="openGenericDiceRoller()">Dados</button>
+        </div>
+        <div class="adventure-objective" style="margin-top:10px;">
+            <strong>Ritmo de campana</strong>
+            <div class="adventure-resource-list" style="margin-top:8px;">
+                <div class="adventure-resource-row">
+                    <span class="adventure-resource-key">Momento actual</span>
+                    <span class="adventure-resource-value">${escapeHtml(getAdventureTimeStamp())} - tesoro acumulado ${escapeHtml(String(ADVENTURE_STATE.wealthGp || 0))} gp eq.</span>
+                </div>
+                <div class="adventure-resource-row">
+                    <span class="adventure-resource-key">Recuperacion rapida</span>
+                    <span class="adventure-resource-value">Atender heridas cura HP igual a tu nivel, consume 1 tramo y cierra el combate actual.</span>
+                </div>
+                <div class="adventure-resource-row">
+                    <span class="adventure-resource-key">Descanso largo</span>
+                    <span class="adventure-resource-value">Avanza 1 dia, te lleva al alba, te cura por completo y restaura slots de conjuro.</span>
+                </div>
+            </div>
+            <div class="adventure-toolkit-actions" style="margin-top:10px;">
+                <button type="button" class="manual-back-btn" onclick="takeAdventureRest('field')">Atender heridas</button>
+                <button type="button" class="manual-back-btn" onclick="takeAdventureRest('long', { healFull: true, advanceDays: 1 })">Descanso largo</button>
+            </div>
+        </div>
+        <div class="adventure-objective" style="margin-top:10px;">
+            <strong>Combate</strong>
+            ${attackRows.length ? `
+                <div class="adventure-combat-quick">
+                    ${combat.active ? `
+                        <div class="adventure-combat-status">
+                            <div>
+                                <strong>${escapeHtml(combat.enemyName || 'Combate activo')}</strong>
+                                <span>Ronda ${combat.round} - HP ${escapeHtml(String(combat.enemyHp || combat.enemyMaxHp || '?'))}${combat.enemyMaxHp ? `/${escapeHtml(String(combat.enemyMaxHp))}` : ''} - CA ${escapeHtml(String(combat.enemyAc || '-'))}</span>
+                            </div>
+                            <button type="button" class="manual-back-btn" onclick="openAdventureCombatModal()">Abrir combate</button>
+                        </div>
+                    ` : `
+                        <div class="adventure-combat-status">
+                            <div>
+                                <strong>Sin combate abierto</strong>
+                                <span>Las elecciones de ataque abren este popup automaticamente, pero tambien puedes lanzarlo manualmente.</span>
+                            </div>
+                            <button type="button" class="manual-back-btn" onclick="openAdventureCombatModal({ enemyName: 'Adversario', enemyAc: '14', enemyHp: '20', enemyMaxHp: '20' })">Abrir combate</button>
+                        </div>
+                    `}
+                </div>
+            ` : `
+                <div class="adventure-empty" style="margin-top:10px;">Equipate al menos un arma en la hoja para habilitar el combate modal.</div>
+            `}
+        </div>
+        ${spellOverview?.slotRows?.length ? `
+            <div class="adventure-objective" style="margin-top:10px;">
+                <strong>Resumen de slots</strong>
+                <div class="adventure-resource-list" style="margin-top:8px;">
+                    ${spellOverview.slotRows.map(row => `
+                        <div class="adventure-resource-row">
+                            <span class="adventure-resource-value" style="text-align:left;">${escapeHtml(row)}</span>
+                        </div>
+                    `).join("")}
+                </div>
+            </div>
+        ` : ``}
+        ${preparedSpells.length ? `
+            <div class="adventure-objective" style="margin-top:10px;">
+                <strong>Hechizos listos</strong>
+                <div class="adventure-spell-list">
+                    ${preparedSpells.map(spell => {
+                        const total = spellOverview?.slotData?.totals?.[spell.level] || 0;
+                        const remaining = spellOverview?.slotData?.remaining?.[spell.level] ?? total;
+                        return `
+                            <div class="adventure-spell-card">
+                                <div class="adventure-spell-meta">
+                                    <div class="adventure-spell-name">${escapeHtml(spell.name)}</div>
+                                    <div class="adventure-spell-detail">Nivel ${spell.level} - Slots ${remaining}/${total}</div>
+                                </div>
+                                <div style="display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end;">
+                                    <button type="button" class="manual-back-btn" data-spell="${escapeAttr(spell.name)}" onclick="castAdventureSpell(this.dataset.spell)">Lanzar</button>
+                                    <button type="button" class="manual-back-btn" data-spell="${escapeAttr(spell.name)}" onclick="openManualReference('spells', this.dataset.spell)">Ver</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join("")}
+                </div>
+                <div class="adventure-toolkit-actions" style="margin-top:10px;">
+                    <button type="button" class="manual-back-btn" onclick="resetAdventureSpellUsage()">Recuperar slots</button>
+                </div>
+            </div>
+        ` : ``}
+        ${consumables.length ? `
+            <div class="adventure-objective" style="margin-top:10px;">
+                <strong>Consumibles</strong>
+                <div class="adventure-consumable-list">
+                    ${consumables.map(item => `
+                        <div class="adventure-consumable-card">
+                            <div class="adventure-consumable-meta">
+                                <div class="adventure-consumable-name">${escapeHtml(item.name)}</div>
+                                <div class="adventure-consumable-detail">${escapeHtml(item.detail)}</div>
+                            </div>
+                            ${item.usable ? `<button type="button" class="manual-back-btn" onclick="consumeAdventureConsumable(${item.index})">Usar</button>` : `<span class="adventure-soft-chip">Manual</span>`}
+                        </div>
+                    `).join("")}
+                </div>
+            </div>
+        ` : `
+            <div class="adventure-empty" style="margin-top:10px;">No hay consumibles rapidos detectados en tu inventario.</div>
+        `}
+    `;
+}
+
+function updateAdventureLaunchSummary() {
+    const summary = document.getElementById('adventure-launch-summary');
+    if (!summary) return;
+    const campaign = getAdventureCampaign(ADVENTURE_STATE.campaignId);
+    const scene = getAdventureScene();
+    if (!campaign || !scene) {
+        summary.innerHTML = "Converti esta ficha en el protagonista de una campana guiada, con escenas, tiradas y decisiones persistentes.";
+        return;
+    }
+    const hp = getAdventureCurrentHpState();
+    summary.innerHTML = `<strong>${escapeHtml(campaign.title)}</strong><br>${escapeHtml(getAdventureTimeStamp())} - ${escapeHtml(scene.title)} - HP ${hp.current}/${hp.max}<br><span style="color:var(--text-muted);">${escapeHtml(ADVENTURE_STATE.objective || campaign.startObjective)}</span>`;
+}
+
+function renderAdventureMode() {
+    renderAdventureCampaignPicker();
+    renderAdventureStatus();
+    renderAdventureToolkit();
+    renderAdventureJournal();
+    renderAdventureScene();
+    updateAdventureLaunchSummary();
+    renderAdventureCombatModal();
+}
+
+function updateAdventureLaunchSummary() {
+    const summary = document.getElementById('adventure-launch-summary');
+    if (!summary) return;
+    const campaign = getAdventureCampaign(ADVENTURE_STATE.campaignId);
+    const scene = getAdventureScene();
+    if (!campaign || !scene) {
+        summary.innerHTML = "Converti esta ficha en el protagonista de una campaña guiada, con escenas, tiradas y decisiones persistentes.";
+        return;
+    }
+    const hp = getAdventureCurrentHpState();
+    summary.innerHTML = `<strong>${escapeHtml(campaign.title)}</strong><br>${escapeHtml(scene.title)} · HP ${hp.current}/${hp.max}<br><span style="color:var(--text-muted);">${escapeHtml(ADVENTURE_STATE.objective || campaign.startObjective)}</span>`;
+}
+
+window.ADVENTURE_EXTERNAL_CAMPAIGNS = window.ADVENTURE_EXTERNAL_CAMPAIGNS || {};
+
+const ADVENTURE_EXTERNAL_SOURCES = [
+    {
+        id: "diente-dragon",
+        title: "DienteDragon: Sombras sobre Iareth",
+        blurb: "Campana nodal de fantasia oscura para 1 PJ y 1 aliado. Empieza con desapariciones costeras y escala hacia ruinas, politica, guerra y el regreso de un liche olvidado.",
+        recommended: "Acto I cargado - Niveles 1-4 - 1 PJ + 1 aliado",
+        scripts: [
+            "adventure/diente-dragon/world.js",
+            "adventure/diente-dragon/act1.js"
+        ]
+    }
+];
+
+const ADVENTURE_EXTERNAL_LOAD_STATE = {};
+
+function cloneAdventureValue(value) {
+    if (value == null) return value;
+    return JSON.parse(JSON.stringify(value));
+}
+
+function getAdventureCampaignSource(campaignId) {
+    return ADVENTURE_EXTERNAL_SOURCES.find(source => source.id === campaignId) || null;
+}
+
+function getAdventureCampaignLibrary() {
+    const builtin = ADVENTURE_LIBRARY.map(campaign => ({
+        ...campaign,
+        __source: "builtin",
+        __loaded: true
+    }));
+    const seen = new Set(builtin.map(campaign => campaign.id));
+    const external = ADVENTURE_EXTERNAL_SOURCES.map(source => {
+        const loaded = window.ADVENTURE_EXTERNAL_CAMPAIGNS[source.id];
+        const entry = loaded ? {
+            ...source,
+            ...loaded,
+            recommended: loaded.recommended || source.recommended,
+            blurb: loaded.blurb || source.blurb,
+            title: loaded.title || source.title
+        } : source;
+        return {
+            ...entry,
+            __source: "external",
+            __loaded: !!loaded
+        };
+    }).filter(campaign => !seen.has(campaign.id));
+    return [...builtin, ...external];
+}
+
+function loadAdventureScript(scriptPath) {
+    const existing = document.querySelector(`script[data-adventure-script="${scriptPath}"]`);
+    if (existing) return Promise.resolve();
+    return new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = scriptPath;
+        script.async = false;
+        script.dataset.adventureScript = scriptPath;
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error(`No se pudo cargar ${scriptPath}`));
+        document.body.appendChild(script);
+    });
+}
+
+function ensureAdventureCampaignLoaded(campaignId) {
+    const builtinCampaign = ADVENTURE_LIBRARY.find(campaign => campaign.id === campaignId);
+    if (builtinCampaign) return Promise.resolve(builtinCampaign);
+    if (window.ADVENTURE_EXTERNAL_CAMPAIGNS[campaignId]) {
+        return Promise.resolve(window.ADVENTURE_EXTERNAL_CAMPAIGNS[campaignId]);
+    }
+    const source = getAdventureCampaignSource(campaignId);
+    if (!source) return Promise.resolve(null);
+    if (ADVENTURE_EXTERNAL_LOAD_STATE[campaignId]) {
+        return ADVENTURE_EXTERNAL_LOAD_STATE[campaignId];
+    }
+    ADVENTURE_EXTERNAL_LOAD_STATE[campaignId] = source.scripts.reduce(
+        (chain, scriptPath) => chain.then(() => loadAdventureScript(scriptPath)),
+        Promise.resolve()
+    ).then(() => {
+        const campaign = window.ADVENTURE_EXTERNAL_CAMPAIGNS[campaignId];
+        if (!campaign) {
+            throw new Error(`La campana ${campaignId} no se registro correctamente.`);
+        }
+        return campaign;
+    }).catch(error => {
+        delete ADVENTURE_EXTERNAL_LOAD_STATE[campaignId];
+        console.error(error);
+        return null;
+    });
+    return ADVENTURE_EXTERNAL_LOAD_STATE[campaignId];
+}
+
+function buildAdventureOpeningJournal(campaign, initialState) {
+    if (Array.isArray(initialState?.journal) && initialState.journal.length) {
+        return cloneAdventureValue(initialState.journal);
+    }
+    if (campaign?.openingJournal) {
+        return [{
+            title: campaign.title,
+            text: String(campaign.openingJournal)
+        }];
+    }
+    return [];
+}
+
+function renderAdventureHeroActions() {
+    const container = document.getElementById('adventure-hero-actions');
+    if (!container) return;
+    const activeCampaign = getAdventureCampaign(ADVENTURE_STATE.campaignId);
+    if (!activeCampaign || !ADVENTURE_STATE.sceneId) {
+        container.innerHTML = `
+            <div class="adventure-meta" style="max-width:340px;">
+                Elige una campana debajo para empezar una partida nueva, retomar una existente o probar contenido externo cargado desde la carpeta de aventuras.
+            </div>
+        `;
+        return;
+    }
+    container.innerHTML = `
+        <button type="button" class="manual-back-btn" data-campaign-id="${escapeAttr(activeCampaign.id)}" onclick="startAdventureCampaign(this.dataset.campaignId, false)">Continuar</button>
+        <button type="button" class="manual-back-btn adventure-reset-btn" data-campaign-id="${escapeAttr(activeCampaign.id)}" onclick="startAdventureCampaign(this.dataset.campaignId, true)">Reiniciar</button>
+    `;
+}
+
+function getAdventureCampaign(campaignId) {
+    return window.ADVENTURE_EXTERNAL_CAMPAIGNS[campaignId]
+        || ADVENTURE_LIBRARY.find(campaign => campaign.id === campaignId)
+        || null;
+}
+
+const _baseRenderAdventureStatus = renderAdventureStatus;
+renderAdventureStatus = function() {
+    const container = document.getElementById('adventure-status-content');
+    const activeSource = getAdventureCampaignSource(ADVENTURE_STATE.campaignId);
+    const activeCampaign = getAdventureCampaign(ADVENTURE_STATE.campaignId);
+    if (container && ADVENTURE_STATE.campaignId && activeSource && !activeCampaign) {
+        container.className = "adventure-empty";
+        container.innerHTML = "Cargando campana externa...";
+        ensureAdventureCampaignLoaded(ADVENTURE_STATE.campaignId).then(() => renderAdventureMode());
+        return;
+    }
+    _baseRenderAdventureStatus();
+};
+
+openAdventureMode = async function() {
+    showTab(7);
+    await Promise.all(ADVENTURE_EXTERNAL_SOURCES.map(source => ensureAdventureCampaignLoaded(source.id)));
+    renderAdventureMode();
+};
+
+startAdventureCampaign = async function(campaignId, forceRestart = false) {
+    const campaign = await ensureAdventureCampaignLoaded(campaignId);
+    if (!campaign) return;
+    if (!forceRestart && ADVENTURE_STATE.campaignId === campaignId && ADVENTURE_STATE.sceneId) {
+        showTab(7);
+        renderAdventureMode();
+        return;
+    }
+    const defaultState = buildDefaultAdventureState();
+    const initialState = campaign.initialState && typeof campaign.initialState === "object"
+        ? cloneAdventureValue(campaign.initialState)
+        : {};
+    ADVENTURE_STATE = normalizeAdventureState({
+        ...defaultState,
+        ...initialState,
+        campaignId,
+        sceneId: campaign.startSceneId,
+        flags: initialState.flags && typeof initialState.flags === "object" ? cloneAdventureValue(initialState.flags) : {},
+        metrics: initialState.metrics && typeof initialState.metrics === "object" ? cloneAdventureValue(initialState.metrics) : {},
+        journal: buildAdventureOpeningJournal(campaign, initialState),
+        objective: String(initialState.objective || campaign.startObjective || ""),
+        lastOutcome: null,
+        completed: false,
+        endingTone: "",
+        grantedItems: Array.isArray(initialState.grantedItems) ? cloneAdventureValue(initialState.grantedItems) : [],
+        day: Number.isFinite(Number(initialState.day)) ? Number(initialState.day) : 1,
+        timeIndex: Number.isFinite(Number(initialState.timeIndex)) ? Number(initialState.timeIndex) : 2,
+        wealthGp: Number.isFinite(Number(initialState.wealthGp)) ? Number(initialState.wealthGp) : 0,
+        resources: initialState.resources && typeof initialState.resources === "object"
+            ? cloneAdventureValue(initialState.resources)
+            : cloneAdventureValue(defaultState.resources)
+    });
+    const hpDamageInput = document.getElementById('hp-damage');
+    if (hpDamageInput) {
+        hpDamageInput.value = "0";
+        updateHP();
+    }
+    autoSave();
+    showTab(7);
+    renderAdventureMode();
+};
+
+renderAdventureCampaignPicker = function() {
+    const container = document.getElementById('adventure-campaign-picker');
+    if (!container) return;
+    const activeCampaignId = ADVENTURE_STATE.campaignId;
+    const activeScene = getAdventureScene();
+    const campaigns = getAdventureCampaignLibrary();
+    container.innerHTML = campaigns.map(campaign => {
+        const active = activeCampaignId === campaign.id;
+        const statusText = active && activeScene
+            ? `En curso - ${escapeHtml(activeScene.title)}`
+            : (campaign.__loaded ? "Lista para jugar" : "Carga dinamica");
+        return `
+            <div class="adventure-objective" style="${active ? 'border-color: var(--accent-edge); box-shadow: 0 12px 22px rgba(2,6,23,0.12);' : ''}">
+                <strong>${escapeHtml(campaign.title)}</strong>
+                <div style="color:var(--text); font-size:0.88em; line-height:1.55;">${escapeHtml(campaign.blurb || "")}</div>
+                <div style="margin-top:8px; color:var(--text-muted); font-size:0.76em;">${escapeHtml(statusText)}</div>
+                <div style="margin-top:4px; color:var(--text-muted); font-size:0.76em;">Recomendado: ${escapeHtml(campaign.recommended || "Sin detalle")}</div>
+                <div class="adventure-toolkit-actions" style="margin-top:10px;">
+                    <button type="button" class="manual-back-btn" data-campaign-id="${escapeAttr(campaign.id)}" onclick="startAdventureCampaign(this.dataset.campaignId, false)">${active ? "Continuar" : "Empezar"}</button>
+                    <button type="button" class="manual-back-btn adventure-reset-btn" data-campaign-id="${escapeAttr(campaign.id)}" onclick="startAdventureCampaign(this.dataset.campaignId, true)">Reiniciar</button>
+                </div>
+            </div>
+        `;
+    }).join("");
+    renderAdventureHeroActions();
+};
+
+updateAdventureLaunchSummary = function() {
+    const summary = document.getElementById('adventure-launch-summary');
+    if (!summary) return;
+    const source = getAdventureCampaignSource(ADVENTURE_STATE.campaignId);
+    const campaign = getAdventureCampaign(ADVENTURE_STATE.campaignId);
+    const scene = getAdventureScene();
+    if (ADVENTURE_STATE.campaignId && source && !campaign) {
+        summary.innerHTML = "Cargando campana guiada...";
+        return;
+    }
+    if (!campaign || !scene) {
+        summary.innerHTML = "Convierte esta ficha en el protagonista de una campana guiada, con escenas, tiradas, tiempo persistente y campanas externas cargadas desde archivos separados.";
+        return;
+    }
+    const hp = getAdventureCurrentHpState();
+    summary.innerHTML = `<strong>${escapeHtml(campaign.title)}</strong><br>${escapeHtml(getAdventureTimeStamp())} - ${escapeHtml(scene.title)} - HP ${hp.current}/${hp.max}<br><span style="color:var(--text-muted);">${escapeHtml(ADVENTURE_STATE.objective || campaign.startObjective)}</span>`;
+};
+
+if (ADVENTURE_STATE.campaignId && getAdventureCampaignSource(ADVENTURE_STATE.campaignId) && !getAdventureCampaign(ADVENTURE_STATE.campaignId)) {
+    ensureAdventureCampaignLoaded(ADVENTURE_STATE.campaignId).then(campaign => {
+        if (campaign) {
+            renderAdventureMode();
+        }
+    });
+}
+
+const _baseCollectSaveDataAdventure = collectSaveData;
+collectSaveData = function() {
+    const data = _baseCollectSaveDataAdventure();
+    data.adventure = JSON.parse(JSON.stringify(normalizeAdventureState(ADVENTURE_STATE)));
+    return data;
+};
+
+const _baseApplySaveDataAdventure = applySaveData;
+applySaveData = function(data) {
+    _baseApplySaveDataAdventure(data);
+    ADVENTURE_STATE = normalizeAdventureState(data?.adventure);
+};
+
+const _baseNewCharacterBaseResetAdventure = newCharacterBaseReset;
+newCharacterBaseReset = function() {
+    _baseNewCharacterBaseResetAdventure();
+    ADVENTURE_STATE = buildDefaultAdventureState();
+};
+
+const _baseUpdateAllAdventureMode = updateAll;
+updateAll = function(save = true) {
+    _baseUpdateAllAdventureMode(save);
+    renderAdventureMode();
 };
 </script>
 <script>
