@@ -1,0 +1,11 @@
+{
+  "id": "diente-dragon",
+  "title": "DienteDragon: Sombras sobre Iareth",
+  "blurb": "Campana nodal de fantasia oscura para 1 PJ y 1 aliado. Empieza con desapariciones en Irivith y escala hacia ruinas, politica, guerra y el regreso de un liche olvidado.",
+  "recommended": "Acto I cargado · Niveles 1-4 · 1 PJ + 1 aliado",
+  "folder": "adventure/diente-dragon",
+  "entryScripts": [
+    "adventure/diente-dragon/world.js",
+    "adventure/diente-dragon/act1.js"
+  ]
+}
