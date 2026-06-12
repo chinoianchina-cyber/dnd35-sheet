@@ -20360,8 +20360,8 @@ updateAll = function(save = true) {
 };
 </script>
 <script>
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/dnd35-sheet/sw.js')
+if ('serviceWorker' in navigator && /^https?:$/.test(window.location.protocol)) {
+    navigator.serviceWorker.register('sw.js')
         .catch(err => console.log('SW error:', err));
 }
 </script>
