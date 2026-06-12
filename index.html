@@ -480,9 +480,73 @@
     .adventure-combat-log-entry { padding: 10px 12px; border-radius: 12px; border: 1px solid var(--soft-line); background: rgba(15,23,42,0.5); }
     .adventure-combat-log-entry strong { display: block; color: var(--text); font-size: 0.82em; margin-bottom: 4px; }
     .adventure-combat-log-entry span { display: block; color: var(--text-muted); font-size: 0.78em; line-height: 1.45; }
-    .adventure-combat-modal-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+    .adventure-combat-modal-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
     .adventure-combat-banner { margin-top: 10px; padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(56,189,248,0.24); background: rgba(15,23,42,0.48); color: var(--text-muted); font-size: 0.8em; line-height: 1.5; }
+    .adventure-combat-stage { display: grid; gap: 12px; margin-top: 12px; }
+    .adventure-combat-stage-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .adventure-combat-card { position: relative; overflow: hidden; border-radius: 16px; border: 1px solid var(--soft-line); background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(15,23,42,0.86)); padding: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 14px 24px rgba(2,6,23,0.16); }
+    .adventure-combat-card::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at top right, rgba(255,255,255,0.08), transparent 42%); opacity: 0.75; }
+    .adventure-combat-card.enemy { border-color: rgba(248,113,113,0.3); background: linear-gradient(180deg, rgba(127,29,29,0.18), rgba(15,23,42,0.9)); }
+    .adventure-combat-card.friendly { border-color: rgba(56,189,248,0.28); background: linear-gradient(180deg, rgba(14,116,144,0.14), rgba(15,23,42,0.88)); }
+    .adventure-combat-card.ally { border-color: rgba(74,222,128,0.28); background: linear-gradient(180deg, rgba(20,83,45,0.14), rgba(15,23,42,0.88)); }
+    .adventure-combat-card.inactive { filter: saturate(0.55) brightness(0.82); opacity: 0.82; }
+    .adventure-combat-card.inactive::before { content: ""; position: absolute; left: 10px; right: 10px; top: 50%; height: 3px; border-radius: 999px; background: rgba(248,113,113,0.9); transform: rotate(-8deg); box-shadow: 0 0 16px rgba(248,113,113,0.32); z-index: 2; }
+    .adventure-combat-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; position: relative; z-index: 1; }
+    .adventure-combat-card-name { color: #f8fafc; font-weight: 900; font-size: 0.95em; line-height: 1.25; }
+    .adventure-combat-card-role { color: var(--text-muted); font-size: 0.72em; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 4px; }
+    .adventure-combat-state { display: inline-flex; align-items: center; justify-content: center; padding: 4px 9px; border-radius: 999px; font-size: 0.68em; font-weight: 900; letter-spacing: 0.55px; text-transform: uppercase; border: 1px solid var(--soft-line); white-space: nowrap; }
+    .adventure-combat-state.active { color: #e2e8f0; background: rgba(15,23,42,0.52); }
+    .adventure-combat-state.wounded { color: #fde68a; border-color: rgba(245,158,11,0.34); background: rgba(120,53,15,0.22); }
+    .adventure-combat-state.fallen { color: #fecaca; border-color: rgba(248,113,113,0.34); background: rgba(127,29,29,0.24); }
+    .adventure-combat-state.perish,
+    .adventure-combat-state.defeated { color: #fecaca; border-color: rgba(239,68,68,0.38); background: rgba(127,29,29,0.32); }
+    .adventure-combat-state.fled { color: #c4b5fd; border-color: rgba(167,139,250,0.34); background: rgba(76,29,149,0.22); }
+    .adventure-combat-state.surrendered { color: #bfdbfe; border-color: rgba(96,165,250,0.34); background: rgba(30,64,175,0.22); }
+    .adventure-combat-metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 10px; position: relative; z-index: 1; }
+    .adventure-combat-metric { border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); background: rgba(15,23,42,0.5); padding: 8px 10px; }
+    .adventure-combat-metric-label { display: block; color: var(--text-muted); font-size: 0.66em; text-transform: uppercase; letter-spacing: 0.75px; margin-bottom: 5px; }
+    .adventure-combat-metric-value { color: #f8fafc; font-size: 1.16em; font-weight: 900; line-height: 1.15; }
+    .adventure-combat-card.enemy .adventure-combat-metric-value { color: #fecaca; }
+    .adventure-combat-card.friendly .adventure-combat-metric-value { color: #bae6fd; }
+    .adventure-combat-card.ally .adventure-combat-metric-value { color: #bbf7d0; }
+    .adventure-combat-card-body { margin-top: 10px; display: grid; gap: 8px; position: relative; z-index: 1; }
+    .adventure-combat-card-note { color: var(--text-muted); font-size: 0.76em; line-height: 1.45; }
+    .adventure-combat-selects { display: grid; gap: 8px; margin-top: 10px; position: relative; z-index: 1; }
+    .adventure-combat-selects label { display: flex; flex-direction: column; gap: 5px; font-size: 0.76em; color: var(--text-muted); }
+    .adventure-combat-selects select { width: 100%; }
+    .adventure-combat-section-label { color: var(--accent); font-size: 0.74em; font-weight: 800; letter-spacing: 0.85px; text-transform: uppercase; margin: 4px 0 0; }
+    .adventure-combat-log-entry { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+    .adventure-combat-log-main { min-width: 0; }
+    .adventure-combat-log-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 76px; padding: 5px 10px; border-radius: 999px; font-size: 0.68em; font-weight: 900; letter-spacing: 0.55px; text-transform: uppercase; border: 1px solid var(--soft-line); }
+    .adventure-combat-log-badge.hit { color: #dcfce7; border-color: rgba(74,222,128,0.34); background: rgba(20,83,45,0.26); }
+    .adventure-combat-log-badge.miss { color: #fecaca; border-color: rgba(248,113,113,0.34); background: rgba(127,29,29,0.24); }
+    .adventure-combat-log-badge.crit { color: #fde68a; border-color: rgba(245,158,11,0.4); background: rgba(120,53,15,0.26); }
+    .adventure-combat-log-badge.event { color: #cbd5e1; background: rgba(15,23,42,0.5); }
+    .adventure-combat-log-title { color: #f8fafc; font-size: 0.82em; font-weight: 800; line-height: 1.35; }
+    .adventure-combat-log-text { color: var(--text-muted); font-size: 0.76em; line-height: 1.45; margin-top: 4px; }
+    @media (max-width: 720px) {
+        .adventure-combat-stage-grid { grid-template-columns: 1fr; }
+        .adventure-combat-card { padding: 11px; }
+    }
     #adventure-combat-modal .dm-modal-card { width: min(760px, 100%); max-height: 88vh; overflow-y: auto; }
+    #adventure-end-modal .dm-modal-card { width: min(640px, 100%); max-height: 88vh; overflow-y: auto; }
+    #adventure-companion-modal .dm-modal-card { width: min(660px, 100%); max-height: 88vh; overflow-y: auto; }
+    .adventure-end-shell { display: flex; flex-direction: column; gap: 14px; }
+    .adventure-end-panel { position: relative; overflow: hidden; border-radius: 16px; border: 1px solid rgba(148,163,184,0.22); padding: 18px 18px 16px; background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(15,23,42,0.82)); box-shadow: inset 0 1px 0 rgba(255,255,255,0.05); }
+    .adventure-end-panel::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at top right, rgba(255,255,255,0.08), transparent 42%); opacity: 0.8; }
+    .adventure-end-panel.fail { border-color: rgba(239,68,68,0.34); background: linear-gradient(180deg, rgba(127,29,29,0.18), rgba(15,23,42,0.9)); }
+    .adventure-end-panel.partial { border-color: rgba(245,158,11,0.34); background: linear-gradient(180deg, rgba(120,53,15,0.16), rgba(15,23,42,0.9)); }
+    .adventure-end-kicker { color: var(--accent); font-size: 0.74em; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; }
+    .adventure-end-panel.fail .adventure-end-kicker { color: #fca5a5; }
+    .adventure-end-panel.partial .adventure-end-kicker { color: #fcd34d; }
+    .adventure-end-headline { margin-top: 6px; color: #f8fafc; font-size: 1.34em; font-weight: 800; line-height: 1.2; text-shadow: 0 2px 14px rgba(0,0,0,0.28); }
+    .adventure-end-copy { margin-top: 10px; color: #dbe7f3; font-size: 0.94em; line-height: 1.7; }
+    .adventure-end-epilogue { margin-top: 12px; color: #a5b4c8; font-size: 0.82em; line-height: 1.55; }
+    .adventure-end-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .adventure-end-chip { border: 1px solid var(--soft-line); border-radius: 12px; padding: 10px 12px; background: rgba(15,23,42,0.56); display: flex; flex-direction: column; gap: 4px; }
+    .adventure-end-chip strong { color: #f8fafc; font-size: 0.74em; letter-spacing: 0.75px; text-transform: uppercase; }
+    .adventure-end-chip span { color: var(--text); font-size: 0.9em; line-height: 1.45; }
+    .adventure-end-actions { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
     .adventure-journal-list { display: grid; gap: 8px; }
     .adventure-journal-entry { padding: 10px 12px; border-radius: 12px; border: 1px solid var(--soft-line); background: rgba(15,23,42,0.44); }
     .adventure-journal-entry strong { display: block; margin-bottom: 4px; color: var(--text); font-size: 0.86em; }
@@ -697,7 +761,8 @@
         .adventure-choice-tags { justify-content: flex-start; }
         .adventure-toolkit-actions { grid-template-columns: 1fr; }
         .adventure-combat-modal-grid,
-        .adventure-combat-modal-actions { grid-template-columns: 1fr; }
+        .adventure-combat-modal-actions,
+        .adventure-end-meta { grid-template-columns: 1fr; }
 
         /* Attack summary mÃƒÂ¡s compacto */
         .attack-summary-row { 
@@ -961,7 +1026,7 @@
                         </div>
                         <div style="display:flex; flex-direction:column; gap:3px;">
                             <label style="font-size:0.72em; color:#94a3b8;">Nivel</label>
-                            <input type="number" id="level" value="1" min="1" max="20" onchange="updateAll()" style="width:100%; box-sizing:border-box;">
+                            <input type="number" id="level" value="1" min="1" max="20" onfocus="rememberLevelInputValue(this.value)" onchange="handleLevelInputChange(this)" style="width:100%; box-sizing:border-box;">
                         </div>
                         <div style="display:flex; flex-direction:column; gap:3px;">
                             <label style="font-size:0.72em; color:#94a3b8;">Raza</label>
@@ -1126,7 +1191,7 @@
 
             <div class="card adventure-launch-card">
                 <h2>Modo Aventura</h2>
-                <div id="adventure-launch-summary" class="dm-encounter-helper" style="margin-top:0;">Converti esta ficha en el protagonista de una campaÃ±a guiada, con escenas, tiradas y decisiones persistentes.</div>
+                <div id="adventure-launch-summary" class="dm-encounter-helper" style="margin-top:0;">Convierte esta ficha en el protagonista de una campana guiada, con escenas, tiradas y decisiones persistentes.</div>
                 <div class="companion-actions" style="margin-top:12px;">
                     <button type="button" class="manual-back-btn" onclick="openAdventureMode()">Abrir aventura</button>
                 </div>
@@ -2288,8 +2353,8 @@
                 <div class="adventure-hero">
                     <div class="adventure-title-wrap">
                         <span class="adventure-kicker">Modo Aventura</span>
-                        <h2 class="adventure-scene-title" style="border-bottom:none; padding-bottom:0;">CampaÃ±as guiadas con tu personaje actual</h2>
-                        <div class="adventure-meta">LeÃ©, decidÃ­, tirÃ¡ y dejÃ¡ que la historia reaccione a tu build, tus skills y tus elecciones.</div>
+                        <h2 class="adventure-scene-title" style="border-bottom:none; padding-bottom:0;">Campanas guiadas con tu personaje actual</h2>
+                        <div class="adventure-meta">Lee, decide, tira y deja que la historia reaccione a tu build, tus skills y tus elecciones.</div>
                     </div>
                     <div class="adventure-editor-actions" id="adventure-hero-actions"></div>
                 </div>
@@ -2302,7 +2367,7 @@
         <div class="adventure-side">
             <div class="card adventure-side-card">
                 <h2>Estado</h2>
-                <div id="adventure-status-content" class="adventure-empty">CargÃ¡ una campaÃ±a para ver objetivo, HP, recursos y progreso.</div>
+                <div id="adventure-status-content" class="adventure-empty">Carga una campana para ver objetivo, HP, recursos y progreso.</div>
             </div>
             <div class="card adventure-side-card">
                 <h2>Herramientas</h2>
@@ -2337,11 +2402,50 @@
         <div class="dice-modal-head">
             <div>
                 <h3 class="dice-modal-title" style="margin-bottom:4px;">Combate de aventura</h3>
-                <div class="dice-modal-subtitle" id="adventure-combat-subtitle">Ajusta los datos del combate, elige acciÃ³n y resuÃ©lvelo sin salir de la escena.</div>
+                <div class="dice-modal-subtitle" id="adventure-combat-subtitle">Ajusta los datos del combate, elige accion y resuelvelo sin salir de la escena.</div>
             </div>
             <button type="button" class="dice-close" onclick="closeAdventureCombatModal()">Cerrar</button>
         </div>
         <div id="adventure-combat-modal-content"></div>
+    </div>
+</div>
+
+<div id="adventure-end-modal" class="dm-modal" onclick="handleAdventureEndModalBackdrop(event)">
+    <div class="dm-modal-card">
+        <div class="dice-modal-head">
+            <div>
+                <h3 class="dice-modal-title" id="adventure-end-modal-title" style="margin-bottom:4px;">Fin de la aventura</h3>
+                <div class="dice-modal-subtitle" id="adventure-end-modal-subtitle">La campana llego a un cierre definitivo.</div>
+            </div>
+            <button type="button" class="dice-close" onclick="closeAdventureEndModal()">Cerrar</button>
+        </div>
+        <div id="adventure-end-modal-content"></div>
+    </div>
+</div>
+
+<div id="adventure-level-modal" class="dm-modal" onclick="handleAdventureLevelModalBackdrop(event)">
+    <div class="dm-modal-card" style="width:min(640px, 100%);">
+        <div class="dice-modal-head">
+            <div>
+                <h3 class="dice-modal-title" id="adventure-level-modal-title" style="margin-bottom:4px;">Nivel de aventura</h3>
+                <div class="dice-modal-subtitle" id="adventure-level-modal-subtitle">La campana actual quiere tocar el nivel del personaje.</div>
+            </div>
+            <button type="button" class="dice-close" onclick="closeAdventureLevelModal()">Cerrar</button>
+        </div>
+        <div id="adventure-level-modal-content"></div>
+    </div>
+</div>
+
+<div id="adventure-companion-modal" class="dm-modal" onclick="handleAdventureCompanionModalBackdrop(event)">
+    <div class="dm-modal-card" style="width:min(660px, 100%);">
+        <div class="dice-modal-head">
+            <div>
+                <h3 class="dice-modal-title" id="adventure-companion-modal-title" style="margin-bottom:4px;">Estado del companero</h3>
+                <div class="dice-modal-subtitle" id="adventure-companion-modal-subtitle">Consecuencias, recuperacion y riesgos inmediatos del aliado de aventura.</div>
+            </div>
+            <button type="button" class="dice-close" onclick="closeAdventureCompanionModal()">Cerrar</button>
+        </div>
+        <div id="adventure-companion-modal-content"></div>
     </div>
 </div>
 
@@ -4357,6 +4461,7 @@ document.getElementById(`sk-class-${name}`).innerText = cData.classSkills.includ
             window._pendingItems = null;
         }
     }
+    ADVENTURE_LEVEL_INPUT_PREV = String(lvl);
     if (save) autoSave();
 }
 
@@ -17634,6 +17739,12 @@ refreshLycanSummaryChipText = function() {
 const ADVENTURE_LIBRARY = [];
 
 let ADVENTURE_COMBAT_MODAL_OPEN = false;
+let ADVENTURE_END_MODAL_OPEN = false;
+let ADVENTURE_END_MODAL_KEY = "";
+let ADVENTURE_LEVEL_INPUT_PREV = "1";
+let ADVENTURE_INTERNAL_LEVEL_CHANGE = 0;
+let ADVENTURE_LEVEL_MODAL_STATE = null;
+let ADVENTURE_COMPANION_MODAL_STATE = null;
 
 function buildDefaultAdventureCombatState() {
     return {
@@ -17653,11 +17764,14 @@ function buildDefaultAdventureCombatState() {
         enemies: [],
         allies: [],
         log: [],
-        pendingChoice: null
+        pendingChoice: null,
+        companionRisk: "",
+        companionName: "",
+        companionRiskResolved: false
     };
 }
 
-let ADVENTURE_STATE = { campaignId: "", sceneId: "", flags: {}, metrics: {}, journal: [], objective: "", lastOutcome: null, completed: false, endingTone: "", grantedItems: [], day: 1, wealthGp: 0, resources: { spellUsage: {}, combat: buildDefaultAdventureCombatState() } };
+let ADVENTURE_STATE = { campaignId: "", sceneId: "", flags: {}, metrics: {}, journal: [], objective: "", lastOutcome: null, completed: false, endingTone: "", grantedItems: [], completedMilestones: [], pendingLevelUp: null, day: 1, wealthGp: 0, resources: { spellUsage: {}, combat: buildDefaultAdventureCombatState(), companions: {} } };
 
 const ADVENTURE_TIME_SEGMENTS = ["alba", "dia", "atardecer", "noche"];
 const ADVENTURE_TIME_SEGMENT_LABELS = {
@@ -17668,7 +17782,7 @@ const ADVENTURE_TIME_SEGMENT_LABELS = {
 };
 
 function buildDefaultAdventureState() {
-    return { campaignId: "", sceneId: "", flags: {}, metrics: {}, journal: [], objective: "", lastOutcome: null, completed: false, endingTone: "", grantedItems: [], day: 1, timeIndex: 0, wealthGp: 0, resources: { spellUsage: {}, combat: buildDefaultAdventureCombatState() } };
+    return { campaignId: "", sceneId: "", flags: {}, metrics: {}, journal: [], objective: "", lastOutcome: null, completed: false, endingTone: "", grantedItems: [], completedMilestones: [], pendingLevelUp: null, day: 1, timeIndex: 0, wealthGp: 0, resources: { spellUsage: {}, combat: buildDefaultAdventureCombatState(), companions: {} } };
 }
 
 function normalizeAdventureState(state) {
@@ -17698,12 +17812,30 @@ function normalizeAdventureState(state) {
     next.completed = !!state.completed;
     next.endingTone = String(state.endingTone || "");
     next.grantedItems = Array.isArray(state.grantedItems) ? state.grantedItems.map(String) : [];
+    next.completedMilestones = Array.isArray(state.completedMilestones) ? state.completedMilestones.map(String) : [];
+    next.pendingLevelUp = state.pendingLevelUp && typeof state.pendingLevelUp === "object"
+        ? {
+            milestoneId: String(state.pendingLevelUp.milestoneId || ""),
+            title: String(state.pendingLevelUp.title || ""),
+            text: String(state.pendingLevelUp.text || ""),
+            fromLevel: Math.max(1, Number(state.pendingLevelUp.fromLevel || 1)),
+            toLevel: Math.max(1, Number(state.pendingLevelUp.toLevel || 1))
+        }
+        : null;
     next.day = Math.max(1, Number(state.day || 1));
     next.timeIndex = Math.min(ADVENTURE_TIME_SEGMENTS.length - 1, Math.max(0, Number(state.timeIndex || 0)));
     next.wealthGp = Math.max(0, Number(state.wealthGp || 0));
     const spellUsage = state.resources?.spellUsage && typeof state.resources.spellUsage === "object" ? state.resources.spellUsage : {};
     next.resources.spellUsage = Object.fromEntries(
         Object.entries(spellUsage).map(([level, used]) => [String(level), Math.max(0, Number(used || 0))])
+    );
+    const companionResources = state.resources?.companions && typeof state.resources.companions === "object" ? state.resources.companions : {};
+    next.resources.companions = Object.fromEntries(
+        Object.entries(companionResources).map(([key, value]) => {
+            const id = String(key || "");
+            const restsRemaining = Math.max(0, Number(value?.restsRemaining || 0));
+            return [id, { restsRemaining }];
+        }).filter(([id]) => !!id)
     );
     const combat = state.resources?.combat && typeof state.resources.combat === "object" ? state.resources.combat : {};
     const legacyEnemy = {
@@ -17729,8 +17861,17 @@ function normalizeAdventureState(state) {
             damage: String(entry?.damage || ""),
             morale: ["fight", "flee50", "flee25", "check25"].includes(entry?.morale) ? entry.morale : "fight",
             fleeOutcome: entry?.fleeOutcome === "failure" ? "failure" : "success",
+            targetWeight: Math.max(0.2, Number(entry?.targetWeight || (side === "ally" ? 2 : 1) || 1)),
+            injuryFlag: String(entry?.injuryFlag || ""),
+            fallenFlag: String(entry?.fallenFlag || ""),
+            perishFlag: String(entry?.perishFlag || ""),
+            conditionAtStart: String(entry?.conditionAtStart || ""),
+            startHp: String(entry?.startHp || entry?.hp || entry?.maxHp || ""),
+            injuryNote: String(entry?.injuryNote || ""),
+            fallenNote: String(entry?.fallenNote || ""),
+            perishNote: String(entry?.perishNote || ""),
             targetId: String(entry?.targetId || ""),
-            status: ["active", "defeated", "fled"].includes(entry?.status) ? entry.status : "active"
+            status: ["active", "defeated", "fled", "surrendered"].includes(entry?.status) ? entry.status : "active"
         }));
     };
     const normalizedEnemies = normalizeCombatants(combat.enemies, "enemy");
@@ -17772,6 +17913,9 @@ function normalizeAdventureState(state) {
             title: String(entry?.title || "Combate"),
             text: String(entry?.text || "")
         })) : [],
+        companionRisk: String(combat.companionRisk || ""),
+        companionName: String(combat.companionName || ""),
+        companionRiskResolved: !!combat.companionRiskResolved,
         pendingChoice: combat.pendingChoice && typeof combat.pendingChoice === "object" ? {
             label: String(combat.pendingChoice.label || ""),
             desc: String(combat.pendingChoice.desc || ""),
@@ -17784,6 +17928,13 @@ function normalizeAdventureState(state) {
             effects: combat.pendingChoice.effects || {}
         } : null
     };
+    if (next.campaignId === "diente-dragon" && next.sceneId === "dd_act1_cierre" && next.completed && next.endingTone !== "fail") {
+        next.completed = false;
+        next.endingTone = "";
+        if (!next.objective || /Acto I completado/i.test(next.objective)) {
+            next.objective = "Salir de Iareth y llevar la pista a Medoran antes de que la red que compra cautivos se limpie a si misma.";
+        }
+    }
     return next;
 }
 
@@ -17956,6 +18107,422 @@ function getAdventureLevelValue() {
     return Math.max(1, parseInt(document.getElementById('level')?.value, 10) || 1);
 }
 
+function rememberLevelInputValue(value) {
+    ADVENTURE_LEVEL_INPUT_PREV = String(value ?? document.getElementById('level')?.value ?? "1");
+}
+
+function isAdventureProgressActive() {
+    return !!(ADVENTURE_STATE.campaignId && ADVENTURE_STATE.sceneId && !ADVENTURE_STATE.completed);
+}
+
+function setCharacterLevelValue(level, options = {}) {
+    const input = document.getElementById('level');
+    if (!input) return;
+    const numeric = Math.max(1, Math.min(20, parseInt(level, 10) || 1));
+    ADVENTURE_INTERNAL_LEVEL_CHANGE += 1;
+    input.value = String(numeric);
+    ADVENTURE_LEVEL_INPUT_PREV = String(numeric);
+    try {
+        updateAll(options.save !== false);
+    } finally {
+        ADVENTURE_INTERNAL_LEVEL_CHANGE = Math.max(0, ADVENTURE_INTERNAL_LEVEL_CHANGE - 1);
+    }
+}
+
+function resetAdventureProgressState() {
+    ADVENTURE_STATE = buildDefaultAdventureState();
+    ADVENTURE_END_MODAL_KEY = "";
+    ADVENTURE_END_MODAL_OPEN = false;
+    closeAdventureCombatModal();
+    closeAdventureEndModal();
+    closeAdventureCompanionModal();
+}
+
+function getAdventureCampaignHelpers(campaign = getAdventureCampaign(ADVENTURE_STATE.campaignId)) {
+    return campaign?.helpers && typeof campaign.helpers === "object" ? campaign.helpers : {};
+}
+
+function getAdventureChosenCompanion(state = ADVENTURE_STATE, campaign = getAdventureCampaign(state?.campaignId || ADVENTURE_STATE.campaignId)) {
+    const fn = getAdventureCampaignHelpers(campaign).getChosenCompanion;
+    return typeof fn === "function" ? (fn(state) || null) : null;
+}
+
+function getAdventureCompanionCondition(state = ADVENTURE_STATE, campaign = getAdventureCampaign(state?.campaignId || ADVENTURE_STATE.campaignId)) {
+    const fn = getAdventureCampaignHelpers(campaign).getChosenCompanionCondition;
+    if (typeof fn === "function") return String(fn(state) || "none");
+    return "none";
+}
+
+function ensureAdventureCompanionResources() {
+    if (!ADVENTURE_STATE.resources || typeof ADVENTURE_STATE.resources !== "object") ADVENTURE_STATE.resources = {};
+    if (!ADVENTURE_STATE.resources.companions || typeof ADVENTURE_STATE.resources.companions !== "object") {
+        ADVENTURE_STATE.resources.companions = {};
+    }
+    return ADVENTURE_STATE.resources.companions;
+}
+
+function getAdventureCompanionRecoveryData(companionId) {
+    const id = String(companionId || "");
+    if (!id) return { restsRemaining: 0 };
+    const store = ensureAdventureCompanionResources();
+    if (!store[id] || typeof store[id] !== "object") store[id] = { restsRemaining: 0 };
+    store[id].restsRemaining = Math.max(0, Number(store[id].restsRemaining || 0));
+    return store[id];
+}
+
+function getAdventureCompanionRestNeedText(condition, restsRemaining) {
+    if (condition === "wounded") {
+        return "Necesita 1 descanso largo sin pelear para volver a estar listo.";
+    }
+    if (condition === "fallen") {
+        const remaining = Math.max(0, Number(restsRemaining || 0));
+        if (remaining >= 3) return "Necesita 2 descansos largos para dejar de estar caido y 3 en total para volver a estar listo.";
+        if (remaining === 2) return "Necesita 1 descanso largo mas para pasar a herido y 2 en total para quedar listo.";
+        if (remaining === 1) return "Ya dejo atras lo peor, pero todavia necesita 1 descanso largo mas para volver a estar listo.";
+        return "Todavia no esta listo para volver al frente.";
+    }
+    if (condition === "perish") {
+        return "Su estado es irrecuperable dentro de esta aventura.";
+    }
+    return "Puede seguir en ruta sin penalidad especial.";
+}
+
+function setAdventureCompanionCondition(companion, condition, options = {}) {
+    if (!companion?.flags) return null;
+    const flags = companion.flags;
+    if (flags.wounded) delete ADVENTURE_STATE.flags[flags.wounded];
+    if (flags.fallen) delete ADVENTURE_STATE.flags[flags.fallen];
+    if (flags.perish) delete ADVENTURE_STATE.flags[flags.perish];
+
+    const recovery = companion.id ? getAdventureCompanionRecoveryData(companion.id) : { restsRemaining: 0 };
+    if (condition === "wounded") {
+        if (flags.wounded) ADVENTURE_STATE.flags[flags.wounded] = true;
+        recovery.restsRemaining = 1;
+    } else if (condition === "fallen") {
+        if (flags.wounded) ADVENTURE_STATE.flags[flags.wounded] = true;
+        if (flags.fallen) ADVENTURE_STATE.flags[flags.fallen] = true;
+        recovery.restsRemaining = 3;
+    } else if (condition === "perish") {
+        if (flags.perish) ADVENTURE_STATE.flags[flags.perish] = true;
+        recovery.restsRemaining = 0;
+    } else {
+        recovery.restsRemaining = 0;
+    }
+
+    if (options.note) addAdventureJournalEntry("Companero", String(options.note));
+    return {
+        companion,
+        condition,
+        restsRemaining: recovery.restsRemaining
+    };
+}
+
+function buildAdventureCompanionModalActionButton(config = {}) {
+    const confirmLabel = String(config.confirmLabel || "").trim();
+    const cancelLabel = String(config.cancelLabel || "").trim();
+    if (!confirmLabel) {
+        return `<button type="button" class="manual-back-btn" onclick="closeAdventureCompanionModal()">Cerrar</button>`;
+    }
+    return `
+        ${cancelLabel ? `<button type="button" class="manual-back-btn" onclick="closeAdventureCompanionModal()">${escapeHtml(cancelLabel)}</button>` : ``}
+        <button type="button" class="manual-back-btn ${config.danger ? 'adventure-reset-btn' : ''}" onclick="confirmAdventureCompanionModalAction()">${escapeHtml(confirmLabel)}</button>
+    `;
+}
+
+function closeAdventureCompanionModal() {
+    ADVENTURE_COMPANION_MODAL_STATE = null;
+    document.getElementById('adventure-companion-modal')?.classList.remove('open');
+}
+
+function handleAdventureCompanionModalBackdrop(event) {
+    if (event.target?.id === 'adventure-companion-modal') closeAdventureCompanionModal();
+}
+
+function confirmAdventureCompanionModalAction() {
+    const handler = ADVENTURE_COMPANION_MODAL_STATE?.onConfirm;
+    closeAdventureCompanionModal();
+    if (typeof handler === "function") handler();
+}
+
+function openAdventureCompanionModal(config = {}) {
+    ADVENTURE_COMPANION_MODAL_STATE = config || null;
+    const modal = document.getElementById('adventure-companion-modal');
+    const titleEl = document.getElementById('adventure-companion-modal-title');
+    const subtitleEl = document.getElementById('adventure-companion-modal-subtitle');
+    const contentEl = document.getElementById('adventure-companion-modal-content');
+    if (!modal || !titleEl || !subtitleEl || !contentEl || !ADVENTURE_COMPANION_MODAL_STATE) {
+        modal?.classList.remove('open');
+        return;
+    }
+    const state = ADVENTURE_COMPANION_MODAL_STATE;
+    titleEl.textContent = state.title || "Estado del companero";
+    subtitleEl.textContent = state.subtitle || "Consecuencias, recuperacion y riesgos inmediatos del aliado de aventura.";
+    contentEl.innerHTML = `
+        <div class="adventure-end-shell">
+            <div class="adventure-end-panel ${escapeAttr(state.tone || 'partial')}">
+                <div class="adventure-end-kicker">${escapeHtml(state.kicker || "Companero")}</div>
+                <div class="adventure-end-headline">${escapeHtml(state.headline || "Cambio de estado")}</div>
+                <div class="adventure-end-copy">${escapeHtml(state.copy || "")}</div>
+                ${state.epilogue ? `<div class="adventure-end-epilogue">${escapeHtml(state.epilogue)}</div>` : ``}
+            </div>
+            <div class="adventure-end-actions">
+                ${buildAdventureCompanionModalActionButton(state)}
+            </div>
+        </div>
+    `;
+    modal.classList.add('open');
+    modal.querySelector('.dm-modal-card')?.scrollTo({ top: 0, behavior: 'auto' });
+}
+
+function applyAdventureCompanionLongRestRecovery() {
+    const companion = getAdventureChosenCompanion();
+    const condition = getAdventureCompanionCondition();
+    if (!companion || !["wounded", "fallen"].includes(condition)) return null;
+    const recovery = getAdventureCompanionRecoveryData(companion.id);
+    recovery.restsRemaining = Math.max(0, Number(recovery.restsRemaining || (condition === "fallen" ? 3 : 1)));
+    recovery.restsRemaining = Math.max(0, recovery.restsRemaining - 1);
+
+    let nextCondition = condition;
+    if (recovery.restsRemaining <= 0) nextCondition = "ready";
+    else if (recovery.restsRemaining === 1) nextCondition = "wounded";
+    else nextCondition = "fallen";
+
+    setAdventureCompanionCondition(companion, nextCondition);
+
+    if (nextCondition === "ready") {
+        const text = `${companion.name} completa la recuperacion y vuelve a quedar en condiciones de seguirte sin penalidad.`;
+        addAdventureJournalEntry("Companero", text);
+        return {
+            title: "Recuperacion completa",
+            subtitle: "El descanso largo tambien repercute en tu aliado.",
+            kicker: "Companero",
+            headline: `${companion.name} vuelve a estar listo`,
+            copy: text,
+            epilogue: "Ya puede volver a participar en escenas y combates sin arrastrar el castigo del tramo anterior.",
+            tone: "success"
+        };
+    }
+
+    if (nextCondition === "wounded" && condition === "fallen") {
+        const text = `${companion.name} deja de estar caido, pero sigue herido. Todavia necesita 1 descanso largo mas para quedar listo.`;
+        addAdventureJournalEntry("Companero", text);
+        return {
+            title: "Recuperacion parcial",
+            subtitle: "El aliado sobrevivio al reposo, pero aun no esta entero.",
+            kicker: "Companero",
+            headline: `${companion.name} pasa a estado herido`,
+            copy: text,
+            epilogue: "Si lo fuerzas a volver a una pelea antes del proximo descanso largo, el riesgo vuelve a dispararse.",
+            tone: "partial"
+        };
+    }
+
+    const text = `${companion.name} sigue caido y fuera de accion. ${getAdventureCompanionRestNeedText(nextCondition, getAdventureCompanionRecoveryData(companion.id).restsRemaining)}`;
+    addAdventureJournalEntry("Companero", text);
+    return {
+        title: "Recuperacion en curso",
+        subtitle: "El descanso ayuda, pero todavia no alcanza.",
+        kicker: "Companero",
+        headline: `${companion.name} continua fuera de combate`,
+        copy: text,
+        tone: "partial"
+    };
+}
+
+function closeAdventureLevelModal() {
+    const mode = ADVENTURE_LEVEL_MODAL_STATE?.mode || "";
+    ADVENTURE_LEVEL_MODAL_STATE = null;
+    if (mode === "level-up") {
+        ADVENTURE_STATE.pendingLevelUp = null;
+        autoSave();
+    }
+    document.getElementById('adventure-level-modal')?.classList.remove('open');
+}
+
+function handleAdventureLevelModalBackdrop(event) {
+    if (event.target?.id === 'adventure-level-modal') closeAdventureLevelModal();
+}
+
+function openAdventureLevelModal(config) {
+    ADVENTURE_LEVEL_MODAL_STATE = config || null;
+    renderAdventureLevelModal();
+}
+
+function goToCharacterSheetFromAdventureLevelModal() {
+    closeAdventureLevelModal();
+    showTab(0);
+    toggleCollapsibleCard('identity', true);
+    toggleCollapsibleCard('class-features', true);
+    toggleCollapsibleCard('feats', true);
+}
+
+function confirmAdventureManualLevelChange() {
+    if (!ADVENTURE_LEVEL_MODAL_STATE || ADVENTURE_LEVEL_MODAL_STATE.mode !== "manual-reset") return;
+    const targetLevel = Math.max(1, Math.min(20, parseInt(ADVENTURE_LEVEL_MODAL_STATE.targetLevel, 10) || 1));
+    closeAdventureLevelModal();
+    resetAdventureProgressState();
+    setCharacterLevelValue(targetLevel, { save: false });
+    autoSave();
+    renderAdventureMode();
+}
+
+function dismissAdventureLevelUp() {
+    ADVENTURE_STATE.pendingLevelUp = null;
+    closeAdventureLevelModal();
+    autoSave();
+    renderAdventureMode();
+}
+
+function renderAdventureLevelModal() {
+    const modal = document.getElementById('adventure-level-modal');
+    const titleEl = document.getElementById('adventure-level-modal-title');
+    const subtitleEl = document.getElementById('adventure-level-modal-subtitle');
+    const contentEl = document.getElementById('adventure-level-modal-content');
+    if (!modal || !titleEl || !subtitleEl || !contentEl || !ADVENTURE_LEVEL_MODAL_STATE) {
+        modal?.classList.remove('open');
+        return;
+    }
+
+    const state = ADVENTURE_LEVEL_MODAL_STATE;
+    if (state.mode === "level-up") {
+        titleEl.textContent = "Subiste de nivel";
+        subtitleEl.textContent = "La campana te hizo avanzar automaticamente y puede haber cosas para ajustar en la hoja.";
+        contentEl.innerHTML = `
+            <div class="adventure-end-shell">
+                <div class="adventure-end-panel">
+                    <div class="adventure-end-kicker">Progreso de campana</div>
+                    <div class="adventure-end-headline">Nivel ${escapeHtml(String(state.toLevel))} alcanzado</div>
+                    <div class="adventure-end-copy">${escapeHtml(state.text || `Tu personaje pasa de nivel ${state.fromLevel} a nivel ${state.toLevel}.`)}</div>
+                    <div class="adventure-end-epilogue">Revisa ahora dotes, aumento de caracteristicas, hechizos, recursos diarios y cualquier otro ajuste que corresponda por nivel.</div>
+                </div>
+                <div class="adventure-end-meta">
+                    <div class="adventure-end-chip">
+                        <strong>Nivel anterior</strong>
+                        <span>${escapeHtml(String(state.fromLevel))}</span>
+                    </div>
+                    <div class="adventure-end-chip">
+                        <strong>Nivel nuevo</strong>
+                        <span>${escapeHtml(String(state.toLevel))}</span>
+                    </div>
+                    <div class="adventure-end-chip">
+                        <strong>Campana</strong>
+                        <span>${escapeHtml(getAdventureCampaign(ADVENTURE_STATE.campaignId)?.title || "Aventura")}</span>
+                    </div>
+                </div>
+                <div class="adventure-end-actions">
+                    <button type="button" class="manual-back-btn" onclick="dismissAdventureLevelUp()">Seguir aventura</button>
+                    <button type="button" class="manual-back-btn" onclick="goToCharacterSheetFromAdventureLevelModal()">Ir a la hoja</button>
+                </div>
+            </div>
+        `;
+    } else if (state.mode === "manual-reset") {
+        titleEl.textContent = "Cambio manual de nivel";
+        subtitleEl.textContent = "Hay una aventura activa con progreso persistente.";
+        contentEl.innerHTML = `
+            <div class="adventure-end-shell">
+                <div class="adventure-end-panel fail">
+                    <div class="adventure-end-kicker">Atencion</div>
+                    <div class="adventure-end-headline">Cambiar el nivel reinicia la aventura actual</div>
+                    <div class="adventure-end-copy">Quisiste pasar de nivel ${escapeHtml(String(state.fromLevel))} a nivel ${escapeHtml(String(state.targetLevel))} mientras la campana sigue en curso. Para evitar inconsistencias, la aventura activa se reiniciara por completo antes de dejarte tocar ese nivel.</div>
+                    <div class="adventure-end-epilogue">Despues podras editar el personaje libremente. Si vuelves a empezar la campana, su arranque volvera a forzar el nivel inicial definido por esa aventura.</div>
+                </div>
+                <div class="adventure-end-actions">
+                    <button type="button" class="manual-back-btn" onclick="closeAdventureLevelModal()">Cancelar</button>
+                    <button type="button" class="manual-back-btn adventure-reset-btn" onclick="confirmAdventureManualLevelChange()">Reiniciar aventura y cambiar nivel</button>
+                </div>
+            </div>
+        `;
+    } else {
+        modal.classList.remove('open');
+        return;
+    }
+    modal.classList.add('open');
+    modal.querySelector('.dm-modal-card')?.scrollTo({ top: 0, behavior: 'auto' });
+}
+
+function handleLevelInputChange(input) {
+    const levelInput = input && input.nodeType === 1 ? input : document.getElementById('level');
+    if (!levelInput) return;
+    const nextLevel = Math.max(1, Math.min(20, parseInt(levelInput.value, 10) || 1));
+    const previousLevel = Math.max(1, Math.min(20, parseInt(ADVENTURE_LEVEL_INPUT_PREV, 10) || 1));
+    levelInput.value = String(nextLevel);
+    if (ADVENTURE_INTERNAL_LEVEL_CHANGE > 0) {
+        ADVENTURE_LEVEL_INPUT_PREV = String(nextLevel);
+        updateAll();
+        return;
+    }
+    if (isAdventureProgressActive() && nextLevel !== previousLevel) {
+        levelInput.value = String(previousLevel);
+        ADVENTURE_LEVEL_INPUT_PREV = String(previousLevel);
+        updateAll(false);
+        openAdventureLevelModal({
+            mode: "manual-reset",
+            fromLevel: previousLevel,
+            targetLevel: nextLevel
+        });
+        return;
+    }
+    ADVENTURE_LEVEL_INPUT_PREV = String(nextLevel);
+    updateAll();
+}
+
+function getAdventureLevelPlan(campaign = getAdventureCampaign(ADVENTURE_STATE.campaignId)) {
+    return campaign?.levelPlan && typeof campaign.levelPlan === "object" ? campaign.levelPlan : null;
+}
+
+function isAdventureMilestoneReady(milestone, scene, state = ADVENTURE_STATE) {
+    if (!milestone || !scene || !state.sceneId) return false;
+    if (milestone.sceneId && milestone.sceneId !== state.sceneId) return false;
+    if (milestone.requireComplete && !state.completed && !scene.complete) return false;
+    if (Array.isArray(milestone.flagsAll) && milestone.flagsAll.some(flag => !state.flags?.[flag])) return false;
+    return true;
+}
+
+function applyAdventureMilestone(milestone, campaign, scene) {
+    if (!milestone) return false;
+    const currentLevel = getAdventureLevelValue();
+    const targetLevel = Math.max(1, Math.min(20, parseInt(milestone.targetLevel, 10) || currentLevel));
+    if (milestone.journal) addAdventureJournalEntry("Progreso", String(milestone.journal));
+    if (milestone.adjustMetrics) adjustAdventureMetrics(milestone.adjustMetrics);
+    if (targetLevel <= currentLevel) return false;
+    setCharacterLevelValue(targetLevel, { save: false });
+    ADVENTURE_STATE.pendingLevelUp = {
+        milestoneId: String(milestone.id || scene?.title || "milestone"),
+        title: String(milestone.title || "Subida de nivel"),
+        text: String(milestone.text || `Tu personaje pasa automaticamente de nivel ${currentLevel} a nivel ${targetLevel} como recompensa por avanzar en la campana.`),
+        fromLevel: currentLevel,
+        toLevel: targetLevel
+    };
+    openAdventureLevelModal({
+        mode: "level-up",
+        fromLevel: currentLevel,
+        toLevel: targetLevel,
+        text: ADVENTURE_STATE.pendingLevelUp.text
+    });
+    return true;
+}
+
+function syncAdventureCampaignProgression() {
+    const campaign = getAdventureCampaign(ADVENTURE_STATE.campaignId);
+    const scene = getAdventureScene();
+    const plan = getAdventureLevelPlan(campaign);
+    if (!campaign || !scene || !plan?.milestones?.length) return;
+    const completed = new Set(Array.isArray(ADVENTURE_STATE.completedMilestones) ? ADVENTURE_STATE.completedMilestones : []);
+    let changed = false;
+    plan.milestones.forEach(milestone => {
+        const milestoneId = String(milestone.id || "");
+        if (!milestoneId || completed.has(milestoneId)) return;
+        if (!isAdventureMilestoneReady(milestone, scene, ADVENTURE_STATE)) return;
+        completed.add(milestoneId);
+        changed = true;
+        applyAdventureMilestone(milestone, campaign, scene);
+    });
+    if (changed) {
+        ADVENTURE_STATE.completedMilestones = Array.from(completed);
+        autoSave();
+    }
+}
+
 function getAdventureTimeKey(index = ADVENTURE_STATE.timeIndex) {
     return ADVENTURE_TIME_SEGMENTS[Math.min(ADVENTURE_TIME_SEGMENTS.length - 1, Math.max(0, Number(index || 0)))] || ADVENTURE_TIME_SEGMENTS[0];
 }
@@ -17966,7 +18533,7 @@ function getAdventureTimeLabel(index = ADVENTURE_STATE.timeIndex) {
 }
 
 function getAdventureTimeStamp() {
-    return `Dia ${ADVENTURE_STATE.day} Â· ${getAdventureTimeLabel()}`;
+    return `Dia ${ADVENTURE_STATE.day} - ${getAdventureTimeLabel()}`;
 }
 
 function advanceAdventureTime(segments = 1, options = {}) {
@@ -18028,6 +18595,7 @@ function takeAdventureRest(restType = "long", options = {}) {
     let resetSpells = false;
     let label = "Descanso";
     let detail = "";
+    let companionRecoveryModal = null;
 
     if (restType === "field") {
         label = "Atender heridas";
@@ -18055,6 +18623,7 @@ function takeAdventureRest(restType = "long", options = {}) {
         setAdventureTimeIndex(options.nextTimeIndex ?? 0);
         resetAdventureDailyResources();
         resetSpells = true;
+        companionRecoveryModal = applyAdventureCompanionLongRestRecovery();
         detail = `${advancedDays ? `Pasa ${advancedDays === 1 ? "1 dia" : `${advancedDays} dias`}` : "La jornada cambia"} y vuelves a estar operativo.`;
     }
 
@@ -18071,6 +18640,7 @@ function takeAdventureRest(restType = "long", options = {}) {
     addAdventureJournalEntry(label, `${detail}${healed > 0 ? ` Recuperas ${healed} HP.` : ""}${resetSpells ? " Recuperas tus recursos diarios principales." : ""} Ahora es ${getAdventureTimeStamp()}.`);
     autoSave();
     renderAdventureMode();
+    if (companionRecoveryModal) openAdventureCompanionModal(companionRecoveryModal);
 }
 
 function addAdventureJournalEntry(title, text) {
@@ -18118,6 +18688,8 @@ function applyAdventureEffects(effects = {}) {
         ADVENTURE_STATE.day = Math.max(1, Number(ADVENTURE_STATE.day || 1) + Math.max(0, Number(effects.advanceDays ?? 1)));
         setAdventureTimeIndex(effects.nextTimeIndex ?? 0);
         resetAdventureDailyResources({ clearCombat: effects.clearCombat !== false });
+        const companionRecoveryModal = applyAdventureCompanionLongRestRecovery();
+        if (companionRecoveryModal) openAdventureCompanionModal(companionRecoveryModal);
     }
     if (effects.complete) ADVENTURE_STATE.completed = true;
     if (effects.endingTone) ADVENTURE_STATE.endingTone = effects.endingTone;
@@ -18273,6 +18845,67 @@ function resolveAdventurePendingChoice(choice, succeeded, overrideText = "") {
     };
 }
 
+function startAdventureCombatFromChoice(choice, combatConfig) {
+    const companion = getAdventureChosenCompanion();
+    const condition = getAdventureCompanionCondition();
+    if (!companion || condition === "none" || condition === "ready" || condition === "perish") {
+        openAdventureCombatModal(combatConfig);
+        return;
+    }
+    if (condition === "wounded") {
+        openAdventureCompanionModal({
+            title: "Companero herido",
+            subtitle: "Estas por entrar en combate con un aliado que todavia no termino de recuperarse.",
+            kicker: "Advertencia",
+            headline: `${companion.name} sigue herido`,
+            copy: `${companion.name} necesita 1 descanso largo sin pelear para volver a estar listo. Si lo arrastras a este combate puede empeorar y caer a estado fallen, o incluso perecer si lo quiebran otra vez.`,
+            epilogue: "Si prefieres jugar seguro, retira al grupo, descansa y vuelve despues. Si sigues ahora, el riesgo corre por cuenta de esta decision.",
+            tone: "partial",
+            cancelLabel: "Cancelar",
+            confirmLabel: "Seguir igual",
+            danger: true,
+            onConfirm: () => openAdventureCombatModal({
+                ...combatConfig,
+                companionRisk: "wounded",
+                companionName: companion.name,
+                companionRiskResolved: false
+            })
+        });
+        return;
+    }
+    if (condition === "fallen") {
+        openAdventureCompanionModal({
+            title: "Companero caido",
+            subtitle: "El aliado no puede moverse ni pelear en este estado.",
+            kicker: "Punto critico",
+            headline: `${companion.name} no sobrevivira a otro combate asi`,
+            copy: `${companion.name} sigue en estado fallen. Si entras en combate ahora, lo pierdes de forma permanente durante esta aventura.`,
+            epilogue: "Necesita tres descansos largos totales para volver a estar listo: dos para dejar de estar caido y uno mas para recuperarse del todo.",
+            tone: "fail",
+            cancelLabel: "Cancelar",
+            confirmLabel: "Entrar igual",
+            danger: true,
+            onConfirm: () => {
+                setAdventureCompanionCondition(
+                    companion,
+                    "perish",
+                    { note: `${companion.name} no resiste que lo arrastres a otra pelea mientras seguia caido. La perdida ya no tiene vuelta atras.` }
+                );
+                autoSave();
+                renderAdventureMode();
+                openAdventureCombatModal({
+                    ...combatConfig,
+                    companionRisk: "perish",
+                    companionName: companion.name,
+                    companionRiskResolved: true
+                });
+            }
+        });
+        return;
+    }
+    openAdventureCombatModal(combatConfig);
+}
+
 function executeAdventureChoice(choiceIndex) {
     const campaign = getAdventureCampaign(ADVENTURE_STATE.campaignId);
     const scene = getAdventureScene();
@@ -18292,16 +18925,21 @@ function executeAdventureChoice(choiceIndex) {
     if (choice.check?.type === "attack") {
         const estimatedHp = Math.max(6, (Number(choice.check.dc || 10) * 2));
         const enemyDefaults = getAdventureEnemyCombatDefaults(choice.check.dc || 10, estimatedHp);
-        openAdventureCombatModal({
-            enemyName: choice.label || "Adversario",
-            enemyAc: String(choice.check.dc || 10),
-            enemyHp: String(estimatedHp),
-            enemyMaxHp: String(estimatedHp),
-            enemyAttackBonus: enemyDefaults.attackBonus,
-            enemyDamage: enemyDefaults.damage,
-            enemyMorale: choice.combat?.enemyMorale || "fight",
-            fleeOutcome: choice.combat?.fleeOutcome || "success",
-            ...(choice.combat || {}),
+        const resolvedCombat = typeof choice.combat === "function"
+            ? (choice.combat(ADVENTURE_STATE, campaign) || {})
+            : (choice.combat || {});
+        const configuredEnemies = Array.isArray(resolvedCombat.enemies) ? resolvedCombat.enemies : [];
+        const primaryConfiguredEnemy = configuredEnemies[0] || resolvedCombat || {};
+        startAdventureCombatFromChoice(choice, {
+            enemyName: primaryConfiguredEnemy.name || primaryConfiguredEnemy.enemyName || choice.label || "Adversario",
+            enemyAc: String(primaryConfiguredEnemy.ac || primaryConfiguredEnemy.enemyAc || choice.check.dc || 10),
+            enemyHp: String(primaryConfiguredEnemy.hp || primaryConfiguredEnemy.enemyHp || estimatedHp),
+            enemyMaxHp: String(primaryConfiguredEnemy.maxHp || primaryConfiguredEnemy.enemyMaxHp || primaryConfiguredEnemy.hp || estimatedHp),
+            enemyAttackBonus: primaryConfiguredEnemy.attackBonus || primaryConfiguredEnemy.enemyAttackBonus || enemyDefaults.attackBonus,
+            enemyDamage: primaryConfiguredEnemy.damage || primaryConfiguredEnemy.enemyDamage || enemyDefaults.damage,
+            enemyMorale: primaryConfiguredEnemy.morale || resolvedCombat.enemyMorale || "fight",
+            fleeOutcome: primaryConfiguredEnemy.fleeOutcome || resolvedCombat.fleeOutcome || "success",
+            ...resolvedCombat,
             pendingChoice: {
                 label: choice.label || "Combate",
                 desc: choice.desc || "",
@@ -18329,7 +18967,7 @@ function executeAdventureChoice(choiceIndex) {
         };
         showDiceModal(
             "Modo Aventura",
-            `${choice.label} Â· ${getAdventureCheckDescriptor(choice.check)}`,
+            `${choice.label} - ${getAdventureCheckDescriptor(choice.check)}`,
             buildSingleCheckHtml(
                 choice.check.label || choice.label,
                 checkResult.roll,
@@ -18433,8 +19071,17 @@ function buildAdventureCombatant(side, entry = {}, fallbackId = "") {
         damage: String(String(rawDamage || "").trim() || defaults.damage),
         morale: ["fight", "flee50", "flee25", "check25"].includes(entry.morale) ? entry.morale : "fight",
         fleeOutcome: entry.fleeOutcome === "failure" ? "failure" : "success",
+        targetWeight: Math.max(0.2, Number(entry.targetWeight || (side === "ally" ? 2 : 1) || 1)),
+        injuryFlag: String(entry.injuryFlag || ""),
+        fallenFlag: String(entry.fallenFlag || ""),
+        perishFlag: String(entry.perishFlag || ""),
+        conditionAtStart: String(entry.conditionAtStart || ""),
+        startHp: String(entry.startHp || entry.hp || entry.maxHp || ""),
+        injuryNote: String(entry.injuryNote || ""),
+        fallenNote: String(entry.fallenNote || ""),
+        perishNote: String(entry.perishNote || ""),
         targetId: String(entry.targetId || ""),
-        status: ["active", "defeated", "fled"].includes(entry.status) ? entry.status : "active"
+        status: ["active", "defeated", "fled", "surrendered"].includes(entry.status) ? entry.status : "active"
     };
 }
 
@@ -18515,6 +19162,25 @@ function getAdventureCombatTargetOptions(combat = getAdventureCombatState()) {
     }));
 }
 
+function pickAdventureWeightedFriendlyTarget(combat = getAdventureCombatState()) {
+    const targets = getAdventureCombatFriendlyTargets(combat).filter(target => {
+        if (target.id === "pc") return Number(target.hp || 0) > 0;
+        return target.status === "active" && Math.max(0, Number(target.hp || target.maxHp || 0)) > 0;
+    });
+    if (!targets.length) return null;
+    const weighted = targets.map(target => ({
+        target,
+        weight: Math.max(0.2, Number(target.targetWeight || (target.id === "pc" ? 3.2 : 2) || 1))
+    }));
+    const totalWeight = weighted.reduce((sum, entry) => sum + entry.weight, 0);
+    let roll = Math.random() * (totalWeight || 1);
+    for (const entry of weighted) {
+        roll -= entry.weight;
+        if (roll <= 0) return entry.target;
+    }
+    return weighted[weighted.length - 1]?.target || targets[0];
+}
+
 function getAdventureCombatResolvedTarget(attacker, preferredTargetId = "", combat = getAdventureCombatState()) {
     if (preferredTargetId) {
         const direct = getAdventureCombatTargetById(preferredTargetId, combat);
@@ -18526,13 +19192,47 @@ function getAdventureCombatResolvedTarget(attacker, preferredTargetId = "", comb
     if (attacker.side === "ally" || attacker.side === "pc") {
         return getAdventureLivingCombatants("enemy", combat)[0] || null;
     }
-    return getAdventureCombatFriendlyTargets(combat)[0] || null;
+    return pickAdventureWeightedFriendlyTarget(combat);
 }
 
 function getAdventureCombatTargetLabel(target) {
     if (!target) return "objetivo";
     if (target.side === "pc") return document.getElementById('charName')?.value || "PJ";
     return target.name || (target.side === "ally" ? "Aliado" : "Adversario");
+}
+
+function getAdventureCombatCardState(entry, side) {
+    if (!entry) return { key: "active", label: "Activo" };
+    if (side === "enemy") {
+        if (entry.status === "surrendered") return { key: "surrendered", label: "Rendido" };
+        if (entry.status === "fled") return { key: "fled", label: "En fuga" };
+        if (entry.status === "defeated" || Math.max(0, Number(entry.hp || 0)) <= 0) return { key: "defeated", label: "Caido" };
+        return { key: "active", label: "Activo" };
+    }
+    const companion = getAdventureChosenCompanion();
+    if (companion?.id === entry.id) {
+        const condition = getAdventureCompanionCondition();
+        if (condition === "perish") return { key: "perish", label: "Perish" };
+        if (condition === "fallen") return { key: "fallen", label: "Fallen" };
+        if (condition === "wounded") return { key: "wounded", label: "Wounded" };
+    }
+    if (entry.status === "defeated" || Math.max(0, Number(entry.hp || 0)) <= 0) return { key: "fallen", label: "Caido" };
+    return { key: "active", label: side === "pc" ? "Listo" : "Activo" };
+}
+
+function getAdventureCombatStatusSummary(entry) {
+    if (!entry) return "";
+    if (entry.status === "surrendered") return `${entry.name} se rinde.`;
+    if (entry.status === "fled") return `${entry.name} huye del combate.`;
+    if (entry.status === "defeated" || Math.max(0, Number(entry.hp || 0)) <= 0) return `${entry.name} cae en combate.`;
+    return "";
+}
+
+function getAdventureCombatResolutionSummary(combat = getAdventureCombatState()) {
+    const resolved = [...(combat.enemies || [])]
+        .map(entry => getAdventureCombatStatusSummary(entry))
+        .filter(Boolean);
+    return resolved.join(" ");
 }
 
 function applyAdventureDamageToCombatTarget(target, damageTotal, combat = getAdventureCombatState()) {
@@ -18552,6 +19252,86 @@ function applyAdventureDamageToCombatTarget(target, damageTotal, combat = getAdv
     if (currentHp <= 0) entry.status = "defeated";
     syncAdventureCombatLegacyFields(combat);
     return { defeated: currentHp <= 0, currentHp };
+}
+
+function applyAdventureAllyCombatConsequences(combat = getAdventureCombatState()) {
+    ensureAdventureCombatParticipants(combat);
+    const notes = [];
+    const modalEvents = [];
+    (combat.allies || []).forEach(ally => {
+        if (!ally) return;
+        const companion = getAdventureChosenCompanion();
+        if (!companion || companion.id !== ally.id) return;
+        const currentHp = Math.max(0, Number(ally.hp || ally.maxHp || 0));
+        const maxHp = Math.max(1, Number(ally.maxHp || ally.hp || 1));
+        const startHp = Math.max(0, Number(ally.startHp || ally.maxHp || ally.hp || 0));
+        const conditionAtStart = String(ally.conditionAtStart || "ready");
+
+        if (conditionAtStart === "wounded") {
+            if (currentHp <= 0 && ally.perishFlag) {
+                const note = ally.perishNote || `${ally.name} cae otra vez mientras seguia herido y la perdida se vuelve definitiva.`;
+                setAdventureCompanionCondition(companion, "perish", { note });
+                notes.push(note);
+                modalEvents.push({
+                    title: "Companero perdido",
+                    subtitle: "El aliado no resistio una segunda exigencia sin haberse recuperado.",
+                    kicker: "Perish",
+                    headline: `${ally.name} muere en combate`,
+                    copy: note,
+                    epilogue: "Ese aliado ya no puede volver durante esta partida.",
+                    tone: "fail"
+                });
+                return;
+            }
+            if (currentHp > 0 && currentHp < startHp && ally.fallenFlag) {
+                const note = ally.fallenNote || `${ally.name} queda caido tras volver a pelear antes de sanar por completo.`;
+                setAdventureCompanionCondition(companion, "fallen", { note });
+                notes.push(note);
+                modalEvents.push({
+                    title: "Companero caido",
+                    subtitle: "Forzarlo a seguir peleando tuvo un costo inmediato.",
+                    kicker: "Fallen",
+                    headline: `${ally.name} ya no puede seguirte`,
+                    copy: note,
+                    epilogue: "Necesitara tres descansos largos sin pelear para volver a estar listo.",
+                    tone: "partial"
+                });
+            }
+            return;
+        }
+
+        if (currentHp <= 0 && ally.fallenFlag) {
+            const note = ally.fallenNote || `${ally.name} cae fuera de combate y queda demasiado maltrecho para seguir ayudando de cerca.`;
+            setAdventureCompanionCondition(companion, "fallen", { note });
+            notes.push(note);
+            modalEvents.push({
+                title: "Companero caido",
+                subtitle: "La pelea deja secuelas reales en el grupo.",
+                kicker: "Fallen",
+                headline: `${ally.name} queda fuera de accion`,
+                copy: note,
+                epilogue: "No puede pelear ni moverse por su cuenta hasta recuperarse con descansos largos.",
+                tone: "partial"
+            });
+            return;
+        }
+        if (currentHp > 0 && currentHp <= Math.ceil(maxHp / 2) && ally.injuryFlag && !ADVENTURE_STATE.flags[ally.injuryFlag]) {
+            const note = ally.injuryNote || `${ally.name} sale herido del combate y seguira el resto del tramo en peores condiciones.`;
+            setAdventureCompanionCondition(companion, "wounded", { note });
+            notes.push(note);
+            modalEvents.push({
+                title: "Companero herido",
+                subtitle: "Sobrevivio, pero no salio entero.",
+                kicker: "Wounded",
+                headline: `${ally.name} queda herido`,
+                copy: note,
+                epilogue: "Necesita 1 descanso largo sin pelear para volver a estar listo.",
+                tone: "partial"
+            });
+        }
+    });
+    notes.forEach(note => addAdventureJournalEntry("Companero", note));
+    return { notes, modalEvent: modalEvents[modalEvents.length - 1] || null };
 }
 
 function getAdventureCombatRosterSummary(side, combat = getAdventureCombatState()) {
@@ -18626,9 +19406,12 @@ function softResetAdventureCombat() {
         enemyDamage: current.enemyDamage || "",
         enemyMorale: current.enemyMorale || "fight",
         fleeOutcome: current.fleeOutcome || "success",
+        companionRisk: current.companionRisk || "",
+        companionName: current.companionName || "",
+        companionRiskResolved: !!current.companionRiskResolved,
         pendingChoice: current.pendingChoice || null
     };
-    addAdventureCombatLog("Combate", "Se reinicio el seguimiento de rondas y daÃ±o del combate actual.");
+    addAdventureCombatLog("Combate", "Se reinicio el seguimiento de rondas y dano del combate actual.");
     autoSave();
     renderAdventureMode();
     renderAdventureCombatModal();
@@ -18639,6 +19422,83 @@ function addAdventureCombatLog(title, text) {
     if (!Array.isArray(combat.log)) combat.log = [];
     combat.log.push({ title: String(title || "Combate"), text: String(text || "") });
     if (combat.log.length > 12) combat.log = combat.log.slice(-12);
+}
+
+function addAdventureCombatEvent(title, text) {
+    addAdventureCombatLog(String(title || "Combate"), String(text || ""));
+}
+
+function addAdventureCombatRollLog(actorName, outcome, damage = 0, targetName = "") {
+    const safeActor = String(actorName || "Combatiente");
+    const safeTarget = String(targetName || "objetivo");
+    const normalized = String(outcome || "").toLowerCase();
+    if (normalized === "crit") {
+        addAdventureCombatLog(`${safeActor}|crit`, `${safeTarget} - dano ${Math.max(0, Number(damage || 0))}`);
+        return;
+    }
+    if (normalized === "hit") {
+        addAdventureCombatLog(`${safeActor}|hit`, `${safeTarget} - dano ${Math.max(0, Number(damage || 0))}`);
+        return;
+    }
+    addAdventureCombatLog(`${safeActor}|miss`, safeTarget);
+}
+
+function buildAdventureCombatLogEntryHtml(entry) {
+    const rawTitle = String(entry?.title || "Combate");
+    const rawText = String(entry?.text || "");
+    const [title, kind] = rawTitle.split("|");
+    const badgeKind = ["hit", "miss", "crit"].includes(kind) ? kind : "event";
+    const badgeLabel = badgeKind === "hit" ? "Exito" : badgeKind === "miss" ? "Fallo" : badgeKind === "crit" ? "Critico" : "Evento";
+    return `
+        <div class="adventure-combat-log-entry">
+            <div class="adventure-combat-log-main">
+                <div class="adventure-combat-log-title">${escapeHtml(title)}</div>
+                <div class="adventure-combat-log-text">${escapeHtml(rawText)}</div>
+            </div>
+            <span class="adventure-combat-log-badge ${badgeKind}">${escapeHtml(badgeLabel)}</span>
+        </div>
+    `;
+}
+
+function buildAdventureCombatCardHtml(entry, side, options = {}) {
+    const isPc = side === "pc";
+    const cardState = getAdventureCombatCardState(entry, side);
+    const inactive = cardState.key !== "active";
+    const sideClass = side === "enemy" ? "enemy" : side === "ally" ? "ally" : "friendly";
+    const hpValue = `${entry.hp || entry.maxHp || "0"}${entry.maxHp ? ` / ${entry.maxHp}` : ""}`;
+    const attackValue = isPc ? options.attackLabel || "-" : (entry.attackBonus || "-");
+    const damageValue = isPc ? (options.damageLabel || "-") : (entry.damage || "-");
+    return `
+        <div class="adventure-combat-card ${sideClass} ${inactive ? 'inactive' : ''}">
+            <div class="adventure-combat-card-top">
+                <div>
+                    <div class="adventure-combat-card-name">${escapeHtml(entry.name || (isPc ? 'PJ' : 'Combatiente'))}</div>
+                    <div class="adventure-combat-card-role">${escapeHtml(options.roleLabel || (side === 'enemy' ? 'Enemigo' : side === 'ally' ? 'Aliado' : 'Tu personaje'))}</div>
+                </div>
+                <span class="adventure-combat-state ${cardState.key}">${escapeHtml(cardState.label)}</span>
+            </div>
+            <div class="adventure-combat-metrics">
+                <div class="adventure-combat-metric">
+                    <span class="adventure-combat-metric-label">HP</span>
+                    <div class="adventure-combat-metric-value">${escapeHtml(hpValue)}</div>
+                </div>
+                <div class="adventure-combat-metric">
+                    <span class="adventure-combat-metric-label">CA</span>
+                    <div class="adventure-combat-metric-value">${escapeHtml(String(entry.ac || "-"))}</div>
+                </div>
+                <div class="adventure-combat-metric">
+                    <span class="adventure-combat-metric-label">${isPc ? "Ataque" : "Ataque"}</span>
+                    <div class="adventure-combat-metric-value">${escapeHtml(String(attackValue || "-"))}</div>
+                </div>
+                <div class="adventure-combat-metric">
+                    <span class="adventure-combat-metric-label">Dano</span>
+                    <div class="adventure-combat-metric-value">${escapeHtml(String(damageValue || "-"))}</div>
+                </div>
+            </div>
+            ${options.controlsHtml ? `<div class="adventure-combat-selects">${options.controlsHtml}</div>` : ``}
+            ${options.note ? `<div class="adventure-combat-card-body"><div class="adventure-combat-card-note">${escapeHtml(options.note)}</div></div>` : ``}
+        </div>
+    `;
 }
 
 function getAdventureFlurrySequence() {
@@ -18677,6 +19537,9 @@ function openAdventureCombatModal(config = {}) {
     nextCombat.enemyDamage = config.enemyDamage ?? nextCombat.enemyDamage;
     nextCombat.enemyMorale = config.enemyMorale ?? nextCombat.enemyMorale;
     nextCombat.fleeOutcome = config.fleeOutcome ?? nextCombat.fleeOutcome;
+    nextCombat.companionRisk = config.companionRisk ?? nextCombat.companionRisk;
+    nextCombat.companionName = config.companionName ?? nextCombat.companionName;
+    nextCombat.companionRiskResolved = config.companionRiskResolved ?? nextCombat.companionRiskResolved ?? false;
     nextCombat.pendingChoice = config.pendingChoice ?? nextCombat.pendingChoice;
     if (Array.isArray(config.log)) nextCombat.log = config.log;
     if (!nextCombat.enemyMaxHp && nextCombat.enemyHp) nextCombat.enemyMaxHp = nextCombat.enemyHp;
@@ -18698,6 +19561,134 @@ function closeAdventureCombatModal() {
 
 function handleAdventureCombatModalBackdrop(event) {
     if (event.target?.id === 'adventure-combat-modal') closeAdventureCombatModal();
+}
+
+function closeAdventureEndModal() {
+    ADVENTURE_END_MODAL_OPEN = false;
+    document.getElementById('adventure-end-modal')?.classList.remove('open');
+}
+
+function handleAdventureEndModalBackdrop(event) {
+    if (event.target?.id === 'adventure-end-modal') closeAdventureEndModal();
+}
+
+function buildAdventureEndModalKey() {
+    const outcomeText = ADVENTURE_STATE.lastOutcome?.text || "";
+    return [
+        ADVENTURE_STATE.campaignId || "",
+        ADVENTURE_STATE.sceneId || "",
+        ADVENTURE_STATE.endingTone || "",
+        outcomeText
+    ].join("|");
+}
+
+function getAdventureEndingModalData() {
+    const scene = getAdventureScene();
+    const tone = ADVENTURE_STATE.endingTone || getAdventureEndingTone(scene, ADVENTURE_STATE) || "success";
+    const outcomeText = String(ADVENTURE_STATE.lastOutcome?.text || "").trim();
+    const sceneTitle = scene?.title || "Cierre";
+    const fellInCombat = ADVENTURE_STATE.sceneId === "ending_defeat"
+        || /derriba|cae|caido|abatid|muert|sangra|huyes|huis/i.test(outcomeText);
+    if (tone === "fail") {
+        return {
+            tone,
+            kicker: fellInCombat ? "Derrota" : "Fracaso",
+            title: fellInCombat ? "Tu aventura termina aca" : "La ruta se cerro antes de tiempo",
+            subtitle: fellInCombat
+                ? "El personaje cayo o quedo fuera de combate. Esta partida ya no puede seguir por este camino."
+                : "Las decisiones, el tiempo o la situacion te dejaron sin salida jugable en esta rama.",
+            copy: outcomeText || "El intento fracasa y la historia se corta antes de llegar a una resolucion favorable.",
+            epilogue: "Puedes cerrar este final para revisar el ultimo estado o reiniciar la campana y probar otra ruta, otro aliado o un ritmo distinto.",
+            sceneTitle
+        };
+    }
+    if (tone === "partial") {
+        return {
+            tone,
+            kicker: "Cierre parcial",
+            title: "La historia avanzo, pero con costo",
+            subtitle: "La campana llego a un final incompleto o ambiguo.",
+            copy: outcomeText || "Sobreviviste al tramo, pero no todo quedo resuelto como esperabas.",
+            epilogue: "Puedes revisar el cierre actual o reiniciar para buscar una resolucion mas limpia.",
+            sceneTitle
+        };
+    }
+    return {
+        tone: "success",
+        kicker: "Victoria",
+        title: "La aventura llego a su cierre",
+        subtitle: "Superaste este tramo de la campana.",
+        copy: outcomeText || "El personaje logro atravesar el conflicto principal de esta ruta.",
+        epilogue: "Puedes cerrar este resumen para seguir leyendo el final o reiniciar la campana cuando quieras.",
+        sceneTitle
+    };
+}
+
+function renderAdventureEndModal() {
+    const modal = document.getElementById('adventure-end-modal');
+    const titleEl = document.getElementById('adventure-end-modal-title');
+    const subtitleEl = document.getElementById('adventure-end-modal-subtitle');
+    const contentEl = document.getElementById('adventure-end-modal-content');
+    if (!modal || !titleEl || !subtitleEl || !contentEl) return;
+    if (!ADVENTURE_STATE.completed || !ADVENTURE_END_MODAL_OPEN) {
+        modal.classList.remove('open');
+        return;
+    }
+    const data = getAdventureEndingModalData();
+    const hp = getAdventureCurrentHpState();
+    titleEl.textContent = data.kicker;
+    subtitleEl.textContent = data.subtitle;
+    contentEl.innerHTML = `
+        <div class="adventure-end-shell">
+            <div class="adventure-end-panel ${escapeAttr(data.tone)}">
+                <div class="adventure-end-kicker">${escapeHtml(data.kicker)}</div>
+                <div class="adventure-end-headline">${escapeHtml(data.title)}</div>
+                <div class="adventure-end-copy">${escapeHtml(data.copy)}</div>
+                <div class="adventure-end-epilogue">${escapeHtml(data.epilogue)}</div>
+            </div>
+            <div class="adventure-end-meta">
+                <div class="adventure-end-chip">
+                    <strong>Escena final</strong>
+                    <span>${escapeHtml(data.sceneTitle)}</span>
+                </div>
+                <div class="adventure-end-chip">
+                    <strong>Tiempo</strong>
+                    <span>${escapeHtml(getAdventureTimeStamp())}</span>
+                </div>
+                <div class="adventure-end-chip">
+                    <strong>HP al cierre</strong>
+                    <span>${escapeHtml(String(hp.current))} / ${escapeHtml(String(hp.max))}</span>
+                </div>
+            </div>
+            <div class="adventure-end-actions">
+                <button type="button" class="manual-back-btn adventure-reset-btn" onclick="startAdventureCampaign('${escapeAttr(ADVENTURE_STATE.campaignId)}', true)">Reiniciar campana</button>
+                <button type="button" class="manual-back-btn" onclick="closeAdventureEndModal()">Cerrar</button>
+            </div>
+        </div>
+    `;
+    modal.classList.add('open');
+    modal.querySelector('.dm-modal-card')?.scrollTo({ top: 0, behavior: 'auto' });
+}
+
+function maybeOpenAdventureEndModal() {
+    const modal = document.getElementById('adventure-end-modal');
+    if (!modal) return;
+    if (ADVENTURE_STATE.pendingLevelUp || ADVENTURE_LEVEL_MODAL_STATE?.mode === "level-up") {
+        ADVENTURE_END_MODAL_OPEN = false;
+        modal.classList.remove('open');
+        return;
+    }
+    if (!ADVENTURE_STATE.completed) {
+        ADVENTURE_END_MODAL_OPEN = false;
+        modal.classList.remove('open');
+        return;
+    }
+    const nextKey = buildAdventureEndModalKey();
+    if (nextKey && nextKey !== ADVENTURE_END_MODAL_KEY) {
+        ADVENTURE_END_MODAL_KEY = nextKey;
+        ADVENTURE_END_MODAL_OPEN = true;
+    }
+    renderAdventureEndModal();
 }
 
 function getAdventureSpellSlotData() {
@@ -19051,16 +20042,16 @@ function performAdventureCombatAction() {
         }
         totalDamage += damageSum;
         enemyHp = Math.max(0, enemyHp - damageSum);
-        logLines.push(`${line} Impacta por ${damageSum} daÃ±o${criticalConfirmed ? " (critico confirmado)" : ""}. ${damageDetails.join(" Â· ")}. HP enemigo: ${enemyHp}.`);
+        logLines.push(`${line} Impacta por ${damageSum} dano${criticalConfirmed ? " (critico confirmado)" : ""}. ${damageDetails.join(" - ")}. HP enemigo: ${enemyHp}.`);
     });
 
     combat.enemyHp = String(Math.max(0, enemyHp));
     if (!combat.enemyMaxHp) combat.enemyMaxHp = combat.enemyHp;
-    addAdventureCombatLog(`${selected.label} Â· Ronda ${combat.round}`, logLines.join(" "));
+    addAdventureCombatLog(`${selected.label} - Ronda ${combat.round}`, logLines.join(" "));
     ADVENTURE_STATE.lastOutcome = {
         tone: totalDamage > 0 ? "success" : "neutral",
         title: "Accion resuelta",
-        text: `${selected.label} ${totalDamage > 0 ? `causa ${totalDamage} de daÃ±o` : "no logra herir al objetivo"} en ronda ${combat.round}.`,
+        text: `${selected.label} ${totalDamage > 0 ? `causa ${totalDamage} de dano` : "no logra herir al objetivo"} en ronda ${combat.round}.`,
         checkLabel: "",
         roll: 0,
         bonus: 0,
@@ -19086,16 +20077,16 @@ function performAdventureCombatAction() {
         const total = attackRoll + attackBonus;
         const hits = attackRoll !== 1 && total >= ac;
         if (!hits) {
-            addAdventureCombatLog(`${enemyName} Â· Ronda ${combat.round}`, `d20 ${attackRoll} ${formatSignedNumber(attackBonus)} = ${formatSignedNumber(total)} vs CA ${ac}. Falla.`);
+            addAdventureCombatLog(`${enemyName} - Ronda ${combat.round}`, `d20 ${attackRoll} ${formatSignedNumber(attackBonus)} = ${formatSignedNumber(total)} vs CA ${ac}. Falla.`);
         } else {
             const damageRoll = rollDamageFormula(damageFormula);
             const damageTotal = damageRoll.parts.reduce((sum, part) => sum + (part.valid ? part.total : 0), 0);
             applyAdventureHpDelta(damageTotal);
-            addAdventureCombatLog(`${enemyName} Â· Ronda ${combat.round}`, `d20 ${attackRoll} ${formatSignedNumber(attackBonus)} = ${formatSignedNumber(total)} vs CA ${ac}. Impacta por ${damageTotal} daÃ±o.`);
+            addAdventureCombatLog(`${enemyName} - Ronda ${combat.round}`, `d20 ${attackRoll} ${formatSignedNumber(attackBonus)} = ${formatSignedNumber(total)} vs CA ${ac}. Impacta por ${damageTotal} dano.`);
             ADVENTURE_STATE.lastOutcome = {
                 tone: "failure",
                 title: "Intercambio de golpes",
-                text: `${selected.label} causa ${totalDamage} de daÃ±o, pero ${enemyName} responde por ${damageTotal}.`,
+                text: `${selected.label} causa ${totalDamage} de dano, pero ${enemyName} responde por ${damageTotal}.`,
                 checkLabel: "",
                 roll: 0,
                 bonus: 0,
@@ -19177,7 +20168,7 @@ function renderAdventureCombatModal() {
                 <input type="text" value="${escapeAttr(combat.enemyAttackBonus || '')}" placeholder="+6" onchange="updateAdventureCombatConfig('enemyAttackBonus', this.value)">
             </label>
             <label class="full" style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
-                DaÃ±o enemigo
+                Dano enemigo
                 <input type="text" value="${escapeAttr(combat.enemyDamage || '')}" placeholder="1d8+3" onchange="updateAdventureCombatConfig('enemyDamage', this.value)">
             </label>
         </div>
@@ -19186,7 +20177,7 @@ function renderAdventureCombatModal() {
             <button type="button" class="manual-back-btn" onclick="fleeAdventureCombat()">Huir</button>
         </div>
         <div class="adventure-combat-banner">
-            Ronda actual: <b>${combat.round}</b>. PJ HP <b>${pcHp.current}</b> / <b>${pcHp.max}</b>. Enemigo: <b>${escapeHtml(enemyName)}</b> Â· HP <b>${escapeHtml(String(enemyHp || 0))}</b>${enemyMaxHp ? ` / ${escapeHtml(String(enemyMaxHp))}` : ``} Â· CA <b>${escapeHtml(String(combat.enemyAc || "-"))}</b>
+            Ronda actual: <b>${combat.round}</b>. PJ HP <b>${pcHp.current}</b> / <b>${pcHp.max}</b>. Enemigo: <b>${escapeHtml(enemyName)}</b> - HP <b>${escapeHtml(String(enemyHp || 0))}</b>${enemyMaxHp ? ` / ${escapeHtml(String(enemyMaxHp))}` : ``} - CA <b>${escapeHtml(String(combat.enemyAc || "-"))}</b>
         </div>
         <div class="adventure-combat-log">
             ${combat.log?.length ? combat.log.slice().reverse().map(entry => `
@@ -19217,6 +20208,9 @@ function softResetAdventureCombat() {
         enemyDamage: current.enemyDamage || "",
         enemyMorale: current.enemyMorale || "fight",
         fleeOutcome: current.fleeOutcome || "success",
+        companionRisk: current.companionRisk || "",
+        companionName: current.companionName || "",
+        companionRiskResolved: !!current.companionRiskResolved,
         enemies: (current.enemies || []).map((entry, index) => ({
             ...buildAdventureCombatant("enemy", entry, entry?.id || `enemy-${index + 1}`),
             hp: String(entry.maxHp || entry.hp || ""),
@@ -19267,6 +20261,9 @@ function openAdventureCombatModal(config = {}) {
     nextCombat.enemyDamage = config.enemyDamage ?? nextCombat.enemyDamage;
     nextCombat.enemyMorale = config.enemyMorale ?? nextCombat.enemyMorale;
     nextCombat.fleeOutcome = config.fleeOutcome ?? nextCombat.fleeOutcome;
+    nextCombat.companionRisk = config.companionRisk ?? nextCombat.companionRisk;
+    nextCombat.companionName = config.companionName ?? nextCombat.companionName;
+    nextCombat.companionRiskResolved = config.companionRiskResolved ?? nextCombat.companionRiskResolved ?? false;
     nextCombat.pendingChoice = config.pendingChoice ?? nextCombat.pendingChoice;
     if (config.selectedTargetId !== undefined) nextCombat.selectedTargetId = String(config.selectedTargetId || "");
     if (Array.isArray(config.log)) nextCombat.log = config.log;
@@ -19295,20 +20292,26 @@ function finishAdventureCombat(victory, note = "") {
     const pendingChoice = combat.pendingChoice;
     const enemyNames = getAdventureLivingCombatants("enemy", combat).map(entry => entry.name);
     const enemyName = enemyNames.length ? enemyNames.join(", ") : (combat.enemyName || "Adversario");
+    const allyConsequences = applyAdventureAllyCombatConsequences(combat);
+    const consequenceSuffix = allyConsequences.notes.length ? ` ${allyConsequences.notes.join(" ")}` : "";
+    const resolutionSummary = getAdventureCombatResolutionSummary(combat);
+    const baseNote = note || (victory ? `${enemyName} cae en combate.` : `Te retiras del combate contra ${enemyName}.`);
+    const composedNote = [baseNote, resolutionSummary].filter(Boolean).join(" ").trim();
     if (victory) {
-        addAdventureCombatLog("Combate resuelto", note || `${enemyName} cae en combate.`);
-        addAdventureJournalEntry("Combate", note || `${enemyName} fue derrotado.`);
+        addAdventureCombatEvent("Combate resuelto", `${composedNote}${consequenceSuffix}`);
+        addAdventureJournalEntry("Combate", `${composedNote}${consequenceSuffix}`);
     } else {
-        addAdventureCombatLog("Combate interrumpido", note || `Te retiras del combate contra ${enemyName}.`);
-        addAdventureJournalEntry("Combate", note || `Te retiraste del combate contra ${enemyName}.`);
+        addAdventureCombatEvent("Combate interrumpido", `${composedNote}${consequenceSuffix}`);
+        addAdventureJournalEntry("Combate", `${composedNote}${consequenceSuffix}`);
     }
     ADVENTURE_STATE.resources.combat = buildDefaultAdventureCombatState();
     closeAdventureCombatModal();
     if (pendingChoice) {
-        resolveAdventurePendingChoice(pendingChoice, victory, note);
+        resolveAdventurePendingChoice(pendingChoice, victory, `${composedNote}${consequenceSuffix}`.trim());
     }
     autoSave();
     renderAdventureMode();
+    if (allyConsequences.modalEvent) openAdventureCompanionModal(allyConsequences.modalEvent);
 }
 
 function performAdventureCombatAction() {
@@ -19317,6 +20320,7 @@ function performAdventureCombatAction() {
     const attacks = getAdventureAttackRows();
     if (!attacks.length) return;
     const selected = attacks.find(attack => attack.slot === combat.selectedWeaponSlot) || attacks[0];
+    const pcName = document.getElementById('charName')?.value || "PJ";
     let attackSeq = [];
     if (combat.attackMode === "flurry") attackSeq = getAdventureFlurrySequence();
     else {
@@ -19339,9 +20343,8 @@ function performAdventureCombatAction() {
         const attackRoll = rollDie(20);
         const total = attackRoll + bonus;
         const hits = attackRoll !== 1 && total >= targetAc;
-        let line = `Ataque ${index + 1} a ${currentTarget.name}: d20 ${attackRoll} ${formatSignedNumber(bonus)} = ${formatSignedNumber(total)} vs CA ${targetAc}.`;
         if (!hits) {
-            logLines.push(`${line} Falla.`);
+            addAdventureCombatRollLog(pcName, "miss", 0, currentTarget.name);
             return;
         }
 
@@ -19350,7 +20353,6 @@ function performAdventureCombatAction() {
             const confirmRoll = rollDie(20);
             const confirmTotal = confirmRoll + bonus;
             criticalConfirmed = confirmRoll !== 1 && confirmTotal >= targetAc;
-            line += ` Amenaza critico; confirmacion ${confirmRoll} ${formatSignedNumber(bonus)} = ${formatSignedNumber(confirmTotal)}.`;
         }
 
         const instances = criticalConfirmed ? critMultiplier : 1;
@@ -19371,15 +20373,17 @@ function performAdventureCombatAction() {
 
         totalDamage += damageSum;
         const damageResult = applyAdventureDamageToCombatTarget(currentTarget, damageSum, combat);
-        logLines.push(`${line} Impacta por ${damageSum} dano${criticalConfirmed ? " (critico confirmado)" : ""}. ${damageDetails.join(" - ")}. HP ${currentTarget.name}: ${damageResult.currentHp}.`);
+        addAdventureCombatRollLog(pcName, criticalConfirmed ? "crit" : "hit", damageSum, currentTarget.name);
     });
 
     syncAdventureCombatLegacyFields(combat);
-    addAdventureCombatLog(`${selected.label} - Ronda ${combat.round}`, logLines.join(" "));
+    if (!totalDamage && !logLines.length) {
+        addAdventureCombatEvent(pcName, "Sin impacto en esta ronda.");
+    }
     ADVENTURE_STATE.lastOutcome = {
         tone: totalDamage > 0 ? "success" : "neutral",
         title: "Accion resuelta",
-        text: `${selected.label} ${totalDamage > 0 ? `causa ${totalDamage} de dano` : "no logra herir al objetivo"} en ronda ${combat.round}.`,
+        text: `${pcName} ${totalDamage > 0 ? `causa ${totalDamage} de dano` : "no logra herir al objetivo"} en ronda ${combat.round}.`,
         checkLabel: "",
         roll: 0,
         bonus: 0,
@@ -19392,17 +20396,17 @@ function performAdventureCombatAction() {
         const currentHp = Number(enemy.hp || enemy.maxHp || 0);
         const maxHp = Number(enemy.maxHp || enemy.hp || currentHp || 1);
         if (shouldAdventureEnemyFlee(currentHp, maxHp, enemy.morale)) {
-            enemy.status = "fled";
+            enemy.status = enemy.morale === "check25" ? "surrendered" : "fled";
             fleeingEnemies.push(enemy);
-            addAdventureCombatLog(`${enemy.name} - Ronda ${combat.round}`, `${enemy.name} pierde el pulso del combate y huye.`);
+            addAdventureCombatEvent(enemy.name, enemy.status === "surrendered" ? "Se rinde y deja de pelear." : "Huye del combate.");
         }
     });
 
     if (!getAdventureLivingCombatants("enemy", combat).length) {
         const retreatFailure = fleeingEnemies.some(enemy => enemy.fleeOutcome === "failure");
         const victoryText = fleeingEnemies.length
-            ? `${fleeingEnemies.map(enemy => enemy.name).join(", ")} se repliega${fleeingEnemies.length > 1 ? "n" : ""} y abandona${fleeingEnemies.length > 1 ? "n" : ""} el combate.`
-            : `${lastPlayerTarget?.name || "El adversario"} cae tras ${selected.label}.`;
+            ? getAdventureCombatResolutionSummary(combat)
+            : `${lastPlayerTarget?.name || "El adversario"} cae tras el ataque de ${pcName}.`;
         finishAdventureCombat(!retreatFailure, victoryText);
         return;
     }
@@ -19417,21 +20421,20 @@ function performAdventureCombatAction() {
         const total = attackRoll + attackBonus;
         const hits = attackRoll !== 1 && total >= targetAc;
         if (!hits) {
-            addAdventureCombatLog(`${ally.name} - Ronda ${combat.round}`, `d20 ${attackRoll} ${formatSignedNumber(attackBonus)} = ${formatSignedNumber(total)} vs CA ${targetAc}. Falla contra ${target.name}.`);
+            addAdventureCombatRollLog(ally.name, "miss", 0, target.name);
             return;
         }
         const damageRoll = rollDamageFormula(ally.damage || "");
         const damageTotal = damageRoll.parts.reduce((sum, part) => sum + (part.valid ? part.total : 0), 0);
         const result = applyAdventureDamageToCombatTarget(target, damageTotal, combat);
-        addAdventureCombatLog(`${ally.name} - Ronda ${combat.round}`, `${ally.name} impacta a ${target.name} por ${damageTotal} dano. HP ${target.name}: ${result.currentHp}.`);
+        addAdventureCombatRollLog(ally.name, "hit", damageTotal, target.name);
     });
 
     if (!getAdventureLivingCombatants("enemy", combat).length) {
-        finishAdventureCombat(true, `Tus aliados terminan de desarmar a los hostiles tras ${selected.label}.`);
+        finishAdventureCombat(true, getAdventureCombatResolutionSummary(combat) || `Tus aliados terminan de desarmar a los enemigos tras ${selected.label}.`);
         return;
     }
 
-    const pcName = document.getElementById('charName')?.value || "PJ";
     for (const enemy of getAdventureLivingCombatants("enemy", combat)) {
         const target = getAdventureCombatResolvedTarget(enemy, enemy.targetId, combat);
         if (!target) continue;
@@ -19443,18 +20446,18 @@ function performAdventureCombatAction() {
         const total = attackRoll + attackBonus;
         const hits = attackRoll !== 1 && total >= targetAc;
         if (!hits) {
-            addAdventureCombatLog(`${enemy.name} - Ronda ${combat.round}`, `d20 ${attackRoll} ${formatSignedNumber(attackBonus)} = ${formatSignedNumber(total)} vs CA ${targetAc}. Falla contra ${getAdventureCombatTargetLabel(target)}.`);
+            addAdventureCombatRollLog(enemy.name, "miss", 0, getAdventureCombatTargetLabel(target));
             continue;
         }
         const damageRoll = rollDamageFormula(damageFormula);
         const damageTotal = damageRoll.parts.reduce((sum, part) => sum + (part.valid ? part.total : 0), 0);
         const result = applyAdventureDamageToCombatTarget(target, damageTotal, combat);
-        addAdventureCombatLog(`${enemy.name} - Ronda ${combat.round}`, `d20 ${attackRoll} ${formatSignedNumber(attackBonus)} = ${formatSignedNumber(total)} vs CA ${targetAc}. Impacta a ${getAdventureCombatTargetLabel(target)} por ${damageTotal} dano.`);
+        addAdventureCombatRollLog(enemy.name, "hit", damageTotal, getAdventureCombatTargetLabel(target));
         if (target.id === "pc") {
             ADVENTURE_STATE.lastOutcome = {
                 tone: "failure",
                 title: "Intercambio de golpes",
-                text: `${selected.label} causa ${totalDamage} de dano, pero ${enemy.name} responde sobre ${pcName} por ${damageTotal}.`,
+                text: `${pcName} causa ${totalDamage} de dano, pero ${enemy.name} responde sobre ${pcName} por ${damageTotal}.`,
                 checkLabel: "",
                 roll: 0,
                 bonus: 0,
@@ -19466,7 +20469,7 @@ function performAdventureCombatAction() {
                 return;
             }
         } else if (result.defeated) {
-            addAdventureCombatLog(`${target.name} - Ronda ${combat.round}`, `${target.name} queda fuera de combate.`);
+            addAdventureCombatEvent(target.name, "Queda fuera de combate.");
         }
     }
 
@@ -19500,82 +20503,88 @@ function renderAdventureCombatModal() {
     const actionOptions = getAdventureCombatActionOptions();
     const targetOptions = getAdventureCombatTargetOptions(combat);
     const enemyName = combat.enemyName || "Adversario";
-    const enemyHp = combat.enemyHp || combat.enemyMaxHp || "";
-    const enemyMaxHp = combat.enemyMaxHp || combat.enemyHp || "";
     const pendingLabel = combat.pendingChoice?.label || enemyName;
     const pcHp = getAdventureCurrentHpState();
-    const alliesSummary = getAdventureCombatRosterSummary("ally", combat);
-    const enemiesSummary = getAdventureCombatRosterSummary("enemy", combat);
+    const pcName = document.getElementById('charName')?.value || "PJ";
+    const selectedAttack = attackRows.find(attack => attack.slot === combat.selectedWeaponSlot) || attackRows[0] || null;
+    const currentTargetOption = targetOptions.find(option => option.id === combat.selectedTargetId) || targetOptions[0] || null;
+    const actionLabel = actionOptions.find(option => option.value === combat.attackMode)?.label || "Ataque simple";
+    const pcEntry = {
+        id: "pc",
+        name: pcName,
+        ac: String(parseLastSignedNumber(document.getElementById('ac-total')?.textContent)),
+        hp: String(pcHp.current),
+        maxHp: String(pcHp.max)
+    };
+    const pcControlsHtml = `
+        <label>
+            Arma
+            <select onchange="updateAdventureCombatConfig('selectedWeaponSlot', this.value)">
+                ${attackRows.map(attack => `<option value="${escapeAttr(attack.slot)}" ${attack.slot === combat.selectedWeaponSlot ? 'selected' : ''}>${escapeHtml(attack.label)}</option>`).join("")}
+            </select>
+        </label>
+        <label>
+            Accion
+            <select onchange="updateAdventureCombatConfig('attackMode', this.value)">
+                ${actionOptions.map(option => `<option value="${option.value}" ${option.value === combat.attackMode ? 'selected' : ''}>${escapeHtml(option.label)}</option>`).join("")}
+            </select>
+        </label>
+        ${targetOptions.length ? `
+            <label>
+                Enemigo
+                <select onchange="updateAdventureCombatConfig('selectedTargetId', this.value)">
+                    ${targetOptions.map(option => `<option value="${escapeAttr(option.id)}" ${option.id === combat.selectedTargetId ? 'selected' : ''}>${escapeHtml(option.label)}</option>`).join("")}
+                </select>
+            </label>
+        ` : ``}
+    `;
+    const playerCard = buildAdventureCombatCardHtml(pcEntry, "pc", {
+        roleLabel: "Tu personaje",
+        attackLabel: selectedAttack?.attackSeq || formatSignedNumber(getAdventurePrimaryAttackBonus()),
+        damageLabel: selectedAttack?.damage || "-",
+        controlsHtml: pcControlsHtml,
+        note: `${actionLabel}${currentTargetOption ? ` contra ${currentTargetOption.label.split(" - ")[0]}` : ""}.`
+    });
+    const allyCards = (combat.allies || []).map(entry => buildAdventureCombatCardHtml(entry, "ally", {
+        roleLabel: "Aliado",
+        note: entry.damage ? `Ataque ${entry.attackBonus || "-"} - Dano ${entry.damage}` : ""
+    })).join("");
+    const enemyCards = (combat.enemies || []).map(entry => buildAdventureCombatCardHtml(entry, "enemy", {
+        roleLabel: "Enemigo",
+        note: entry.status === "surrendered"
+            ? "Se rindio y dejo de pelear."
+            : entry.status === "fled"
+                ? "Huyo del combate."
+                : entry.status === "defeated"
+                    ? "Ya no participa del combate."
+                    : `Ataque ${entry.attackBonus || "-"} - Dano ${entry.damage || "-"}.`
+    })).join("");
     subtitle.textContent = `Confirma o rectifica el combate de "${pendingLabel}" y mantenlo abierto hasta victoria, derrota o huida.`;
     container.innerHTML = `
         <div class="adventure-combat-banner">
-            Esta ventana usa tus armas reales, tus bonuses reales y resuelve el intercambio completo de la ronda con un solo click en Atacar. Si el enemigo llega a 0 HP, la escena avanza por la rama de exito; si huyes o caes, avanza por la rama de fallo.
+            Esta ventana usa tus armas reales y resuelve la ronda completa con un click en Atacar. Si el combate termina, la escena avanza sola por exito o por fallo.
         </div>
-        <div class="adventure-combat-modal-grid" style="margin-top:12px;">
-            <label class="full" style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
-                Arma activa
-                <select onchange="updateAdventureCombatConfig('selectedWeaponSlot', this.value)">
-                    ${attackRows.map(attack => `<option value="${escapeAttr(attack.slot)}" ${attack.slot === combat.selectedWeaponSlot ? 'selected' : ''}>${escapeHtml(attack.label)}</option>`).join("")}
-                </select>
-            </label>
-            <label class="full" style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
-                Accion del PJ
-                <select onchange="updateAdventureCombatConfig('attackMode', this.value)">
-                    ${actionOptions.map(option => `<option value="${option.value}" ${option.value === combat.attackMode ? 'selected' : ''}>${escapeHtml(option.label)}</option>`).join("")}
-                </select>
-            </label>
-            ${targetOptions.length > 1 ? `
-                <label class="full" style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
-                    Objetivo actual
-                    <select onchange="updateAdventureCombatConfig('selectedTargetId', this.value)">
-                        ${targetOptions.map(option => `<option value="${escapeAttr(option.id)}" ${option.id === combat.selectedTargetId ? 'selected' : ''}>${escapeHtml(option.label)}</option>`).join("")}
-                    </select>
-                </label>
-            ` : ``}
-            <label class="full" style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
-                Nombre enemigo
-                <input type="text" value="${escapeAttr(enemyName)}" onchange="updateAdventureCombatConfig('enemyName', this.value)">
-            </label>
-            <label style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
-                CA enemiga
-                <input type="number" value="${escapeAttr(String(combat.enemyAc || ''))}" onchange="updateAdventureCombatConfig('enemyAc', this.value)">
-            </label>
-            <label style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
-                HP actual
-                <input type="number" value="${escapeAttr(String(enemyHp))}" onchange="updateAdventureCombatConfig('enemyHp', this.value)">
-            </label>
-            <label style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
-                HP max
-                <input type="number" value="${escapeAttr(String(enemyMaxHp))}" onchange="updateAdventureCombatConfig('enemyMaxHp', this.value)">
-            </label>
-            <label style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
-                Ataque enemigo
-                <input type="text" value="${escapeAttr(combat.enemyAttackBonus || '')}" placeholder="+6" onchange="updateAdventureCombatConfig('enemyAttackBonus', this.value)">
-            </label>
-            <label class="full" style="display:flex; flex-direction:column; gap:6px; color:var(--text-muted); font-size:0.8em;">
-                Dano enemigo
-                <input type="text" value="${escapeAttr(combat.enemyDamage || '')}" placeholder="1d8+3" onchange="updateAdventureCombatConfig('enemyDamage', this.value)">
-            </label>
+        <div class="adventure-combat-stage">
+            <div class="adventure-combat-section-label">Tu lado</div>
+            <div class="adventure-combat-stage-grid">
+                ${playerCard}
+                ${allyCards || `<div class="adventure-combat-card ally"><div class="adventure-combat-card-top"><div><div class="adventure-combat-card-name">Sin aliado activo</div><div class="adventure-combat-card-role">Aliado</div></div><span class="adventure-combat-state active">Vacante</span></div><div class="adventure-combat-card-body"><div class="adventure-combat-card-note">No hay otro combatiente de tu lado en esta escena.</div></div></div>`}
+            </div>
+            <div class="adventure-combat-section-label">Enemigo</div>
+            <div class="adventure-combat-stage-grid">
+                ${enemyCards || `<div class="adventure-combat-card enemy"><div class="adventure-combat-card-top"><div><div class="adventure-combat-card-name">Sin enemigo activo</div><div class="adventure-combat-card-role">Enemigo</div></div><span class="adventure-combat-state defeated">Vacio</span></div></div>`}
+            </div>
         </div>
         <div class="adventure-combat-modal-actions">
             <button type="button" class="manual-back-btn" onclick="performAdventureCombatAction()">Atacar</button>
             <button type="button" class="manual-back-btn" onclick="fleeAdventureCombat()">Huir</button>
         </div>
         <div class="adventure-combat-banner">
-            Ronda actual: <b>${combat.round}</b>. PJ HP <b>${pcHp.current}</b> / <b>${pcHp.max}</b>. Enemigo principal: <b>${escapeHtml(enemyName)}</b> - HP <b>${escapeHtml(String(enemyHp || 0))}</b>${enemyMaxHp ? ` / ${escapeHtml(String(enemyMaxHp))}` : ``} - CA <b>${escapeHtml(String(combat.enemyAc || "-"))}</b>
+            Ronda <b>${combat.round}</b>. ${currentTargetOption ? `Objetivo actual: <b>${escapeHtml(currentTargetOption.label.split(" - ")[0])}</b>. ` : ``}Ataca con <b>${escapeHtml(selectedAttack?.label || "arma equipada")}</b>.
         </div>
-        <div class="adventure-objective" style="margin-top:10px;">
-            <strong>Hostiles en escena</strong>
-            ${enemiesSummary}
-            ${combat.allies?.length ? `<div style="height:8px;"></div><strong>Aliados en escena</strong>${alliesSummary}` : ``}
-        </div>
+        ${combat.companionRisk === "wounded" ? `<div class="adventure-combat-banner" style="border-color:rgba(245,158,11,0.35); color:#fde68a;">${escapeHtml(combat.companionName || "Tu companero")} entro herido a este combate. Si vuelve a caer bajo presion, puede pasar a fallen o incluso perderse de forma definitiva.</div>` : ``}
         <div class="adventure-combat-log">
-            ${combat.log?.length ? combat.log.slice().reverse().map(entry => `
-                <div class="adventure-combat-log-entry">
-                    <strong>${escapeHtml(entry.title)}</strong>
-                    <span>${escapeHtml(entry.text)}</span>
-                </div>
-            `).join("") : `<div class="adventure-empty">Todavia no hay acciones registradas en este combate.</div>`}
+            ${combat.log?.length ? combat.log.slice().reverse().map(entry => buildAdventureCombatLogEntryHtml(entry)).join("") : `<div class="adventure-empty">Todavia no hay acciones registradas en este combate.</div>`}
         </div>
     `;
 }
@@ -19603,7 +20612,7 @@ function renderAdventureStatus() {
     const scene = getAdventureScene();
     if (!campaign || !scene) {
         container.className = "adventure-empty";
-        container.innerHTML = "Inicia la campaÃ±a de Irivith para ver el estado vivo de tu aventura.";
+        container.innerHTML = "Inicia una campana para ver el estado vivo de tu aventura.";
         return;
     }
     container.className = "";
@@ -19621,7 +20630,7 @@ function renderAdventureStatus() {
     const spellOverview = getAdventureSpellOverview();
     container.innerHTML = `
         <div class="adventure-status-grid">
-            <div class="adventure-stat-chip"><strong>Personaje</strong><span>${escapeHtml(document.getElementById('charName')?.value || 'Sin nombre')} Â· ${escapeHtml(cls)} ${escapeHtml(String(lvl))}</span></div>
+            <div class="adventure-stat-chip"><strong>Personaje</strong><span>${escapeHtml(document.getElementById('charName')?.value || 'Sin nombre')} - ${escapeHtml(cls)} ${escapeHtml(String(lvl))}</span></div>
             <div class="adventure-stat-chip"><strong>HP</strong><span>${hp.current} / ${hp.max}</span></div>
             <div class="adventure-stat-chip"><strong>Escena</strong><span>${escapeHtml(scene.title)}</span></div>
             <div class="adventure-stat-chip"><strong>Rescatados</strong><span>${rescued} / 2</span></div>
@@ -19633,7 +20642,7 @@ function renderAdventureStatus() {
         <div class="adventure-resource-list">
             <div class="adventure-resource-row">
                 <span class="adventure-resource-key">Combate base</span>
-                <span class="adventure-resource-value">Ataque ${formatSignedNumber(attack)} Â· CA ${ac}</span>
+                <span class="adventure-resource-value">Ataque ${formatSignedNumber(attack)} - CA ${ac}</span>
             </div>
             <div class="adventure-resource-row">
                 <span class="adventure-resource-key">Salvaciones</span>
@@ -19678,6 +20687,9 @@ function renderAdventureToolkit() {
     }
     const preparedSpells = getAdventurePreparedSpells();
     const consumables = getAdventureConsumables().slice(0, 4);
+    const companion = getAdventureChosenCompanion();
+    const companionCondition = getAdventureCompanionCondition();
+    const companionRecovery = companion?.id ? getAdventureCompanionRecoveryData(companion.id) : null;
     container.className = "";
     container.innerHTML = `
         <div class="adventure-toolkit-actions">
@@ -19694,7 +20706,7 @@ function renderAdventureToolkit() {
                         <div class="adventure-combat-status">
                             <div>
                                 <strong>${escapeHtml(combat.enemyName || 'Combate activo')}</strong>
-                                <span>Ronda ${combat.round} Â· HP ${escapeHtml(String(combat.enemyHp || combat.enemyMaxHp || '?'))}${combat.enemyMaxHp ? `/${escapeHtml(String(combat.enemyMaxHp))}` : ''} Â· CA ${escapeHtml(String(combat.enemyAc || '-'))}</span>
+                                <span>Ronda ${combat.round} - HP ${escapeHtml(String(combat.enemyHp || combat.enemyMaxHp || '?'))}${combat.enemyMaxHp ? `/${escapeHtml(String(combat.enemyMaxHp))}` : ''} - CA ${escapeHtml(String(combat.enemyAc || '-'))}</span>
                             </div>
                             <button type="button" class="manual-back-btn" onclick="openAdventureCombatModal()">Abrir combate</button>
                         </div>
@@ -19735,7 +20747,7 @@ function renderAdventureToolkit() {
                             <div class="adventure-spell-card">
                                 <div class="adventure-spell-meta">
                                     <div class="adventure-spell-name">${escapeHtml(spell.name)}</div>
-                                    <div class="adventure-spell-detail">Nivel ${spell.level} Â· Slots ${remaining}/${total}</div>
+                                    <div class="adventure-spell-detail">Nivel ${spell.level} - Slots ${remaining}/${total}</div>
                                 </div>
                                 <div style="display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end;">
                                     <button type="button" class="manual-back-btn" data-spell="${escapeAttr(spell.name)}" onclick="castAdventureSpell(this.dataset.spell)">Lanzar</button>
@@ -19812,7 +20824,7 @@ function renderAdventureScene() {
     const scene = getAdventureScene();
     if (!campaign || !scene) {
         container.className = "adventure-empty";
-        container.innerHTML = "Elegi iniciar la campaÃ±a de Irivith para empezar a jugar.";
+        container.innerHTML = "Elige una campana para empezar a jugar.";
         return;
     }
     const textBlocks = getAdventureSceneText(scene, ADVENTURE_STATE, campaign);
@@ -19856,7 +20868,7 @@ function renderAdventureStatus() {
     const scene = getAdventureScene();
     if (!campaign || !scene) {
         container.className = "adventure-empty";
-        container.innerHTML = "Inicia la campana de Irivith para ver el estado vivo de tu aventura.";
+        container.innerHTML = "Inicia una campana para ver el estado vivo de tu aventura.";
         return;
     }
     container.className = "";
@@ -19874,6 +20886,9 @@ function renderAdventureStatus() {
     const spellOverview = getAdventureSpellOverview();
     const inventoryCount = getAdventureInventoryValues().length;
     const timeStamp = getAdventureTimeStamp();
+    const companion = getAdventureChosenCompanion();
+    const companionCondition = getAdventureCompanionCondition();
+    const companionRecovery = companion?.id ? getAdventureCompanionRecoveryData(companion.id) : null;
     container.innerHTML = `
         <div class="adventure-status-grid">
             <div class="adventure-stat-chip"><strong>Personaje</strong><span>${escapeHtml(document.getElementById('charName')?.value || 'Sin nombre')} - ${escapeHtml(cls)} ${escapeHtml(String(lvl))}</span></div>
@@ -19882,6 +20897,7 @@ function renderAdventureStatus() {
             <div class="adventure-stat-chip"><strong>Rescatados</strong><span>${rescued} / 2</span></div>
             <div class="adventure-stat-chip"><strong>Tiempo</strong><span>${escapeHtml(timeStamp)}</span></div>
             <div class="adventure-stat-chip"><strong>Tesoro</strong><span>${escapeHtml(String(ADVENTURE_STATE.wealthGp || 0))} gp eq.</span></div>
+            ${companion ? `<div class="adventure-stat-chip"><strong>Companero</strong><span>${escapeHtml(companion.name)} - ${escapeHtml(companionCondition === 'ready' ? 'ready' : companionCondition)}</span></div>` : ``}
         </div>
         <div class="adventure-objective" style="margin-top:10px;">
             <strong>Objetivo actual</strong>
@@ -19900,6 +20916,12 @@ function renderAdventureStatus() {
                 <span class="adventure-resource-key">Inventario de aventura</span>
                 <span class="adventure-resource-value">${inventoryCount} item(s) visibles - ${ADVENTURE_STATE.grantedItems.length} recompensa(s) obtenida(s)</span>
             </div>
+            ${companion ? `
+                <div class="adventure-resource-row">
+                    <span class="adventure-resource-key">Estado del companero</span>
+                    <span class="adventure-resource-value">${escapeHtml(getAdventureCompanionRestNeedText(companionCondition, companionRecovery?.restsRemaining || 0))}</span>
+                </div>
+            ` : ``}
             ${spellOverview ? `
                 <div class="adventure-resource-row">
                     <span class="adventure-resource-key">Hechizos cargados</span>
@@ -19939,6 +20961,9 @@ function renderAdventureToolkit() {
     }
     const preparedSpells = getAdventurePreparedSpells();
     const consumables = getAdventureConsumables().slice(0, 4);
+    const companion = getAdventureChosenCompanion();
+    const companionCondition = getAdventureCompanionCondition();
+    const companionRecovery = companion?.id ? getAdventureCompanionRecoveryData(companion.id) : null;
     container.className = "";
     container.innerHTML = `
         <div class="adventure-toolkit-actions">
@@ -19962,6 +20987,12 @@ function renderAdventureToolkit() {
                     <span class="adventure-resource-key">Descanso largo</span>
                     <span class="adventure-resource-value">Avanza 1 dia, te lleva al alba, te cura por completo y restaura slots de conjuro.</span>
                 </div>
+                ${companion ? `
+                    <div class="adventure-resource-row">
+                        <span class="adventure-resource-key">Companero</span>
+                        <span class="adventure-resource-value">${escapeHtml(companion.name)} - ${escapeHtml(getAdventureCompanionRestNeedText(companionCondition, companionRecovery?.restsRemaining || 0))}</span>
+                    </div>
+                ` : ``}
             </div>
             <div class="adventure-toolkit-actions" style="margin-top:10px;">
                 <button type="button" class="manual-back-btn" onclick="takeAdventureRest('field')">Atender heridas</button>
@@ -20059,7 +21090,7 @@ function updateAdventureLaunchSummary() {
     const campaign = getAdventureCampaign(ADVENTURE_STATE.campaignId);
     const scene = getAdventureScene();
     if (!campaign || !scene) {
-        summary.innerHTML = "Converti esta ficha en el protagonista de una campana guiada, con escenas, tiradas y decisiones persistentes.";
+        summary.innerHTML = "Convierte esta ficha en el protagonista de una campana guiada, con escenas, tiradas y decisiones persistentes.";
         return;
     }
     const hp = getAdventureCurrentHpState();
@@ -20067,6 +21098,7 @@ function updateAdventureLaunchSummary() {
 }
 
 function renderAdventureMode() {
+    syncAdventureCampaignProgression();
     renderAdventureCampaignPicker();
     renderAdventureStatus();
     renderAdventureToolkit();
@@ -20074,6 +21106,8 @@ function renderAdventureMode() {
     renderAdventureScene();
     updateAdventureLaunchSummary();
     renderAdventureCombatModal();
+    renderAdventureLevelModal();
+    maybeOpenAdventureEndModal();
 }
 
 function updateAdventureLaunchSummary() {
@@ -20082,11 +21116,11 @@ function updateAdventureLaunchSummary() {
     const campaign = getAdventureCampaign(ADVENTURE_STATE.campaignId);
     const scene = getAdventureScene();
     if (!campaign || !scene) {
-        summary.innerHTML = "Converti esta ficha en el protagonista de una campaÃ±a guiada, con escenas, tiradas y decisiones persistentes.";
+        summary.innerHTML = "Convierte esta ficha en el protagonista de una campana guiada, con escenas, tiradas y decisiones persistentes.";
         return;
     }
     const hp = getAdventureCurrentHpState();
-    summary.innerHTML = `<strong>${escapeHtml(campaign.title)}</strong><br>${escapeHtml(scene.title)} Â· HP ${hp.current}/${hp.max}<br><span style="color:var(--text-muted);">${escapeHtml(ADVENTURE_STATE.objective || campaign.startObjective)}</span>`;
+    summary.innerHTML = `<strong>${escapeHtml(campaign.title)}</strong><br>${escapeHtml(scene.title)} - HP ${hp.current}/${hp.max}<br><span style="color:var(--text-muted);">${escapeHtml(ADVENTURE_STATE.objective || campaign.startObjective)}</span>`;
 }
 
 window.ADVENTURE_EXTERNAL_CAMPAIGNS = window.ADVENTURE_EXTERNAL_CAMPAIGNS || {};
@@ -20095,11 +21129,12 @@ const ADVENTURE_EXTERNAL_SOURCES = [
     {
         id: "diente-dragon",
         title: "DienteDragon: Sombras sobre Iareth",
-        blurb: "Campana nodal de fantasia oscura para 1 PJ y 1 aliado. Empieza con desapariciones costeras y escala hacia ruinas, politica, guerra y el regreso de un liche olvidado.",
-        recommended: "Acto I cargado - Niveles 1-4 - 1 PJ + 1 aliado",
+        blurb: "Campana nodal de fantasia oscura para 1 PJ y 1 aliado. Empieza con desapariciones costeras, ruinas comidas por la lluvia y una red de violencia que se va revelando acto a acto.",
+        recommended: "Actos I-II cargados - Niveles 2-4 - 1 PJ + 1 aliado",
         scripts: [
             "adventure/diente-dragon/world.js",
-            "adventure/diente-dragon/act1.js"
+            "adventure/diente-dragon/act1.js",
+            "adventure/diente-dragon/act2.js"
         ]
     }
 ];
@@ -20182,17 +21217,43 @@ function ensureAdventureCampaignLoaded(campaignId) {
     return ADVENTURE_EXTERNAL_LOAD_STATE[campaignId];
 }
 
+function getAdventureClassBackdropEntry() {
+    const clsName = String(document.getElementById('class')?.value || "").trim();
+    if (!clsName) return null;
+    const entries = {
+        Barbarian: "Llegaste a Irivith con el instinto afilado y la paciencia justa. Donde otros ven niebla y puerto, tu cuerpo reconoce el olor de una comunidad que esta a punto de ser empujada demasiado lejos.",
+        Bard: "Llegaste a Irivith con historias ajenas en la cabeza y la costumbre de escuchar lo que la gente evita decir. En un puerto chico, el miedo tambien tiene ritmo, y casi siempre desafina antes de romperse.",
+        Cleric: "Llegaste a Irivith con la sensacion incomoda de que algunas heridas no son solo del cuerpo. Las aldeas pequenas rezan distinto cuando sienten que algo oscuro las esta mirando desde demasiado cerca.",
+        Druid: "Llegaste a Irivith notando primero lo que el muelle tapa: el monte calla raro, las aves corrigen sus rutas y el borde de la isla se comporta como si una presencia ajena hubiese alterado un equilibrio viejo.",
+        Fighter: "Llegaste a Irivith con la mirada de quien ya vio pueblos ponerse tensos antes de un golpe. Las defensas flojas, los guardias cansados y la forma de medir el silencio te dicen que aca alguien esta empujando fuerte.",
+        Monk: "Llegaste a Irivith con el cuerpo dispuesto y la mente alerta. Hay lugares donde la agitacion se nota en gritos; aca se nota en respiraciones cortas y en la forma en que todos intentan no mirar hacia el bosque.",
+        Paladin: "Llegaste a Irivith con la certeza de que el deber rara vez se presenta limpio. No hace falta ver un crimen para notar cuando una comunidad entera esta siendo forzada a vivir de rodillas.",
+        Ranger: "Llegaste a Irivith leyendo huellas aunque todavia no hayas dejado el muelle. El viento, la lluvia y la forma del barro ya te prometen una caceria larga, y no precisamente contra animales.",
+        Rogue: "Llegaste a Irivith sabiendo distinguir entre un puerto pobre y un puerto asustado. Las miradas cortadas, los rumores a media voz y los guardias mal pagados son un idioma que conoces bien.",
+        Sorcerer: "Llegaste a Irivith con esa incomodidad previa que a veces anuncia magia torcida y a veces solo desastre humano. La mala noticia es que aca ya huele a las dos cosas.",
+        Wizard: "Llegaste a Irivith con la costumbre de ordenar el mundo por causas y patrones. El puerto te recibe con un problema menos limpio: demasiados indicios menores apuntando hacia una misma sombra todavia sin nombre."
+    };
+    const text = entries[clsName] || "Llegaste a Irivith con la intuicion de que esta aldea no necesita un visitante: necesita a alguien dispuesto a seguir la grieta hasta el fondo.";
+    return {
+        title: `${clsName} en la costa`,
+        text
+    };
+}
+
 function buildAdventureOpeningJournal(campaign, initialState) {
     if (Array.isArray(initialState?.journal) && initialState.journal.length) {
         return cloneAdventureValue(initialState.journal);
     }
+    const journal = [];
+    const backdrop = getAdventureClassBackdropEntry();
+    if (backdrop) journal.push(backdrop);
     if (campaign?.openingJournal) {
-        return [{
+        journal.push({
             title: campaign.title,
             text: String(campaign.openingJournal)
-        }];
+        });
     }
-    return [];
+    return journal;
 }
 
 function renderAdventureHeroActions() {
@@ -20242,6 +21303,9 @@ openAdventureMode = async function() {
 startAdventureCampaign = async function(campaignId, forceRestart = false) {
     const campaign = await ensureAdventureCampaignLoaded(campaignId);
     if (!campaign) return;
+    closeAdventureEndModal();
+    closeAdventureLevelModal();
+    ADVENTURE_END_MODAL_KEY = "";
     if (!forceRestart && ADVENTURE_STATE.campaignId === campaignId && ADVENTURE_STATE.sceneId) {
         showTab(7);
         renderAdventureMode();
@@ -20264,6 +21328,8 @@ startAdventureCampaign = async function(campaignId, forceRestart = false) {
         completed: false,
         endingTone: "",
         grantedItems: Array.isArray(initialState.grantedItems) ? cloneAdventureValue(initialState.grantedItems) : [],
+        completedMilestones: Array.isArray(initialState.completedMilestones) ? cloneAdventureValue(initialState.completedMilestones) : [],
+        pendingLevelUp: null,
         day: Number.isFinite(Number(initialState.day)) ? Number(initialState.day) : 1,
         timeIndex: Number.isFinite(Number(initialState.timeIndex)) ? Number(initialState.timeIndex) : 2,
         wealthGp: Number.isFinite(Number(initialState.wealthGp)) ? Number(initialState.wealthGp) : 0,
@@ -20271,6 +21337,10 @@ startAdventureCampaign = async function(campaignId, forceRestart = false) {
             ? cloneAdventureValue(initialState.resources)
             : cloneAdventureValue(defaultState.resources)
     });
+    const startingLevel = Math.max(1, Math.min(20, parseInt(campaign?.levelPlan?.startingLevel, 10) || 0));
+    if (startingLevel) {
+        setCharacterLevelValue(startingLevel, { save: false });
+    }
     const hpDamageInput = document.getElementById('hp-damage');
     if (hpDamageInput) {
         hpDamageInput.value = "0";
